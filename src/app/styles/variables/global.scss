@@ -1,0 +1,56 @@
+:root {
+    --font-family-main: "Inter", sans-serif;
+
+    // Weights -- 400-Regular; 500-Medium; 600-SemiBold; 700-Bold;
+
+    // Heading
+    --font-heading-h1-size: 72px;
+    --font-heading-h2-size: 64px;
+    --font-heading-h3-size: 56px;
+    --font-heading-h4-size: 34px;
+
+    --font-heading-h1-line-height: 86px;
+    --font-heading-h2-line-height: 76px;
+    --font-heading-h3-line-height: 68px;
+    --font-heading-h4-line-height: 44px;
+
+
+    --font-heading-h1: 700 var(--font-heading-h1-size) / var(--font-heading-h1-line-height) var(--font-family-main);
+    --font-heading-h2: 700 var(--font-heading-h2-size) / var(--font-heading-h2-line-height) var(--font-family-main);
+    --font-heading-h3: 700 var(--font-heading-h3-size) / var(--font-heading-h3-line-height) var(--font-family-main);
+    --font-heading-h4: 700 var(--font-heading-h4-size) / var(--font-heading-h4-line-height) var(--font-family-main);
+
+    // Text
+    --font-text-26-size: 26px;
+    --font-text-20-size: 26px;
+
+    --font-text-26-line-height: 36px;
+    --font-text-20-line-height: 28px;
+
+
+    --font-text-26-Medium: 500 var(--font-text-26-size) / var(--font-text-26-line-height) var(--font-family-main);
+    --font-text-26-SemiBold: 600 var(--font-text-26-size) / var(--font-text-26-line-height) var(--font-family-main);
+
+    --font-text-20-Medium: 500 var(--font-text-20-size) / var(--font-text-20-line-height) var(--font-family-main);
+    --font-text-20-SemiBold: 600 var(--font-text-20-size) / var(--font-text-20-line-height) var(--font-family-main);
+
+    // Paragraph
+    --font-paragraph-18-size: 18px;
+    --font-paragraph-16-size: 16px;
+    --font-paragraph-14-size: 14px;
+    --font-paragraph-12-size: 12px;
+
+    --font-paragraph-18-line-height: 22px;
+    --font-paragraph-16-line-height: 22px;
+    --font-paragraph-14-line-height: 22px;
+    --font-paragraph-12-line-height: 22px;
+
+    --font-paragraph-18-Regular: 400 var(--font-paragraph-18-size) / var(--font-paragraph-18-line-height) var(--font-family-main);
+    --font-paragraph-18-Medium: 500 var(--font-paragraph-18-size) / var(--font-paragraph-18-line-height) var(--font-family-main);
+
+    --font-paragraph-16-Regular: 400 var(--font-paragraph-16-size) / var(--font-paragraph-16-line-height) var(--font-family-main);
+
+    --font-paragraph-14-Regular: 400 var(--font-paragraph-14-size) / var(--font-paragraph-14-line-height) var(--font-family-main);
+
+    --font-paragraph-12-Regular: 400 var(--font-paragraph-12-size) / var(--font-paragraph-12-line-height) var(--font-family-main);
+}
