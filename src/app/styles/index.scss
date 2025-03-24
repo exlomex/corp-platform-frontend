@@ -1,5 +1,8 @@
+@use "./variables/global";
+@use "./reset.css";
+@use "./themes/light_theme";
+@use "./themes/dark_theme";
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import "reset.css";
 
 .App {
     font: var(--font-paragraph-16-Regular);
