@@ -1,18 +1,25 @@
-import {LoginPage} from "@/pages/LoginPage";
-import {Suspense, useState} from "react";
+import {Suspense, useEffect} from "react";
 import {AppRouter} from "@/app/providers/Router";
+import {$api} from "@/shared/api/api.ts";
 
 export const App = () => {
+    const checkHealth = async () => {
+        try {
+            return await $api.get('/health')
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
-    const [visible, setVisible] = useState(false)
+    // useEffect(() => {
+    //     checkHealth().then(r => console.log(r.data))
+    // }, []);
 
-  return (
-    <div className={'App'}>
-        <button onClick={() => setVisible(prev => !prev)}>показать/скрыть login</button>
-        1231231
-        <Suspense>
-            <AppRouter/>
-        </Suspense>
-    </div>
-  )
+    return (
+        <div className={'App'}>
+            <Suspense>
+                <AppRouter/>
+            </Suspense>
+        </div>
+    )
 }
