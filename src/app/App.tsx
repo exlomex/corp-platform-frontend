@@ -1,5 +1,6 @@
 import {LoginPage} from "@/pages/LoginPage";
 import {Suspense, useState} from "react";
+import {AppRouter} from "@/app/providers/Router";
 
 export const App = () => {
 
@@ -8,8 +9,9 @@ export const App = () => {
   return (
     <div className={'App'}>
         <button onClick={() => setVisible(prev => !prev)}>показать/скрыть login</button>
+        1231231
         <Suspense>
-            {visible && <LoginPage/>}
+            <AppRouter/>
         </Suspense>
     </div>
   )
