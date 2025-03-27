@@ -4,6 +4,7 @@ import {Theme} from "@/shared/types/theme.ts";
 import {Input} from "@/shared/ui/Input";
 import {Typography} from "@/shared/ui/Typography";
 import {Button} from "@/shared/ui/Button";
+import {LoginForm} from "@/features/Authorization";
 
 interface LoginPageProps {
     className?: string;
@@ -24,7 +25,8 @@ export function LoginPage(props: LoginPageProps) {
                 fdfgdfggdgdgdgd
             </Typography>
 
-            <Button fullWidth>Зарегистрироваться</Button>
+            <Button fullWidth>Войти</Button>
+            <LoginForm/>
         </main>
     )
 }

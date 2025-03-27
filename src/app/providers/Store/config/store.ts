@@ -2,14 +2,15 @@ import {StateSchema, ThunkExtraArg} from "./StateSchema.ts";
 import {configureStore, ReducersMapObject} from "@reduxjs/toolkit";
 import {$api} from "@/shared/api/api.ts";
 import {rtkApi} from "@/shared/api/rtkApi.ts";
+import {UserSliceReducer} from "@/entities/User";
 
 export function createReduxStore(
-    initialState?: StateSchema
+    initialState?: StateSchema,
 ) {
 
     // REDUCERS
     const rootReducers: ReducersMapObject<StateSchema> = {
-
+        user: UserSliceReducer,
     };
 
     const extraArg: ThunkExtraArg = {

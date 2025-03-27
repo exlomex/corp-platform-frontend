@@ -10,17 +10,18 @@ export const InputTypes = {
     TYPE_PASSWORD: cls['PasswordInput'],
 } as const
 
-type HtmlInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'maxLength'>
+type HtmlInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'maxLength' | 'id'>
 
-interface InputProps extends HtmlInputProps{
+interface InputProps<T extends object> extends HtmlInputProps{
     className?: string;
     type?: keyof typeof InputTypes;
     register?: UseFormRegisterReturn<string>
     error?: FieldError | undefined;
     maxLength?: number;
+    id?: keyof T
 }
 
-export const Input = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
+export const Input = forwardRef(<T extends object>(props: InputProps<T>, ref: ForwardedRef<HTMLInputElement>) => {
     const {
         className,
         type = 'TYPE_TEXT',
@@ -32,7 +33,7 @@ export const Input = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputE
     } = props;
 
     type inputTypes = Extract<InputHTMLAttributes<HTMLInputElement>["type"], 'password' | 'text'>
-    const [inputType, setInputType] = useState<inputTypes>('password')
+    const [inputType, setInputType] = useState<inputTypes>(type === 'TYPE_TEXT' ? 'text' : 'password')
 
     const onToggleInputType = () => {
         setInputType(prevState => prevState === 'text' ? prevState = 'password' : prevState = 'text')
