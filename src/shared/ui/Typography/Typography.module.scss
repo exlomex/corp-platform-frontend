@@ -1,0 +1,21 @@
+.Typography {
+    &.font-heading-h1 {font: var(--font-heading-h1)}
+    &.font-heading-h2 {font: var(--font-heading-h2)}
+    &.font-heading-h3 {font: var(--font-heading-h3)}
+    &.font-heading-h4 {font: var(--font-heading-h4)}
+
+    &.font-text-26-Medium {font: var(--font-text-26-Medium)}
+    &.font-text-26-SemiBold {font: var(--font-text-26-SemiBold)}
+
+    &.font-text-20-Medium {font: var(--font-text-20-Medium)}
+    &.font-text-20-SemiBold {font: var(--font-text-20-SemiBold)}
+
+    &.font-paragraph-18-Regular {font: var(--font-paragraph-18-Regular)}
+    &.font-paragraph-18-Medium {font: var(--font-paragraph-18-Medium)}
+
+    &.font-paragraph-16-Regular {font: var(--font-paragraph-16-Regular)}
+
+    &.font-paragraph-14-Regular {font: var(--font-paragraph-14-Regular)}
+
+    &.font-paragraph-12-Regular {font: var(--font-paragraph-12-Regular)}
+}

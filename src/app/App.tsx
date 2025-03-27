@@ -1,19 +1,14 @@
 import {Suspense, useEffect} from "react";
 import {AppRouter} from "@/app/providers/Router";
-import {$api} from "@/shared/api/api.ts";
+import {getRouteLogin} from "@/shared/const/router.ts";
+import {useNavigate} from "react-router";
 
 export const App = () => {
-    const checkHealth = async () => {
-        try {
-            return await $api.get('/health')
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     checkHealth().then(r => console.log(r.data))
-    // }, []);
+    useEffect(() => {
+        navigate(getRouteLogin())
+    }, [navigate]);
 
     return (
         <div className={'App'}>
