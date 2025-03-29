@@ -17,20 +17,26 @@ export const TypographyTypes = {
     'PARAGRAPH-12-REGULAR': cls['font-paragraph-12-Regular'],
 } as const;
 
+export const TypographyAlign = {
+    'CENTER': cls['AlignCenter'],
+    'LEFT': cls['AlignLeft'],
+} as const
+
 interface TypographyProps {
     className?: string;
     children: string;
-    size: keyof typeof TypographyTypes
+    size: keyof typeof TypographyTypes;
+    align?: keyof typeof TypographyAlign;
 }
 
 export const Typography = (props: TypographyProps) => {
-    const { className, children, size } = props;
+    const { className, children, size, align = 'LEFT' } = props;
 
     const sizeClass = TypographyTypes[size]
 
     return (
         <div
-            className={classNames(cls.Typography, {}, [className, sizeClass])}
+            className={classNames(cls.Typography, {}, [className, sizeClass, TypographyAlign[align]])}
         >
             {children}
         </div>

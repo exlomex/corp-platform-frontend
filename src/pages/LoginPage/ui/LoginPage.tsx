@@ -16,16 +16,6 @@ export function LoginPage(props: LoginPageProps) {
 
     return (
         <main className={classNames(cls.LoginPage, {}, [className, Theme.LIGHT_THEME])}>
-            loginPage
-            <Input
-                type={"TYPE_PASSWORD"}
-                placeholder={'3131'}
-            />
-            <Typography size={'PARAGRAPH-16-REGULAR'}>
-                fdfgdfggdgdgdgd
-            </Typography>
-
-            <Button fullWidth>Войти</Button>
             <LoginForm/>
         </main>
     )

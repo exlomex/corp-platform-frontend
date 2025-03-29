@@ -1,3 +1,23 @@
 .LoginForm {
+    width: 600px;
+    margin: auto auto;
+}
 
+.Input {
+    margin-bottom: 40px;
+}
+
+.Heading {
+    position: relative;
+    .HeadingText {
+        margin-bottom: 80px;
+    }
+
+    .HeadingError {
+        color: var(--red-color);
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }

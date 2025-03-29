@@ -8,7 +8,13 @@ import {useLocation, useNavigate} from "react-router";
 import {Input} from "@/shared/ui/Input";
 import {Button} from "@/shared/ui/Button";
 import {InputWrapper} from "@/shared/ui/InputWrapper";
-import {useEffect} from "react";
+import {Typography} from "@/shared/ui/Typography";
+import {useSelector} from "react-redux";
+import {getUserLoginError} from "@/entities/User";
+import {useCallback, useEffect, useRef} from "react";
+import LoadingBar, {LoadingBarRef, useLoadingBar} from "react-top-loading-bar";
+import {useLoadingBarHook} from "@/shared/hooks/useLoadingBar";
+import {getRouteRegister} from "@/shared/const/router.ts";
 
 interface LoginFormProps {
     className?: string;
@@ -27,9 +33,12 @@ export const LoginForm = (props: LoginFormProps) => {
     const location = useLocation()
     const fromPage = location.state?.from | '/'
 
+    const loginError = useSelector(getUserLoginError)
+
     const { register, handleSubmit, trigger, formState: { errors } } = useForm<loginDataInputs>()
 
-    const onSubmit: SubmitHandler<loginDataInputs> = async (data) => {
+    const onSubmit: SubmitHandler<loginDataInputs> = useCallback(async (data) => {
+
         const loginData: LoginByEmailInputData = {
             password: data.loginPassword,
             email: data.loginEmail,
@@ -37,42 +46,56 @@ export const LoginForm = (props: LoginFormProps) => {
 
         try {
             await dispatch(loginByEmail(loginData)).unwrap()
-            navigate(fromPage)
         } catch (e) {
             console.error(e)
         }
-    }
+    }, [dispatch, fromPage, navigate])
 
-    const loginFormEmailReg = register<'loginEmail'>('loginEmail', { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('loginEmail')});
-    const loginFormPasswordReg = register<'loginPassword'>("loginPassword", { required: true, minLength: {value: 4, message: `Пароль должен быть не короче 4 символов`}, onBlur: () => trigger('loginPassword')})
+    const emailPattern = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i)
 
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
+    const loginFormEmailReg = register<'loginEmail'>('loginEmail', { required: {value: true, message: 'Заполните обязательное поле'}, pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('loginEmail')});
+    const loginFormPasswordReg = register<'loginPassword'>("loginPassword", { required: {value: true, message: 'Заполните обязательное поле'}, minLength: {value: 4, message: `Пароль должен быть не короче 4 символов`}, onBlur: () => trigger('loginPassword')})
 
     return (
         <div className={classNames(cls.LoginForm, {}, [className])}>
+            <div className={cls.Heading}>
+                <Typography className={cls.HeadingText} size={"HEADING-H4"} align={'CENTER'}>Войти в TeamSpace</Typography>
+                {loginError && <span className={cls.HeadingError}>Неверный email или пароль.</span>}
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Input<loginDataInputs>
-                    register={loginFormEmailReg}
-                    placeholder={'email'}
-                    id={'loginEmail'}
+                <InputWrapper<loginDataInputs>
+                    className={cls.Input}
+                    labelFor={'loginEmail'}
+                    labelString={'Email'}
+                    message={errors.loginEmail}
+                    input={
+                        <Input<loginDataInputs>
+                            register={loginFormEmailReg}
+                            placeholder={'Введите email'}
+                            id={'loginEmail'}
+                            autoComplete={"username"}
+                        />
+                    }
                 />
 
                 <InputWrapper<loginDataInputs>
+                    className={cls.Input}
                     labelString={'Пароль'}
                     labelFor={'loginPassword'}
                     input={
                         <Input<loginDataInputs>
                             register={loginFormPasswordReg}
-                            placeholder={'password'}
+                            placeholder={'Введите пароль'}
                             id={'loginPassword'}
+                            type={'TYPE_PASSWORD'}
+                            autoComplete={"current-password"}
                         />
                     }
-                    error={errors.loginPassword}
+                    message={errors.loginPassword}
                 />
 
-                <Button>Войти</Button>
+                <Button fullWidth>Войти</Button>
             </form>
         </div>
     )

@@ -4,12 +4,15 @@ import '@/app/styles/index.scss'
 import {ThemeProvider} from "@/app/providers/ThemeProvider";
 import {BrowserRouter} from "react-router";
 import {StoreProvider} from "@/app/providers/Store";
+import {LoadingBarContainer} from "react-top-loading-bar";
 
 createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
         <StoreProvider>
             <ThemeProvider>
-                <App />
+                <LoadingBarContainer>
+                    <App />
+                </LoadingBarContainer>
             </ThemeProvider>
         </StoreProvider>
     </BrowserRouter>

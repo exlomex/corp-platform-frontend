@@ -1,13 +1,14 @@
 import {Suspense, useEffect, useState} from "react";
 import {AppRouter} from "@/app/providers/Router";
-import {getRouteLogin} from "@/shared/const/router.ts";
-import {useNavigate} from "react-router";
+import {useLocation} from "react-router";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {UserSliceActions} from "@/entities/User";
+import {LoadingLine} from "@/shared/ui/LoadingLine";
 
 export const App = () => {
     const [isInited, setIsInited] = useState<boolean>(false)
     const dispatch = useAppDispatch()
+    const location = useLocation()
 
     useEffect(() => {
         dispatch(UserSliceActions.initAuth())
@@ -20,6 +21,7 @@ export const App = () => {
                 <Suspense>
                     <AppRouter/>
                 </Suspense>
+                <LoadingLine/>
             </div>
         )
     }

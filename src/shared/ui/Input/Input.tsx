@@ -21,7 +21,7 @@ interface InputProps<T extends object> extends HtmlInputProps{
     id?: keyof T
 }
 
-export const Input = forwardRef(<T extends object>(props: InputProps<T>, ref: ForwardedRef<HTMLInputElement>) => {
+export const Input = forwardRef(<T,>(props: InputProps<T>, ref: ForwardedRef<HTMLInputElement>) => {
     const {
         className,
         type = 'TYPE_TEXT',
@@ -29,7 +29,8 @@ export const Input = forwardRef(<T extends object>(props: InputProps<T>, ref: Fo
         register,
         maxLength = 24,
         id,
-        placeholder
+        placeholder,
+        autoComplete
     } = props;
 
     type inputTypes = Extract<InputHTMLAttributes<HTMLInputElement>["type"], 'password' | 'text'>
@@ -53,6 +54,7 @@ export const Input = forwardRef(<T extends object>(props: InputProps<T>, ref: Fo
                 {...register}
                 type={inputType}
                 placeholder={placeholder}
+                autoComplete={autoComplete}
             />
             {type === 'TYPE_PASSWORD' && currentEyeIcon}
         </div>

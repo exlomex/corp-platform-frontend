@@ -18,4 +18,12 @@
     &.font-paragraph-14-Regular {font: var(--font-paragraph-14-Regular)}
 
     &.font-paragraph-12-Regular {font: var(--font-paragraph-12-Regular)}
+
+    &.AlignCenter {
+        text-align: center;
+    }
+
+    &.AlignLeft {
+        text-align: left;
+    }
 }

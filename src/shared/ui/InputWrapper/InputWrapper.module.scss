@@ -18,5 +18,14 @@
 
 .InputWrapperError {
     position: absolute;
-    bottom: 0;
+    bottom: -30%;
+    left: 0;
+
+    &.LabelMessageRedColor {
+        color: var(--red-color);
+    }
+}
+
+.LabelRequired {
+    color: var(--red-color);
 }
