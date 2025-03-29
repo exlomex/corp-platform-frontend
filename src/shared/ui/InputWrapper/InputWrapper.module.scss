@@ -1,0 +1,22 @@
+.InputWrapper {
+    position: relative;
+}
+
+.InputLabel {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: var(--text-color);
+
+    &.LabelSmallSize {
+        font: var(--font-text-20-Medium)
+    }
+
+    &.LabelMediumSize {
+        font: var(--font-paragraph-18-Medium)
+    }
+}
+
+.InputWrapperError {
+    position: absolute;
+    bottom: 0;
+}

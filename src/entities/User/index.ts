@@ -1,2 +1,4 @@
-export {UserSliceActions, UserSliceReducer} from './model/slice/userSlice.ts'
-export type {UserSliceSchema, UserRoles} from './model/types/userSliceSchema.ts'
+export {UserSliceActions, UserSliceReducer} from './model/slice/userSlice'
+export type {UserSliceSchema} from './model/types/userSliceSchema'
+export {UserRoles} from './model/types/userSliceSchema'
+export {getUserLoginError, getUserRole, getUserLoginIsFetching, getUserIsAuth} from './model/selectors/getUserValues.ts'

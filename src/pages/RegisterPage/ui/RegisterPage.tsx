@@ -7,7 +7,7 @@ export default function RegisterPage(props: RegisterPageProps) {
     const { className } = props;
     return (
         <div className={'RegisterPage'}>
-            RegisterPage
+            RegisterPage13
         </div>
     )
 };

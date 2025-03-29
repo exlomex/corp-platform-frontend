@@ -5,7 +5,7 @@ import {rtkApi} from "@/shared/api/rtkApi.ts";
 import {UserSliceReducer} from "@/entities/User";
 
 export function createReduxStore(
-    initialState?: StateSchema,
+    initialState?: Partial<StateSchema>,
 ) {
 
     // REDUCERS
