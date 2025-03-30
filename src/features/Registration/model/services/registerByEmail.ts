@@ -10,7 +10,7 @@ export const RegisterByEmail = createAsyncThunk<
     registerByEmailReturnedData,
     registerByEmailInputData,
     ThunkConfig<string>
->('user/RegisterByEmail', async (registerData, thunkApi) => {
+>('user/registerByEmail', async (registerData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {

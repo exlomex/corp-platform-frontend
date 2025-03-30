@@ -1,4 +1,5 @@
 export interface RegistrationSliceSchema {
-    InvitationCodeIsFeching: boolean;
+    InvitationCodeIsFetching: boolean;
     InvitationCodeIsError?: string;
+    InvitationCodeIsActivate: boolean;
 }

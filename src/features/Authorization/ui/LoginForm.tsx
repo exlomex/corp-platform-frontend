@@ -4,17 +4,14 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {LoginByEmailInputData} from "@/features/Authorization/model/types/authTypes.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {loginByEmail} from "@/features/Authorization/model/services/loginByEmail.ts";
-import {useLocation, useNavigate} from "react-router";
 import {Input} from "@/shared/ui/Input";
 import {Button} from "@/shared/ui/Button";
 import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Typography} from "@/shared/ui/Typography";
 import {useSelector} from "react-redux";
 import {getUserLoginError} from "@/entities/User";
-import {useCallback, useEffect, useRef} from "react";
-import LoadingBar, {LoadingBarRef, useLoadingBar} from "react-top-loading-bar";
-import {useLoadingBarHook} from "@/shared/hooks/useLoadingBar";
-import {getRouteRegister} from "@/shared/const/router.ts";
+import {useCallback} from "react";
+
 
 interface LoginFormProps {
     className?: string;
@@ -29,9 +26,6 @@ export const LoginForm = (props: LoginFormProps) => {
     const { className } = props;
 
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
-    const location = useLocation()
-    const fromPage = location.state?.from | '/'
 
     const loginError = useSelector(getUserLoginError)
 
@@ -44,12 +38,8 @@ export const LoginForm = (props: LoginFormProps) => {
             email: data.loginEmail,
         }
 
-        try {
-            await dispatch(loginByEmail(loginData)).unwrap()
-        } catch (e) {
-            console.error(e)
-        }
-    }, [dispatch, fromPage, navigate])
+        await dispatch(loginByEmail(loginData))
+    }, [dispatch])
 
     const emailPattern = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i)
 
@@ -95,7 +85,7 @@ export const LoginForm = (props: LoginFormProps) => {
                     message={errors.loginPassword}
                 />
 
-                <Button fullWidth>Войти</Button>
+                <Button regularType={'submit'} fullWidth>Войти</Button>
             </form>
         </div>
     )

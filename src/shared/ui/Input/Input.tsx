@@ -21,13 +21,13 @@ interface InputProps<T extends object> extends HtmlInputProps{
     id?: keyof T;
 }
 
-export const Input = forwardRef(<T,>(props: InputProps<T>, ref: ForwardedRef<HTMLInputElement>) => {
+export const Input = <T,>(props: InputProps<T>) => {
     const {
         className,
         type = 'TYPE_TEXT',
         error,
         register,
-        maxLength = 24,
+        maxLength = 30,
         id,
         placeholder,
         autoComplete,
@@ -52,7 +52,6 @@ export const Input = forwardRef(<T,>(props: InputProps<T>, ref: ForwardedRef<HTM
                 className={classNames(cls.Input, {}, [className, InputTypes[type]])}
                 maxLength={maxLength}
                 id={id}
-                ref={ref}
                 {...register}
                 type={inputType}
                 placeholder={placeholder}
@@ -61,4 +60,4 @@ export const Input = forwardRef(<T,>(props: InputProps<T>, ref: ForwardedRef<HTM
             {type === 'TYPE_PASSWORD' && currentEyeIcon}
         </div>
     )
-});
+};

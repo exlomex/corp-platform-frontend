@@ -3,6 +3,17 @@ import cls from './RegisterForm.module.scss';
 import {InvitationField} from "../InvitationField/InvitationField.tsx";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useCallback, useEffect} from "react";
+import {Input} from "@/shared/ui/Input";
+import {InputWrapper} from "@/shared/ui/InputWrapper";
+import {Button} from "@/shared/ui/Button";
+import {Typography} from "@/shared/ui/Typography";
+import {useSelector} from "react-redux";
+import {getRegisterInvitationCodeIsActivate} from "@/features/Registration/model/selectors/getRegisterValues.ts";
+import {registerByEmailInputData} from "@/features/Registration/model/types/registerByEmailTypes.ts";
+import {registerByInvitationKeyInputData} from "@/features/Registration/model/types/registerByInvitationKeyTypes.ts";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
+import {RegisterByEmail} from "../../model/services/registerByEmail.ts";
+import {RegisterByInvitationKey} from "../../model/services/registerByInvitationKey.ts";
 
 interface RegisterFormProps {
     className?: string;
@@ -21,23 +32,46 @@ export const RegisterForm = (props: RegisterFormProps) => {
 
     const { register, handleSubmit, trigger, formState: { errors }, getValues, setValue, reset } = useForm<RegisterDataInputs>()
 
-    const onSubmit: SubmitHandler<RegisterDataInputs> = useCallback(async (data) => {
+    const isCodeActivated = useSelector(getRegisterInvitationCodeIsActivate)
 
-        // const loginData: LoginByEmailInputData = {
-        //     password: data.loginPassword,
-        //     email: data.loginEmail,
-        // }
-        //
-        // try {
-        //     await dispatch(loginByEmail(loginData)).unwrap()
-        // } catch (e) {
-        //     console.error(e)
-        // }
-    }, [])
+    const dispatch = useAppDispatch()
+
+    const onSubmit: SubmitHandler<RegisterDataInputs> = useCallback(async (data) => {
+        let registerData: registerByEmailInputData | registerByInvitationKeyInputData
+
+        if (isCodeActivated) {
+            registerData = {
+                firstName: data.registerFirstName,
+                lastName: data.registerLastName,
+                password: data.registerPassword,
+                key: data.registerInvitationCode
+            }
+
+            console.log(registerData);
+            console.log('byCode');
+            await dispatch(RegisterByInvitationKey(registerData))
+        } else {
+            registerData = {
+                firstName: data.registerFirstName,
+                lastName: data.registerLastName,
+                email: data.registerEmail,
+                password: data.registerPassword
+
+            }
+            console.log(registerData);
+            console.log('byCode');
+            await dispatch(RegisterByEmail(registerData))
+        }
+
+    }, [dispatch, isCodeActivated])
 
 
     const resetInvitationCodeAndEmailValuesFields = useCallback(() => {
         reset({registerInvitationCode: '', registerEmail: ''})
+    }, [reset])
+
+    const setEmailValue = useCallback((value: string) => {
+        reset({registerEmail: value})
     }, [reset])
 
     const emailPattern = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i)
@@ -50,16 +84,84 @@ export const RegisterForm = (props: RegisterFormProps) => {
 
     const formValues = getValues()
 
-
     return (
         <div className={classNames(cls.RegisterForm, {}, [className])}>
-            registerForm
-            <InvitationField<RegisterDataInputs>
-                register={registerFormInvitationCodeReg}
-                id={'registerInvitatonCode'}
-                value={formValues.registerInvitationCode}
-                resetInvitationCodeAndEmailValuesFields={resetInvitationCodeAndEmailValuesFields}
-            />
+            <Typography size={"HEADING-H4"} align={'CENTER'} className={cls.RegisterFormHeading}>Регистрация в TeamSpace</Typography>
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className={cls.RegisterFieldFlex}>
+                    <InputWrapper
+                        labelString={'Имя'}
+                        required
+                        labelFor={"registerFirstName"}
+                        message={errors.registerFirstName}
+                        input={
+                            <Input<RegisterDataInputs>
+                                register={registerFormFirstNameReg}
+                                placeholder={'Введите имя'}
+                                id={'registerFirstName'}
+                            />
+                        }
+                    />
+
+                    <InputWrapper
+                        labelString={'Фамилия'}
+                        required
+                        labelFor={"registerLastName"}
+                        message={errors.registerLastName}
+                        input={
+                            <Input<RegisterDataInputs>
+                                register={registerFormLastNameReg}
+                                placeholder={'Введите фамилию'}
+                                id={'registerLastName'}
+                            />
+                        }
+                    />
+                </div>
+
+                <InputWrapper
+                    className={cls.RegisterField}
+                    labelString={'Email'}
+                    required
+                    labelFor={"registerEmail"}
+                    message={errors.registerEmail}
+                    input={
+                        <Input<RegisterDataInputs>
+                            disabled={isCodeActivated}
+                            register={registerFormEmailReg}
+                            id={"registerEmail"}
+                            placeholder={'Введите email'}
+                        />
+                    }
+                />
+
+                <InputWrapper
+                    className={cls.RegisterField}
+                    labelString={'Пароль'}
+                    required
+                    labelFor={"registerPassword"}
+                    message={errors.registerPassword}
+                    input={
+                        <Input<RegisterDataInputs>
+                            type={'TYPE_PASSWORD'}
+                            register={registerFormPasswordReg}
+                            id={"registerPassword"}
+                            placeholder={'Введите пароль'}
+                        />
+                    }
+                />
+
+                <InvitationField<RegisterDataInputs>
+                    className={cls.RegisterField}
+                    register={registerFormInvitationCodeReg}
+                    id={'registerInvitationCode'}
+                    value={formValues.registerInvitationCode}
+                    resetInvitationCodeAndEmailValuesFields={resetInvitationCodeAndEmailValuesFields}
+                    setEmailValue={setEmailValue}
+                />
+
+                <Button regularType={'submit'} fullWidth>Зарегистрироваться</Button>
+            </form>
         </div>
     )
 };

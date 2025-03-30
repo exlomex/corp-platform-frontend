@@ -1,32 +1,35 @@
 import {RegistrationSliceSchema} from "../types/registrationSliceSchema.ts";
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {checkInvitationCode} from "../services/checkInvitationCode.ts";
 
 const initialState: RegistrationSliceSchema = {
-    InvitationCodeIsFeching: false
+    InvitationCodeIsFetching: false,
+    InvitationCodeIsActivate: false
 };
 
-export const RegistationSlice = createSlice({
+export const RegistrationSlice = createSlice({
     name: 'registration',
     initialState,
     reducers: {
-        init: () => {}
+        setInvitationCodeIsActivate: (state: RegistrationSliceSchema, action: PayloadAction<boolean>) => {
+            state.InvitationCodeIsActivate = action.payload
+        }
     },
     extraReducers: (builder ) => {
         builder
             .addCase(checkInvitationCode.pending, (state: RegistrationSliceSchema) => {
                 state.InvitationCodeIsError = undefined;
-                state.InvitationCodeIsFeching = true;
+                state.InvitationCodeIsFetching = true;
             })
             .addCase(checkInvitationCode.fulfilled, (state: RegistrationSliceSchema) => {
-                state.InvitationCodeIsFeching = false;
+                state.InvitationCodeIsFetching = false;
             })
             .addCase(checkInvitationCode.rejected, (state: RegistrationSliceSchema, action) => {
-                state.InvitationCodeIsFeching = false;
+                state.InvitationCodeIsFetching = false;
                 state.InvitationCodeIsError = action.payload;
             })
     },
 });
 
-export const { actions: RegistationSliceActions } = RegistationSlice;
-export const { reducer: RegistationSliceReducer } = RegistationSlice;
+export const { actions: RegistrationSliceActions } = RegistrationSlice;
+export const { reducer: RegistrationSliceReducer } = RegistrationSlice;

@@ -1,5 +1,5 @@
-import {UseFormRegisterReturn} from "react-hook-form";
-import {ForwardedRef, forwardRef, useEffect, useState} from "react";
+import { UseFormRegisterReturn} from "react-hook-form";
+import {ForwardedRef, forwardRef, useEffect, useRef, useState} from "react";
 import {Input} from "@/shared/ui/Input";
 import {classNames} from "@/shared/lib/classNames";
 import {Button} from "@/shared/ui/Button";
@@ -10,9 +10,12 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {checkInvitationCode} from "../../model/services/checkInvitationCode.ts";
 import {useSelector} from "react-redux";
 import {
+    getRegisterInvitationCodeIsActivate,
     getRegisterInvitationCodeIsError,
     getRegisterInvitationCodeIsFeching
 } from "../../model/selectors/getRegisterValues.ts";
+import {RegistrationSliceActions} from "@/features/Registration";
+import {CheckInvitationCodeReturnedData} from "../../model/types/CheckInvitationCodeTypes.ts";
 
 interface InvitationFieldProps<T extends object> {
     className?: string;
@@ -20,7 +23,8 @@ interface InvitationFieldProps<T extends object> {
     maxLength?: number;
     id: keyof T;
     value: string | undefined;
-    resetInvitationCodeAndEmailValuesFields: () => void
+    resetInvitationCodeAndEmailValuesFields: () => void;
+    setEmailValue: (value: string) => void
 }
 
 export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, emailFieldRef: ForwardedRef<HTMLInputElement>) => {
@@ -30,7 +34,8 @@ export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, e
         maxLength = 24,
         id,
         value,
-        resetInvitationCodeAndEmailValuesFields
+        resetInvitationCodeAndEmailValuesFields,
+        setEmailValue
     } = props;
 
     const dispatch = useAppDispatch()
@@ -38,36 +43,45 @@ export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, e
     const [error, setError] = useState<string>('')
     const [success, setSuccess] = useState<string>('')
 
-    useEffect(() => {
-        if (value !== undefined & value !== '') {
-            setError('')
-        }
-        if (success) {
-            setSuccess('')
-        }
-    }, [value]);
-
+    const isCodeActivate = useSelector(getRegisterInvitationCodeIsActivate)
     const InvitationCodeIsFetching = useSelector(getRegisterInvitationCodeIsFeching)
     const InvitationCodeIsError = useSelector(getRegisterInvitationCodeIsError)
 
+    useEffect(() => {
+        if (isCodeActivate) {
+            setSuccess('Код приглашения активирован')
+        }
+        if (InvitationCodeIsError) {
+            setError('Введите корректный код приглашения ')
+        }
+    }, [isCodeActivate, InvitationCodeIsError]);
+
+    const inputRef = useRef(null)
+
+    useEffect(() => {
+        console.log(inputRef.current);
+    }, []);
+
     const onInvitationCheckButtonClickHandler = async () => {
+        if (error) setError('');
+
         if (value === undefined || value === '') {
             setError('Поле должно быть заполнено')
             return
         }
 
         try {
-            await dispatch(checkInvitationCode({code: value})).unwrap()
-
-            setSuccess('Код приглашения активирован')
+            const data: CheckInvitationCodeReturnedData = await dispatch(checkInvitationCode({code: value})).unwrap()
+            setEmailValue(data.email)
         } catch (e) {
-            console.log(InvitationCodeIsError);
-            setError('Введите корректный код приглашения ')
+            console.error(e)
         }
     }
 
     const onInvitationCloseButtonClickHandler = () => {
         setSuccess('')
+
+        dispatch(RegistrationSliceActions.setInvitationCodeIsActivate(false))
         resetInvitationCodeAndEmailValuesFields()
     }
 
@@ -75,9 +89,9 @@ export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, e
         <div className={classNames(cls.InvitationField, {}, [className])}>
             <label htmlFor={id} className={cls.InputLabel}>Код приглашения</label>
             <div className={cls.InputWrapper}>
-                <Input disabled={!!success} placeholder={'Введите свой код приглашения'} maxLength={45} id={id} register={register}/>
+                <Input disabled={isCodeActivate} placeholder={'Введите свой код приглашения'} maxLength={45} id={id} register={register}/>
                 {
-                    !success
+                    !isCodeActivate
                         ? (<Button
                             isLoading={InvitationCodeIsFetching}
                             buttonType={'ICON_BTN_FILLED'}
@@ -86,6 +100,7 @@ export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, e
                             <CorrectIcon/>
                         </Button>)
                         : (<Button
+                            type={'button'}
                             isLoading={InvitationCodeIsFetching}
                             buttonType={'ICON_BTN_FILLED'}
                             onClick={onInvitationCloseButtonClickHandler}

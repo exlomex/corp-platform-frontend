@@ -1,6 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {CheckInvitationCodeReturnedData, CheckInvitationCodeInputData} from "../types/CheckInvitationCodeTypes.ts";
 import {ThunkConfig} from "@/app/providers/Store";
+import {RegistrationSliceActions} from "@/features/Registration";
 
 export const checkInvitationCode = createAsyncThunk<
     CheckInvitationCodeReturnedData, CheckInvitationCodeInputData , ThunkConfig<string>
@@ -14,6 +15,7 @@ export const checkInvitationCode = createAsyncThunk<
             throw new Error();
         }
 
+        dispatch(RegistrationSliceActions.setInvitationCodeIsActivate(true))
         return response.data;
     } catch (e) {
         console.log(e);
