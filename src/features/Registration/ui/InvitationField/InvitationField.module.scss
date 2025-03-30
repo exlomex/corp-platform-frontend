@@ -1,0 +1,29 @@
+.InvitationField {
+    position: relative;
+}
+
+.InputWrapper {
+    display: flex;
+    gap: 0 20px;
+}
+
+.InputLabel {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: var(--text-color);
+    font: var(--font-paragraph-18-Medium);
+}
+
+.InputMessage {
+    position: absolute;
+    bottom: -30%;
+    left: 0;
+
+    &.MessageError {
+        color: var(--red-color);
+    }
+
+    &.MessageSuccess {
+        color: var(--purple-color-active);
+    }
+}

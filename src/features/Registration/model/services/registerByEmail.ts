@@ -1,17 +1,20 @@
 import { ThunkConfig } from '@/app/providers/Store/config/StateSchema.ts';
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {LoginByEmailInputData, LoginByEmailReturnedData} from "../types/authTypes.ts";
 import {UserSliceActions} from "@/entities/User";
+import {
+    registerByEmailInputData,
+    registerByEmailReturnedData
+} from "../types/registerByEmailTypes.ts";
 
-export const loginByEmail = createAsyncThunk<
-    LoginByEmailReturnedData,
-    LoginByEmailInputData,
+export const RegisterByEmail = createAsyncThunk<
+    registerByEmailReturnedData,
+    registerByEmailInputData,
     ThunkConfig<string>
->('user/loginByEmail', async (authData, thunkApi) => {
+>('user/RegisterByEmail', async (registerData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.post<LoginByEmailReturnedData>('/auth/login', authData);
+        const response = await extra.api.post<registerByEmailReturnedData>('/auth/registration', registerData);
 
         if (!response.data) {
             throw new Error();

@@ -18,7 +18,7 @@ interface InputProps<T extends object> extends HtmlInputProps{
     register?: UseFormRegisterReturn<string>
     error?: FieldError | undefined;
     maxLength?: number;
-    id?: keyof T
+    id?: keyof T;
 }
 
 export const Input = forwardRef(<T,>(props: InputProps<T>, ref: ForwardedRef<HTMLInputElement>) => {
@@ -30,7 +30,8 @@ export const Input = forwardRef(<T,>(props: InputProps<T>, ref: ForwardedRef<HTM
         maxLength = 24,
         id,
         placeholder,
-        autoComplete
+        autoComplete,
+        disabled
     } = props;
 
     type inputTypes = Extract<InputHTMLAttributes<HTMLInputElement>["type"], 'password' | 'text'>
@@ -47,6 +48,7 @@ export const Input = forwardRef(<T,>(props: InputProps<T>, ref: ForwardedRef<HTM
     return (
         <div className={cls.InputWrapper}>
             <input
+                disabled={disabled}
                 className={classNames(cls.Input, {}, [className, InputTypes[type]])}
                 maxLength={maxLength}
                 id={id}

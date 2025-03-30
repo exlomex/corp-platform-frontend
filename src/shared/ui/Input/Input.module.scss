@@ -2,6 +2,7 @@
     min-width: 290px;
     max-width: 600px;
     position: relative;
+    flex-grow: 1;
 }
 
 .Input {
@@ -26,6 +27,12 @@
     &:focus {
         border: 1px solid var(--purple-color-light);
         box-shadow: 0 0 0 4px var(--purple-color-hover);
+    }
+
+    &:disabled {
+        &:hover {
+            box-shadow: none;
+        }
     }
 }
 
