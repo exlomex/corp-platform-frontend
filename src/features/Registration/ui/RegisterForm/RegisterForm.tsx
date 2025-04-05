@@ -58,8 +58,6 @@ export const RegisterForm = (props: RegisterFormProps) => {
                 password: data.registerPassword
 
             }
-            console.log(registerData);
-            console.log('byCode');
             await dispatch(RegisterByEmail(registerData))
         }
 

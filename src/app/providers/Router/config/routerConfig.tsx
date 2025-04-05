@@ -3,22 +3,24 @@ import {RouterProps} from "@/shared/types/router.ts";
 import {LoginPage} from "@/pages/LoginPage";
 import {UserRoles} from "@/entities/User";
 import {RegisterPage} from "@/pages/RegisterPage";
+import {TasksPage} from "@/pages/TasksPage";
 
 export const RouterConfig: Record<AppRoutes, RouterProps> = {
     [AppRoutes.MAIN]: {
         path: getRouteMain(),
         authOnly: true,
         roles: [UserRoles.USER],
-        element: <RegisterPage/>
+        element: <TasksPage/>
     },
     [AppRoutes.LOGIN]: {
         path: getRouteLogin(),
         element: <LoginPage/>,
-        guestOnly: true
+        guestOnly: true,
     },
     [AppRoutes.REGISTER]: {
         path: getRouteRegister(),
-        element: <RegisterPage/>
+        element: <RegisterPage/>,
+        guestOnly: true,
     },
     [AppRoutes.NOT_FOUND]: {
         path: getRouteLogin(),

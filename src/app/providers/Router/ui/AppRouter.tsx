@@ -11,7 +11,9 @@ export const AppRouter = () => {
             element={
                 route?.authOnly
                     ? (<RequireAuth roles={route.roles}>{route.element}</RequireAuth>)
-                    : route.guestOnly ? (<RequireAuth guestOnly>{route.element}</RequireAuth>) : route.element
+                    : route.guestOnly
+                        ? (<RequireAuth guestOnly>{route.element}</RequireAuth>)
+                        : route.element
             }
             path={route.path}
         />

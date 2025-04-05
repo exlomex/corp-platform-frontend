@@ -9,7 +9,7 @@ import {Button} from "@/shared/ui/Button";
 import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Typography} from "@/shared/ui/Typography";
 import {useSelector} from "react-redux";
-import {getUserLoginError} from "@/entities/User";
+import {getUserLoginError, getUserLoginIsFetching} from "@/entities/User";
 import {useCallback} from "react";
 
 
@@ -28,6 +28,7 @@ export const LoginForm = (props: LoginFormProps) => {
     const dispatch = useAppDispatch()
 
     const loginError = useSelector(getUserLoginError)
+    const loginIsFetching = useSelector(getUserLoginIsFetching)
 
     const { register, handleSubmit, trigger, formState: { errors } } = useForm<loginDataInputs>()
 
@@ -85,7 +86,7 @@ export const LoginForm = (props: LoginFormProps) => {
                     message={errors.loginPassword}
                 />
 
-                <Button regularType={'submit'} fullWidth>Войти</Button>
+                <Button regularType={'submit'} fullWidth isLoading={loginIsFetching}>Войти</Button>
             </form>
         </div>
     )
