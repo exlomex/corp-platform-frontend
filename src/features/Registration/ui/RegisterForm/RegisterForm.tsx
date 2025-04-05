@@ -2,7 +2,7 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './RegisterForm.module.scss';
 import {InvitationField} from "../InvitationField/InvitationField.tsx";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {useCallback, useEffect} from "react";
+import {useCallback} from "react";
 import {Input} from "@/shared/ui/Input";
 import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Button} from "@/shared/ui/Button";
@@ -72,9 +72,17 @@ export const RegisterForm = (props: RegisterFormProps) => {
         reset({registerEmail: value})
     }, [reset])
 
-    const emailPattern = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i)
+    const emailPattern = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
     const registerFormEmailReg = register<'registerEmail'>('registerEmail', { required: {value: true, message: 'Заполните обязательное поле'}, pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('registerEmail')});
-    const registerFormPasswordReg = register<'registerPassword'>("registerPassword", { required: {value: true, message: 'Заполните обязательное поле'}, minLength: {value: 4, message: `Пароль должен быть не короче 4 символов`}, onBlur: () => trigger('registerPassword')})
+
+    const passwordValidation = {
+        pattern: {
+            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,64}$/,
+            message: 'Пароль должен содержать от 8 до 64 символов, включать хотя бы одну заглавную латинскую букву, одну строчную, одну цифру и один спецсимвол',
+        },
+    };
+    const registerFormPasswordReg = register<'registerPassword'>("registerPassword", { required: {value: true, message: 'Заполните обязательное поле'}, ...passwordValidation, onBlur: () => trigger('registerPassword')})
+
     const registerFormFirstNameReg = register<'registerFirstName'>("registerFirstName", { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerFirstName')})
     const registerFormLastNameReg = register<'registerLastName'>("registerLastName", { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerLastName')})
 

@@ -1,5 +1,7 @@
 .InputWrapper {
     position: relative;
+
+
 }
 
 .InputLabel {
@@ -17,9 +19,11 @@
 }
 
 .InputWrapperError {
-    position: absolute;
-    bottom: -30%;
-    left: 0;
+    min-height: 22px;
+    margin-top: 5px;
+    //position: absolute;
+    //bottom: -30%;
+    //left: 0;
 
     &.LabelMessageRedColor {
         color: var(--red-color);

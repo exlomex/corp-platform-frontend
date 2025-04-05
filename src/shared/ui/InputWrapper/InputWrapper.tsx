@@ -38,7 +38,7 @@ export const InputWrapper = <T,>(props: InputWrapperProps<T>) => {
 
             {input}
 
-            {message && <span className={classNames(cls.InputWrapperError, {}, [labelMessageColors[messageColor]])}>{message?.message}</span>}
+            <div className={classNames(cls.InputWrapperError, {}, [labelMessageColors[messageColor]])}>{message && message.message}</div>
         </div>
     )
 };
