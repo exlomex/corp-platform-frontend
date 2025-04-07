@@ -1,7 +1,5 @@
 .InputWrapper {
     position: relative;
-
-
 }
 
 .InputLabel {
@@ -21,15 +19,22 @@
 .InputWrapperError {
     min-height: 22px;
     margin-top: 5px;
-    //position: absolute;
-    //bottom: -30%;
-    //left: 0;
 
     &.LabelMessageRedColor {
         color: var(--red-color);
+    }
+
+    &.LabelMessageGreenColor {
+        color: var(--green-color)
     }
 }
 
 .LabelRequired {
     color: var(--red-color);
+}
+
+.MessageSmallSize {
+    min-height: 18px;
+    margin-top: 3px;
+    font: var(--font-paragraph-12-Regular);
 }

@@ -27,16 +27,16 @@ export const RequireAuth = (props: RequireAuthProps) => {
         } else {
             return <Navigate to={getRouteLogin()} state={{from: location}} replace/>
         }
-    }
-
-    if (!roles) {
-        return children
-    }
-
-    const hasCurrentRole = roles.some(requiredRole  => currentRole === requiredRole)
-    if (!hasCurrentRole) {
-        return <Navigate to={getRouteLogin()} state={{from: location}} replace/> // TODO ForbiddenPage
     } else {
-        return children
+        if (!roles) {
+            return children
+        }
+
+        const hasCurrentRole = roles.some(requiredRole  => currentRole === requiredRole)
+        if (!hasCurrentRole) {
+            return <Navigate to={getRouteLogin()} state={{from: location}} replace/> // TODO ForbiddenPage
+        } else {
+            return children
+        }
     }
 };

@@ -50,6 +50,13 @@
             top: 0;
         }
     }
+
+    &.SmartTextBtnFilled {
+        padding: 0 25px;
+        height: 30px;
+        font: var(--font-paragraph-12-Regular);
+        border-radius: 6px;
+    }
 }
 
 .Spinner {

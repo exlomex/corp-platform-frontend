@@ -13,32 +13,39 @@ export const labelMessageColors = {
     'GREEN': cls["LabelMessageGreenColor"],
 } as const;
 
+export const MessageSizes = {
+    'SMALL_SIZE': cls['MessageSmallSize'],
+    'MEDIUM_SIZE': cls['MessageMediumSize'],
+}
+
 interface InputWrapperProps<T> {
     className?: string;
-    labelString: string;
+    labelString?: string;
     labelFor?: keyof T;
     labelSize?: keyof typeof labelSizes;
     input: ReactElement;
-    message?: FieldError;
+    message?: FieldError | string;
     messageColor?: keyof typeof labelMessageColors;
     required?: boolean;
+    messageSize?: keyof typeof MessageSizes;
 }
 
 export const InputWrapper = <T,>(props: InputWrapperProps<T>) => {
-    const { className, input, message, labelFor, labelString, labelSize = 'M_SIZE', messageColor = 'RED', required=false } = props;
+    const { className, input, message, labelFor, labelString, labelSize = 'M_SIZE', messageColor = 'RED', required=false, messageSize = 'MEDIUM_SIZE' } = props;
     return (
         <div className={classNames(cls.InputWrapper, {}, [className])}>
-            <label
+            {labelString && <label
                 className={classNames(cls.InputLabel, {}, [labelSizes[labelSize]])}
                 htmlFor={labelFor}
             >
                 {labelString}
                 {required && <span className={cls.LabelRequired}>*</span>}
-            </label>
+            </label>}
 
             {input}
 
-            <div className={classNames(cls.InputWrapperError, {}, [labelMessageColors[messageColor]])}>{message && message.message}</div>
+            <div
+                className={classNames(cls.InputWrapperError, {}, [labelMessageColors[messageColor], MessageSizes[messageSize]])}>{message && typeof message !== "string" ? message?.message : message}</div>
         </div>
     )
 };

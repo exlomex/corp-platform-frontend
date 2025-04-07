@@ -10,7 +10,7 @@ export const LoadingLine = () => {
 
     const { start, complete } = useLoadingBar({
         color: "#5030E5",
-        height: 4,
+        height: 3,
         shadow: false,
     });
 

@@ -42,7 +42,7 @@ export const LoginForm = (props: LoginFormProps) => {
         await dispatch(loginByEmail(loginData))
     }, [dispatch])
 
-    const emailPattern = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i)
+    const emailPattern = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
 
     const loginFormEmailReg = register<'loginEmail'>('loginEmail', { required: {value: true, message: 'Заполните обязательное поле'}, pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('loginEmail')});
     const loginFormPasswordReg = register<'loginPassword'>("loginPassword", { required: {value: true, message: 'Заполните обязательное поле'}, minLength: {value: 4, message: `Пароль должен быть не короче 4 символов`}, onBlur: () => trigger('loginPassword')})

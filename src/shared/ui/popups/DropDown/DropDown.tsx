@@ -1,7 +1,7 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from '../styles/Popups.module.scss';
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
-import {ReactElement, ReactNode, useEffect} from "react";
+import {ReactElement, ReactNode} from "react";
 import {AnchorProps} from "@headlessui/react/dist/internal/floating";
 import {Link} from "react-router";
 

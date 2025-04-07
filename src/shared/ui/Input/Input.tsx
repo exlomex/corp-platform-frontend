@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './Input.module.scss';
-import {ForwardedRef, forwardRef, InputHTMLAttributes, useState} from "react";
+import {InputHTMLAttributes, useState} from "react";
 import {FieldError, UseFormRegisterReturn} from "react-hook-form";
 import OpenEye from '@/shared/assets/icons/openEye.svg';
 import CloseEye from '@/shared/assets/icons/closeEye.svg';
@@ -9,6 +9,11 @@ export const InputTypes = {
     TYPE_TEXT: cls['TextInput'],
     TYPE_PASSWORD: cls['PasswordInput'],
 } as const
+
+export const InputVariant = {
+    DEFAULT_INPUT: cls['DefaultInput'],
+    SMART_INPUT: cls['SmartInput']
+}
 
 type HtmlInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'maxLength' | 'id'>
 
@@ -19,6 +24,7 @@ interface InputProps<T extends object> extends HtmlInputProps{
     error?: FieldError | undefined;
     maxLength?: number;
     id?: keyof T;
+    variant?: keyof typeof InputVariant;
 }
 
 export const Input = <T,>(props: InputProps<T>) => {
@@ -31,7 +37,8 @@ export const Input = <T,>(props: InputProps<T>) => {
         id,
         placeholder,
         autoComplete,
-        disabled
+        disabled,
+        variant = 'DefaultInput'
     } = props;
 
     type inputTypes = Extract<InputHTMLAttributes<HTMLInputElement>["type"], 'password' | 'text'>
@@ -49,7 +56,7 @@ export const Input = <T,>(props: InputProps<T>) => {
         <div className={cls.InputWrapper}>
             <input
                 disabled={disabled}
-                className={classNames(cls.Input, {}, [className, InputTypes[type]])}
+                className={classNames(cls.Input, {}, [className, InputTypes[type], InputVariant[variant]])}
                 maxLength={maxLength}
                 id={id}
                 {...register}

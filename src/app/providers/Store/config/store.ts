@@ -6,6 +6,7 @@ import {UserSliceReducer} from "@/entities/User";
 import {RegistrationSliceReducer} from "@/features/Registration";
 import {createNewCompanyService} from "@/features/CreateNewCompany/model/services/createNewCompanyService.ts";
 import {newCompanySliceReducer} from "@/features/CreateNewCompany";
+import {inviteToCompanyReducer} from "@/features/InviteToCompany";
 
 export function createReduxStore(
     initialState?: Partial<StateSchema>,
@@ -16,6 +17,7 @@ export function createReduxStore(
         user: UserSliceReducer,
         registration: RegistrationSliceReducer,
         newCompany: newCompanySliceReducer,
+        inviteToCompany: inviteToCompanyReducer,
     };
 
     const extraArg: ThunkExtraArg = {

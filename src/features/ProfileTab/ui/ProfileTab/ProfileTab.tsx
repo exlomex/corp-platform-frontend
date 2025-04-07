@@ -10,7 +10,7 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {fetchUserInfo, FetchUserInfoReturnedData} from "../../model/services/fetchUserInfo.ts";
 import {UserSliceActions} from "@/entities/User";
 import {useNavigate} from "react-router";
-import {getRouteCompanyCreate} from "@/shared/const/router.ts";
+import {getRouteCompanyCreate, getRouteSettings} from "@/shared/const/router.ts";
 
 interface ProfileTabProps {
     className?: string;
@@ -36,7 +36,7 @@ export const ProfileTab = (props: ProfileTabProps) => {
         }
 
         fetchUser()
-    }, [dispatch, navigate]);
+    }, [dispatch]);
 
     const userFirstName = useSelector(getUserFirstName)
 
@@ -50,6 +50,7 @@ export const ProfileTab = (props: ProfileTabProps) => {
         },
         {
             content: 'Компания',
+            href: getRouteSettings('company')
         },
         {
             content: 'Настройки',
