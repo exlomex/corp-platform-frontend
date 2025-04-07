@@ -13,6 +13,7 @@ export const TypographyTypes = {
     'PARAGRAPH-18-REGULAR': cls['font-paragraph-18-Regular'],
     'PARAGRAPH-18-MEDIUM': cls['font-paragraph-18-Medium'],
     'PARAGRAPH-16-REGULAR': cls['font-paragraph-16-Regular'],
+    'PARAGRAPH-16-MEDIUM': cls['font-paragraph-16-Medium'],
     'PARAGRAPH-14-REGULAR': cls['font-paragraph-14-Regular'],
     'PARAGRAPH-12-REGULAR': cls['font-paragraph-12-Regular'],
 } as const;

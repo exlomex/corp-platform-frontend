@@ -4,6 +4,8 @@ import {$api} from "@/shared/api/api.ts";
 import {rtkApi} from "@/shared/api/rtkApi.ts";
 import {UserSliceReducer} from "@/entities/User";
 import {RegistrationSliceReducer} from "@/features/Registration";
+import {createNewCompanyService} from "@/features/CreateNewCompany/model/services/createNewCompanyService.ts";
+import {newCompanySliceReducer} from "@/features/CreateNewCompany";
 
 export function createReduxStore(
     initialState?: Partial<StateSchema>,
@@ -13,6 +15,7 @@ export function createReduxStore(
     const rootReducers: ReducersMapObject<StateSchema> = {
         user: UserSliceReducer,
         registration: RegistrationSliceReducer,
+        newCompany: newCompanySliceReducer,
     };
 
     const extraArg: ThunkExtraArg = {

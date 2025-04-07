@@ -30,7 +30,7 @@ export interface RegisterDataInputs {
 export const RegisterForm = (props: RegisterFormProps) => {
     const { className } = props;
 
-    const { register, handleSubmit, trigger, formState: { errors }, getValues, setValue, reset } = useForm<RegisterDataInputs>()
+    const { register, handleSubmit, trigger, formState: { errors }, getValues, reset } = useForm<RegisterDataInputs>()
 
     const isCodeActivated = useSelector(getRegisterInvitationCodeIsActivate)
 

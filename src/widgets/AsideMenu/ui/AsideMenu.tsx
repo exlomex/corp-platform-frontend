@@ -9,6 +9,7 @@ import ProjectsIcon from '@/shared/assets/icons/projects.svg'
 import MessagesIcon from '@/shared/assets/icons/messages.svg'
 import CollapseIcon from '@/shared/assets/icons/collapse.svg'
 import {LOCAL_STORAGE_COLLAPSED_KEY} from "@/shared/const/localstorage.ts";
+import {ProfileTab} from "@/features/ProfileTab";
 
 interface AsideMenuProps {
     className?: string;
@@ -60,6 +61,8 @@ export const AsideMenu = (props: AsideMenuProps) => {
             </div>
 
             <div>
+                <ProfileTab/>
+
                 <div
                     className={cls.AsideItem}
                     onClick={onClickCollapsedButton}

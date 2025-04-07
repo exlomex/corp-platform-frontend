@@ -4,19 +4,22 @@ import {LOCAL_STORAGE_USER_TOKEN} from "@/shared/const/localstorage.ts";
 import {jwtDecode} from "jwt-decode";
 import {LoginByEmailReturnedData} from "@/features/Authorization/model/types/authTypes.ts";
 import {loginByEmail} from "@/features/Authorization/model/services/loginByEmail.ts";
-import {StateSchema} from "@/app/providers/Store";
-import {c} from "vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P";
+import {fetchUserInfo} from "@/features/ProfileTab/model/services/fetchUserInfo.ts";
 
 
 const initialState: UserSliceSchema = {
     isAuth: false,
-    isLoginFetching: false
+    isLoginFetching: false,
+    isUserFetching: false,
 };
 
 export const UserSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        setCompanyId: (state: UserSliceSchema, action) => {
+            state.companyId = action.payload;
+        },
         setAuth: (state: UserSliceSchema, action: PayloadAction<LoginByEmailReturnedData>) => {
             const accessToken = action.payload.accessToken
             state.isAuth = true;
@@ -51,6 +54,9 @@ export const UserSlice = createSlice({
                 }
             }
         },
+        setUserFirstName: (state: UserSliceSchema, action) => {
+            state.firstName = action.payload
+        }
     },
     extraReducers: (builder ) => {
         builder
@@ -65,6 +71,16 @@ export const UserSlice = createSlice({
                 state.isLoginFetching = false;
                 state.isLoginError = action.payload;
             })
+            .addCase(fetchUserInfo.pending, (state: UserSliceSchema) => {
+                state.isUserFetching = true
+            })
+            .addCase(fetchUserInfo.fulfilled, (state: UserSliceSchema) => {
+                state.isUserFetching = false
+            })
+            .addCase(fetchUserInfo.rejected, (state: UserSliceSchema) => {
+                state.isUserFetching = false
+            })
+
     },
 });
 

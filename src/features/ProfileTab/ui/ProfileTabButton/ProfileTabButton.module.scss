@@ -1,0 +1,26 @@
+.ProfileTabButton {
+    height: 44px;
+    width: 100%;
+    border-radius: 6px;
+    background-color: transparent;
+
+    &:hover {
+        background-color: var(--aside-nav-hover);
+    }
+
+    display: flex;
+    padding: 7px 9px;
+    gap: 0 10px;
+    align-items: center;
+}
+
+.ProfileTabAvatar {
+    height: 24px;
+    width: 24px;
+    border-radius: 20px;
+    background-color: var(--profile-tab-avatar);
+}
+
+.ProfileTabTest {
+    color: var(--text-color-inverted);
+}
