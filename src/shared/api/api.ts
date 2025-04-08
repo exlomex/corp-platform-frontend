@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import { LOCAL_STORAGE_USER_TOKEN } from '@/shared/const/localstorage';
 
-export const $api = axios.create({
+export const $api: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API,
 });
 

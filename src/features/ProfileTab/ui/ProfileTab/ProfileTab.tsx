@@ -3,7 +3,7 @@ import cls from './ProfileTab.module.scss';
 import {DropDown} from "@/shared/ui/popups";
 import {DropdownItem} from "@/shared/ui/popups/DropDown/DropDown.tsx";
 import {ProfileTabButton} from "../ProfileTabButton/ProfileTabButton.tsx";
-import {useEffect} from "react";
+import {memo, useEffect} from "react";
 import { useSelector} from "react-redux";
 import {getUserCompanyId, getUserFirstName} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
@@ -16,11 +16,13 @@ interface ProfileTabProps {
     className?: string;
 }
 
-export const ProfileTab = (props: ProfileTabProps) => {
+export const ProfileTab = memo((props: ProfileTabProps) => {
     const { className } = props;
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+
+    console.log('rerender');
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -69,4 +71,4 @@ export const ProfileTab = (props: ProfileTabProps) => {
             trigger={<ProfileTabButton userFirstName={userFirstName}/>}
         />
     )
-};
+});

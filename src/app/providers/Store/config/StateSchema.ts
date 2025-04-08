@@ -3,6 +3,7 @@ import {UserSliceSchema} from "@/entities/User";
 import {RegistrationSliceSchema} from "@/features/Registration";
 import {newCompanySliceSchema} from "@/features/CreateNewCompany";
 import {inviteToCompanySliceSchema} from "@/features/InviteToCompany";
+import {ProjectSliceSchema} from "@/entities/Project/model/types/projectSliceSchema.ts";
 
 // SLICE TYPES
 export interface StateSchema {
@@ -10,6 +11,7 @@ export interface StateSchema {
     registration: RegistrationSliceSchema;
     newCompany: newCompanySliceSchema;
     inviteToCompany: inviteToCompanySliceSchema;
+    projects: ProjectSliceSchema;
 }
 
 export interface ThunkConfig<T> {

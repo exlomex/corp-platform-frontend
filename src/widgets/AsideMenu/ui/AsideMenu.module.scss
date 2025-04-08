@@ -53,10 +53,20 @@
         }
     }
 
+    &.ActiveTab {
+        background-color: var(--aside-nav-hover);
+
+        svg {
+            path, rect {
+                stroke: var(--purple-color-active);
+
+            }
+        }
+    }
+
     .IconWrapper {
         width: 26px;
         height: 26px;
-
         svg {
             width: inherit;
             height: inherit;

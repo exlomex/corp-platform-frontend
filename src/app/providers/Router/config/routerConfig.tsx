@@ -2,7 +2,7 @@ import {
     AppRoutes,
     getRouteCompanyCreate,
     getRouteLogin,
-    getRouteMain,
+    getRouteMain, getRouteProjects,
     getRouteRegister, getRouteSettings
 } from "@/shared/const/router.ts";
 import {RouterProps} from "@/shared/types/router.ts";
@@ -12,6 +12,7 @@ import {RegisterPage} from "@/pages/RegisterPage";
 import {TasksPage} from "@/pages/TasksPage";
 import {CreateCompany} from "@/pages/CreateCompany";
 import {SettingsPage} from "@/pages/SettingsPage";
+import {ProjectsPage} from "@/pages/ProjectsPage";
 
 export const RouterConfig: Record<AppRoutes, RouterProps> = {
     [AppRoutes.MAIN]: {
@@ -46,4 +47,10 @@ export const RouterConfig: Record<AppRoutes, RouterProps> = {
         path: getRouteLogin(),
         element: <LoginPage/>
     },
+    [AppRoutes.PROJECTS]: {
+        path: getRouteProjects(),
+        element: <ProjectsPage/>,
+        authOnly: true,
+        roles: [UserRoles.USER, UserRoles.COMPANY_OWNER],
+    }
 }
