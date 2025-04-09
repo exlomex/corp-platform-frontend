@@ -1,5 +1,6 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './Typography.module.scss';
+import {memo} from "react";
 
 export const TypographyTypes = {
     'HEADING-H1': cls['font-heading-h1'],
@@ -30,7 +31,7 @@ interface TypographyProps {
     align?: keyof typeof TypographyAlign;
 }
 
-export const Typography = (props: TypographyProps) => {
+export const Typography = memo((props: TypographyProps) => {
     const { className, children, size, align = 'LEFT' } = props;
 
     const sizeClass = TypographyTypes[size]
@@ -42,4 +43,4 @@ export const Typography = (props: TypographyProps) => {
             {children}
         </div>
     )
-};
+});

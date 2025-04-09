@@ -3,9 +3,9 @@ import cls from './ProfileTab.module.scss';
 import {DropDown} from "@/shared/ui/popups";
 import {DropdownItem} from "@/shared/ui/popups/DropDown/DropDown.tsx";
 import {ProfileTabButton} from "../ProfileTabButton/ProfileTabButton.tsx";
-import {memo, useEffect} from "react";
-import { useSelector} from "react-redux";
-import {getUserCompanyId, getUserFirstName} from "@/entities/User/model/selectors/getUserValues.ts";
+import {memo, useEffect, useRef} from "react";
+import {shallowEqual, useSelector} from "react-redux";
+import {getUserFirstName, getUserIsUserFetched} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {fetchUserInfo, FetchUserInfoReturnedData} from "../../model/services/fetchUserInfo.ts";
 import {UserSliceActions} from "@/entities/User";
@@ -22,10 +22,13 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    console.log('rerender');
+    const fetchUserRef = useRef(() => {})
+
+    const userFirstName = useSelector(getUserFirstName, shallowEqual)
+    const userIsFetched = useSelector(getUserIsUserFetched)
 
     useEffect(() => {
-        const fetchUser = async () => {
+        fetchUserRef.current = async () => {
             try {
                 const responce: FetchUserInfoReturnedData = await dispatch(fetchUserInfo()).unwrap()
 
@@ -37,10 +40,10 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
             }
         }
 
-        fetchUser()
+        if (!userIsFetched) {
+            fetchUserRef.current()
+        }
     }, [dispatch]);
-
-    const userFirstName = useSelector(getUserFirstName)
 
     const onLogoutClick = () => {
         dispatch(UserSliceActions.logout())

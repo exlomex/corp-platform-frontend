@@ -7,7 +7,7 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchUserProjects} from "@/entities/Project/model/services/fetchUserProjects.ts";
 import {getIsFirstFetchUserProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {Column, Table} from "@/shared/ui/Table/Table.tsx";
-import {ProjectSliceSchema} from "@/entities/Project/model/types/projectSliceSchema.ts";
+import {ProjectsAdditionalButton} from "./ProjectsAdditionalButton.tsx";
 
 interface ProjectsTableProps {
     className?: string;
@@ -36,7 +36,15 @@ export const ProjectsTable = (props: ProjectsTableProps) => {
         {
             title: 'Ключ',
             key: 'shortName',
-            width: '30%'
+            width: '60%'
+        },
+        {
+            key: 'action',
+            title: 'Дополнительные действия',
+            element: (row) => <ProjectsAdditionalButton id={row.id}/>,
+            width: '10%',
+            alignColumn: 'right',
+            alignTableData: 'right'
         }
     ]
 

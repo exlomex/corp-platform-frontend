@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './Input.module.scss';
-import {InputHTMLAttributes, useState} from "react";
+import {InputHTMLAttributes, memo, useState} from "react";
 import {FieldError, UseFormRegisterReturn} from "react-hook-form";
 import OpenEye from '@/shared/assets/icons/openEye.svg';
 import CloseEye from '@/shared/assets/icons/closeEye.svg';
@@ -27,7 +27,7 @@ interface InputProps<T extends object> extends HtmlInputProps{
     variant?: keyof typeof InputVariant;
 }
 
-export const Input = <T,>(props: InputProps<T>) => {
+export const Input = memo(<T,>(props: InputProps<T>) => {
     const {
         className,
         type = 'TYPE_TEXT',
@@ -67,4 +67,4 @@ export const Input = <T,>(props: InputProps<T>) => {
             {type === 'TYPE_PASSWORD' && currentEyeIcon}
         </div>
     )
-};
+});

@@ -2,7 +2,7 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './InviteToCompanyForm.module.scss';
 import {Typography} from "@/shared/ui/Typography";
 import {FieldError, SubmitHandler, useForm} from "react-hook-form";
-import {useCallback, useEffect} from "react";
+import {memo, useCallback, useEffect, useMemo} from "react";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Input} from "@/shared/ui/Input";
@@ -13,7 +13,7 @@ import {
     getInviteToCompanyIsFetching,
     inviteToCompanyActions
 } from "@/features/InviteToCompany";
-import {useSelector} from "react-redux";
+import {shallowEqual, useSelector} from "react-redux";
 
 interface InviteToCompanyFormProps {
     className?: string;
@@ -23,7 +23,7 @@ interface InviteToCompanyFormDataInputs {
     InviteCompanyEmail: string
 }
 
-export const InviteToCompanyForm = (props: InviteToCompanyFormProps) => {
+export const InviteToCompanyForm = memo((props: InviteToCompanyFormProps) => {
     const { className } = props;
 
     const { register, handleSubmit, trigger, formState: { errors } } = useForm<InviteToCompanyFormDataInputs>()
@@ -39,11 +39,13 @@ export const InviteToCompanyForm = (props: InviteToCompanyFormProps) => {
     }, [dispatch])
 
     const isLoading = useSelector(getInviteToCompanyIsFetching)
-    const isError = useSelector(getInviteToCompanyIsError)
+    const isError = useSelector(getInviteToCompanyIsError, shallowEqual)
 
     const emailPattern = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
 
-    const ErrorObject: FieldError | string | undefined = errors.InviteCompanyEmail || isError
+    const ErrorObject: FieldError | string | undefined = useMemo(() => {
+        return errors.InviteCompanyEmail || isError
+    }, [errors.InviteCompanyEmail, isError])
 
     const inviteCompanyEmailReg = register<'InviteCompanyEmail'>('InviteCompanyEmail', { required: {value: true, message: 'Заполните обязательное поле'}, pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('InviteCompanyEmail'), onChange: () => {
         if (isError) {
@@ -75,4 +77,4 @@ export const InviteToCompanyForm = (props: InviteToCompanyFormProps) => {
             </form>
         </div>
     )
-};
+});

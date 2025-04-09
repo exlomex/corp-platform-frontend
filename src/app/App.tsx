@@ -1,4 +1,4 @@
-import {Suspense, useEffect, useState} from "react";
+import {memo, Suspense, useEffect, useState} from "react";
 import {AppRouter} from "@/app/providers/Router";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {UserSliceActions} from "@/entities/User";
@@ -8,7 +8,7 @@ import {getProjectUserProjects} from "@/entities/Project";
 import {FetchUserProjects} from "@/entities/Project/model/services/fetchUserProjects.ts";
 import {getIsFirstFetchUserProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
-export const App = () => {
+export const App = memo(() => {
     const [isInited, setIsInited] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
@@ -16,15 +16,6 @@ export const App = () => {
         dispatch(UserSliceActions.initAuth())
         setIsInited(true)
     }, [dispatch]);
-
-    const userProjects = useSelector(getProjectUserProjects)
-    const isFirstCallFetchUserProjects = useSelector(getIsFirstFetchUserProject)
-
-    useEffect(() => {
-        if (!userProjects && isFirstCallFetchUserProjects) {
-            dispatch(FetchUserProjects())
-        }
-    }, [dispatch, isFirstCallFetchUserProjects, userProjects]);
 
     if (isInited) {
         return (
@@ -40,4 +31,4 @@ export const App = () => {
     return (
         <></>
     )
-}
+});

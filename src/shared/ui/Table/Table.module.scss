@@ -12,11 +12,30 @@ table, td, th {
 
 .TableHeader {
     text-align: start;
-    font: var(--font-paragraph-14-Regular);
+    font: var(--font-paragraph-14-Medium);
     padding: 10px 0;
 }
 
 .TableData {
     text-align: start;
-    padding: 10px 10px 10px 0;
+    padding: 10px 0 10px 0;
+    font: var(--font-paragraph-14-Regular);
+}
+
+.AlignDataCenter {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.AlignDataLeft {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+}
+
+.AlignDataRight {
+    width: 100%;
+    display: flex;
+    justify-content: right;
 }

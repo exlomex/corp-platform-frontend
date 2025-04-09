@@ -12,4 +12,6 @@ export interface ProjectSliceSchema {
 
     isFirstFetchUserProject: boolean;
     fetchUserProjectIsLoading: boolean;
+
+    isDeleteProjectFetching: boolean
 }

@@ -51,7 +51,7 @@ export const LoginForm = (props: LoginFormProps) => {
         <div className={classNames(cls.LoginForm, {}, [className])}>
             <div className={cls.Heading}>
                 <Typography className={cls.HeadingText} size={"HEADING-H4"} align={'CENTER'}>Войти в TeamSpace</Typography>
-                {loginError && <span className={cls.HeadingError}>Неверный email или пароль.</span>}
+                {loginError && <span className={cls.HeadingError}>{loginError.split('')[1]==='r' ? 'Неверный email или пароль.' : loginError}</span>}
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)}>

@@ -19,6 +19,7 @@ export interface UserSliceSchema {
 
     // userFetching
     isUserFetching: boolean
+    isUserFetched: boolean
 }
 
 export interface tokenInfoTypes extends JwtPayload {

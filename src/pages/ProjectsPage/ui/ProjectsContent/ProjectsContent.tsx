@@ -4,6 +4,7 @@ import {Typography} from "@/shared/ui/Typography";
 import {Table} from "@/shared/ui/Table";
 import {Column} from "@/shared/ui/Table/Table.tsx";
 import {ProjectsTable} from "@/features/ProjectsTable";
+import {memo} from "react";
 
 interface ProjectsContentProps {
     className?: string;
@@ -34,7 +35,7 @@ const data: projectData[] = [
     }
 ]
 
-export const ProjectsContent = (props: ProjectsContentProps) => {
+export const ProjectsContent = memo((props: ProjectsContentProps) => {
     const { className } = props;
     return (
         <div className={classNames(cls.ProjectsContent, {}, [className])}>
@@ -42,4 +43,4 @@ export const ProjectsContent = (props: ProjectsContentProps) => {
             <ProjectsTable/>
         </div>
     )
-};
+});

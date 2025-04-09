@@ -1,16 +1,37 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './Table.module.scss';
+import {ReactElement} from "react";
 
-export interface Column<T> {
+export type alignVariants = 'left' | 'right' | 'center'
+export interface DefaultColumn<T> {
     key: keyof T;
     title: string;
-    width: string
+    width?: string;
+    alignColumn?: alignVariants;
+    alignTableData?: alignVariants
 }
+
+export interface ActionColumn<T> {
+    key: 'action';
+    title: string;
+    element: (row: T) => ReactElement;
+    width?: string;
+    alignColumn?: alignVariants;
+    alignTableData?: alignVariants
+}
+
+export type Column<T> = DefaultColumn<T> | ActionColumn<T>
 
 export interface TableProps<T> {
     className?: string;
-    columns: Column<T>[];
+    columns: Column<T> [];
     data?: T[];
+}
+
+const ColumnTableDataAlignClasses: Record<alignVariants, string> = {
+    'center': cls.AlignDataCenter,
+    'left': cls.AlignDataLeft,
+    'right': cls.AlignDataRight,
 }
 
 export const Table = <T,>(props: TableProps<T>) => {
@@ -21,7 +42,7 @@ export const Table = <T,>(props: TableProps<T>) => {
             <thead className={cls.TableHead}>
                 <tr>
                     {columns.map(column => (
-                        <th className={cls.TableHeader} key={column.key} style={{width: column.width}}>
+                        <th className={cls.TableHeader} key={column.key} style={{width: column?.width, textAlign: column?.alignColumn}}>
                             {column.title}
                         </th>
                     ))}
@@ -33,7 +54,13 @@ export const Table = <T,>(props: TableProps<T>) => {
                 {data.map((row, index) => (
                     <tr key={row.id || index}>
                         {columns.map(column => (
-                            <td className={cls.TableData} key={column.key} style={{width: column.width}}>{row[column.key]}</td>
+                            <td
+                                className={classNames(cls.TableData, {}, [ColumnTableDataAlignClasses[column?.alignTableData]])}
+                                key={column.key}
+                                style={{width: column.alignColumn ? '100%' : column?.width}}
+                            >
+                                {"element" in column ? column.element(row) : row[column.key]}
+                            </td>
                         ))}
                     </tr>
                 ))}

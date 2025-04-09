@@ -15,7 +15,7 @@
 
     min-width: 170px;
     min-height: 100px;
-
+    color: var(--text-color-inverted);
     background-color: var(--popup-bg);
     border: 1px solid var(--popup-border);
 
@@ -27,6 +27,7 @@
 }
 
 .MenuItem {
+    position: relative;
     cursor: pointer;
     font: var(--font-paragraph-16-Regular);
     width: 100%;
@@ -47,4 +48,26 @@
     &.Active {
         background-color: var(--popup-field-active-bg);
     }
+
+    &.ItemLoading::after {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        content: '';
+        border-radius: 6px;
+        top: 0;
+        left: 0;
+
+        // todo add theme supporting for bgc
+        background-color: rgba(255, 255, 255, 0.42);
+    }
+}
+
+.Spinner {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-43%) translateX(-50%);
+    left: 50%;
+
+    z-index: 100;
 }

@@ -13,14 +13,13 @@ export const loginByEmail = createAsyncThunk<
     try {
         const response = await extra.api.post<LoginByEmailReturnedData>('/auth/login', authData);
 
-        if (!response.data) {
-            throw new Error();
+        if (response.status !== 200) {
+            throw new Error(response.data);
         }
 
         dispatch(UserSliceActions.setAuth(response.data));
         return response.data;
     } catch (e) {
-        console.log(e);
-        return rejectWithValue('error');
+        return rejectWithValue(e.response?.data || e.message || 'Unknown error');
     }
 });

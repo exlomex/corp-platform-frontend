@@ -1,13 +1,14 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './ProfileTabButton.module.scss';
 import {Typography} from "@/shared/ui/Typography";
+import {memo} from "react";
 
 interface ProfileTabButtonProps {
     className?: string;
     userFirstName?: string
 }
 
-export const ProfileTabButton = (props: ProfileTabButtonProps) => {
+export const ProfileTabButton = memo((props: ProfileTabButtonProps) => {
     const { className, userFirstName } = props;
 
     return (
@@ -22,4 +23,4 @@ export const ProfileTabButton = (props: ProfileTabButtonProps) => {
             </Typography>
         </button>
     )
-};
+});

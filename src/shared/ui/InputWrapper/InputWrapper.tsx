@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './InputWrapper.module.scss';
-import {ReactElement} from "react";
+import {memo, ReactElement} from "react";
 import {FieldError} from "react-hook-form";
 
 export const labelSizes = {
@@ -30,7 +30,7 @@ interface InputWrapperProps<T> {
     messageSize?: keyof typeof MessageSizes;
 }
 
-export const InputWrapper = <T,>(props: InputWrapperProps<T>) => {
+export const InputWrapper = memo(<T,>(props: InputWrapperProps<T>) => {
     const { className, input, message, labelFor, labelString, labelSize = 'M_SIZE', messageColor = 'RED', required=false, messageSize = 'MEDIUM_SIZE' } = props;
     return (
         <div className={classNames(cls.InputWrapper, {}, [className])}>
@@ -48,4 +48,4 @@ export const InputWrapper = <T,>(props: InputWrapperProps<T>) => {
                 className={classNames(cls.InputWrapperError, {}, [labelMessageColors[messageColor], MessageSizes[messageSize]])}>{message && typeof message !== "string" ? message?.message : message}</div>
         </div>
     )
-};
+});

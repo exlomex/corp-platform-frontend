@@ -11,12 +11,16 @@ const initialState: UserSliceSchema = {
     isAuth: false,
     isLoginFetching: false,
     isUserFetching: false,
+    isUserFetched: false,
 };
 
 export const UserSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        setUserIsFetched: (state: UserSliceSchema, action: PayloadAction<boolean>) => {
+            state.isUserFetched = action.payload;
+        },
         setCompanyId: (state: UserSliceSchema, action) => {
             state.companyId = action.payload;
         },

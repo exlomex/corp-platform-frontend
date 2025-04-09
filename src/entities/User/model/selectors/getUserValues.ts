@@ -9,3 +9,4 @@ export const getUserLoginIsFetching = createSelector(getUser, (state: UserSliceS
 export const getUserIsFetching = createSelector(getUser, (state: UserSliceSchema) => state.isUserFetching)
 export const getUserFirstName = createSelector(getUser, (state: UserSliceSchema) => state.firstName)
 export const getUserCompanyId = createSelector(getUser, (state: UserSliceSchema) => state.companyId)
+export const getUserIsUserFetched = createSelector(getUser, (state: UserSliceSchema) => state.isUserFetched)

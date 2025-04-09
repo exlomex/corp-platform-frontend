@@ -14,3 +14,6 @@ export const getProjectFetchUserProjectIsLoading = createSelector(getProject, (s
 export const getIsFirstFetchUserProject = createSelector(getProject, (state: ProjectSliceSchema) => {
     return state.isFirstFetchUserProject
 })
+export const getProjectIsDeleteProjectFetching = createSelector(getProject, (state: ProjectSliceSchema) => {
+    return state.isDeleteProjectFetching
+})

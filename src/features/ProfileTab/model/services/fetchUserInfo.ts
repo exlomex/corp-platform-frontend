@@ -28,6 +28,7 @@ export const fetchUserInfo = createAsyncThunk<
         }
 
         dispatch(UserSliceActions.setUserFirstName(response.data.firstName))
+        dispatch(UserSliceActions.setUserIsFetched(true))
         return response.data;
     } catch (e) {
         console.log(e);

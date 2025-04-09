@@ -1,10 +1,10 @@
 import {Route, Routes} from "react-router";
 import {RouterProps} from "@/shared/types/router.ts";
 import {RouterConfig} from "@/app/providers/Router/config/routerConfig.tsx";
-import {useCallback} from "react";
+import {memo, useCallback} from "react";
 import {RequireAuth} from "@/app/providers/Router/ui/RequireAuth.tsx";
 
-export const AppRouter = () => {
+export const AppRouter = memo(() => {
     const routeWrapper = useCallback((route: RouterProps) => (
         <Route
             key={route.path}
@@ -22,4 +22,4 @@ export const AppRouter = () => {
     return (
         <Routes>{Object.values(RouterConfig).map(route => (routeWrapper(route)))}</Routes>
     )
-}
+})
