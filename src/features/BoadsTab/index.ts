@@ -1,0 +1,1 @@
+export {BoardTabContent} from './ui/BoardTabContent/BoardTabContent.tsx'

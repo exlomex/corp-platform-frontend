@@ -1,41 +1,52 @@
-.ProjectsTab {
+.BoardTabContent {
 
 }
 
-.ProjectsWrapper {
+.BoardsWrapper {
     background-color: var(--popup-bg);
     color: var(--text-color);
     border-radius: 6px;
-    width: 210px;
+    width: 240px;
 }
 
-.ProjectsHeader {
+.BoardTabTopLine {
+    width: 100%;
+    padding: 15px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.AllBoardsLink {
+    font: var(--font-paragraph-12-Regular);
+    text-decoration: underline;
+    color: var(--purple-color-active);
+}
+
+.BoardHeader {
     display: inline-block;
-    margin: 15px 0 15px 15px;
     font: var(--font-paragraph-14-Regular);
 }
 
-.ProjectsList {
+.BoardsList {
     display: flex;
     flex-direction: column;
-    gap: 5px 0;
-    margin-bottom: 10px;
+    gap: 5px;
 }
 
-.ProjectItem {
-    padding: 10px 12px;
+.BoardItem {
     display: flex;
-    gap: 0 12px;
     align-items: center;
+    gap: 0 15px;
+    padding: 10px 12px;
     cursor: pointer;
+    transition: background-color .3s ease;
     border-radius: 6px;
-    height: 44px;
 
     &:hover {
         background-color: var(--popup-field-hover-bg-darker);
     }
 
-    &.ProjectActive {
+    &.ActiveBoard {
         background-color: var(--popup-field-active-bg);
         color: var(--purple-color-active);
 
@@ -45,11 +56,11 @@
     }
 }
 
-.ProjectIcon {
+.BoardIcon {
     height: 24px;
     width: 24px;
 }
 
 .NotFoundedTitle {
-    padding: 0 15px;
+    padding: 5px 12px;
 }

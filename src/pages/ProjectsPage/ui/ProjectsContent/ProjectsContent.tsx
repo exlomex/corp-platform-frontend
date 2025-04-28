@@ -6,6 +6,9 @@ import {Column} from "@/shared/ui/Table/Table.tsx";
 import {ProjectsTable} from "@/features/ProjectsTable";
 import {memo} from "react";
 import {Modal} from "@/shared/ui/Modal";
+import {Button} from "@/shared/ui/Button";
+import {newProjectSliceActions} from "@/features/CreateNewProject";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 
 interface ProjectsContentProps {
     className?: string;
@@ -38,12 +41,20 @@ const data: projectData[] = [
 
 export const ProjectsContent = memo((props: ProjectsContentProps) => {
     const { className } = props;
+
+    const dispatch = useAppDispatch()
+    const onNewProjectButtonClick = () => {
+        dispatch(newProjectSliceActions.setCreateProjectModalOpen(true))
+    }
+
     return (
         <div className={classNames(cls.ProjectsContent, {}, [className])}>
-            <Typography className={cls.Heading} size={'TEXT-20-MEDIUM'}>Проекты</Typography>
+            <div className={cls.ProjectsTopLine}>
+                <Typography className={cls.Heading} size={'TEXT-20-MEDIUM'}>Проекты</Typography>
+                <Button onClick={onNewProjectButtonClick} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать проект</Button>
+            </div>
+
             <ProjectsTable/>
-
-
         </div>
     )
 });

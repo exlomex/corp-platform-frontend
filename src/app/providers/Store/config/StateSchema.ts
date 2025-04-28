@@ -6,6 +6,8 @@ import {inviteToCompanySliceSchema} from "@/features/InviteToCompany";
 import {ProjectSliceSchema} from "@/entities/Project/model/types/projectSliceSchema.ts";
 import {rtkApi} from "@/shared/api/rtkApi.ts";
 import {newProjectSliceSchema} from "@/features/CreateNewProject/model/types/newProjectSliceSchema.ts";
+import {BoardSliceSchema} from "@/entities/Board";
+import {newBoardSliceSchema} from "@/features/CreateNewBoard/model/types/newBoardSliceSchema.ts";
 
 // SLICE TYPES
 export interface StateSchema {
@@ -15,6 +17,8 @@ export interface StateSchema {
     inviteToCompany: inviteToCompanySliceSchema;
     projects: ProjectSliceSchema;
     newProject: newProjectSliceSchema;
+    board: BoardSliceSchema;
+    newBoard: newBoardSliceSchema;
 
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
 }

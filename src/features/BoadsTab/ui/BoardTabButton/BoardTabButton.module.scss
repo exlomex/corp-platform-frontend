@@ -1,0 +1,48 @@
+.BoardTabButton {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 9px;
+    cursor: pointer;
+    border-radius: 6px;
+
+    &:hover {
+        background-color: var(--aside-nav-hover);
+    }
+
+    &.TabIsActive {
+        background-color: var(--aside-nav-hover);
+    }
+}
+
+.BoardTabButtonContentWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0 12px;
+}
+
+.IconWrapper {
+    width: 24px;
+    height: 24px;
+
+
+}
+
+.IconWrapperRightIcon {
+    width: 16px;
+    height: 16px;
+
+    svg {
+        transition: rotate .2s ease-out;
+    }
+
+    &.ButtonIsActive svg {
+        rotate: 180deg;
+    }
+}
+
+.BoardHeading {
+    color: var(--text-color-inverted);
+}
+

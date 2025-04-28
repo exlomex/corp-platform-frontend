@@ -2,7 +2,7 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './AsideMenu.module.scss';
 import LightLogo from '@/shared/assets/logo/light_full_logo.svg'
 import LightLogoCropped from '@/shared/assets/logo/cropped_logo.svg'
-import {memo, ReactElement, useEffect, useRef, useState} from "react";
+import {memo, ReactElement, useRef, useState} from "react";
 import TaskIcon from '@/shared/assets/icons/tasks.svg'
 import AgileBoardIcon from '@/shared/assets/icons/agileTasks.svg'
 import ProjectsIcon from '@/shared/assets/icons/projects.svg'
@@ -13,6 +13,7 @@ import {ProfileTab} from "@/features/ProfileTab";
 import {Link, useLocation} from "react-router";
 import {getRouteMain, getRouteProjects} from "@/shared/const/router.ts";
 import {ProjectsTab} from "@/features/ProjectsTab";
+import {BoardTabContent} from "@/features/BoadsTab";
 
 interface AsideMenuProps {
     className?: string;
@@ -42,7 +43,7 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
             content: 'Задачи'
         },
         {
-            icon: <AgileBoardIcon/>,
+            element: <BoardTabContent/>,
             content: 'Agile доски'
         },
         {

@@ -1,6 +1,5 @@
 import { ThunkConfig } from '@/app/providers/Store/config/StateSchema.ts';
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {ProjectDataInterface} from "@/entities/Project/model/types/projectSliceSchema.ts";
 import {FetchUserProjects} from "@/entities/Project/model/services/fetchUserProjects.ts";
 
 interface DeleteUserProjectInputData {

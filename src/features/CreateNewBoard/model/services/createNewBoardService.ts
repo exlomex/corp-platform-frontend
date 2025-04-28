@@ -1,20 +1,20 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {ThunkConfig} from "@/app/providers/Store";
 
-export interface createNewProjectServiceInputData {
+export interface createNewBoardServiceInputData {
     title: string
-    shortName: string;
+    projectId: number;
 }
 
-export const createNewProjectService = createAsyncThunk<
+export const createNewBoardService = createAsyncThunk<
     void,
-    createNewProjectServiceInputData,
+    createNewBoardServiceInputData,
     ThunkConfig<string>
->('company/createNewProject', async (createData, thunkApi) => {
+>('board/createNewBoard', async (createData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.post('/projects', createData);
+        const response = await extra.api.post('/boards', createData);
 
         if (response.status !== 201) {
             throw new Error(response.statusText);

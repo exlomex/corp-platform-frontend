@@ -5,6 +5,7 @@ import {UserSliceActions} from "@/entities/User";
 import {LoadingLine} from "@/shared/ui/LoadingLine";
 import {CreateNewProjectModal, getIsCreateNewProjectModalOpen} from "@/features/CreateNewProject";
 import {useSelector} from "react-redux";
+import {CreateNewBoardModal} from "@/features/CreateNewBoard";
 
 
 export const App = memo(() => {
@@ -28,6 +29,9 @@ export const App = memo(() => {
 
                 {/* Create new project modal */}
                 <CreateNewProjectModal/>
+
+                {/* Create new board modal */}
+                <CreateNewBoardModal/>
             </div>
         )
     }

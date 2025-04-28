@@ -1,0 +1,22 @@
+.CreateNewBoard {
+    width: 600px;
+}
+
+.NewBoardHeading {
+    margin-bottom: 6px;
+}
+
+.NewBoardSubtitle {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+
+    span {color: var(--red-color)}
+
+    margin-bottom: 15px;
+}
+
+.NewBoardBottomLine {
+    display: flex;
+    justify-content: end;
+    gap: 0 10px;
+}

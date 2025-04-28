@@ -21,6 +21,7 @@ export const FetchUserProjects = createAsyncThunk<
         }
 
         dispatch(ProjectActions.setUserProjects(data))
+        dispatch(ProjectActions.initProjects())
         return response.data;
     } catch (e) {
         return rejectWithValue(e.message || 'error');

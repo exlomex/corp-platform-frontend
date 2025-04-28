@@ -1,0 +1,1 @@
+export {ProjectBoardPageAsync as ProjectBoardPage} from './ui/ProjectBoardPage/ProjectBoardPage.async.tsx'

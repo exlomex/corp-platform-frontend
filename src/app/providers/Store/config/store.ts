@@ -8,6 +8,8 @@ import {newCompanySliceReducer} from "@/features/CreateNewCompany";
 import {inviteToCompanyReducer} from "@/features/InviteToCompany";
 import {ProjectReducer} from "@/entities/Project";
 import {newProjectSliceReducer} from "@/features/CreateNewProject";
+import {BoardReducer} from "@/entities/Board/model/slice/boardSlice.ts";
+import {newBoardSliceReducer} from "@/features/CreateNewBoard";
 
 export function createReduxStore(
     initialState?: Partial<StateSchema>,
@@ -21,6 +23,8 @@ export function createReduxStore(
         inviteToCompany: inviteToCompanyReducer,
         projects: ProjectReducer,
         newProject: newProjectSliceReducer,
+        board: BoardReducer,
+        newBoard: newBoardSliceReducer,
 
         [rtkApi.reducerPath]: rtkApi.reducer,
     };

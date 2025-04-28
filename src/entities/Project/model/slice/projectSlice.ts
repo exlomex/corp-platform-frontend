@@ -6,6 +6,7 @@ import {LOCAL_STORAGE_SELECTED_PROJECT} from "@/shared/const/localstorage.ts";
 const initialState: ProjectSliceSchema = {
     fetchUserProjectIsLoading: false,
     isFirstFetchUserProject: true,
+
     isDeleteProjectFetching: false,
 }
 
@@ -17,30 +18,30 @@ export const ProjectSlice = createSlice({
             state.selectedProject = action.payload;
         },
         initProjects: (state: ProjectSliceSchema) => {
-            if (state.userProjects.length) {
-                const selectedProjectFromStorage: SelectedProjectInterface = JSON.parse(localStorage.getItem(LOCAL_STORAGE_SELECTED_PROJECT))
-                console.log(selectedProjectFromStorage);
-                if (selectedProjectFromStorage) {
-                    const isHasSelectedProject = (state.userProjects.some(project => {
-                        return project.title === selectedProjectFromStorage.title;
-                    }))
+                if (state.userProjects.length >= 1 && !state.isFirstFetchUserProject) {
+                    const selectedProjectFromStorage: SelectedProjectInterface = JSON.parse(localStorage.getItem(LOCAL_STORAGE_SELECTED_PROJECT))
+                    if (selectedProjectFromStorage) {
+                        const isHasSelectedProject = (state.userProjects.some(project => {
+                            return project.title === selectedProjectFromStorage.title;
+                        }))
+                        if (isHasSelectedProject) {
+                            state.selectedProject = selectedProjectFromStorage;
+                        } else {
+                            localStorage.removeItem(LOCAL_STORAGE_SELECTED_PROJECT)
+                        }
 
-                    if (isHasSelectedProject) {
-                        state.selectedProject = selectedProjectFromStorage;
                     } else {
-                        localStorage.removeItem(LOCAL_STORAGE_SELECTED_PROJECT)
+                        const firstSelectedProject = {
+                            title: state.userProjects[0].title,
+                            id: state.userProjects[0].id
+                        }
 
+                        state.selectedProject = firstSelectedProject;
+                        localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify(firstSelectedProject))
                     }
-
                 } else {
-                    console.log(131);
-
-                    localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify({
-                        title: state.userProjects[0].title,
-                        id: state.userProjects[0].id
-                    }))
+                    state.selectedProject = undefined;
                 }
-            }
         },
 
         setUserProjects: (state: ProjectSliceSchema, action: PayloadAction<ProjectDataInterface[]>) => {
