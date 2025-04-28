@@ -34,7 +34,7 @@ const ColumnTableDataAlignClasses: Record<alignVariants, string> = {
     'right': cls.AlignDataRight,
 }
 
-export const Table = <T,>(props: TableProps<T>) => {
+export const Table = <T extends object>(props: TableProps<T>) => {
     const {columns, data } = props;
 
     return (
@@ -42,7 +42,7 @@ export const Table = <T,>(props: TableProps<T>) => {
             <thead className={cls.TableHead}>
                 <tr>
                     {columns.map(column => (
-                        <th className={cls.TableHeader} key={column.key} style={{width: column?.width, textAlign: column?.alignColumn}}>
+                        <th className={cls.TableHeader} key={String(column.key)} style={{width: column?.width, textAlign: column?.alignColumn}}>
                             {column.title}
                         </th>
                     ))}
@@ -52,14 +52,14 @@ export const Table = <T,>(props: TableProps<T>) => {
             {data && (
                 <tbody>
                 {data.map((row, index) => (
-                    <tr key={row.id || index}>
+                    <tr key={'id' in row ? String(row.id) : index}>
                         {columns.map(column => (
                             <td
                                 className={classNames(cls.TableData, {}, [ColumnTableDataAlignClasses[column?.alignTableData]])}
-                                key={column.key}
+                                key={String(column.key)}
                                 style={{width: column.alignColumn ? '100%' : column?.width}}
                             >
-                                {"element" in column ? column.element(row) : row[column.key]}
+                                {"element" in column ? column.element(row) : String(row[column.key])}
                             </td>
                         ))}
                     </tr>

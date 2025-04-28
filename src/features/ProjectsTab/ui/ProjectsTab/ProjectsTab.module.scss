@@ -1,0 +1,51 @@
+.ProjectsTab {
+
+}
+
+.ProjectsWrapper {
+    background-color: var(--popup-bg);
+    color: var(--text-color);
+    border-radius: 6px;
+    width: 210px;
+}
+
+.ProjectsHeader {
+    display: inline-block;
+    margin: 15px 0 15px 15px;
+    font: var(--font-paragraph-14-Regular);
+}
+
+.ProjectsList {
+    display: flex;
+    flex-direction: column;
+    gap: 5px 0;
+    margin-bottom: 10px;
+}
+
+.ProjectItem {
+    padding: 10px 12px;
+    display: flex;
+    gap: 0 12px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 6px;
+    height: 44px;
+
+    &:hover {
+        background-color: var(--popup-field-hover-bg-darker);
+    }
+
+    &.ProjectActive {
+        background-color: var(--popup-field-active-bg);
+        color: var(--purple-color-active);
+
+        svg rect {
+            stroke: var(--purple-color-active);
+        }
+    }
+}
+
+.ProjectIcon {
+    height: 24px;
+    width: 24px;
+}

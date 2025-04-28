@@ -1,5 +1,5 @@
 import {useLoadingBar} from "react-top-loading-bar";
-import {useEffect, useRef} from "react";
+import {useEffect, useLayoutEffect, useRef} from "react";
 import {useLocation} from "react-router";
 
 
@@ -10,11 +10,11 @@ export const LoadingLine = () => {
 
     const { start, complete } = useLoadingBar({
         color: "#5030E5",
-        height: 3,
+        height: 2,
         shadow: false,
     });
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (firstRender.current) {
             firstRender.current = false;
             return;
@@ -27,5 +27,7 @@ export const LoadingLine = () => {
         const timer = setTimeout(() => complete(), 400)
 
         return () => clearTimeout(timer)
-    }, [location.pathname]);
+    }, [complete, location.pathname, start]);
+
+    return null
 };

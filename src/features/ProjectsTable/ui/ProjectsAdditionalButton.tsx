@@ -42,7 +42,7 @@ export const ProjectsAdditionalButton = (props: ProjectsAdditionalButtonProps) =
             items={AdditionalButtonItems}
             trigger={<Button buttonType={'SMART_ICON_BTN_FILLED'}><DotsIcon/></Button>}
             direction={'bottom end'}
-            theme={Theme.DARK_THEME}
+            theme={Theme.LIGHT_THEME}
         />
     )
 };

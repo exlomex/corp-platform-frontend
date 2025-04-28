@@ -11,6 +11,8 @@ import {Typography} from "@/shared/ui/Typography";
 import {useSelector} from "react-redux";
 import {getUserLoginError, getUserLoginIsFetching} from "@/entities/User";
 import {useCallback} from "react";
+import {Link} from "react-router";
+import {getRouteRegister} from "@/shared/const/router.ts";
 
 
 interface LoginFormProps {
@@ -88,6 +90,11 @@ export const LoginForm = (props: LoginFormProps) => {
 
                 <Button regularType={'submit'} fullWidth isLoading={loginIsFetching}>Войти</Button>
             </form>
+
+            <div className={cls.BottomFormContent}>
+                <Typography className={cls.BottomLineText} size={'PARAGRAPH-18-REGULAR'}>Еще нет аккаунта?</Typography>
+                <Link to={getRouteRegister()} className={cls.BottomLineLink}>Регистрация</Link>
+            </div>
         </div>
     )
 };

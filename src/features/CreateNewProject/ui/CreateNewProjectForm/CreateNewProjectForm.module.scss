@@ -1,0 +1,22 @@
+.CreateNewProject {
+    width: 700px;
+}
+
+.NewProjectHeading {
+    margin-bottom: 6px;
+}
+
+.NewProjectSubtitle {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+
+    span {color: var(--red-color)}
+
+    margin-bottom: 15px;
+}
+
+.NewProjectBottomLine {
+    display: flex;
+    justify-content: end;
+    gap: 0 10px;
+}

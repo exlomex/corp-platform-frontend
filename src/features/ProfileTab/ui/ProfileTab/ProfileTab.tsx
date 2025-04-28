@@ -1,4 +1,4 @@
-import { classNames } from '@/shared/lib/classNames';
+import {classNames} from '@/shared/lib/classNames';
 import cls from './ProfileTab.module.scss';
 import {DropDown} from "@/shared/ui/popups";
 import {DropdownItem} from "@/shared/ui/popups/DropDown/DropDown.tsx";
@@ -11,6 +11,7 @@ import {fetchUserInfo, FetchUserInfoReturnedData} from "../../model/services/fet
 import {UserSliceActions} from "@/entities/User";
 import {useNavigate} from "react-router";
 import {getRouteCompanyCreate, getRouteSettings} from "@/shared/const/router.ts";
+import {Theme} from "@/shared/types/theme.ts";
 
 interface ProfileTabProps {
     className?: string;
@@ -69,6 +70,7 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
     return (
         <DropDown
             direction={'right end'}
+            theme={Theme.DARK_THEME}
             className={classNames(cls.ProfileTab, {}, [])}
             items={profileTabItems}
             trigger={<ProfileTabButton userFirstName={userFirstName}/>}

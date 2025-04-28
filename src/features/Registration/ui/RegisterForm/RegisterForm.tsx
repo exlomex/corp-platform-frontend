@@ -14,6 +14,8 @@ import {registerByInvitationKeyInputData} from "@/features/Registration/model/ty
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {RegisterByEmail} from "../../model/services/registerByEmail.ts";
 import {RegisterByInvitationKey} from "../../model/services/registerByInvitationKey.ts";
+import {Link} from "react-router";
+import {getRouteLogin, getRouteRegister} from "@/shared/const/router.ts";
 
 interface RegisterFormProps {
     className?: string;
@@ -47,8 +49,6 @@ export const RegisterForm = (props: RegisterFormProps) => {
                 key: data.registerInvitationCode
             }
 
-            console.log(registerData);
-            console.log('byCode');
             await dispatch(RegisterByInvitationKey(registerData))
         } else {
             registerData = {
@@ -73,7 +73,10 @@ export const RegisterForm = (props: RegisterFormProps) => {
     }, [reset])
 
     const emailPattern = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-    const registerFormEmailReg = register<'registerEmail'>('registerEmail', { required: {value: true, message: 'Заполните обязательное поле'}, pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('registerEmail')});
+    const registerFormEmailReg = register<'registerEmail'>('registerEmail',
+        { required: {value: true, message: 'Заполните обязательное поле'},
+                pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('registerEmail')
+                });
 
     const passwordValidation = {
         pattern: {
@@ -81,18 +84,23 @@ export const RegisterForm = (props: RegisterFormProps) => {
             message: 'Пароль должен содержать от 8 до 64 символов, включать хотя бы одну заглавную латинскую букву, одну строчную, одну цифру и один спецсимвол',
         },
     };
-    const registerFormPasswordReg = register<'registerPassword'>("registerPassword", { required: {value: true, message: 'Заполните обязательное поле'}, ...passwordValidation, onBlur: () => trigger('registerPassword')})
+    const registerFormPasswordReg = register<'registerPassword'>("registerPassword",
+        { required: {value: true, message: 'Заполните обязательное поле'}, ...passwordValidation, onBlur: () => trigger('registerPassword')})
 
-    const registerFormFirstNameReg = register<'registerFirstName'>("registerFirstName", { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerFirstName')})
-    const registerFormLastNameReg = register<'registerLastName'>("registerLastName", { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerLastName')})
+    const registerFormFirstNameReg = register<'registerFirstName'>("registerFirstName",
+        { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerFirstName')})
+    const registerFormLastNameReg = register<'registerLastName'>("registerLastName",
+        { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerLastName')})
 
-    const registerFormInvitationCodeReg = register<'registerInvitationCode'>("registerInvitationCode", {onBlur: () => trigger('registerInvitationCode')})
+    const registerFormInvitationCodeReg = register<'registerInvitationCode'>("registerInvitationCode",
+        {onBlur: () => trigger('registerInvitationCode')})
 
     const formValues = getValues()
 
     return (
         <div className={classNames(cls.RegisterForm, {}, [className])}>
-            <Typography size={"HEADING-H4"} align={'CENTER'} className={cls.RegisterFormHeading}>Регистрация в TeamSpace</Typography>
+            <Typography size={"HEADING-H4"} align={'CENTER'} className={cls.RegisterFormHeading}>Регистрация в
+                TeamSpace</Typography>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={cls.RegisterFieldFlex}>
@@ -168,6 +176,11 @@ export const RegisterForm = (props: RegisterFormProps) => {
 
                 <Button regularType={'submit'} fullWidth>Зарегистрироваться</Button>
             </form>
+
+            <div className={cls.BottomFormContent}>
+                <Typography className={cls.BottomLineText} size={'PARAGRAPH-18-REGULAR'}>Уже есть аккаунт?</Typography>
+                <Link to={getRouteLogin()} className={cls.BottomLineLink}>Войти</Link>
+            </div>
         </div>
     )
 };

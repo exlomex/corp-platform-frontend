@@ -4,6 +4,8 @@ import {RegistrationSliceSchema} from "@/features/Registration";
 import {newCompanySliceSchema} from "@/features/CreateNewCompany";
 import {inviteToCompanySliceSchema} from "@/features/InviteToCompany";
 import {ProjectSliceSchema} from "@/entities/Project/model/types/projectSliceSchema.ts";
+import {rtkApi} from "@/shared/api/rtkApi.ts";
+import {newProjectSliceSchema} from "@/features/CreateNewProject/model/types/newProjectSliceSchema.ts";
 
 // SLICE TYPES
 export interface StateSchema {
@@ -12,6 +14,9 @@ export interface StateSchema {
     newCompany: newCompanySliceSchema;
     inviteToCompany: inviteToCompanySliceSchema;
     projects: ProjectSliceSchema;
+    newProject: newProjectSliceSchema;
+
+    [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
 }
 
 export interface ThunkConfig<T> {

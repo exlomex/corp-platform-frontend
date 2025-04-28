@@ -12,12 +12,17 @@
 }
 
 .AsideTopContainer {
+
+}
+
+.AsideLogoLink {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
+    justify-content: center;
 }
 
 .AsideLogo {
+    flex-shrink: 0;
     height: 29px;
 
     cursor: pointer;
@@ -103,4 +108,8 @@
     .AsideContent {
         display: none;
     }
+}
+
+.ProjectTab {
+    margin-bottom: 10px;
 }

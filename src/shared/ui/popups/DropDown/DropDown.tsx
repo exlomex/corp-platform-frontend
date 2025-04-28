@@ -2,10 +2,10 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from '../styles/Popups.module.scss';
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
 import {memo, MouseEvent, ReactElement, ReactNode} from "react";
-import {AnchorProps} from "@headlessui/react/dist/internal/floating";
 import {Link} from "react-router";
 import {Theme} from "@/shared/types/theme.ts";
 import {Spinner} from "@/shared/ui/Spinner";
+import {AnchorProps} from "@/shared/types/popups.ts";
 
 export interface DropdownItem {
     // disabled?: boolean;
@@ -14,6 +14,7 @@ export interface DropdownItem {
     href?: string;
     isLoading?: boolean
 }
+
 
 interface DropDownProps {
     className?: string;
@@ -24,7 +25,7 @@ interface DropDownProps {
 }
 
 export const DropDown = memo((props: DropDownProps) => {
-    const { className, trigger, direction = "right", items, theme} = props;
+    const { className, trigger, direction = "right", items, theme = Theme.LIGHT_THEME} = props;
 
     return (
             <Menu
@@ -39,7 +40,7 @@ export const DropDown = memo((props: DropDownProps) => {
                     as={'div'}
                     anchor={direction as AnchorProps}
                     transition
-                    className={classNames(cls.MenuItems, {}, [theme && theme === 'light_theme' ? 'light_theme' : 'dark_theme'])}
+                    className={classNames(cls.MenuItems, {}, [theme === 'light_theme' ? 'light_theme' : 'dark_theme'])}
                 >
                     {items.map((value, index) => {
                         if (value.href) return (

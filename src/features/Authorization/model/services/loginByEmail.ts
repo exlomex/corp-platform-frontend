@@ -14,7 +14,7 @@ export const loginByEmail = createAsyncThunk<
         const response = await extra.api.post<LoginByEmailReturnedData>('/auth/login', authData);
 
         if (response.status !== 200) {
-            throw new Error(response.data);
+            throw new Error('Error Auth');
         }
 
         dispatch(UserSliceActions.setAuth(response.data));

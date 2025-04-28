@@ -5,6 +5,7 @@ import {Table} from "@/shared/ui/Table";
 import {Column} from "@/shared/ui/Table/Table.tsx";
 import {ProjectsTable} from "@/features/ProjectsTable";
 import {memo} from "react";
+import {Modal} from "@/shared/ui/Modal";
 
 interface ProjectsContentProps {
     className?: string;
@@ -41,6 +42,8 @@ export const ProjectsContent = memo((props: ProjectsContentProps) => {
         <div className={classNames(cls.ProjectsContent, {}, [className])}>
             <Typography className={cls.Heading} size={'TEXT-20-MEDIUM'}>Проекты</Typography>
             <ProjectsTable/>
+
+
         </div>
     )
 });

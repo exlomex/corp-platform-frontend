@@ -4,10 +4,10 @@ import {$api} from "@/shared/api/api.ts";
 import {rtkApi} from "@/shared/api/rtkApi.ts";
 import {UserSliceReducer} from "@/entities/User";
 import {RegistrationSliceReducer} from "@/features/Registration";
-import {createNewCompanyService} from "@/features/CreateNewCompany/model/services/createNewCompanyService.ts";
 import {newCompanySliceReducer} from "@/features/CreateNewCompany";
 import {inviteToCompanyReducer} from "@/features/InviteToCompany";
 import {ProjectReducer} from "@/entities/Project";
+import {newProjectSliceReducer} from "@/features/CreateNewProject";
 
 export function createReduxStore(
     initialState?: Partial<StateSchema>,
@@ -20,6 +20,9 @@ export function createReduxStore(
         newCompany: newCompanySliceReducer,
         inviteToCompany: inviteToCompanyReducer,
         projects: ProjectReducer,
+        newProject: newProjectSliceReducer,
+
+        [rtkApi.reducerPath]: rtkApi.reducer,
     };
 
     const extraArg: ThunkExtraArg = {

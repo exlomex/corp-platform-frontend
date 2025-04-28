@@ -1,1 +1,3 @@
-export {InputWrapper} from './InputWrapper.tsx'
+import InputWrapper from './InputWrapper.tsx'
+
+export {InputWrapper}

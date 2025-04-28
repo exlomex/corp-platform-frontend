@@ -52,7 +52,7 @@
     }
 
     &.SmartTextBtnFilled {
-        padding: 0 25px;
+        padding: 0 20px;
         height: 30px;
         font: var(--font-paragraph-12-Regular);
         border-radius: 6px;
@@ -76,6 +76,33 @@
 
         svg {
             transform: translateY(1px);
+        }
+    }
+
+    &.CreateWithIconBtnFilled {
+        display: flex;
+        gap: 0 15px;
+        background-color: var(--create-button-with-icon-bg-color);
+        border-radius: 6px;
+        align-items: center;
+
+        &:hover {
+            background-color: var(--create-button-with-icon-bg-color-active-hover);
+        }
+        color: var(--text-color);
+        font: var(--font-paragraph-14-Regular);
+        padding: 0 15px;
+        height: 44px;
+    }
+
+    &.SmartTextBtnTransparent {
+        height: 30px;
+        padding: 0 20px;
+        font: var(--font-paragraph-12-Regular);
+        color: var(--purple-color);
+        background-color: var(--button-primary-color-bg);
+        &:hover {
+            color: var(--purple-color-active);
         }
     }
 }

@@ -19,3 +19,24 @@
     margin-bottom: 13px;
     gap: 0 20px;
 }
+
+.BottomFormContent {
+    margin-top: 20px;
+    display: flex;
+    gap: 0 8px;
+    justify-content: center;
+}
+
+.BottomLineText {
+    color: var(--auth-text-link-color);
+}
+
+.BottomLineLink {
+    color: var(--purple-color);
+    font: var(--font-paragraph-18-Medium);
+    transition: color .2s ease;
+
+    &:hover {
+        color: var(--purple-color-active);
+    }
+}

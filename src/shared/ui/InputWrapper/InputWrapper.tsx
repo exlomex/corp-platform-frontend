@@ -30,13 +30,13 @@ interface InputWrapperProps<T> {
     messageSize?: keyof typeof MessageSizes;
 }
 
-export const InputWrapper = memo(<T,>(props: InputWrapperProps<T>) => {
+export const InputWrapper = (<T,>(props: InputWrapperProps<T>) => {
     const { className, input, message, labelFor, labelString, labelSize = 'M_SIZE', messageColor = 'RED', required=false, messageSize = 'MEDIUM_SIZE' } = props;
     return (
         <div className={classNames(cls.InputWrapper, {}, [className])}>
             {labelString && <label
                 className={classNames(cls.InputLabel, {}, [labelSizes[labelSize]])}
-                htmlFor={labelFor}
+                htmlFor={typeof labelFor === "string" ? labelFor : ''}
             >
                 {labelString}
                 {required && <span className={cls.LabelRequired}>*</span>}
@@ -45,7 +45,13 @@ export const InputWrapper = memo(<T,>(props: InputWrapperProps<T>) => {
             {input}
 
             <div
-                className={classNames(cls.InputWrapperError, {}, [labelMessageColors[messageColor], MessageSizes[messageSize]])}>{message && typeof message !== "string" ? message?.message : message}</div>
+                className={classNames(cls.InputWrapperError,
+                    {},
+                    [labelMessageColors[messageColor], MessageSizes[messageSize]])}>
+                {typeof message === 'string' ? message : (message && 'message' in message ? message.message : '')}
+            </div>
         </div>
     )
 });
+
+export default memo(InputWrapper) as typeof InputWrapper

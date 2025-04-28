@@ -17,7 +17,7 @@ export const InputVariant = {
 
 type HtmlInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'maxLength' | 'id'>
 
-interface InputProps<T extends object> extends HtmlInputProps{
+interface InputProps<T, > extends HtmlInputProps{
     className?: string;
     type?: keyof typeof InputTypes;
     register?: UseFormRegisterReturn<string>
@@ -27,7 +27,7 @@ interface InputProps<T extends object> extends HtmlInputProps{
     variant?: keyof typeof InputVariant;
 }
 
-export const Input = memo(<T,>(props: InputProps<T>) => {
+export const Input = <T, >(props: InputProps<T>) => {
     const {
         className,
         type = 'TYPE_TEXT',
@@ -58,7 +58,7 @@ export const Input = memo(<T,>(props: InputProps<T>) => {
                 disabled={disabled}
                 className={classNames(cls.Input, {}, [className, InputTypes[type], InputVariant[variant]])}
                 maxLength={maxLength}
-                id={id}
+                id={String(id)}
                 {...register}
                 type={inputType}
                 placeholder={placeholder}
@@ -67,4 +67,6 @@ export const Input = memo(<T,>(props: InputProps<T>) => {
             {type === 'TYPE_PASSWORD' && currentEyeIcon}
         </div>
     )
-});
+};
+
+export default memo(Input) as typeof Input

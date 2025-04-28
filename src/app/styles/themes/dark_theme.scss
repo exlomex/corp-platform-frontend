@@ -4,11 +4,17 @@
     --text-color: #ffffff;
     --text-color-inverted: #01020E;
 
-
     // popups
-    --popup-bg: #ffff;
-    --popup-border: #efeef3;
-    --popup-field-color: #ffff;
-    --popup-field-active-bg: #EFEDF6;
-    --popup-field-hover-bg: #F2F1F4;
+    --popup-bg: #01020E;
+    --popup-border: #020416;
+    --popup-field-color: #0D0E17;
+    --popup-field-active-bg: #171625;
+    --popup-field-hover-bg: #181a2c;
+    --popup-field-hover-bg-darker: #0f101a;
+
+    // buttons
+
+    // CreateWithIconBtnFilled
+    --create-button-with-icon-bg-color: #0D0E17;
+    --create-button-with-icon-bg-color-active-hover: #171926;
 }

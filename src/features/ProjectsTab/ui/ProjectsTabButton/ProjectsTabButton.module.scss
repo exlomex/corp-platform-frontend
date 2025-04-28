@@ -1,0 +1,37 @@
+.ProjectsTabButton {
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 6px;
+    background-color: var(--project-tab-bg-color);
+    color: var(--text-color-inverted);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 9px;
+    font: var(--font-paragraph-16-Regular);
+    transition: background-color .3s ease;
+
+    &:hover {
+        background-color: var(--project-tab-bg-color-hover-active);
+    }
+}
+
+.ProjectText {
+
+}
+
+.IconWrapper {
+    height: 16px;
+    width: 16px;
+    svg {
+        transition: rotate .2s ease-out;
+    }
+}
+
+.ButtonIsActive {
+    svg {
+        rotate: 180deg;
+    }
+}

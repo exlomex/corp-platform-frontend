@@ -4,6 +4,10 @@
     --text-color: #01020E;
     --text-color-inverted: #ffffff;
     --text-color-middle-dark-purple: #615D6A;
+    --text-color-secondary: #5D5D5D;
+
+    // auth
+    --auth-text-link-color: #797979;
 
     // input
     --input-bg-color: #ffff;
@@ -19,11 +23,11 @@
     --profile-tab-avatar: #181926;
 
     // popups
-    --popup-bg: #01020E;
-    --popup-border: #020416;
-    --popup-field-color: #0D0E17;
-    --popup-field-active-bg: #171625;
-    --popup-field-hover-bg: #181a2c;
+    --popup-bg: #ffff;
+    --popup-border: #efeef3;
+    --popup-field-color: #ffff;
+    --popup-field-active-bg: #EFEDF6;
+    --popup-field-hover-bg: #F2F1F4;
 
     // tabs
     --tabs-bg: #FFFFFF;
@@ -37,5 +41,14 @@
     // button (edit for types)
     --button-primary-color-bg: #fff;
     --button-border-color: #f5f1f1;
-    --button-active-color: #f3f2f6
+    --button-active-color: #f3f2f6;
+
+    // modal
+    --modal-overlay-color: rgba(0, 0, 0, 0.1);
+    --modal-content-color: #ffff;
+
+    // project-tab
+    --project-tab-bg-color: #13141e;
+    --project-tab-bg-color-hover-active: #171925;
+
 }

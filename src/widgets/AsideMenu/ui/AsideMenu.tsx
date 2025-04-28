@@ -12,6 +12,7 @@ import {LOCAL_STORAGE_COLLAPSED_KEY} from "@/shared/const/localstorage.ts";
 import {ProfileTab} from "@/features/ProfileTab";
 import {Link, useLocation} from "react-router";
 import {getRouteMain, getRouteProjects} from "@/shared/const/router.ts";
+import {ProjectsTab} from "@/features/ProjectsTab";
 
 interface AsideMenuProps {
     className?: string;
@@ -27,6 +28,7 @@ type defaultNavItem = {
 
 type JSXNavElement = {
     element: ReactElement;
+    // for find index func
     content: navTabContentValues;
 }
 
@@ -77,16 +79,16 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
     return (
         <div className={classNames(cls.AsideMenu, {[cls.AsideCollapsed]: collapsed}, [className])}>
             <div className={cls.AsideTopContainer}>
-                <Link to={getRouteMain()}>{!collapsed ? <LightLogo className={cls.AsideLogo}/> : <LightLogoCropped className={cls.AsideLogo}/>}</Link>
+                <Link className={cls.AsideLogoLink} to={getRouteMain()}>{!collapsed ? <LightLogo className={cls.AsideLogo}/> : <LightLogoCropped className={cls.AsideLogo}/>}</Link>
+
+                <ProjectsTab className={cls.ProjectTab}/>
 
                 <nav className={cls.Navigation}>
                     {navigationItems.map((navigationItem, index) => {
-                        if ('content' in navigationItem) {
                             return (
-                                navigationItem.href ? (
+                                !('element' in navigationItem) ? (
                                     <Link
                                         to={navigationItem.href}
-                                        as={'div'}
                                         key={index}
                                         className={classNames(cls.AsideItem, {[cls.ActiveTab]: index === activeIndex.current}, [])}
                                     >
@@ -95,15 +97,14 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
                                     </Link>
                                 ) : (
                                     <div
+                                        // todo edit here classes
                                         key={index}
-                                        className={classNames(cls.AsideItem, {[cls.ActiveTab]: index === activeIndex.current}, [])}
+                                        className={classNames('', {[cls.ActiveTab]: index === activeIndex.current}, [])}
                                     >
-                                        <span className={cls.IconWrapper}>{navigationItem.icon}</span>
-                                        <span className={cls.AsideContent}>{navigationItem.content}</span>
+                                        {navigationItem.element}
                                     </div>
                                 )
                             )
-                        }
                     })}
                 </nav>
             </div>

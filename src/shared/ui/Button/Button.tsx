@@ -2,15 +2,18 @@ import cls from './Button.module.scss'
 import {ButtonHTMLAttributes, memo, ReactNode} from "react";
 import {classNames, Mods} from "@/shared/lib/classNames";
 import {Spinner} from "@/shared/ui/Spinner";
-import {Theme} from "@/shared/types/theme.ts";
 
 type OmittedBtnType = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled' | 'type'>
 
 export const ButtonTypes = {
     'TEXT_BTN_FILLED': cls['TextBtnFilled'],
     'ICON_BTN_FILLED': cls['IconBtnFilled'],
+
     'SMART_TEXT_BTN_FILLED': cls['SmartTextBtnFilled'],
-    'SMART_ICON_BTN_FILLED': cls['SmartIconBtnFilled']
+    'SMART_TEXT_BTN_TRANSPARENT': cls['SmartTextBtnTransparent'],
+    'SMART_ICON_BTN_FILLED': cls['SmartIconBtnFilled'],
+
+    'CREATE_WITH_ICON_BTN_FILLED': cls['CreateWithIconBtnFilled'],
 } as const
 
 interface ButtonProps extends OmittedBtnType{

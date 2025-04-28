@@ -6,12 +6,17 @@ export interface ProjectDataInterface {
     companyId: number,
     ownerId: number,
 }
+
+export interface SelectedProjectInterface {
+    id: number;
+    title: string;
+}
 export interface ProjectSliceSchema {
     userProjects?: ProjectDataInterface[]
-    selectedProject?: number
+    selectedProject?: SelectedProjectInterface
 
     isFirstFetchUserProject: boolean;
     fetchUserProjectIsLoading: boolean;
 
-    isDeleteProjectFetching: boolean
+    isDeleteProjectFetching: boolean;
 }

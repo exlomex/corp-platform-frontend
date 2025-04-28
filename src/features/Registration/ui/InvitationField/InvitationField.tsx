@@ -17,7 +17,7 @@ import {
 import {RegistrationSliceActions} from "@/features/Registration";
 import {CheckInvitationCodeReturnedData} from "../../model/types/CheckInvitationCodeTypes.ts";
 
-interface InvitationFieldProps<T extends object> {
+interface InvitationFieldProps<T> {
     className?: string;
     register: UseFormRegisterReturn<string>
     maxLength?: number;
@@ -27,7 +27,7 @@ interface InvitationFieldProps<T extends object> {
     setEmailValue: (value: string) => void
 }
 
-export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, emailFieldRef: ForwardedRef<HTMLInputElement>) => {
+export const InvitationField = <T,>(props: InvitationFieldProps<T>) => {
     const {
         className,
         register,
@@ -87,7 +87,7 @@ export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, e
 
     return (
         <div className={classNames(cls.InvitationField, {}, [className])}>
-            <label htmlFor={id} className={cls.InputLabel}>Код приглашения</label>
+            <label htmlFor={String(id)} className={cls.InputLabel}>Код приглашения</label>
             <div className={cls.InputWrapper}>
                 <Input disabled={isCodeActivate} placeholder={'Введите свой код приглашения'} maxLength={45} id={id} register={register}/>
                 {
@@ -100,7 +100,7 @@ export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, e
                             <CorrectIcon/>
                         </Button>)
                         : (<Button
-                            type={'button'}
+                            regularType={'button'}
                             isLoading={InvitationCodeIsFetching}
                             buttonType={'ICON_BTN_FILLED'}
                             onClick={onInvitationCloseButtonClickHandler}
@@ -113,4 +113,4 @@ export const InvitationField = forwardRef(<T,>(props: InvitationFieldProps<T>, e
             {success && <span className={classNames(cls.InputMessage, {}, [cls.MessageSuccess])}>{success}</span>}
         </div>
     )
-});
+};

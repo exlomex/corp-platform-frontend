@@ -1,7 +1,5 @@
-.DropDown {
-
-}
-
+.DropDown {}
+.Popover {}
 
 .MenuItems {
     //transform-origin: center;
@@ -38,7 +36,7 @@
     align-items: center;
     transition: color .2s ease, background-color .1s ease;
     border-radius: 6px;
-    color: var(--text-color-inverted);
+    color: var(--text-color);
 
     &:hover {
         color: var(--purple-color-active);
@@ -70,4 +68,11 @@
     left: 50%;
 
     z-index: 100;
+}
+
+// popover
+
+.PopoverContent {
+    font: var(--font-paragraph-16-Regular);
+    --anchor-gap: 20px;
 }

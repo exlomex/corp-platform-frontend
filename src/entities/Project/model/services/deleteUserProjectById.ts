@@ -15,7 +15,7 @@ export const DeleteUserProjectById = createAsyncThunk<
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.delete<ProjectDataInterface[]>(`/projects/${deleteData.id}`);
+        const response = await extra.api.delete(`/projects/${deleteData.id}`);
 
         if (response.status !== 204) {
             throw new Error(response.statusText);

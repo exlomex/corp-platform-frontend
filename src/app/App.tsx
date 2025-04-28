@@ -3,10 +3,9 @@ import {AppRouter} from "@/app/providers/Router";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {UserSliceActions} from "@/entities/User";
 import {LoadingLine} from "@/shared/ui/LoadingLine";
+import {CreateNewProjectModal, getIsCreateNewProjectModalOpen} from "@/features/CreateNewProject";
 import {useSelector} from "react-redux";
-import {getProjectUserProjects} from "@/entities/Project";
-import {FetchUserProjects} from "@/entities/Project/model/services/fetchUserProjects.ts";
-import {getIsFirstFetchUserProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+
 
 export const App = memo(() => {
     const [isInited, setIsInited] = useState<boolean>(false)
@@ -23,7 +22,12 @@ export const App = memo(() => {
                 <Suspense>
                     <AppRouter/>
                 </Suspense>
+
+                {/* Progress bar */}
                 <LoadingLine/>
+
+                {/* Create new project modal */}
+                <CreateNewProjectModal/>
             </div>
         )
     }
