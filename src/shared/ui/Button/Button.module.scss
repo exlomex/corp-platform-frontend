@@ -105,6 +105,14 @@
             color: var(--purple-color-active);
         }
     }
+
+    &.TextBtnTransparent {
+        color: var(--purple-color);
+        background-color: var(--button-primary-color-bg);
+        &:hover {
+            color: var(--purple-color-active);
+        }
+    }
 }
 
 .Spinner {

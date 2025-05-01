@@ -2,7 +2,7 @@ import {
     AppRoutes,
     getRouteCompanyCreate,
     getRouteLogin,
-    getRouteMain, getRouteProjectBoard, getRouteProjects,
+    getRouteMain, getRoutePasswordRecovery, getRouteProjectBoard, getRouteProjects,
     getRouteRegister, getRouteSettings
 } from "@/shared/const/router.ts";
 import {RouterProps} from "@/shared/types/router.ts";
@@ -14,6 +14,7 @@ import {CreateCompany} from "@/pages/CreateCompany";
 import {SettingsPage} from "@/pages/SettingsPage";
 import {ProjectsPage} from "@/pages/ProjectsPage";
 import {ProjectBoardPage} from "@/pages/ProjectBoardPage";
+import {PasswordRecoveryPage} from "@/pages/PasswordRecoveryPage";
 
 export const RouterConfig: Record<AppRoutes, RouterProps> = {
     [AppRoutes.MAIN]: {
@@ -59,5 +60,10 @@ export const RouterConfig: Record<AppRoutes, RouterProps> = {
         element: <ProjectBoardPage/>,
         authOnly: true,
         roles: [UserRoles.USER, UserRoles.COMPANY_OWNER],
+    },
+    [AppRoutes.PASSWORD_RECOVERY]: {
+        path: getRoutePasswordRecovery(),
+        element: <PasswordRecoveryPage/>,
+        guestOnly: true,
     }
 }

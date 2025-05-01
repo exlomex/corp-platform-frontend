@@ -1,0 +1,18 @@
+.CheckVerificationCodeForm {
+    width: 700px;
+}
+
+.CheckCodeHeading {
+    margin-bottom: 20px;
+}
+
+.InputWrapper div:nth-child(2) {
+    max-width: 100%;
+}
+
+.CheckFormBottomLine {
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    gap: 0 10px;
+}

@@ -10,6 +10,7 @@ import {ProjectReducer} from "@/entities/Project";
 import {newProjectSliceReducer} from "@/features/CreateNewProject";
 import {BoardReducer} from "@/entities/Board/model/slice/boardSlice.ts";
 import {newBoardSliceReducer} from "@/features/CreateNewBoard";
+import {PasswordRecoveryReducer} from "@/features/PasswordRecovery";
 
 export function createReduxStore(
     initialState?: Partial<StateSchema>,
@@ -25,6 +26,7 @@ export function createReduxStore(
         newProject: newProjectSliceReducer,
         board: BoardReducer,
         newBoard: newBoardSliceReducer,
+        passwordRecovery: PasswordRecoveryReducer,
 
         [rtkApi.reducerPath]: rtkApi.reducer,
     };

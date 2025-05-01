@@ -64,6 +64,7 @@ export const LoginForm = (props: LoginFormProps) => {
                     message={errors.loginEmail}
                     input={
                         <Input<loginDataInputs>
+                            name={'username'}
                             register={loginFormEmailReg}
                             placeholder={'Введите email'}
                             id={'loginEmail'}
@@ -83,9 +84,11 @@ export const LoginForm = (props: LoginFormProps) => {
                             id={'loginPassword'}
                             type={'TYPE_PASSWORD'}
                             autoComplete={"current-password"}
+                            name={'password'}
                         />
                     }
                     message={errors.loginPassword}
+                    isForgotPasswordLabel
                 />
 
                 <Button regularType={'submit'} fullWidth isLoading={loginIsFetching}>Войти</Button>

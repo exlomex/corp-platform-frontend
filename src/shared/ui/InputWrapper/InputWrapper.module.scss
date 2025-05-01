@@ -2,6 +2,17 @@
     position: relative;
 }
 
+.ForgotPassword {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ForgotPasswordLink {
+    text-decoration: underline;
+    color: var(--purple-color-active);
+    font: var(--font-paragraph-14-Regular);
+}
+
 .InputLabel {
     display: inline-block;
     margin-bottom: 12px;

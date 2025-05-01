@@ -7,6 +7,7 @@ type OmittedBtnType = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 
 
 export const ButtonTypes = {
     'TEXT_BTN_FILLED': cls['TextBtnFilled'],
+    'TEXT_BTN_TRANSPARENT': cls['TextBtnTransparent'],
     'ICON_BTN_FILLED': cls['IconBtnFilled'],
 
     'SMART_TEXT_BTN_FILLED': cls['SmartTextBtnFilled'],

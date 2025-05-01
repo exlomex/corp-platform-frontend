@@ -1,0 +1,1 @@
+export {PasswordRecoveryPageAsync as PasswordRecoveryPage} from './ui/PasswordRecoveryPage.async.tsx'
