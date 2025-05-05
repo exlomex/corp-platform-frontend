@@ -9,6 +9,8 @@ import {newProjectSliceSchema} from "@/features/CreateNewProject/model/types/new
 import {BoardSliceSchema} from "@/entities/Board";
 import {newBoardSliceSchema} from "@/features/CreateNewBoard/model/types/newBoardSliceSchema.ts";
 import {PasswordRecoverySliceSchema} from "@/features/PasswordRecovery";
+import {StatusSliceSchema} from "@/entities/Status";
+import {TaskSliceSchema} from "@/entities/Task";
 
 // SLICE TYPES
 export interface StateSchema {
@@ -21,6 +23,8 @@ export interface StateSchema {
     board: BoardSliceSchema;
     newBoard: newBoardSliceSchema;
     passwordRecovery: PasswordRecoverySliceSchema;
+    status: StatusSliceSchema;
+    task: TaskSliceSchema;
 
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
 }

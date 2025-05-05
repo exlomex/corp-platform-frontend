@@ -8,7 +8,10 @@ import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Button} from "@/shared/ui/Button";
 import {Typography} from "@/shared/ui/Typography";
 import {useSelector} from "react-redux";
-import {getRegisterInvitationCodeIsActivate} from "@/features/Registration/model/selectors/getRegisterValues.ts";
+import {
+    getRegisterInvitationCodeIsActivate,
+    getRegisterServiceIsFetching
+} from "@/features/Registration/model/selectors/getRegisterValues.ts";
 import {registerByEmailInputData} from "@/features/Registration/model/types/registerByEmailTypes.ts";
 import {registerByInvitationKeyInputData} from "@/features/Registration/model/types/registerByInvitationKeyTypes.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
@@ -24,8 +27,8 @@ interface RegisterFormProps {
 export interface RegisterDataInputs {
     registerFirstName: string;
     registerLastName: string;
-    registerPassword: string;
-    registerEmail: string;
+    password: string;
+    email: string;
     registerInvitationCode: string;
 }
 
@@ -38,6 +41,8 @@ export const RegisterForm = (props: RegisterFormProps) => {
 
     const dispatch = useAppDispatch()
 
+    const isFetching = useSelector(getRegisterServiceIsFetching)
+
     const onSubmit: SubmitHandler<RegisterDataInputs> = useCallback(async (data) => {
         let registerData: registerByEmailInputData | registerByInvitationKeyInputData
 
@@ -45,7 +50,7 @@ export const RegisterForm = (props: RegisterFormProps) => {
             registerData = {
                 firstName: data.registerFirstName,
                 lastName: data.registerLastName,
-                password: data.registerPassword,
+                password: data.password,
                 key: data.registerInvitationCode
             }
 
@@ -54,8 +59,8 @@ export const RegisterForm = (props: RegisterFormProps) => {
             registerData = {
                 firstName: data.registerFirstName,
                 lastName: data.registerLastName,
-                email: data.registerEmail,
-                password: data.registerPassword
+                email: data.email,
+                password: data.password
 
             }
             await dispatch(RegisterByEmail(registerData))
@@ -65,17 +70,17 @@ export const RegisterForm = (props: RegisterFormProps) => {
 
 
     const resetInvitationCodeAndEmailValuesFields = useCallback(() => {
-        reset({registerInvitationCode: '', registerEmail: ''})
+        reset({registerInvitationCode: '', email: ''})
     }, [reset])
 
     const setEmailValue = useCallback((value: string) => {
-        reset({registerEmail: value})
+        reset({email: value})
     }, [reset])
 
     const emailPattern = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-    const registerFormEmailReg = register<'registerEmail'>('registerEmail',
+    const registerFormEmailReg = register<'email'>('email',
         { required: {value: true, message: 'Заполните обязательное поле'},
-                pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('registerEmail')
+                pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('email')
                 });
 
     const passwordValidation = {
@@ -84,8 +89,8 @@ export const RegisterForm = (props: RegisterFormProps) => {
             message: 'Пароль должен содержать от 8 до 64 символов, включать хотя бы одну заглавную латинскую букву, одну строчную, одну цифру и один спецсимвол',
         },
     };
-    const registerFormPasswordReg = register<'registerPassword'>("registerPassword",
-        { required: {value: true, message: 'Заполните обязательное поле'}, ...passwordValidation, onBlur: () => trigger('registerPassword')})
+    const registerFormPasswordReg = register<'password'>("password",
+        { required: {value: true, message: 'Заполните обязательное поле'}, ...passwordValidation, onBlur: () => trigger('password')})
 
     const registerFormFirstNameReg = register<'registerFirstName'>("registerFirstName",
         { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerFirstName')})
@@ -102,7 +107,7 @@ export const RegisterForm = (props: RegisterFormProps) => {
             <Typography size={"HEADING-H4"} align={'CENTER'} className={cls.RegisterFormHeading}>Регистрация в
                 TeamSpace</Typography>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form autoComplete={'on'} onSubmit={handleSubmit(onSubmit)}>
                 <div className={cls.RegisterFieldFlex}>
                     <InputWrapper
                         labelString={'Имя'}
@@ -137,13 +142,13 @@ export const RegisterForm = (props: RegisterFormProps) => {
                     className={cls.RegisterField}
                     labelString={'Email'}
                     required
-                    labelFor={"registerEmail"}
-                    message={errors.registerEmail}
+                    labelFor={"email"}
+                    message={errors.email}
                     input={
                         <Input<RegisterDataInputs>
                             disabled={isCodeActivated}
                             register={registerFormEmailReg}
-                            id={"registerEmail"}
+                            id={"email"}
                             placeholder={'Введите email'}
                         />
                     }
@@ -153,13 +158,13 @@ export const RegisterForm = (props: RegisterFormProps) => {
                     className={cls.RegisterField}
                     labelString={'Пароль'}
                     required
-                    labelFor={"registerPassword"}
-                    message={errors.registerPassword}
+                    labelFor={"password"}
+                    message={errors.password}
                     input={
                         <Input<RegisterDataInputs>
                             type={'TYPE_PASSWORD'}
                             register={registerFormPasswordReg}
-                            id={"registerPassword"}
+                            id={"password"}
                             placeholder={'Введите пароль'}
                         />
                     }
@@ -174,7 +179,7 @@ export const RegisterForm = (props: RegisterFormProps) => {
                     setEmailValue={setEmailValue}
                 />
 
-                <Button regularType={'submit'} fullWidth>Зарегистрироваться</Button>
+                <Button regularType={'submit'} isLoading={isFetching} fullWidth>Зарегистрироваться</Button>
             </form>
 
             <div className={cls.BottomFormContent}>

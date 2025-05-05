@@ -15,7 +15,7 @@ export const InputVariant = {
     SMART_INPUT: cls['SmartInput']
 }
 
-type HtmlInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'maxLength' | 'id'>
+type HtmlInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'maxLength' | 'id' | 'name'>
 
 interface InputProps<T, > extends HtmlInputProps{
     className?: string;
@@ -23,8 +23,9 @@ interface InputProps<T, > extends HtmlInputProps{
     register?: UseFormRegisterReturn<string>
     error?: FieldError | undefined;
     maxLength?: number;
-    id?: keyof T;
+    id?: string;
     variant?: keyof typeof InputVariant;
+    name?: string
 }
 
 export const Input = <T, >(props: InputProps<T>) => {
@@ -36,9 +37,10 @@ export const Input = <T, >(props: InputProps<T>) => {
         maxLength = 30,
         id,
         placeholder,
-        autoComplete,
+        autoComplete = 'on',
         disabled,
-        variant = 'DefaultInput'
+        variant = 'DefaultInput',
+        name
     } = props;
 
     type inputTypes = Extract<InputHTMLAttributes<HTMLInputElement>["type"], 'password' | 'text'>
@@ -59,6 +61,7 @@ export const Input = <T, >(props: InputProps<T>) => {
                 className={classNames(cls.Input, {}, [className, InputTypes[type], InputVariant[variant]])}
                 maxLength={maxLength}
                 id={String(id)}
+                name={name}
                 {...register}
                 type={inputType}
                 placeholder={placeholder}

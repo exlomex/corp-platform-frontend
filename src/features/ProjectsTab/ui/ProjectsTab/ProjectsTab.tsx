@@ -69,7 +69,7 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
         dispatch(ProjectActions.setSelectedProject(project))
         localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify(project))
 
-        if (params.project !== project.title) {
+        if (params.project !== project.title && params.board) {
             try {
                 const responce = await dispatch(FetchUserBoardsByProjectId({projectId: project.id})).unwrap()
                 if (responce.length >= 1) {

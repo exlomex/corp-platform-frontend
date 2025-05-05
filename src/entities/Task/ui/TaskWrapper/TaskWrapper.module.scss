@@ -1,0 +1,27 @@
+.TaskWrapper {
+    width: 230px;
+    height: 80px;
+    padding: 10px 15px;
+
+    border-radius: 6px;
+
+    background-color: var(--task-bg-color);
+    color: var(--text-color);
+    font: var(--font-paragraph-14-Regular);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition: background-color .2s ease;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--task-bg-color-hover);
+    }
+}
+
+.TaskUniqueTitle {
+    font: var(--font-paragraph-12-Regular);
+    color: var(--task-unique-title-text-color);
+}

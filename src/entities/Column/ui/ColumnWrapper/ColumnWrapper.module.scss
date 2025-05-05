@@ -1,0 +1,29 @@
+.ColumnWrapper {
+    width: 260px;
+    padding: 15px 15px 10px 15px;
+    background-color: var(--column-bg-color);
+    flex-shrink: 0;
+    border-radius: 6px;
+}
+
+.ColumnTitle {
+    display: inline-block;
+    font: var(--font-paragraph-12-Regular);
+    color: var(--column-text-color);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.ColumnTasksCards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+}
+
+.OverLine {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--purple-color-active);
+    margin-top: 10px;
+}

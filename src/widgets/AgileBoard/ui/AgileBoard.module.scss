@@ -1,0 +1,20 @@
+.AgileBoard {
+    height: 100%;
+    overflow: auto;
+
+    // TODO FIX FOR COLLAPSED ASIDE
+    max-width: calc(100vw - 210px - 60px);
+}
+
+.AgileBoardWrapper {
+    display: flex;
+    gap: 0 15px;
+}
+
+.Overlay {
+    opacity: 0.8;
+
+    &:hover {
+        background-color: var(--task-bg-color);
+    }
+}

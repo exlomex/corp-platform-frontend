@@ -1,10 +1,13 @@
 import {RegistrationSliceSchema} from "../types/registrationSliceSchema.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {checkInvitationCode} from "../services/checkInvitationCode.ts";
+import {RegisterByEmail} from "../services/registerByEmail.ts";
+import {RegisterByInvitationKey} from "@/features/Registration/model/services/registerByInvitationKey.ts";
 
 const initialState: RegistrationSliceSchema = {
     InvitationCodeIsFetching: false,
-    InvitationCodeIsActivate: false
+    InvitationCodeIsActivate: false,
+    RegisterServiceIsFetching: false
 };
 
 export const RegistrationSlice = createSlice({
@@ -27,6 +30,26 @@ export const RegistrationSlice = createSlice({
             .addCase(checkInvitationCode.rejected, (state: RegistrationSliceSchema, action) => {
                 state.InvitationCodeIsFetching = false;
                 state.InvitationCodeIsError = action.payload;
+            })
+            // register by email
+            .addCase(RegisterByEmail.pending, (state: RegistrationSliceSchema) => {
+                state.RegisterServiceIsFetching = true;
+            })
+            .addCase(RegisterByEmail.fulfilled, (state: RegistrationSliceSchema) => {
+                state.RegisterServiceIsFetching = false;
+            })
+            .addCase(RegisterByEmail.rejected, (state: RegistrationSliceSchema, action) => {
+                state.RegisterServiceIsFetching = false;
+            })
+            // register by code
+            .addCase(RegisterByInvitationKey.pending, (state: RegistrationSliceSchema) => {
+                state.RegisterServiceIsFetching = true;
+            })
+            .addCase(RegisterByInvitationKey.fulfilled, (state: RegistrationSliceSchema) => {
+                state.RegisterServiceIsFetching = false;
+            })
+            .addCase(RegisterByInvitationKey.rejected, (state: RegistrationSliceSchema, action) => {
+                state.RegisterServiceIsFetching = false;
             })
     },
 });
