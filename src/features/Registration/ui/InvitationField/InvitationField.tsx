@@ -89,7 +89,7 @@ export const InvitationField = <T,>(props: InvitationFieldProps<T>) => {
         <div className={classNames(cls.InvitationField, {}, [className])}>
             <label htmlFor={String(id)} className={cls.InputLabel}>Код приглашения</label>
             <div className={cls.InputWrapper}>
-                <Input disabled={isCodeActivate} placeholder={'Введите свой код приглашения'} maxLength={45} id={id} register={register}/>
+                <Input disabled={isCodeActivate} placeholder={'Введите свой код приглашения'} maxLength={45} id={String(id)} register={register}/>
                 {
                     !isCodeActivate
                         ? (<Button
