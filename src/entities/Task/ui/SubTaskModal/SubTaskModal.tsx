@@ -19,6 +19,7 @@ export const SubTaskModal = (props: SubTaskModalProps) => {
 
     const onModalClose = () => {
         dispatch(TaskActions.setIsOpenSubTaskModal(false))
+        dispatch(TaskActions.setSubTaskError(undefined))
     }
 
     return (

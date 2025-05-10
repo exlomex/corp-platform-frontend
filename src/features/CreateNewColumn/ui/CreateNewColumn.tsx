@@ -88,7 +88,7 @@ export const CreateNewColumn = (props: CreateNewColumnProps) => {
                 >
                     <input
                         ref={inputRef}
-                        className={cls.Input} placeholder={'Что нужно сделать'}
+                        className={cls.Input} placeholder={'Название колонки'}
                         value={inputValue}
                         onChange={onInputValueChange}
                     />

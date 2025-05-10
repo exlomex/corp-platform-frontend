@@ -56,7 +56,7 @@ export const CommentsForm = (props: CommentsFormProps) => {
     return (
         <form className={classNames(cls.CommentsForm, {}, [className])}>
             <div>
-                {userInfo?.imageUrl.length
+                {userInfo?.imageUrl
                     ? <img className={cls.Avatar} src={userInfo?.imageUrl} alt="avatar"/>
                     : <span className={cls.Avatar}><MediumAvatarIcon/></span>}
             </div>

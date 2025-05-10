@@ -63,7 +63,7 @@ export const ProjectBoardContent = (props: ProjectBoardContentProps) => {
     return (
         <div className={classNames(cls.ProjectBoardContent, {}, [className])}>
             <div className={cls.BoardTitleWrapper}>
-                <Typography size={'TEXT-26-MEDIUM'}>Доска {selectedBoardTitle}</Typography>
+                <Typography size={'TEXT-26-MEDIUM'}>{selectedBoardTitle}</Typography>
                 <CreateExtendedTaskButton/>
             </div>
             <AgileBoard/>

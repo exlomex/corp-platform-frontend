@@ -31,9 +31,9 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
     useEffect(() => {
         fetchUserRef.current = async () => {
             try {
-                const responce: FetchUserInfoReturnedData = await dispatch(fetchUserInfo()).unwrap()
+                const response: FetchUserInfoReturnedData = await dispatch(fetchUserInfo()).unwrap()
 
-                if (!responce.companyId) {
+                if (!response.companyId) {
                     navigate(getRouteCompanyCreate())
                 }
             } catch (e) {

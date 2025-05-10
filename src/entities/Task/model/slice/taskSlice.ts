@@ -17,6 +17,9 @@ export const TaskSlice = createSlice({
     name: 'task',
     initialState,
     reducers: {
+        setSubTaskError: (state: TaskSliceSchema, action: PayloadAction<string | undefined>) => {
+            state.addSubTaskError = action.payload
+        },
         pushToNavigationHistory: (state: TaskSliceSchema, action: PayloadAction<string>) => {
             state.taskNavigationHistory.push(action.payload);
         },

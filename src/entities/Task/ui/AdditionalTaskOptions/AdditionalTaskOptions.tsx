@@ -28,12 +28,13 @@ export const AdditionalTaskOptions = (props: AdditionalTaskOptionsProps) => {
 
     const onAddNewSubtaskHandler = () => {
         dispatch(TaskActions.setIsOpenSubTaskModal(true))
+        dispatch(TaskActions.setSubTaskError(undefined))
         dispatch(TaskActions.setAddSubTaskSelectedTaskUniqueTitle({uniqueTitle: uniqueTaskTitle, id:taskId}))
     }
 
     const additionalOptionsItems: DropdownItem[] = [
         {
-            content: 'Добавить дочернюю задачу',
+            content: 'Добавить подзадачу',
             onClick: onAddNewSubtaskHandler
         },
     ]
