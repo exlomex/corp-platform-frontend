@@ -1,0 +1,34 @@
+.CommentsForm {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.Avatar {
+    height: 22px;
+    width: 22px;
+    border-radius: 6px;
+}
+
+.FormContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.TextArea {
+    font: var(--font-paragraph-16-Regular);
+    resize: none;
+    width: 100%;
+    height: 90px;
+    border-radius: 6px;
+    padding: 6px 10px;
+    border: 1px solid var(--comment-text-area-border-color);
+    background-color: var(--comment-text-area-bg-color);
+}
+
+.FormBottomLine {
+    display: flex;
+    gap: 2px;
+}

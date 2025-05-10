@@ -1,0 +1,129 @@
+import { classNames } from '@/shared/lib/classNames';
+import cls from './EditableDescription.module.scss';
+import React, {
+    ChangeEvent,
+    Dispatch,
+    SetStateAction,
+    useState
+} from "react";
+import { Button } from "@/shared/ui/Button";
+import { useClickOutside } from "@/shared/hooks/useClickOutside";
+import { useAppDispatch } from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
+import { FetchBoardTasks } from "@/entities/Task/model/services/fetchBoardTasks.ts";
+import {
+    ChangeTaskTitleService,
+    ChangeTaskTitleServiceInputData
+} from "@/entities/Task";
+import {Typography} from "@/shared/ui/Typography";
+import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
+
+interface EditableDescriptionProps {
+    className?: string;
+    taskDescription: string | null;
+    taskId: number;
+    boardId: number;
+    taskTitle: string;
+    isEditDescriptionActive: boolean;
+    setIsEditDescriptionActive: Dispatch<SetStateAction<boolean>>;
+    uniqueTitle: string;
+}
+
+export const EditableDescription = (props: EditableDescriptionProps) => {
+    const {
+        className,
+        taskDescription,
+        taskId,
+        boardId,
+        taskTitle,
+        setIsEditDescriptionActive,
+        isEditDescriptionActive,
+        uniqueTitle
+    } = props;
+
+    const [descriptionState, setDescriptionState] = useState<string>(taskDescription || '');
+    const [newDescriptionValue, setNewDescriptionValue] = useState<string>(taskDescription || '');
+
+    const onCloseEditableAreaHandler = () => {
+        setIsEditDescriptionActive(false);
+    };
+
+    const onTextAreaValueChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setNewDescriptionValue(e.target.value);
+    };
+
+    const dispatch = useAppDispatch();
+
+    const onSubmitEditHandler = async () => {
+        if (newDescriptionValue.trim() !== (taskDescription || '')) {
+            const editBody: ChangeTaskTitleServiceInputData = {
+                id: taskId,
+                title: taskTitle,
+                description: newDescriptionValue
+            };
+
+            try {
+                await dispatch(ChangeTaskTitleService(editBody)).unwrap();
+                await dispatch(fetchTaskInfoService({uniqueTitle: uniqueTitle})).unwrap();
+
+                onCloseEditableAreaHandler();
+                setDescriptionState(newDescriptionValue);
+            } catch (e) {
+                console.error(e?.message || e);
+            }
+        }
+    };
+
+    return (
+        <>
+            <Typography className={cls.Title} size={'TEXT-20-MEDIUM'}>Описание</Typography>
+
+            <div
+                className={classNames(cls.EditableDescription, {[cls.isActiveEditableArea]: isEditDescriptionActive}, [className])}
+            >
+                {!isEditDescriptionActive && (
+                    <div
+                        className={cls.DescriptionWrapper}
+                        onClick={() => setIsEditDescriptionActive(true)}
+                    >
+                    <span className={cls.Description}>
+                        {descriptionState || 'Добавить описание'}
+                    </span>
+                    </div>
+                )}
+
+                {isEditDescriptionActive && (
+                    <div
+                        onPointerDown={(e) => {
+                            e.stopPropagation();
+                        }}
+                        className={cls.EditableArea}
+                    >
+                    <textarea
+                        className={classNames(cls.TextArea, {}, [])}
+                        placeholder={'Введите описание'}
+                        value={newDescriptionValue}
+                        onChange={onTextAreaValueChange}
+                    />
+                        <div className={cls.EditableAreaBottomLine}>
+                            <Button
+                                buttonType={'SMART_TEXT_BTN_FILLED'}
+                                className={cls.CorrectButton}
+                                onClick={onSubmitEditHandler}
+                            >
+                                Сохранить
+                            </Button>
+
+                            <Button
+                                buttonType={'SMART_TEXT_BTN_TRANSPARENT'}
+                                onClick={onCloseEditableAreaHandler}
+                                className={cls.CloseButton}
+                            >
+                                Отменить
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </>
+    );
+};

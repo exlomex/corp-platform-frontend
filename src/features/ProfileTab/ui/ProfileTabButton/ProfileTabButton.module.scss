@@ -21,6 +21,13 @@
     background-color: var(--profile-tab-avatar);
 }
 
+.Avatar {
+    height: 24px;
+    width: 24px;
+    border-radius: 20px;
+    background-size: cover;
+}
+
 .ProfileTabTest {
     color: var(--text-color-inverted);
 }

@@ -1,0 +1,49 @@
+.CreateNewColumn {
+}
+
+.CreateButton {
+    background-color: var(--column-create-task-button-color);
+    height: 44px;
+    width: 44px;
+    border-radius: 6px;
+
+    svg path {
+        stroke: var(--text-color);
+    }
+
+    &:hover {
+        background-color: var(--column-create-task-button-hover-color);
+    }
+}
+
+.CreateColumnArea {
+    padding: 10px 15px;
+    width: 260px;
+    background-color: var(--column-bg-color);
+}
+
+.Input {
+    width: 100%;
+    font: var(--font-paragraph-14-Regular);
+    height: 30px;
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.CreateColumnBottomLine {
+    display: flex;
+    justify-content: end;
+    gap: 0 5px;
+}
+
+.CorrectButton, .CloseButton {
+    background-color: var(--column-button-primary-color);
+
+    svg path {
+        stroke: var(--column-button-content-primary-color);
+    }
+
+    &:hover {
+        background-color: var(--column-button-primary-color-hover);
+    }
+}

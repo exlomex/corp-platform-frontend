@@ -5,7 +5,6 @@ import {newBoardSliceActions} from "../../model/slice/newBoardSlice.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {CreateNewBoardForm} from "@/features/CreateNewBoard/ui/CreateNewBoardForm/CreateNewBoardForm.tsx";
 import {getIsCreateNewBoardModalOpen} from "../../model/selectors/getNewBoardValues.ts";
-import {useEffect} from "react";
 
 interface CreateNewProjectModalProps {
     className?: string;

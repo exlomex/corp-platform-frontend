@@ -1,0 +1,44 @@
+.SubTaskModalContent {
+    width: 600px;
+}
+
+.ErrorMessage {
+    margin-bottom: 5px;
+    color: var(--red-color)
+}
+
+.Heading {
+    margin-bottom: 10px;
+}
+
+.SubTitle {
+    margin-bottom: 10px;
+    color: var(--text-color-secondary);
+}
+
+.UniqueTitleWrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.UniqueTitle {
+    font: var(--font-paragraph-14-Regular);
+    width: fit-content;
+    padding: 3px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--popup-border);
+}
+
+.BottomLine {
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+    justify-content: end;
+}
+
+
+.formLabel {
+    margin-bottom: 5px;
+}

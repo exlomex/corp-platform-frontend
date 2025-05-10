@@ -7,19 +7,25 @@ const initialState: BoardSliceSchema = {
     userBoardsBySelectedProject: [],
 
     isUserBoardsFetching: false,
-    isUserBoardsFirstLoading: true
+    isUserBoardsFirstLoading: true,
+
+    createNewTaskBoardsBySelectedProject: []
 }
 
 export const BoardSlice = createSlice({
     name: 'board',
     initialState,
     reducers: {
+        resetBoards: () => initialState,
         setIsUserBoardsFirstLoading: (state: BoardSliceSchema, action: PayloadAction<boolean>) => {
             state.isUserBoardsFirstLoading = action.payload;
         },
         setUserBoards: (state: BoardSliceSchema, action: PayloadAction<BoardInterface[]>) => {
             state.userBoardsBySelectedProject = action.payload;
-        }
+        },
+        setCreateUserBoards: (state: BoardSliceSchema, action: PayloadAction<BoardInterface[]>) => {
+            state.createNewTaskBoardsBySelectedProject = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -29,7 +35,7 @@ export const BoardSlice = createSlice({
             .addCase(FetchUserBoardsByProjectId.rejected, (state: BoardSliceSchema) => {
                 state.isUserBoardsFetching = false;
             })
-            .addCase(FetchUserBoardsByProjectId.fulfilled, (state: BoardSliceSchema) => {
+            .addCase(FetchUserBoardsByProjectId.fulfilled, (state: BoardSliceSchema, action) => {
                 state.isUserBoardsFetching = false;
             })
     }

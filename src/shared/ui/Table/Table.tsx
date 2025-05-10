@@ -38,34 +38,37 @@ export const Table = <T extends object>(props: TableProps<T>) => {
     const {columns, data } = props;
 
     return (
-        <table className={classNames(cls.Table, {}, [])}>
-            <thead className={cls.TableHead}>
+        <div className={cls.TableWrapper}>
+            <table className={classNames(cls.Table, {}, [])}>
+                <thead className={cls.TableHead}>
                 <tr>
                     {columns.map(column => (
-                        <th className={cls.TableHeader} key={String(column.key)} style={{width: column?.width, textAlign: column?.alignColumn}}>
+                        <th className={cls.TableHeader} key={String(column.key)}
+                            style={{width: column?.width, textAlign: column?.alignColumn}}>
                             {column.title}
                         </th>
                     ))}
                 </tr>
-            </thead>
+                </thead>
 
-            {data && (
-                <tbody>
-                {data.map((row, index) => (
-                    <tr key={'id' in row ? String(row.id) : index}>
-                        {columns.map(column => (
-                            <td
-                                className={classNames(cls.TableData, {}, [ColumnTableDataAlignClasses[column?.alignTableData]])}
-                                key={String(column.key)}
-                                style={{width: column.alignColumn ? '100%' : column?.width}}
-                            >
-                                {"element" in column ? column.element(row) : String(row[column.key])}
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-                </tbody>
-            )}
-        </table>
+                {data && (
+                    <tbody>
+                    {data.map((row, index) => (
+                        <tr className={cls.TableRow} key={'id' in row ? String(row.id) : index}>
+                            {columns.map(column => (
+                                <td
+                                    className={classNames(cls.TableData, {}, [ColumnTableDataAlignClasses[column?.alignTableData]])}
+                                    key={String(column.key)}
+                                    style={{width: column.alignColumn ? '100%' : column?.width}}
+                                >
+                                    {"element" in column ? column.element(row) : String(row[column.key])}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                    </tbody>
+                )}
+            </table>
+        </div>
     )
 };

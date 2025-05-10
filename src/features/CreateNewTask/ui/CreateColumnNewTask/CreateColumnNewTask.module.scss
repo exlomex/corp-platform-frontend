@@ -1,0 +1,51 @@
+.CreateColumnNewTask {
+
+}
+
+.CreateButton {
+    background-color: var(--column-create-task-button-color);
+
+    svg path {
+        stroke: var(--text-color);
+    }
+
+    &:hover {
+        background-color: var(--column-create-task-button-hover-color);
+    }
+}
+
+.CreateTaskArea {
+    margin-top: 10px;
+    background-color: var(--task-bg-color);
+    padding: 10px 15px;
+    border-radius: 6px;
+    font: var(--font-paragraph-12-Regular);
+}
+
+.CorrectButton, .CloseButton {
+    background-color: var(--column-button-primary-color);
+
+    svg path {
+        stroke: var(--column-button-content-primary-color);
+    }
+
+    &:hover {
+        background-color: var(--column-button-primary-color-hover);
+    }
+}
+
+.TextArea {
+    resize: none;
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.CreateTaskBottomLine {
+    display: flex;
+    gap: 0 5px;
+    justify-content: end;
+
+}

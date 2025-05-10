@@ -11,6 +11,7 @@ import {newBoardSliceSchema} from "@/features/CreateNewBoard/model/types/newBoar
 import {PasswordRecoverySliceSchema} from "@/features/PasswordRecovery";
 import {StatusSliceSchema} from "@/entities/Status";
 import {TaskSliceSchema} from "@/entities/Task";
+import {CommentSliceSchema} from "@/features/TaskInfo";
 
 // SLICE TYPES
 export interface StateSchema {
@@ -25,6 +26,7 @@ export interface StateSchema {
     passwordRecovery: PasswordRecoverySliceSchema;
     status: StatusSliceSchema;
     task: TaskSliceSchema;
+    comment: CommentSliceSchema;
 
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
 }

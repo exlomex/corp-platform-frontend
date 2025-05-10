@@ -4,7 +4,6 @@ import LightLogo from '@/shared/assets/logo/light_full_logo.svg'
 import LightLogoCropped from '@/shared/assets/logo/cropped_logo.svg'
 import {memo, ReactElement, useRef, useState} from "react";
 import TaskIcon from '@/shared/assets/icons/tasks.svg'
-import AgileBoardIcon from '@/shared/assets/icons/agileTasks.svg'
 import ProjectsIcon from '@/shared/assets/icons/projects.svg'
 import MessagesIcon from '@/shared/assets/icons/messages.svg'
 import CollapseIcon from '@/shared/assets/icons/collapse.svg'

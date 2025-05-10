@@ -1,1 +1,1 @@
-export {DroppableColumn} from './ui/DroppableColumn/DroppableColumn.tsx'
+export {SortableColumn} from './ui/SortableColumn/SortableColumn.tsx'

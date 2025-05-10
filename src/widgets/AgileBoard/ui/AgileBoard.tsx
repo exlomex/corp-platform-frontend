@@ -1,19 +1,23 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './AgileBoard.module.scss';
 import {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {getUserBoardsBySelectedProject} from "@/entities/Board";
+import {shallowEqual, useSelector} from "react-redux";
+import {getIsUserBoardsFetching, getUserBoardsBySelectedProject} from "@/entities/Board";
 import {useNavigate, useParams} from "react-router";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchBoardStatuses} from "@/entities/Status/model/services/fetchBoardStatuses.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
-import {getBoardStatuses} from "@/entities/Status";
-import { DroppableColumn} from "@/entities/Column";
+import {ChangeStatusOrderService, getBoardStatuses, StatusActions, StatusI} from "@/entities/Status";
+import {SortableColumn} from "@/entities/Column";
 import {ChangeTaskStatusService, DraggableTask, TaskActions, TaskI} from "@/entities/Task";
 import {DndContext, DragEndEvent, DragOverlay, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {getBoardTasks} from "@/entities/Task/model/selectors/getTaskValues.ts";
 import {TaskWrapper} from "@/entities/Task/ui/TaskWrapper/TaskWrapper.tsx";
+import {CreateColumnNewTask} from "@/features/CreateNewTask";
+import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import {ColumnWrapper} from "@/entities/Column/ui/ColumnWrapper/ColumnWrapper.tsx";
+import {CreateNewColumn} from "@/features/CreateNewColumn";
 
 interface AgileBoardProps {
     className?: string;
@@ -28,6 +32,9 @@ export const AgileBoard = (props: AgileBoardProps) => {
 
     const userBoards = useSelector(getUserBoardsBySelectedProject)
     const selectedUserProject = useSelector(getProjectSelectedProject)
+
+    const userBoardsFetching = useSelector(getIsUserBoardsFetching)
+
     useEffect(() => {
         if (selectedUserProject && params.project) {
             if (userBoards.length >= 1 && params.board) {
@@ -36,16 +43,17 @@ export const AgileBoard = (props: AgileBoardProps) => {
                     dispatch(FetchBoardStatuses({boardId: +params.board}))
                     dispatch(FetchBoardTasks({boardId: +params.board}))
                 } else {
-                    navigate('/not')
+                    // navigate('/not')
                 }
             }
         }
     }, [dispatch, navigate, params.board, params.project, selectedUserProject, userBoards]);
 
     const boardStatuses = useSelector(getBoardStatuses);
-    const boardTasks = useSelector(getBoardTasks);
+    const boardTasks = useSelector(getBoardTasks, shallowEqual);
 
     const [activeTask, setActiveTask] = useState<Partial<TaskI>>({});
+    const [activeColumn, setActiveColumn] = useState<Partial<StatusI>>({});
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -58,18 +66,41 @@ export const AgileBoard = (props: AgileBoardProps) => {
     const onDragEndHandle = async (event: DragEndEvent) => {
         const { active, over } = event;
 
-        if (!over || active.data.current.statusId === over.id) return
+        if (!over || String(active.data.current.statusId) === String(over.id)) return;
 
-        console.log(active, over);
+        const activeId = String(active.id).replace(/^task-/, '').replace(/^column-/, '');
+        if (String(active.id).startsWith('task-')) {
+            try {
+                dispatch(TaskActions.changeTaskStatus({taskId: +activeId, newStatusId: +over.id}))
+                await dispatch(ChangeTaskStatusService({taskId: +activeId, statusId: +over.id})).unwrap()
+                await dispatch(FetchBoardTasks({boardId: +params.board}))
+            } catch (e) {
+                console.error(e)
+            }
+        } else if (String(active.id).startsWith('column-')) {
+            if (activeId === String(over.id)) return;
 
-        try {
-            dispatch(TaskActions.changeTaskStatus({taskId: +active.id, newStatusId: +over.id}))
-            await dispatch(ChangeTaskStatusService({taskId: +active.id, statusId: +over.id})).unwrap()
-            await dispatch(FetchBoardTasks({boardId: +params.board}))
-        } catch (e) {
-            console.error(e)
+            try {
+                dispatch(StatusActions.changeStatusOrder(
+                    {
+                        newStatusOrder: +over?.data?.current?.order,
+                        oldStatusOrder: +active?.data?.current?.order,
+                        overStatusId: +over.id,
+                        activeStatusId: +activeId,
+                    })
+                )
+                await dispatch(ChangeStatusOrderService({toOrder: +over?.data?.current?.order, statusId: +activeId})).unwrap()
+                await dispatch(FetchBoardStatuses({boardId: +params.board})).unwrap()
+            } catch (e) {
+                console.error(e)
+            }
+
         }
 
+        if (active) {
+            setActiveTask({})
+            setActiveColumn({})
+        }
     }
 
     const onTaskClickHandler = (taskTitle: string) => () => {
@@ -79,57 +110,99 @@ export const AgileBoard = (props: AgileBoardProps) => {
         });
     }
 
+    const selectedProject = useSelector(getProjectSelectedProject)
+    const boardId = +params.board || 0
+
     return (
         <DndContext
             sensors={sensors}
             onDragStart={({active}) => {
-                setActiveTask({
-                    id: +active.id,
-                    title: active?.data?.current?.title,
-                    statusId: active?.data?.current?.statusId,
-                    uniqueTitle: active?.data?.current?.uniqueTitle,
-                })
+                if (String(active.id).startsWith('task-')) {
+                    setActiveTask({
+                        id: +active.id,
+                        title: active?.data?.current?.title,
+                        statusId: active?.data?.current?.statusId,
+                        uniqueTitle: active?.data?.current?.uniqueTitle,
+                    })
+                }
+                if (String(active.id).startsWith('column-')) {
+                    setActiveColumn({
+                        id: +String(active.id).replace('column-', ''),
+                        title: active?.data?.current?.title,
+                    })
+                }
             }}
             onDragEnd={onDragEndHandle}
         >
             <div className={classNames(cls.AgileBoard, {}, [className])}>
                 <div className={cls.AgileBoardWrapper}>
                     {boardStatuses && (
-                        boardStatuses.map(boardStatus => (
-                            <DroppableColumn
-                                statusId={boardStatus.id}
-                                key={boardStatus.id}
-                                columnTitle={boardStatus.title}
-                            >
-                                {
-                                    boardTasks && (
+                        <SortableContext
+                            items={boardStatuses.map(boardStatus => `column-${boardStatus.id}`)}
+                            strategy={horizontalListSortingStrategy}
+                        >
+                            {boardStatuses
+                                .slice()
+                                .sort((a, b) => a.order - b.order)
+                                .map((boardStatus, index) => (
+                                <SortableColumn
+                                    key={boardStatus.id}
+                                    boardId={boardId}
+                                    boardStatus={boardStatus}
+                                    createNewTask={(isHovered) => (
+                                        <CreateColumnNewTask
+                                            className={classNames('', {[cls.IsActiveOffset]: boardTasks.filter(task => task.statusId === boardStatus.id).length >= 1}, [])}
+                                            boardId={boardId} projectId={selectedProject.id || 0}
+                                            statusId={boardStatus.id}
+                                            isHovered={index === 0 ? true : isHovered}
+                                        />
+                                )}>
+                                    {boardTasks &&
                                         boardTasks
                                             .filter(task => task.statusId === boardStatus.id)
                                             .map(task => (
                                                 <DraggableTask
-                                                    key={task.id}
+                                                    boardId={boardId}
+                                                    key={`${task.id}-${task.statusId}`}
                                                     taskTitle={task.title}
                                                     taskUniqueTitle={task.uniqueTitle}
                                                     taskId={task.id}
                                                     statusId={task.statusId}
                                                     onClick={onTaskClickHandler(task.uniqueTitle)}
+                                                    taskDescription={task.description ? task.description : null}
                                                 />
-                                            )
-                                        )
-                                    )
-                                }
-
-                            </DroppableColumn>
-                        ))
+                                            ))
+                                    }
+                                </SortableColumn>
+                            ))}
+                        </SortableContext>
                     )}
+
+                    <CreateNewColumn boardId={boardId}/>
                 </div>
             </div>
 
             <DragOverlay
                 dropAnimation={null}
             >
-                {activeTask ? (
-                    <TaskWrapper className={cls.Overlay} taskTitle={activeTask.title} taskUniqueTitle={activeTask.uniqueTitle}/>
+                {Object.keys(activeTask).length >= 1 ? (
+                    <TaskWrapper
+                        className={cls.Overlay}
+                        taskTitle={activeTask.title}
+                        taskUniqueTitle={activeTask.uniqueTitle}
+                        taskId={1}
+                        boardId={1}
+                        taskDescription={null}
+                    />
+                ) : null}
+
+                {Object.keys(activeColumn).length >= 1 ? (
+                    <ColumnWrapper
+                        className={cls.Overlay}
+                        columnTitle={activeColumn.title}
+                        statusId={1}
+                        boardId={1}
+                    />
                 ) : null}
             </DragOverlay>
         </DndContext>

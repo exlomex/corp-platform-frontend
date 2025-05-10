@@ -7,11 +7,20 @@ export enum UserRoles {
     COMPANY_OWNER = 'COMPANY_OWNER'
 }
 
+export interface UserI {
+    id: number,
+    firstName: string,
+    lastName: string,
+    role: UserRoles,
+    companyId: number;
+    imageUrl?: string
+}
+
 export interface UserSliceSchema {
     isAuth: boolean;
     role?: UserRoles;
-    firstName?: string;
     companyId?: number
+    userInfo?: UserI
 
     // login
     isLoginError?: string;
@@ -20,6 +29,9 @@ export interface UserSliceSchema {
     // userFetching
     isUserFetching: boolean
     isUserFetched: boolean
+
+    // companyUsers
+    companyUsers: UserI[]
 }
 
 export interface tokenInfoTypes extends JwtPayload {

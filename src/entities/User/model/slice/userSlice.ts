@@ -1,4 +1,4 @@
-import {tokenInfoTypes, UserRoles, UserSliceSchema} from "../types/userSliceSchema.ts";
+import {tokenInfoTypes, UserI, UserRoles, UserSliceSchema} from "../types/userSliceSchema.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {LOCAL_STORAGE_USER_TOKEN} from "@/shared/const/localstorage.ts";
 import {jwtDecode} from "jwt-decode";
@@ -12,12 +12,17 @@ const initialState: UserSliceSchema = {
     isLoginFetching: false,
     isUserFetching: false,
     isUserFetched: false,
+    companyUsers: []
 };
 
 export const UserSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        resetUser: () => initialState,
+        setCompanyUsers: (state: UserSliceSchema, action: PayloadAction<UserI[]>) => {
+            state.companyUsers = action.payload;
+        },
         setUserIsFetched: (state: UserSliceSchema, action: PayloadAction<boolean>) => {
             state.isUserFetched = action.payload;
         },
@@ -51,6 +56,8 @@ export const UserSlice = createSlice({
                         state.role = undefined;
                         state.isAuth = false;
                         localStorage.removeItem(LOCAL_STORAGE_USER_TOKEN)
+
+
                     } else {
                         state.role = tokenInfo.role as UserRoles;
                         state.isAuth = true;
@@ -58,8 +65,8 @@ export const UserSlice = createSlice({
                 }
             }
         },
-        setUserFirstName: (state: UserSliceSchema, action) => {
-            state.firstName = action.payload
+        setUserInfo: (state: UserSliceSchema, action) => {
+            state.userInfo = action.payload
         }
     },
     extraReducers: (builder ) => {

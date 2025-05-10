@@ -14,6 +14,7 @@ export const ProjectSlice = createSlice({
     name: 'project',
     initialState,
     reducers: {
+        resetProjects: () => initialState,
         setSelectedProject: (state: ProjectSliceSchema, action: PayloadAction<SelectedProjectInterface>) => {
             state.selectedProject = action.payload;
         },

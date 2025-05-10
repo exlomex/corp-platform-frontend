@@ -1,0 +1,41 @@
+.AdditionalTaskInfo {
+    //width: fit-content;
+    //max-width: 300px;
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.AdditionalTaskInfoWrapper {
+    border-radius: 6px;
+    width: 100%;
+    border: 1px solid var(--smart-outlined-color-border);
+    padding: 15px 20px;
+}
+
+.AdditionalHeading {
+    margin-bottom: 15px;
+}
+
+.additionalOptionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.additionalOption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 35px;
+}
+
+.additionalOptionName {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+}
+
+.additionalOptionContent {
+    width: 200px;
+}

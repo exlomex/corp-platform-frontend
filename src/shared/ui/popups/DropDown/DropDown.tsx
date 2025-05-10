@@ -1,7 +1,7 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from '../styles/Popups.module.scss';
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
-import {memo, MouseEvent, ReactElement, ReactNode} from "react";
+import React, {memo, MouseEvent, ReactElement, ReactNode, useRef} from "react";
 import {Link} from "react-router";
 import {Theme} from "@/shared/types/theme.ts";
 import {Spinner} from "@/shared/ui/Spinner";
@@ -15,6 +15,17 @@ export interface DropdownItem {
     isLoading?: boolean
 }
 
+export const GapClasses = {
+    20: cls['gap-20'],
+    10: cls['gap-10'],
+    6: cls['gap-6'],
+} as const;
+
+export const FontSizeClasses = {
+    16: cls['fSize-16'],
+    14: cls['fSize-14'],
+    12: cls['fSize-12'],
+} as const;
 
 interface DropDownProps {
     className?: string;
@@ -22,56 +33,76 @@ interface DropDownProps {
     direction?: AnchorProps;
     trigger: ReactElement;
     theme?: Theme;
+    gap?: keyof typeof GapClasses;
+    fSize?: keyof typeof FontSizeClasses;
+    onOpenChange?: (open: boolean) => void
+    onClick?: (event?: React.MouseEvent<HTMLDivElement>) => void
 }
 
 export const DropDown = memo((props: DropDownProps) => {
-    const { className, trigger, direction = "right", items, theme = Theme.LIGHT_THEME} = props;
+    const { className, trigger, direction = "right", items, theme = Theme.LIGHT_THEME, gap = 20, onOpenChange, fSize = 16, onClick} = props;
+
+    const prevOpenRef = useRef<boolean | null>(null);
 
     return (
             <Menu
                 as='div'
                 className={classNames(cls.DropDown, {}, [className])}
+                onClick={(e) => e.stopPropagation()}
 
             >
-                <MenuButton as='div'>{trigger}</MenuButton>
+                {({open}) => {
+                    if (onOpenChange && prevOpenRef.current !== open) {
+                        prevOpenRef.current = open;
+                        setTimeout(() => onOpenChange(open), 0);
+                    }
 
-                <MenuItems
-                    modal={false}
-                    as={'div'}
-                    anchor={direction as AnchorProps}
-                    transition
-                    className={classNames(cls.MenuItems, {}, [theme === 'light_theme' ? 'light_theme' : 'dark_theme'])}
-                >
-                    {items.map((value, index) => {
-                        if (value.href) return (
-                            <MenuItem
-                                key={index}
-                                as={Link}
-                                to={value.href}
-                                className={cls.MenuItem}
+                    return (
+                        <>
+                            <MenuButton onClick={(e) => e.stopPropagation()} as='div'>{trigger}</MenuButton>
+
+                            <MenuItems
+                                onClick={(e) => e.stopPropagation()}
+                                modal={false}
+                                as={'div'}
+                                anchor={direction as AnchorProps}
+                                transition
+                                className={classNames(cls.MenuItems, {}, [theme === 'light_theme' ? 'light_theme' : 'dark_theme', GapClasses[gap]])}
                             >
-                                {value.content}
-                            </MenuItem>
-                        )
-                        return <MenuItem key={index}>
-                            {({ close }) => (
-                                <div
-                                    className={classNames(cls.MenuItem, {[cls['ItemLoading']]: value.isLoading}, [])}
-                                    onClick={async (event: MouseEvent<HTMLDivElement>) => {
-                                        event.preventDefault()
-
-                                        await value.onClick?.();
-                                        close()
-                                    }}
-                                >
-                                    {value.isLoading && <span className={cls.Spinner}><Spinner size={'S_SIZE'}/></span>}
-                                    {value.content}
-                                </div>
-                                )
-                            }
-                        </MenuItem>
-                    })}
-                </MenuItems>
+                                {items.map((value, index) => {
+                                    if (value.href) return (
+                                        <MenuItem
+                                            key={index}
+                                            as={Link}
+                                            to={value.href}
+                                            onClick={(e) => e.stopPropagation()}
+                                            className={classNames(cls.MenuItem, {}, [FontSizeClasses[fSize]])}
+                                        >
+                                            {value.content}
+                                        </MenuItem>
+                                    )
+                                    return <MenuItem key={index}>
+                                        {({ close }) => (
+                                            <div
+                                                className={classNames(cls.MenuItem, {[cls['ItemLoading']]: value.isLoading}, [FontSizeClasses[fSize]])}
+                                                onClick={async (event: MouseEvent<HTMLDivElement>) => {
+                                                    event.preventDefault()
+                                                    event.stopPropagation()
+                                                    await value.onClick?.();
+                                                    close()
+                                                }}
+                                            >
+                                                {value.isLoading && <span className={cls.Spinner}><Spinner size={'S_SIZE'}/></span>}
+                                                {value.content}
+                                            </div>
+                                        )
+                                        }
+                                    </MenuItem>
+                                })}
+                            </MenuItems>
+                        </>
+                    )
+                }}
             </Menu>
     )
 });

@@ -6,14 +6,15 @@ import {memo} from "react";
 interface ProfileTabButtonProps {
     className?: string;
     userFirstName?: string
+    avatar?: string
 }
 
 export const ProfileTabButton = memo((props: ProfileTabButtonProps) => {
-    const { className, userFirstName } = props;
+    const { className, userFirstName, avatar } = props;
 
     return (
         <button className={classNames(cls.ProfileTabButton, {}, [className])}>
-            <span className={cls.ProfileTabAvatar}></span>
+            {avatar ? <img src={avatar} className={cls.Avatar} alt="avatar"/> : <span className={cls.ProfileTabAvatar}></span>}
 
             <Typography
                 size={'PARAGRAPH-16-REGULAR'}

@@ -1,0 +1,39 @@
+.AdditionalTaskAuthor {
+    padding: 0 4px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    position: relative;
+}
+
+.Clickable {
+    z-index: 10000;
+    cursor: pointer;
+
+    &::before {
+        z-index: -1;
+        height: 150%;
+        width: 103%;
+        position: absolute;
+        content: '';
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        border-radius: 6px;
+    }
+
+    &:hover::before {
+        background-color: var(--smart-outlined-bg-color-hover);
+    }
+}
+
+.Avatar {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+}
+
+.AuthorName {
+    font: var(--font-paragraph-14-Regular);
+}

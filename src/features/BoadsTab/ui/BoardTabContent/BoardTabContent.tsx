@@ -57,6 +57,10 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
         return false;
     }, [params.board]);
 
+    if (!selectedProject) {
+        return <BoardTabButton active={false}/>
+    }
+
     return (
         <Popover
             className={classNames(cls.BoardTabContent, {}, [className])}

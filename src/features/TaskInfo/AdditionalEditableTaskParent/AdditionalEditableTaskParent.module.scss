@@ -1,0 +1,27 @@
+.EditableTaskParent {
+}
+
+.ParentName {
+    z-index: 50;
+    position: relative;
+    font: var(--font-paragraph-14-Regular);
+    cursor: pointer;
+    padding: 0 4px;
+    color: var(--text-color);
+
+    &::before {
+        position: absolute;
+        z-index: -5;
+        height: 150%;
+        width: 103%;
+        content: '';
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        border-radius: 6px;
+    }
+
+    &:hover::before {
+        background-color: var(--smart-outlined-bg-color-hover);
+    }
+}

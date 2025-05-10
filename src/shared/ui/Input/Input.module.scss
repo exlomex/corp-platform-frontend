@@ -3,12 +3,12 @@
     max-width: 600px;
     position: relative;
     flex-grow: 1;
-
-    &:has(.SmartInput) {
-        min-width: 100px;
-        max-width: 250px;
-    }
 }
+
+//.SmartInput {
+//    min-width: 100px;
+//    max-width: 250px;
+//}
 
 .Input {
     width: 100%;
@@ -41,8 +41,8 @@
     }
 
     &.SmartInput {
-        font: var(--font-paragraph-12-Regular);
-        height: 30px;
+        font: var(--font-paragraph-14-Regular);
+        height: 35px;
         border-radius: 6px;
         padding: 0 10px;
 

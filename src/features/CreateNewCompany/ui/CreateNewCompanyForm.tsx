@@ -1,7 +1,7 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './CreateNewCompanyForm.module.scss';
 import {SubmitHandler, useForm} from "react-hook-form";
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
 import {Input} from "@/shared/ui/Input";
 import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Button} from "@/shared/ui/Button";
@@ -12,6 +12,9 @@ import {createNewCompanyService, createNewCompanyServiceInputData} from "../mode
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {useNavigate} from "react-router";
 import {getRouteMain} from "@/shared/const/router.ts";
+import {UserSliceActions} from "@/entities/User";
+import {BoardActions} from "@/entities/Board";
+import {ProjectActions} from "@/entities/Project";
 
 interface CreateNewCompanyFormProps {
     className?: string;
@@ -30,6 +33,12 @@ export const CreateNewCompanyForm = (props: CreateNewCompanyFormProps) => {
     const navigate = useNavigate()
 
     const newCompanyIsFetching = useSelector(getNewCompanyIsFetching)
+
+    useEffect(() => {
+        dispatch(UserSliceActions.setCompanyId(undefined))
+        dispatch(BoardActions.resetBoards())
+        dispatch(ProjectActions.resetProjects())
+    }, [dispatch]);
 
     const onSubmit: SubmitHandler<CreateCompanyDataInputs> = useCallback(async (data) => {
         const companyData: createNewCompanyServiceInputData = {

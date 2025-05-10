@@ -6,8 +6,9 @@ export interface BoardInterface {
 
 export interface BoardSliceSchema {
     userBoardsBySelectedProject: BoardInterface[]
-    selectedBoard?: BoardInterface;
 
     isUserBoardsFetching: boolean;
     isUserBoardsFirstLoading: boolean;
+
+    createNewTaskBoardsBySelectedProject: BoardInterface[]
 }

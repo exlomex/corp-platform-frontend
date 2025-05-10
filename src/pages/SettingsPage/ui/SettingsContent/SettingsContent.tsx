@@ -6,6 +6,7 @@ import {useNavigate, useParams} from "react-router";
 import {useEffect, useState} from "react";
 import {getRouteSettings} from "@/shared/const/router.ts";
 import {InviteToCompanyForm} from "@/features/InviteToCompany";
+import {SettingsCompanyTab} from "@/pages/SettingsPage/ui/SettingsCompanyTab/SettingsCompanyTab.tsx";
 
 interface SettingsContentProps {
     className?: string;
@@ -74,7 +75,7 @@ export const SettingsContent = (props: SettingsContentProps) => {
 
     const TabPanelsItems: TabPanelsItem[] = [
         {
-            content: (<InviteToCompanyForm/>)
+            content: (<SettingsCompanyTab/>)
         }
     ]
 

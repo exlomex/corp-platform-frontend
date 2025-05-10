@@ -27,7 +27,7 @@ export const fetchUserInfo = createAsyncThunk<
             dispatch(UserSliceActions.setCompanyId(response.data.companyId))
         }
 
-        dispatch(UserSliceActions.setUserFirstName(response.data.firstName))
+        dispatch(UserSliceActions.setUserInfo(response.data))
         dispatch(UserSliceActions.setUserIsFetched(true))
         return response.data;
     } catch (e) {

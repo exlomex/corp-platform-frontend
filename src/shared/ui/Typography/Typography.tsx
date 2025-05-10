@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './Typography.module.scss';
-import {memo} from "react";
+import {memo, ReactNode} from "react";
 
 export const TypographyTypes = {
     'HEADING-H1': cls['font-heading-h1'],
@@ -26,7 +26,7 @@ export const TypographyAlign = {
 
 interface TypographyProps {
     className?: string;
-    children: string;
+    children: ReactNode;
     size: keyof typeof TypographyTypes;
     align?: keyof typeof TypographyAlign;
 }

@@ -13,14 +13,19 @@ export const ButtonTypes = {
     'SMART_TEXT_BTN_FILLED': cls['SmartTextBtnFilled'],
     'SMART_TEXT_BTN_TRANSPARENT': cls['SmartTextBtnTransparent'],
     'SMART_ICON_BTN_FILLED': cls['SmartIconBtnFilled'],
+    'SMART_WITH_ICON_BTN_OUTLINED': cls['SmartWithIconBtnOutlined'],
 
     'CREATE_WITH_ICON_BTN_FILLED': cls['CreateWithIconBtnFilled'],
+
+    'SMALL_ICON_BTN_FILLED': cls['SmallIconBtnFilled'],
+
+    'EXTRA_SMALL_ICON_BTN_FILLED': cls['ExtraSmallIconBtnFilled'],
 } as const
 
 interface ButtonProps extends OmittedBtnType{
     className?: string,
     children?: ReactNode,
-    onClick?: () => void,
+    onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void,
     disabled?: boolean,
     fullWidth?: boolean;
     buttonType?: keyof typeof ButtonTypes;

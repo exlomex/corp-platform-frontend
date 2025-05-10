@@ -4,8 +4,8 @@ import {DropDown} from "@/shared/ui/popups";
 import {DropdownItem} from "@/shared/ui/popups/DropDown/DropDown.tsx";
 import {ProfileTabButton} from "../ProfileTabButton/ProfileTabButton.tsx";
 import {memo, useEffect, useRef} from "react";
-import {shallowEqual, useSelector} from "react-redux";
-import {getUserFirstName, getUserIsUserFetched} from "@/entities/User/model/selectors/getUserValues.ts";
+import { useSelector} from "react-redux";
+import {getUserInfo, getUserIsUserFetched} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {fetchUserInfo, FetchUserInfoReturnedData} from "../../model/services/fetchUserInfo.ts";
 import {UserSliceActions} from "@/entities/User";
@@ -25,7 +25,7 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
 
     const fetchUserRef = useRef(() => {})
 
-    const userFirstName = useSelector(getUserFirstName, shallowEqual)
+    const userInfo = useSelector(getUserInfo)
     const userIsFetched = useSelector(getUserIsUserFetched)
 
     useEffect(() => {
@@ -73,7 +73,7 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
             theme={Theme.DARK_THEME}
             className={classNames(cls.ProfileTab, {}, [])}
             items={profileTabItems}
-            trigger={<ProfileTabButton userFirstName={userFirstName}/>}
+            trigger={<ProfileTabButton userFirstName={userInfo?.firstName} avatar={userInfo?.imageUrl}/>}
         />
     )
 });

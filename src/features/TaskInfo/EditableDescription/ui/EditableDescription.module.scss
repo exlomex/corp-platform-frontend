@@ -1,0 +1,87 @@
+.Title {
+    margin-bottom: 10px;
+}
+
+.EditableDescription {
+    border-radius: 6px;
+    position: relative;
+
+    &::before {
+        border-radius: 4px;
+        position: absolute;
+        width: 103%;
+        height: 130%;
+        content: '';
+        background-color: var(--task-edit-area-bg-color-hover);
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        transition: opacity .2s ease;
+        opacity: 0;
+    }
+
+    &:hover::before {
+        opacity: 1;
+    }
+
+    &.isActiveEditableArea::before {
+        background-color: transparent;
+    }
+}
+
+.isActiveEditableArea {
+    //width: calc(100% + 20px);
+    //height: calc(100% + 8px);
+    z-index: 100;
+}
+
+.DescriptionWrapper {
+    display: flex;
+    gap: 0 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.Description {
+    font: var(--font-paragraph-14-Regular);
+    display: block;
+    word-break: break-word;
+    color: var(--text-color-secondary);
+    white-space: pre-wrap;
+}
+
+.EditableArea {
+    position: relative;
+}
+
+.TextArea {
+    resize: none;
+    font: var(--font-paragraph-14-Regular);
+    padding: 8px 10px;
+    width: 100%;
+    border-radius: 6px;
+    background-color: transparent;
+    border: 1px solid var(--task-bg-color);
+    transition: border 0.2s ease;
+    &:hover {
+        border: 1px solid var(--task-bg-color-hover);
+    }
+
+    height: 90px;
+
+    &::placeholder {
+        color: var(--text-color-secondary);
+    }
+}
+
+.EditableAreaBottomLine {
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    gap: 5px;
+}
+
+.CorrectButton, .CloseButton {
+    border-radius: 6px;
+}

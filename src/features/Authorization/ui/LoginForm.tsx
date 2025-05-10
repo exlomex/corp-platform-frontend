@@ -9,10 +9,12 @@ import {Button} from "@/shared/ui/Button";
 import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Typography} from "@/shared/ui/Typography";
 import {useSelector} from "react-redux";
-import {getUserLoginError, getUserLoginIsFetching} from "@/entities/User";
-import {useCallback} from "react";
+import {getUserLoginError, getUserLoginIsFetching, UserSliceActions} from "@/entities/User";
+import {useCallback, useEffect} from "react";
 import {Link} from "react-router";
 import {getRouteRegister} from "@/shared/const/router.ts";
+import {BoardActions} from "@/entities/Board";
+import {ProjectActions} from "@/entities/Project";
 
 
 interface LoginFormProps {
@@ -20,14 +22,20 @@ interface LoginFormProps {
 }
 
 export interface loginDataInputs {
-    loginEmail: string;
-    loginPassword: string
+    email: string;
+    password: string
 }
 
 export const LoginForm = (props: LoginFormProps) => {
     const { className } = props;
 
     const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(UserSliceActions.resetUser())
+        dispatch(BoardActions.resetBoards())
+        dispatch(ProjectActions.resetProjects())
+    }, [dispatch]);
 
     const loginError = useSelector(getUserLoginError)
     const loginIsFetching = useSelector(getUserLoginIsFetching)
@@ -37,8 +45,8 @@ export const LoginForm = (props: LoginFormProps) => {
     const onSubmit: SubmitHandler<loginDataInputs> = useCallback(async (data) => {
 
         const loginData: LoginByEmailInputData = {
-            password: data.loginPassword,
-            email: data.loginEmail,
+            password: data.password,
+            email: data.email,
         }
 
         await dispatch(loginByEmail(loginData))
@@ -46,8 +54,8 @@ export const LoginForm = (props: LoginFormProps) => {
 
     const emailPattern = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
 
-    const loginFormEmailReg = register<'loginEmail'>('loginEmail', { required: {value: true, message: 'Заполните обязательное поле'}, pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('loginEmail')});
-    const loginFormPasswordReg = register<'loginPassword'>("loginPassword", { required: {value: true, message: 'Заполните обязательное поле'}, minLength: {value: 4, message: `Пароль должен быть не короче 4 символов`}, onBlur: () => trigger('loginPassword')})
+    const loginFormEmailReg = register<'email'>('email', { required: {value: true, message: 'Заполните обязательное поле'}, pattern: {value: emailPattern, message: 'Введите корректный email'}, onBlur: () => trigger('email')});
+    const loginFormPasswordReg = register<'password'>("password", { required: {value: true, message: 'Заполните обязательное поле'}, minLength: {value: 4, message: `Пароль должен быть не короче 4 символов`}, onBlur: () => trigger('password')})
 
     return (
         <div className={classNames(cls.LoginForm, {}, [className])}>
@@ -56,19 +64,18 @@ export const LoginForm = (props: LoginFormProps) => {
                 {loginError && <span className={cls.HeadingError}>{loginError.split('')[1]==='r' ? 'Неверный email или пароль.' : loginError}</span>}
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete={'on'}>
                 <InputWrapper<loginDataInputs>
                     className={cls.Input}
-                    labelFor={'loginEmail'}
+                    labelFor={'email'}
                     labelString={'Email'}
-                    message={errors.loginEmail}
+                    message={errors.email}
                     input={
                         <Input<loginDataInputs>
-                            name={'username'}
+                            name={'email'}
                             register={loginFormEmailReg}
                             placeholder={'Введите email'}
-                            id={'loginEmail'}
-                            autoComplete={"username"}
+                            id={'email'}
                         />
                     }
                 />
@@ -76,18 +83,17 @@ export const LoginForm = (props: LoginFormProps) => {
                 <InputWrapper<loginDataInputs>
                     className={cls.Input}
                     labelString={'Пароль'}
-                    labelFor={'loginPassword'}
+                    labelFor={'password'}
                     input={
                         <Input<loginDataInputs>
                             register={loginFormPasswordReg}
                             placeholder={'Введите пароль'}
-                            id={'loginPassword'}
+                            id={'password'}
                             type={'TYPE_PASSWORD'}
                             autoComplete={"current-password"}
-                            name={'password'}
                         />
                     }
-                    message={errors.loginPassword}
+                    message={errors.password}
                     isForgotPasswordLabel
                 />
 

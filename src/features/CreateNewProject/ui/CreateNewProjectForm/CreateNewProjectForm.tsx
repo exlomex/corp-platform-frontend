@@ -65,6 +65,7 @@ export const CreateNewProjectForm = (props: CreateNewProjectFormProps) => {
                             id={'companyTitle'}
                             placeholder={'Название проекта'}
                             variant={'SMART_INPUT'}
+                            className={cls.FormInput}
                         />
                     }
                 />
@@ -82,6 +83,7 @@ export const CreateNewProjectForm = (props: CreateNewProjectFormProps) => {
                             id={'companyShortTitle'}
                             placeholder={'Ключ'}
                             variant={'SMART_INPUT'}
+                            className={cls.FormInput}
                         />
                     }
                 />

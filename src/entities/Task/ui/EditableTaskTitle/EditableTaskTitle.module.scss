@@ -1,0 +1,103 @@
+.EditableTaskTitle {
+    width: 85%;
+    border-radius: 4px;
+    position: relative;
+
+    &::before {
+        border-radius: 4px;
+        position: absolute;
+        width: 104%;
+        height: 110%;
+        content: '';
+        background-color: var(--task-edit-area-bg-color-hover);
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: opacity .2s ease;
+        opacity: 0;
+    }
+
+    &:hover::before {
+        opacity: 1;
+    }
+
+    &.isActiveEditableArea::before {
+        background-color: transparent;
+    }
+}
+
+.isActiveEditableArea {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: calc(100% + 20px);
+    height: calc(100% + 8px);
+    z-index: 100;
+}
+
+.TaskTitleWrapper {
+    display: flex;
+    gap: 0 5px;
+
+    position: relative;
+}
+
+.TaskTitle {
+    display: block;
+    word-break: break-word;
+    height: fit-content;
+}
+
+.EditButton {
+    position: absolute;
+    right: -25px;
+    background-color: var(--column-button-primary-color);
+
+    &:hover {
+        background-color: var(--column-button-primary-color-hover);;
+    }
+
+    svg path {
+        fill: var(--column-button-content-primary-color);
+    }
+}
+
+.EditableArea {
+    position: relative;
+}
+
+.TextArea {
+    resize: none;
+    font: var(--font-paragraph-14-Regular);
+    padding: 4px 10px;
+    width: 100%;
+    border-radius: 6px;
+    background-color: var(--task-edit-area-bg-color);
+    transition: background-color 0.2s ease;
+    height: 74px;
+    &:hover {
+        background-color: var(--task-edit-area-bg-color-hover);
+    }
+}
+
+.EditableAreaBottomLine {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+    bottom: -34px;
+}
+
+.CorrectButton, .CloseButton {
+    background-color: var(--column-button-primary-color);
+
+    svg path {
+        stroke: var(--column-button-content-primary-color);
+    }
+
+    &:hover {
+        background-color: var(--column-button-primary-color-hover);
+    }
+}

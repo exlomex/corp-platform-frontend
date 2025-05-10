@@ -22,7 +22,7 @@ import {SelectedProjectInterface} from "@/entities/Project/model/types/projectSl
 import {LOCAL_STORAGE_SELECTED_PROJECT} from "@/shared/const/localstorage.ts";
 import {Typography} from "@/shared/ui/Typography";
 import {useLocation, useNavigate, useParams} from "react-router";
-import {getUserBoardsBySelectedProject} from "@/entities/Board";
+import {getIsUserBoardsFetching, getUserBoardsBySelectedProject} from "@/entities/Board";
 import {getRouteProjectBoard} from "@/shared/const/router.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 
@@ -65,17 +65,17 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
 
     const params = useParams()
     const navigate = useNavigate()
-    const onSelectNewProject = (project: SelectedProjectInterface, close: () => void) => async () => {
+
+
+    const onSelectNewProject = async (project: SelectedProjectInterface, close: () => void) => async () => {
         dispatch(ProjectActions.setSelectedProject(project))
         localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify(project))
-
         if (params.project !== project.title && params.board) {
             try {
-                const responce = await dispatch(FetchUserBoardsByProjectId({projectId: project.id})).unwrap()
-                if (responce.length >= 1) {
-                    navigate(getRouteProjectBoard(project.title, String(responce[0].id)))
+                const response = await dispatch(FetchUserBoardsByProjectId({projectId: project.id})).unwrap()
+                if (response.length >= 1) {
+                    await navigate(getRouteProjectBoard(project.title, String(response[0].id)))
                 }
-
             } catch (e) {
                 throw new Error(e.message || e)
             }
@@ -99,7 +99,10 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
                         {userProjects && userProjects.length ? (
                             userProjects.map(project => (
                                 <div
-                                    onClick={onSelectNewProject({id: project.id, title: project.title}, close)}
+                                    onClick={async () => (await onSelectNewProject({
+                                        id: project.id,
+                                        title: project.title
+                                    }, close))()}
                                     key={project.id}
                                     className={classNames(cls.ProjectItem, {[cls.ProjectActive]: selectedProject && selectedProject.title === project.title}, [])}>
                                     <span className={cls.ProjectIcon}><ProjectIcon/></span>

@@ -7,3 +7,39 @@ const getTaskValues = (state: StateSchema) => state.task;
 export const getBoardTasks = createSelector(getTaskValues, (state: TaskSliceSchema) => {
     return state.boardTasks
 })
+
+export const getAddSubTaskModalIsOpen = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.addSubTaskModalIsOpen
+})
+
+export const getAddTaskModalIsOpen = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.addTaskModalIsActive
+})
+
+export const getAddSubTaskSelectedTask = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.addSubTaskSelectedTask
+})
+
+export const getAddSubTaskError = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.addSubTaskError
+})
+
+export const getTaskInfoModalIsOpen = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.taskInfoModalIsOpen
+})
+
+export const getSelectedTaskInfo = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.selectedTaskInfo
+})
+
+export const getSelectedTaskUniqueTitle = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.selectedTaskUniqueTitle
+})
+
+export const getSelectedTaskInfoIsFetching = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.selectedTaskInfoIsFetching
+})
+
+export const getTaskNavigationHistory = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.taskNavigationHistory
+})

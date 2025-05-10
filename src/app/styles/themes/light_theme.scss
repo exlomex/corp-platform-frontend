@@ -27,7 +27,7 @@
     --popup-border: #efeef3;
     --popup-field-color: #ffff;
     --popup-field-active-bg: #EFEDF6;
-    --popup-field-hover-bg: #F2F1F4;
+    --popup-field-hover-bg: #f8f5ff;
 
     // tabs
     --tabs-bg: #FFFFFF;
@@ -37,11 +37,17 @@
 
     // table
     --table-border-line: #CCCCCC;
+    --table-header-bg-color: #f4f1ff;
+    --table-header-bg-color-hover: #f7f5ff;
+    --table-border-color: #eaeaf5;
 
     // button (edit for types)
     --button-primary-color-bg: #fff;
     --button-border-color: #f5f1f1;
     --button-active-color: #f3f2f6;
+    --smart-outlined-color-border: #EAEAEA;
+    --smart-outlined-bg-color: #fff;
+    --smart-outlined-bg-color-hover: #f2f0f5;
 
     // modal
     --modal-overlay-color: rgba(0, 0, 0, 0.1);
@@ -55,10 +61,24 @@
     // column
     --column-text-color: #747684;
     --column-bg-color: #F7F5FF;
-
+    --column-create-task-button-color: #f1eeff;
+    --column-create-task-button-hover-color: #f1eeff;
+    --column-button-primary-color: #E2DFF6;
+    --column-button-primary-color-hover: #dbd6f3;
+    --column-button-content-primary-color: #787486;
 
     // task
-    --task-bg-color: #F4F2FF;
+    --task-bg-color: #f4f1ff;
     --task-bg-color-hover: #EFEDFF;
     --task-unique-title-text-color: #747684;
+    --task-edit-area-bg-color: #ebe8ff;
+    --task-edit-area-bg-color-hover: #ebe8ff;
+
+    // selectMenu
+    --select-bg-color: rgba(245, 245, 245, 0.2);
+    --select-hover-bg-color: #f1eeff;
+
+    // comments
+    --comment-text-area-bg-color: #ffff;
+    --comment-text-area-border-color: #B9B9B9;
 }

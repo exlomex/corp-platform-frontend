@@ -40,7 +40,8 @@ export const Input = <T, >(props: InputProps<T>) => {
         autoComplete = 'on',
         disabled,
         variant = 'DefaultInput',
-        name
+        name,
+        ...other
     } = props;
 
     type inputTypes = Extract<InputHTMLAttributes<HTMLInputElement>["type"], 'password' | 'text'>
@@ -55,10 +56,11 @@ export const Input = <T, >(props: InputProps<T>) => {
         : <CloseEye onClick={onToggleInputType} className={cls.InputIcon}/>
 
     return (
-        <div className={cls.InputWrapper}>
+        <div className={classNames(cls.InputWrapper, {}, [className])}>
             <input
+                onBlur={props.onBlur}
                 disabled={disabled}
-                className={classNames(cls.Input, {}, [className, InputTypes[type], InputVariant[variant]])}
+                className={classNames(cls.Input, {}, [InputTypes[type], InputVariant[variant]])}
                 maxLength={maxLength}
                 id={String(id)}
                 name={name}
@@ -66,6 +68,7 @@ export const Input = <T, >(props: InputProps<T>) => {
                 type={inputType}
                 placeholder={placeholder}
                 autoComplete={autoComplete}
+                {...other}
             />
             {type === 'TYPE_PASSWORD' && currentEyeIcon}
         </div>

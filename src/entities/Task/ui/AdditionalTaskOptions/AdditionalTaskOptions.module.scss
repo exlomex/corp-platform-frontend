@@ -1,0 +1,14 @@
+.AdditionalColumnOptions {
+
+}
+
+.AdditionalButton {
+    width: 26px;
+    height: 26px;
+
+    background-color: var(--column-button-primary-color);
+
+    &:hover {
+        background-color: var(--column-button-primary-color-hover);
+    }
+}
