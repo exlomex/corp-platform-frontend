@@ -12,13 +12,17 @@ const initialState: UserSliceSchema = {
     isLoginFetching: false,
     isUserFetching: false,
     isUserFetched: false,
-    companyUsers: []
+    companyUsers: [],
+    AsideIsCollapsed: false
 };
 
 export const UserSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        setAsideIsCollapsed: (state: UserSliceSchema, action: PayloadAction<boolean>) => {
+            state.AsideIsCollapsed = action.payload
+        },
         resetUser: () => initialState,
         setCompanyUsers: (state: UserSliceSchema, action: PayloadAction<UserI[]>) => {
             state.companyUsers = action.payload;
@@ -56,8 +60,6 @@ export const UserSlice = createSlice({
                         state.role = undefined;
                         state.isAuth = false;
                         localStorage.removeItem(LOCAL_STORAGE_USER_TOKEN)
-
-
                     } else {
                         state.role = tokenInfo.role as UserRoles;
                         state.isAuth = true;

@@ -11,3 +11,4 @@ export const getUserInfo = createSelector(getUser, (state: UserSliceSchema) => s
 export const getUserCompanyId = createSelector(getUser, (state: UserSliceSchema) => state.companyId)
 export const getUserIsUserFetched = createSelector(getUser, (state: UserSliceSchema) => state.isUserFetched)
 export const getUserCompanyUsers = createSelector(getUser, (state: UserSliceSchema) => state.companyUsers)
+export const getUserAsideIsCollapsed = createSelector(getUser, (state: UserSliceSchema) => state.AsideIsCollapsed)

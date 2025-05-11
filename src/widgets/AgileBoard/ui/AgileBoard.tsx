@@ -19,6 +19,7 @@ import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable"
 import {ColumnWrapper} from "@/entities/Column/ui/ColumnWrapper/ColumnWrapper.tsx";
 import {CreateNewColumn} from "@/features/CreateNewColumn";
 import {LOCAL_STORAGE_COLLAPSED_KEY} from "@/shared/const/localstorage.ts";
+import {getUserAsideIsCollapsed} from "@/entities/User";
 
 interface AgileBoardProps {
     className?: string;
@@ -114,7 +115,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
     const selectedProject = useSelector(getProjectSelectedProject)
     const boardId = +params.board || 0
 
-    const isCollapsed = localStorage.getItem(LOCAL_STORAGE_COLLAPSED_KEY)
+    const isCollapsed = useSelector(getUserAsideIsCollapsed)
 
     return (
         <DndContext

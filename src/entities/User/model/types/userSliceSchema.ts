@@ -32,6 +32,9 @@ export interface UserSliceSchema {
 
     // companyUsers
     companyUsers: UserI[]
+
+    // aside menu collapsed
+    AsideIsCollapsed: boolean
 }
 
 export interface tokenInfoTypes extends JwtPayload {

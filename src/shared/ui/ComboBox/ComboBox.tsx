@@ -56,6 +56,8 @@ export const ComboBox = (props: ComboBoxProps) => {
     const [selectedImage, setSelectedImage] = useState<string>('')
     const [showOptions, setShowOptions] = useState(false);
 
+    const [inputValue, setInputValue] = useState(value?.label || '');
+
     useEffect(() => {
         if (value?.data?.image) {
             setSelectedImage(value?.data?.image)
@@ -64,7 +66,7 @@ export const ComboBox = (props: ComboBoxProps) => {
 
     useEffect(() => {
         if (value?.label !== undefined) {
-            setQuery(value.label);
+            setInputValue(value.label);
         }
     }, [value]);
 
@@ -77,15 +79,14 @@ export const ComboBox = (props: ComboBoxProps) => {
     }, [query, options]);
 
     const handleSelect = (option: ComboBoxOption) => {
-        setQuery(option.label);
+        setInputValue(option.label);
+        setQuery('')
         setShowOptions(false);
         onSelectAction?.(option);
         setStateFunc?.(option)
 
-        if (withImage) {
-            const image = option?.data?.image;
-            if (image) setSelectedImage(image);
-        }
+        const image = option?.data?.image;
+        setSelectedImage(image || '');
     };
 
     const inputRef = useClickOutside<HTMLInputElement>(() => setShowOptions(false))
@@ -119,7 +120,7 @@ export const ComboBox = (props: ComboBoxProps) => {
                 <input
                     ref={inputRef}
                     type="text"
-                    value={query as string}
+                    value={showOptions ? query : inputValue}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setQuery(e?.target?.value);
                         setSelectedImage('')

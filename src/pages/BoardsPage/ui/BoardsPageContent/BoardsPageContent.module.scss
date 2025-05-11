@@ -1,3 +1,30 @@
 .BoardsPageContent {
     padding: 30px;
+    height: 100%;
+}
+
+.TopLine {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.TableHeading {
+}
+
+.NoDataContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.NoData {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px;
+    align-items: center;
 }

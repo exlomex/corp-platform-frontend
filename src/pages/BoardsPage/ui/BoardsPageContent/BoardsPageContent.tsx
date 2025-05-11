@@ -2,6 +2,16 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './BoardsPageContent.module.scss';
 import {BoardsTable} from "@/features/BoardsTable";
 import {MobileMenu} from "@/widgets/MobileMenu/MobileMenu.tsx";
+import {Typography} from "@/shared/ui/Typography";
+import {Button} from "@/shared/ui/Button";
+import {newBoardSliceActions} from "@/features/CreateNewBoard";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
+import {useEffect} from "react";
+import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {getIsUserBoardsFetching, getIsUserBoardsFirstLoading, getUserBoardsBySelectedProject} from "@/entities/Board";
+import NoDataIllustration from '@/shared/assets/illustations/noDataIllustration.svg'
 
 interface BoardsPageContentProps {
     className?: string;
@@ -9,10 +19,45 @@ interface BoardsPageContentProps {
 
 export const BoardsPageContent = (props: BoardsPageContentProps) => {
     const { className } = props;
+
+    const dispatch = useAppDispatch()
+
+    const onNewBoardClickHandler = () => {
+        dispatch(newBoardSliceActions.setCreateBoardModalOpen(true))
+    }
+
+    const selectedProject = useSelector(getProjectSelectedProject);
+    const userBoardsFetching = useSelector(getIsUserBoardsFetching)
+    const userBoardIsFirstTimeFetching = useSelector(getIsUserBoardsFirstLoading)
+    const userBoards = useSelector(getUserBoardsBySelectedProject);
+
+    useEffect(() => {
+        if (selectedProject?.id) {
+            dispatch(FetchUserBoardsByProjectId({ projectId: selectedProject.id }));
+        }
+    }, [dispatch, selectedProject?.id]);
+
     return (
         <div className={classNames(cls.BoardsPageContent, {}, [className])}>
+            <div className={cls.TopLine}>
+                <Typography size={'PARAGRAPH-18-REGULAR'}
+                            className={cls.TableHeading}>Доски {selectedProject?.title}</Typography>
+                <Button onClick={onNewBoardClickHandler} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать доску</Button>
+            </div>
             {/*<MobileMenu/>*/}
-            <BoardsTable/>
+
+            {userBoardIsFirstTimeFetching || userBoardsFetching
+                ? <></>
+                : (userBoards.length
+                        ? <BoardsTable/>
+                        : <div className={cls.NoDataContainer}>
+                            <div className={cls.NoData}>
+                                <NoDataIllustration/>
+                                <Typography size={'PARAGRAPH-18-REGULAR'}>Доски не найдены</Typography>
+                            </div>
+                        </div>
+                )
+            }
         </div>
     )
 };

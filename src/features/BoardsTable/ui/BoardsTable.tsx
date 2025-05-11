@@ -21,15 +21,8 @@ interface BoardsTableProps {
 export const BoardsTable = (props: BoardsTableProps) => {
     const { className } = props;
 
-    const dispatch = useAppDispatch();
     const selectedProject = useSelector(getProjectSelectedProject);
     const userBoards = useSelector(getUserBoardsBySelectedProject);
-
-    useEffect(() => {
-        if (selectedProject?.id) {
-            dispatch(FetchUserBoardsByProjectId({ projectId: selectedProject.id }));
-        }
-    }, [dispatch, selectedProject?.id]);
 
     const tableColumns: Column<BoardInterface>[] = [
         {
@@ -57,16 +50,10 @@ export const BoardsTable = (props: BoardsTableProps) => {
         },
     ];
 
-    const onNewBoardClickHandler = () => {
-        dispatch(newBoardSliceActions.setCreateBoardModalOpen(true))
-    }
+
 
     return (
         <div className={classNames(cls.BoardsTable, {}, [className])}>
-            <div className={cls.TopLine}>
-                <Typography size={'PARAGRAPH-18-REGULAR'} className={cls.TableHeading}>Доски {selectedProject?.title}</Typography>
-                <Button onClick={onNewBoardClickHandler} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать доску</Button>
-            </div>
             <Table<BoardInterface> columns={tableColumns} data={userBoards} />
         </div>
     )

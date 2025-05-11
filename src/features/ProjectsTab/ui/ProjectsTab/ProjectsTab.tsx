@@ -7,7 +7,7 @@ import {
     getIsFirstFetchUserProject,
     getProjectFetchUserProjectIsLoading,
     getProjectUserProjects,
-    ProjectActions
+    ProjectActions, selectNewProject
 } from "@/entities/Project";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {useEffect} from "react";
@@ -64,26 +64,13 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
         dispatch(newProjectSliceActions.setCreateProjectModalOpen(true))
     }
 
-    const params = useParams()
-    const navigate = useNavigate()
-
-
-    const onSelectNewProject = async (project: SelectedProjectInterface, close: () => void) => async () => {
-        dispatch(ProjectActions.setSelectedProject(project))
-        localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify(project))
-        if (params.project !== project.title && params.board) {
-            try {
-                const response = await dispatch(FetchUserBoardsByProjectId({projectId: project.id})).unwrap()
-                if (response.length >= 1) {
-                    await navigate(getRouteProjectBoard(project.title, String(response[0].id)))
-                }
-            } catch (e) {
-                throw new Error(e.message || e)
-            }
-        }
-
-        close()
+    interface Params {
+        project?: string;
+        board?: string;
     }
+
+    const params = useParams() as Params
+    const navigate = useNavigate()
 
     return (
         <Popover
@@ -103,11 +90,15 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
                         {userProjects && userProjects.length ? (
                             userProjects.map(project => (
                                 <div
-                                    onClick={async () => (await onSelectNewProject({
-                                        id: project.id,
-                                        title: project.title,
-                                        projectKey: project.shortName
-                                    }, close))()}
+                                    onClick={async () => {
+                                        await selectNewProject(
+                                            {id: project.id, title: project.title, projectKey: project.shortName},
+                                            dispatch,
+                                            navigate,
+                                            params,
+                                            close
+                                        );
+                                    }}
                                     key={project.id}
                                     className={classNames(cls.ProjectItem, {[cls.ProjectActive]: selectedProject && selectedProject.title === project.title}, [])}>
                                     <span className={cls.ProjectIcon}><ProjectIcon/></span>

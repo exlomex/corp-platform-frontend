@@ -9,6 +9,14 @@ import {Modal} from "@/shared/ui/Modal";
 import {Button} from "@/shared/ui/Button";
 import {newProjectSliceActions} from "@/features/CreateNewProject";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
+import {useSelector} from "react-redux";
+import {
+    getIsFirstFetchUserProject,
+    getProjectFetchUserProjectIsLoading,
+    getProjectUserProjects
+} from "@/entities/Project";
+import {BoardsTable} from "@/features/BoardsTable";
+import NoDataIllustration from '@/shared/assets/illustations/noDataIllustration.svg'
 
 interface ProjectsContentProps {
     className?: string;
@@ -47,6 +55,10 @@ export const ProjectsContent = memo((props: ProjectsContentProps) => {
         dispatch(newProjectSliceActions.setCreateProjectModalOpen(true))
     }
 
+    const userProjects = useSelector(getProjectUserProjects)
+    const projectsIsFirstLoading = useSelector(getIsFirstFetchUserProject)
+    const projectsIsLoading = useSelector(getProjectFetchUserProjectIsLoading)
+
     return (
         <div className={classNames(cls.ProjectsContent, {}, [className])}>
             <div className={cls.ProjectsTopLine}>
@@ -54,7 +66,18 @@ export const ProjectsContent = memo((props: ProjectsContentProps) => {
                 <Button onClick={onNewProjectButtonClick} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать проект</Button>
             </div>
 
-            <ProjectsTable/>
+            {projectsIsFirstLoading || projectsIsLoading
+                ? <></>
+                : (userProjects.length
+                        ? <ProjectsTable/>
+                        : <div className={cls.NoDataContainer}>
+                            <div className={cls.NoData}>
+                                <NoDataIllustration/>
+                                <Typography size={'PARAGRAPH-18-REGULAR'}>Доски не найдены</Typography>
+                            </div>
+                        </div>
+                )
+            }
         </div>
     )
 });

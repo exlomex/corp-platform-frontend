@@ -9,6 +9,8 @@ import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Input} from "@/shared/ui/Input";
 import {Button} from "@/shared/ui/Button";
 import {FetchUserProjects} from "@/entities/Project/model/services/fetchUserProjects.ts";
+import {ProjectDataInterface, selectNewProject} from "@/entities/Project";
+import {useNavigate, useParams} from "react-router";
 
 interface CreateNewProjectFormProps {
     className?: string;
@@ -26,6 +28,11 @@ export const CreateNewProjectForm = (props: CreateNewProjectFormProps) => {
     const { register, handleSubmit, trigger, formState: { errors } } = useForm<CreateNewProjectFormDataInputs>()
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const params = useParams<{
+        project?: string;
+        board?: string;
+    }>()
 
     const onSubmit: SubmitHandler<CreateNewProjectFormDataInputs> = useCallback(async (data) => {
         const inviteData: createNewProjectServiceInputData = {
@@ -34,14 +41,22 @@ export const CreateNewProjectForm = (props: CreateNewProjectFormProps) => {
         }
 
         try {
-            await dispatch(createNewProjectService(inviteData)).unwrap()
+            const response: ProjectDataInterface = await dispatch(createNewProjectService(inviteData)).unwrap()
             await dispatch(FetchUserProjects()).unwrap()
+            console.log(response);
+            await selectNewProject(
+                {id: response.id, title: response.title, projectKey: response.shortName},
+                dispatch,
+                navigate,
+                params,
+                close
+            );
             onModalClose()
         } catch (e) {
             throw new Error(e.message || e)
         }
 
-    }, [dispatch, onModalClose])
+    }, [dispatch, navigate, onModalClose, params])
 
     const companyTitleReg = register<'companyTitle'>('companyTitle', { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('companyTitle')});
     const companyShortTitleReg = register<'companyShortTitle'>('companyShortTitle', { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('companyShortTitle')});

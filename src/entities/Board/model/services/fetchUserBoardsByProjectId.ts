@@ -13,9 +13,8 @@ export const FetchUserBoardsByProjectId = createAsyncThunk<
     ThunkConfig<string>
 >('boards/fetch', async ({projectId, fetchType = 'regular'}, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
-    try {
-        dispatch(BoardActions.setIsUserBoardsFirstLoading(false))
 
+    try {
         const response = await extra.api.get(`/boards?projectId=${projectId}`);
         const data: BoardInterface[] | undefined = response.data;
 
@@ -29,6 +28,9 @@ export const FetchUserBoardsByProjectId = createAsyncThunk<
         if (fetchType === 'create') {
             dispatch(BoardActions.setCreateUserBoards(data))
         }
+
+        dispatch(BoardActions.setIsUserBoardsFirstLoading(false))
+
         return response.data;
     } catch (e) {
         return rejectWithValue(e.message || 'error');

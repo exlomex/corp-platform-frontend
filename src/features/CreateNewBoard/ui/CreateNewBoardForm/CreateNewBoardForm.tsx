@@ -14,6 +14,9 @@ import cls from './CreateNewBoardForm.module.scss'
 import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Input} from "@/shared/ui/Input";
 import {Button} from "@/shared/ui/Button";
+import {useNavigate} from "react-router";
+import {getRouteProjectBoard} from "@/shared/const/router.ts";
+import {BoardInterface} from "@/entities/Board";
 
 
 interface CreateNewBoardFormProps {
@@ -31,6 +34,7 @@ export const CreateNewBoardForm = (props: CreateNewBoardFormProps) => {
     const { register, handleSubmit, trigger, formState: { errors } } = useForm<CreateNewBoardFormDataInputs>()
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const selectedProject = useSelector(getProjectSelectedProject)
 
     const onSubmit: SubmitHandler<CreateNewBoardFormDataInputs> = useCallback(async (data) => {
@@ -40,14 +44,15 @@ export const CreateNewBoardForm = (props: CreateNewBoardFormProps) => {
         }
 
         try {
-            await dispatch(createNewBoardService(createData)).unwrap()
+            const response: BoardInterface = await dispatch(createNewBoardService(createData)).unwrap()
             await dispatch(FetchUserBoardsByProjectId({projectId: selectedProject.id || -1})).unwrap()
+            await navigate(getRouteProjectBoard(String(response.projectId), String(response.id)))
             onModalClose()
         } catch (e) {
             throw new Error(e.message || e)
         }
 
-    }, [dispatch, onModalClose, selectedProject.id])
+    }, [dispatch, onModalClose, selectedProject])
 
     const boardTitleReg = register<'boardTitle'>('boardTitle', { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('boardTitle')});
 

@@ -54,7 +54,6 @@ export const ProjectSlice = createSlice({
                 }
             }
 
-            // fallback to first project
             const fallback = getFirstProject();
             state.selectedProject = fallback;
             localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify(fallback));

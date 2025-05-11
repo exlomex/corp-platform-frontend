@@ -11,8 +11,6 @@ export const FetchUserProjects = createAsyncThunk<
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        dispatch(ProjectActions.setIsFirstFetchUserProject(false))
-
         const response = await extra.api.get<ProjectDataInterface[]>('/projects');
         const data: ProjectDataInterface[] | undefined = response.data;
 
@@ -21,6 +19,7 @@ export const FetchUserProjects = createAsyncThunk<
         }
 
         dispatch(ProjectActions.setUserProjects(data))
+        dispatch(ProjectActions.setIsFirstFetchUserProject(false))
         dispatch(ProjectActions.initProjects())
         return response.data;
     } catch (e) {
