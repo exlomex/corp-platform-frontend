@@ -75,6 +75,7 @@ export const CreateNewBoardForm = (props: CreateNewBoardFormProps) => {
                             id={'boardTitle'}
                             placeholder={'Название доски'}
                             variant={'SMART_INPUT'}
+                            maxLength={70}
                         />
                     }
                 />

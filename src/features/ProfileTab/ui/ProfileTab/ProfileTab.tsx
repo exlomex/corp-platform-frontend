@@ -54,6 +54,7 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
     const profileTabItems: DropdownItem[] = [
         {
             content: 'Профиль',
+            href: getRouteSettings('userSettings')
         },
         {
             content: 'Компания',
@@ -61,6 +62,7 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
         },
         {
             content: 'Настройки',
+            href: getRouteSettings('company')
         },
         {
             content: 'Выйти',

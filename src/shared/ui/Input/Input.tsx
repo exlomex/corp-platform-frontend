@@ -52,8 +52,12 @@ export const Input = <T, >(props: InputProps<T>) => {
     }
 
     const currentEyeIcon = inputType === 'password'
-        ? <OpenEye onClick={onToggleInputType} className={cls.InputIcon}/>
-        : <CloseEye onClick={onToggleInputType} className={cls.InputIcon}/>
+        ? <OpenEye onClick={onToggleInputType} className={classNames(cls.InputIcon, {
+            [cls.SmallIcon]: Boolean(variant === 'SMART_INPUT')
+        })}/>
+        : <CloseEye onClick={onToggleInputType} className={classNames(cls.InputIcon, {
+            [cls.SmallIcon]: Boolean(variant === 'SMART_INPUT')
+        })}/>
 
     return (
         <div className={classNames(cls.InputWrapper, {}, [className])}>

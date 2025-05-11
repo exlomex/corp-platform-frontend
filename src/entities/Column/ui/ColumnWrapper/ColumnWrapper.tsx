@@ -2,6 +2,7 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './ColumnWrapper.module.scss';
 import {ForwardedRef, forwardRef, ReactElement, ReactNode, useState} from "react";
 import {AdditionalColumnOptions} from "../AdditionalColumnOptions/AdditionalColumnOptions.tsx";
+import {EditableColumnTitle} from "@/entities/Column/ui/EditableColumnTitle/EditableColumnTitle.tsx";
 
 interface ColumnWrapperProps {
     className?: string;
@@ -20,6 +21,8 @@ export const ColumnWrapper = forwardRef((props: ColumnWrapperProps, ref: Forward
     const [isHovered, setIsHovered] = useState<boolean>(false)
     const [isTopLineHover, setIsTopLineHover] = useState<boolean>(false)
 
+    const [isEditDescriptionActive, setIsEditDescriptionActive] = useState<boolean>(false)
+
     return (
         <div
             onMouseEnter={() => setIsHovered(true)}
@@ -34,12 +37,11 @@ export const ColumnWrapper = forwardRef((props: ColumnWrapperProps, ref: Forward
                 onMouseEnter={() => setIsTopLineHover(true)}
                 onMouseLeave={() => setIsTopLineHover(false)}
             >
-                <span className={cls.ColumnTitle}>{columnTitle}</span>
+                <EditableColumnTitle columnTitle={columnTitle} columnId={statusId} boardId={boardId} isEditDescriptionActive={isEditDescriptionActive} setIsEditDescriptionActive={setIsEditDescriptionActive}/>
 
-                <AdditionalColumnOptions boardId={boardId} isHover={isTopLineHover} statusId={statusId}/>
+                {!isEditDescriptionActive && <AdditionalColumnOptions boardId={boardId} isHover={isTopLineHover} statusId={statusId}/>}
             </div>
-
-            {isOver && <span className={cls.OverLine}></span>}
+            <span className={classNames(cls.OverLine, {[cls.isOver]: isOver}, [])}></span>
 
             <div className={classNames(cls.ColumnTasksCards, {}, [])}>
                 {children && children}

@@ -1,7 +1,9 @@
 export {UserSliceActions, UserSliceReducer} from './model/slice/userSlice'
 export type {UserSliceSchema} from './model/types/userSliceSchema'
 export {UserRoles} from './model/types/userSliceSchema'
-export {getUserLoginError, getUserRole, getUserLoginIsFetching, getUserIsAuth, getUserCompanyId, getUserAsideIsCollapsed} from './model/selectors/getUserValues.ts'
+export {getUserLoginError, getUserRole,
+    getUserLoginIsFetching, getUserIsAuth, getUserCompanyId,
+    getUserAsideIsCollapsed, getUserImageError} from './model/selectors/getUserValues.ts'
 export {FetchUsersByCompanyIdService} from './model/services/fetchUsersByCompanyIdService.ts'
 export type {UserI} from './model/types/userSliceSchema';
 export {DeleteUserService} from './model/services/deleteUserService.ts'

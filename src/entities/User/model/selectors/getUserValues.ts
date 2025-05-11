@@ -12,3 +12,10 @@ export const getUserCompanyId = createSelector(getUser, (state: UserSliceSchema)
 export const getUserIsUserFetched = createSelector(getUser, (state: UserSliceSchema) => state.isUserFetched)
 export const getUserCompanyUsers = createSelector(getUser, (state: UserSliceSchema) => state.companyUsers)
 export const getUserAsideIsCollapsed = createSelector(getUser, (state: UserSliceSchema) => state.AsideIsCollapsed)
+export const getUserImageError = createSelector(getUser, (state: UserSliceSchema) => state.profileImageError)
+export const getUserImageIsFetching = createSelector(getUser, (state: UserSliceSchema) => state.profileImageIsFetching)
+export const getEditPersonalDataIsFetching = createSelector(getUser, (state: UserSliceSchema) => state.profileEditDataIsFetching);
+export const getEditPersonalDataError = createSelector(getUser, (state: UserSliceSchema) => state.profileEditDataError)
+
+export const getEditPasswordIsFetching = createSelector(getUser, (state: UserSliceSchema) => state.profileEditPasswordIsFetching)
+export const getEditPasswordError = createSelector(getUser, (state: UserSliceSchema) => state.profileEditPasswordError)

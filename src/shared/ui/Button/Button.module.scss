@@ -79,6 +79,27 @@
     }
 }
 
+.SmartWithIconBtnFilled {
+    display: flex;
+    gap: 0 10px;
+    border-radius: 6px;
+    align-items: center;
+    height: 35px;
+    padding: 0 15px;
+    border: 1px solid var(--smart-outlined-color-border);
+    color: var(--text-color-inverted);
+    background-color: var(--purple-color);
+    font: var(--font-paragraph-14-Regular);
+
+    &:hover {
+        background-color: var(--purple-color-active);
+    }
+
+    svg path {
+        stroke: var(--text-color-inverted);
+    }
+}
+
 .SmartWithIconBtnOutlined {
     display: flex;
     gap: 0 10px;

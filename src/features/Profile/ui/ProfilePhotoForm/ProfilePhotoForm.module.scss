@@ -1,0 +1,42 @@
+.ProfilePhotoForm {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.Avatar {
+    flex-shrink: 0;
+
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #e9e9f0;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.HiddenInput {
+    display: none;
+}
+
+.FileHint {
+    color: var(--text-color-secondary);
+}
+
+.BottomLine {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 6px;
+}
+
+.ImageContainer {
+    display: block;
+    width: 60px;
+    height: 60px;
+}

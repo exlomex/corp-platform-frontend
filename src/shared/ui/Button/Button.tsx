@@ -14,6 +14,7 @@ export const ButtonTypes = {
     'SMART_TEXT_BTN_TRANSPARENT': cls['SmartTextBtnTransparent'],
     'SMART_ICON_BTN_FILLED': cls['SmartIconBtnFilled'],
     'SMART_WITH_ICON_BTN_OUTLINED': cls['SmartWithIconBtnOutlined'],
+    'SMART_WITH_ICON_BTN_FILLED': cls['SmartWithIconBtnFilled'],
 
     'CREATE_WITH_ICON_BTN_FILLED': cls['CreateWithIconBtnFilled'],
 

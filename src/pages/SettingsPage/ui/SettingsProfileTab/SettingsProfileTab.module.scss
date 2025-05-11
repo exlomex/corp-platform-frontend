@@ -1,0 +1,21 @@
+.SettingsProfileTab {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.Error {
+    color: var(--red-color);
+}
+
+.TabField {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.PersonalDataWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}

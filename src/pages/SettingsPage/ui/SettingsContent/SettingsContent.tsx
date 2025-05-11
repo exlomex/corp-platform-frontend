@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {getRouteSettings} from "@/shared/const/router.ts";
 import {InviteToCompanyForm} from "@/features/InviteToCompany";
 import {SettingsCompanyTab} from "@/pages/SettingsPage/ui/SettingsCompanyTab/SettingsCompanyTab.tsx";
+import {SettingsProfileTab} from "@/pages/SettingsPage/ui/SettingsProfileTab/SettingsProfileTab.tsx";
 
 interface SettingsContentProps {
     className?: string;
@@ -33,18 +34,18 @@ export const SettingsContent = (props: SettingsContentProps) => {
             content: 'Компания',
             onClick: () => navigate(getRouteSettings('company'))
         },
-        {
-            content: 'Проекты',
-            onClick: () => navigate(getRouteSettings('projects'))
-        },
-        {
-            content: 'Доски',
-            onClick: () => navigate(getRouteSettings('boards'))
-        },
-        {
-            content: 'Тема',
-            onClick: () => navigate(getRouteSettings('theme'))
-        },
+        // {
+        //     content: 'Проекты',
+        //     onClick: () => navigate(getRouteSettings('projects'))
+        // },
+        // {
+        //     content: 'Доски',
+        //     onClick: () => navigate(getRouteSettings('boards'))
+        // },
+        // {
+        //     content: 'Тема',
+        //     onClick: () => navigate(getRouteSettings('theme'))
+        // },
         {
             content: 'Настройки пользователя',
             onClick: () => navigate(getRouteSettings('userSettings'))
@@ -76,6 +77,9 @@ export const SettingsContent = (props: SettingsContentProps) => {
     const TabPanelsItems: TabPanelsItem[] = [
         {
             content: (<SettingsCompanyTab/>)
+        },
+        {
+            content: (<SettingsProfileTab/>)
         }
     ]
 

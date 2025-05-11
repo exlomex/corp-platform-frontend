@@ -10,7 +10,12 @@ import {useEffect} from "react";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {useSelector} from "react-redux";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
-import {getIsUserBoardsFetching, getIsUserBoardsFirstLoading, getUserBoardsBySelectedProject} from "@/entities/Board";
+import {
+    BoardCard,
+    getIsUserBoardsFetching,
+    getIsUserBoardsFirstLoading,
+    getUserBoardsBySelectedProject
+} from "@/entities/Board";
 import NoDataIllustration from '@/shared/assets/illustations/noDataIllustration.svg'
 
 interface BoardsPageContentProps {
@@ -37,11 +42,12 @@ export const BoardsPageContent = (props: BoardsPageContentProps) => {
         }
     }, [dispatch, selectedProject?.id]);
 
+
     return (
         <div className={classNames(cls.BoardsPageContent, {}, [className])}>
             <div className={cls.TopLine}>
                 <Typography size={'PARAGRAPH-18-REGULAR'}
-                            className={cls.TableHeading}>Доски {selectedProject?.title}</Typography>
+                            className={cls.TableHeading}>{selectedProject?.title}</Typography>
                 <Button onClick={onNewBoardClickHandler} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать доску</Button>
             </div>
             {/*<MobileMenu/>*/}
@@ -49,7 +55,13 @@ export const BoardsPageContent = (props: BoardsPageContentProps) => {
             {userBoardIsFirstTimeFetching || userBoardsFetching
                 ? <></>
                 : (userBoards.length
-                        ? <BoardsTable/>
+                        ? (
+                            <div className={cls.BoardCards}>
+                                {userBoards.map(board => (
+                                    <BoardCard key={board.id} projectId={selectedProject.id} boardTitle={board.title} boardId={board.id}/>
+                                ))}
+                            </div>
+                        )
                         : <div className={cls.NoDataContainer}>
                             <div className={cls.NoData}>
                                 <NoDataIllustration/>

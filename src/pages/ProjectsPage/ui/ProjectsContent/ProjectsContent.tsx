@@ -73,7 +73,7 @@ export const ProjectsContent = memo((props: ProjectsContentProps) => {
                         : <div className={cls.NoDataContainer}>
                             <div className={cls.NoData}>
                                 <NoDataIllustration/>
-                                <Typography size={'PARAGRAPH-18-REGULAR'}>Доски не найдены</Typography>
+                                <Typography size={'PARAGRAPH-18-REGULAR'}>Проекты не найдены</Typography>
                             </div>
                         </div>
                 )

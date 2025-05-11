@@ -14,6 +14,7 @@ export interface UserI {
     role: UserRoles,
     companyId: number;
     imageUrl?: string
+    email: string
 }
 
 export interface UserSliceSchema {
@@ -35,6 +36,17 @@ export interface UserSliceSchema {
 
     // aside menu collapsed
     AsideIsCollapsed: boolean
+
+    // profileImageError
+    profileImageError?: string
+    profileImageIsFetching: boolean
+
+    // profile edit PersonalData
+    profileEditDataIsFetching: boolean;
+    profileEditDataError?: string;
+
+    profileEditPasswordIsFetching: boolean;
+    profileEditPasswordError?: string;
 }
 
 export interface tokenInfoTypes extends JwtPayload {

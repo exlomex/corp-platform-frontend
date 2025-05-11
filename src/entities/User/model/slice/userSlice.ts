@@ -5,6 +5,9 @@ import {jwtDecode} from "jwt-decode";
 import {LoginByEmailReturnedData} from "@/features/Authorization/model/types/authTypes.ts";
 import {loginByEmail} from "@/features/Authorization/model/services/loginByEmail.ts";
 import {fetchUserInfo} from "@/features/ProfileTab/model/services/fetchUserInfo.ts";
+import {addImageService} from "@/entities/User/model/services/addImageService.ts";
+import {editPersonalDataService} from "@/entities/User/model/services/editPersonalDataService.ts";
+import {editPasswordService} from "@/entities/User/model/services/editPasswordService.ts";
 
 
 const initialState: UserSliceSchema = {
@@ -13,7 +16,10 @@ const initialState: UserSliceSchema = {
     isUserFetching: false,
     isUserFetched: false,
     companyUsers: [],
-    AsideIsCollapsed: false
+    AsideIsCollapsed: false,
+    profileEditDataIsFetching: false,
+    profileEditPasswordIsFetching: false,
+    profileImageIsFetching: false
 };
 
 export const UserSlice = createSlice({
@@ -69,6 +75,9 @@ export const UserSlice = createSlice({
         },
         setUserInfo: (state: UserSliceSchema, action) => {
             state.userInfo = action.payload
+        },
+        setImageAddError: (state: UserSliceSchema) => {
+            state.profileImageError = 'Ошибка при добавлении фото'
         }
     },
     extraReducers: (builder ) => {
@@ -93,7 +102,42 @@ export const UserSlice = createSlice({
             .addCase(fetchUserInfo.rejected, (state: UserSliceSchema) => {
                 state.isUserFetching = false
             })
-
+            // profileImage
+            .addCase(addImageService.pending, (state: UserSliceSchema) => {
+                state.profileImageError = undefined
+                state.profileImageIsFetching = true
+            })
+            .addCase(addImageService.rejected, (state: UserSliceSchema, action) => {
+                state.profileImageError = action.payload;
+                state.profileImageIsFetching = false
+            })
+            .addCase(addImageService.fulfilled, (state: UserSliceSchema, action) => {
+                state.profileImageIsFetching = false
+            })
+            // personal data
+            .addCase(editPersonalDataService.pending, (state: UserSliceSchema) => {
+                state.profileEditDataIsFetching = true
+                state.profileEditDataError = undefined
+            })
+            .addCase(editPersonalDataService.fulfilled, (state: UserSliceSchema) => {
+                state.profileEditDataIsFetching = false
+            })
+            .addCase(editPersonalDataService.rejected, (state: UserSliceSchema, action) => {
+                state.profileEditDataIsFetching = false
+                state.profileEditDataError = action.payload
+            })
+            // password
+            .addCase(editPasswordService.pending, (state: UserSliceSchema) => {
+                state.profileEditPasswordIsFetching = true
+                state.profileEditPasswordError = undefined
+            })
+            .addCase(editPasswordService.fulfilled, (state: UserSliceSchema) => {
+                state.profileEditPasswordIsFetching = false
+            })
+            .addCase(editPasswordService.rejected, (state: UserSliceSchema, action) => {
+                state.profileEditPasswordIsFetching = false
+                state.profileEditPasswordError = action.payload
+            })
     },
 });
 
