@@ -18,7 +18,7 @@ interface AsideMenuProps {
     className?: string;
 }
 
-type navTabContentValues = 'Задачи' | 'Agile доски' | 'Проекты' | 'Сообщения'
+export type navTabContentValues = 'Задачи' | 'Agile доски' | 'Проекты' | 'Сообщения'
 
 type defaultNavItem = {
     icon: ReactElement;
@@ -36,13 +36,16 @@ type navItemType = defaultNavItem | JSXNavElement
 export const AsideMenu = memo((props: AsideMenuProps) => {
     const { className } = props;
 
+    const initialCollapsedFlag: boolean = localStorage.getItem(LOCAL_STORAGE_COLLAPSED_KEY) === 'true'
+    const [collapsed, setCollapsed] = useState<boolean>(initialCollapsedFlag)
+
     const navigationItems: navItemType[] = [
         {
             icon: <TaskIcon/>,
             content: 'Задачи'
         },
         {
-            element: <BoardTabContent/>,
+            element: <BoardTabContent isCollapsed={collapsed}/>,
             content: 'Agile доски'
         },
         {
@@ -55,9 +58,6 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
             content: 'Сообщения',
         }
     ]
-
-    const initialCollapsedFlag: boolean = localStorage.getItem(LOCAL_STORAGE_COLLAPSED_KEY) === 'true'
-    const [collapsed, setCollapsed] = useState<boolean>(initialCollapsedFlag)
 
     const onClickCollapsedButton = () => {
         setCollapsed(!collapsed)
@@ -81,7 +81,7 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
             <div className={cls.AsideTopContainer}>
                 <Link className={cls.AsideLogoLink} to={getRouteMain()}>{!collapsed ? <LightLogo className={cls.AsideLogo}/> : <LightLogoCropped className={cls.AsideLogo}/>}</Link>
 
-                <ProjectsTab className={cls.ProjectTab}/>
+                <ProjectsTab isCollapsed={collapsed} className={cls.ProjectTab}/>
 
                 <nav className={cls.Navigation}>
                     {navigationItems.map((navigationItem, index) => {
@@ -110,7 +110,7 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
             </div>
 
             <div>
-                <ProfileTab/>
+                <ProfileTab isCollapsed={collapsed}/>
 
                 <div
                     className={cls.AsideItem}

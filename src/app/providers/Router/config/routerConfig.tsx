@@ -1,5 +1,5 @@
 import {
-    AppRoutes,
+    AppRoutes, getRouteBoards,
     getRouteCompanyCreate,
     getRouteLogin,
     getRouteMain, getRoutePasswordRecovery, getRouteProjectBoard, getRouteProjects,
@@ -15,6 +15,7 @@ import {SettingsPage} from "@/pages/SettingsPage";
 import {ProjectsPage} from "@/pages/ProjectsPage";
 import {ProjectBoardPage} from "@/pages/ProjectBoardPage";
 import {PasswordRecoveryPage} from "@/pages/PasswordRecoveryPage";
+import {BoardsPage} from "@/pages/BoardsPage";
 
 export const RouterConfig: Record<AppRoutes, RouterProps> = {
     [AppRoutes.MAIN]: {
@@ -65,5 +66,11 @@ export const RouterConfig: Record<AppRoutes, RouterProps> = {
         path: getRoutePasswordRecovery(),
         element: <PasswordRecoveryPage/>,
         guestOnly: true,
+    },
+    [AppRoutes.BOARDS]: {
+        path: getRouteBoards(':project'),
+        element: <BoardsPage/>,
+        authOnly: true,
+        roles: [UserRoles.USER, UserRoles.COMPANY_OWNER],
     }
 }

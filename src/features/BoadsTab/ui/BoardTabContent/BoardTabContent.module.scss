@@ -2,6 +2,15 @@
 
 }
 
+.isMobile {
+    --anchor-gap: 11px;
+    z-index: 9999;
+    width: calc(100% - 32px);
+    & > div {
+        width: 100%;
+    }
+}
+
 .BoardsWrapper {
     background-color: var(--popup-bg);
     color: var(--text-color);

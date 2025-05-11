@@ -15,10 +15,11 @@ import {Theme} from "@/shared/types/theme.ts";
 
 interface ProfileTabProps {
     className?: string;
+    isCollapsed: boolean
 }
 
 export const ProfileTab = memo((props: ProfileTabProps) => {
-    const { className } = props;
+    const { className, isCollapsed } = props;
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -73,7 +74,7 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
             theme={Theme.DARK_THEME}
             className={classNames(cls.ProfileTab, {}, [])}
             items={profileTabItems}
-            trigger={<ProfileTabButton userFirstName={userInfo?.firstName} avatar={userInfo?.imageUrl}/>}
+            trigger={<ProfileTabButton isCollapsed={isCollapsed} userFirstName={userInfo?.firstName} avatar={userInfo?.imageUrl}/>}
         />
     )
 });

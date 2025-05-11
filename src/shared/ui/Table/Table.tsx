@@ -61,7 +61,9 @@ export const Table = <T extends object>(props: TableProps<T>) => {
                                     key={String(column.key)}
                                     style={{width: column.alignColumn ? '100%' : column?.width}}
                                 >
-                                    {"element" in column ? column.element(row) : String(row[column.key])}
+                                    {'element' in column
+                                        ? column.element(row)
+                                        : String(row[column.key as keyof T])}
                                 </td>
                             ))}
                         </tr>

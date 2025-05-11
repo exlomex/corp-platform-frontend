@@ -1,0 +1,98 @@
+.MobileMenuWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.TopBar {
+    background-color: var(--aside--bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 25px;
+}
+
+.Logo {
+    height: 29px;
+    display: flex;
+    align-items: center;
+}
+
+.BurgerButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+.MenuContent {
+    background-color: var(--aside--bg-color);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    padding: 10px 16px;
+    visibility: hidden;
+    //bottom: 100vh;
+
+    &.MenuIsOpen {
+        visibility: visible;
+        //bottom: 0
+    }
+}
+
+.MenuItem {
+    cursor: pointer;
+    width: 100%;
+    height: 44px;
+    padding: 10px 9px;
+    border-radius: 6px;
+    color: var(--text-color-inverted);
+    display: flex;
+    align-items: center;
+    gap: 0 12px;
+
+    &:hover {
+        background-color: var(--aside-nav-hover);
+
+        svg {
+            path, rect {
+                stroke: var(--purple-color-active);
+
+            }
+        }
+    }
+
+    &.ActiveTab {
+        background-color: var(--aside-nav-hover);
+
+        svg {
+            path, rect {
+                stroke: var(--purple-color-active);
+
+            }
+        }
+    }
+}
+
+.IconWrapper {
+    width: 26px;
+    height: 26px;
+    svg {
+        width: inherit;
+        height: inherit;
+
+        //transition: all .2s ease;
+
+        path, rect {
+            transition: stroke .2s ease;
+        }
+    }
+}

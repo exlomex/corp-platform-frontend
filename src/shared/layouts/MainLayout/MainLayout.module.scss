@@ -8,5 +8,9 @@
 }
 
 .MainContent {
-    width: 100%;
+    width: calc(100% - 210px);
+    &.isCollapsed {
+        width: calc(100% - 66px);
+    }
+
 }

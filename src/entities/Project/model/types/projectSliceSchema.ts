@@ -10,6 +10,7 @@ export interface ProjectDataInterface {
 export interface SelectedProjectInterface {
     id: number;
     title: string;
+    projectKey: string
 }
 export interface ProjectSliceSchema {
     userProjects?: ProjectDataInterface[]

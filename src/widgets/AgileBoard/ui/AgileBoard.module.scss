@@ -2,8 +2,13 @@
     height: calc(100% - 60px);
     overflow: auto;
 
-    // TODO FIX FOR COLLAPSED ASIDE
     max-width: calc(100vw - 210px - 60px);
+
+    &.isCollapsed {
+        max-width: calc(100vw - 66px - 60px);
+    }
+
+
 }
 
 .AgileBoardWrapper {

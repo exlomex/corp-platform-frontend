@@ -6,15 +6,17 @@ interface ProjectsTabButtonProps {
     className?: string;
     selectedProject?: string;
     isOpen?: boolean;
+    isCollapsed: boolean
 }
 
 export const ProjectsTabButton = (props: ProjectsTabButtonProps) => {
-    const { className, selectedProject = 'Ваши проекты', isOpen } = props;
+    const { className, selectedProject = '', isOpen, isCollapsed } = props;
 
     return (
-        <div className={classNames(cls.ProjectsTabButton, {}, [className])}>
-            <p className={cls.ProjectText}>{selectedProject}</p>
-            <span className={classNames(cls.IconWrapper, {[cls.ButtonIsActive]: isOpen}, [])}><RightArrow/></span>
+        <div className={classNames(cls.ProjectsTabButton, {[cls.IsCollapsed]: isCollapsed}, [className])}>
+            <p className={cls.ProjectText}>{!selectedProject ? (isCollapsed ? 'Пр' : 'Ваши проекты') : selectedProject}</p>
+            {!isCollapsed &&
+                <span className={classNames(cls.IconWrapper, {[cls.ButtonIsActive]: isOpen}, [])}><RightArrow/></span>}
         </div>
     )
 };

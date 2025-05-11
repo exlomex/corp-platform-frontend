@@ -19,30 +19,45 @@ export const ProjectSlice = createSlice({
             state.selectedProject = action.payload;
         },
         initProjects: (state: ProjectSliceSchema) => {
-                if (state.userProjects.length >= 1 && !state.isFirstFetchUserProject) {
-                    const selectedProjectFromStorage: SelectedProjectInterface = JSON.parse(localStorage.getItem(LOCAL_STORAGE_SELECTED_PROJECT))
-                    if (selectedProjectFromStorage) {
-                        const isHasSelectedProject = (state.userProjects.some(project => {
-                            return project.title === selectedProjectFromStorage.title;
-                        }))
-                        if (isHasSelectedProject) {
-                            state.selectedProject = selectedProjectFromStorage;
-                        } else {
-                            localStorage.removeItem(LOCAL_STORAGE_SELECTED_PROJECT)
-                        }
+            const hasProjects = state.userProjects.length > 0;
+            const shouldInit = hasProjects && !state.isFirstFetchUserProject;
 
+            if (!shouldInit) {
+                // localStorage.removeItem(LOCAL_STORAGE_SELECTED_PROJECT);
+                state.selectedProject = undefined;
+                return;
+            }
+
+            const getFirstProject = (): SelectedProjectInterface => ({
+                title: state.userProjects[0].title,
+                id: state.userProjects[0].id,
+                projectKey: state.userProjects[0].shortName
+            });
+
+            const stored = localStorage.getItem(LOCAL_STORAGE_SELECTED_PROJECT);
+
+            if (stored) {
+                try {
+                    const parsed: SelectedProjectInterface = JSON.parse(stored);
+                    const exists = state.userProjects.some(p => p.title === parsed.title);
+
+                    if (exists) {
+                        state.selectedProject = parsed;
+                        return;
                     } else {
-                        const firstSelectedProject = {
-                            title: state.userProjects[0].title,
-                            id: state.userProjects[0].id
-                        }
-
-                        state.selectedProject = firstSelectedProject;
-                        localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify(firstSelectedProject))
+                        localStorage.removeItem(LOCAL_STORAGE_SELECTED_PROJECT);
+                        state.selectedProject = undefined;
                     }
-                } else {
-                    state.selectedProject = undefined;
+                } catch (e) {
+                    console.error('[initProjects] Failed to parse stored project:', e);
+                    localStorage.removeItem(LOCAL_STORAGE_SELECTED_PROJECT);
                 }
+            }
+
+            // fallback to first project
+            const fallback = getFirstProject();
+            state.selectedProject = fallback;
+            localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify(fallback));
         },
 
         setUserProjects: (state: ProjectSliceSchema, action: PayloadAction<ProjectDataInterface[]>) => {

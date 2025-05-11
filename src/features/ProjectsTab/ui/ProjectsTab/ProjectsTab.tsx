@@ -28,10 +28,11 @@ import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchU
 
 interface ProjectsTabProps {
     className?: string;
+    isCollapsed: boolean
 }
 
 export const ProjectsTab = (props: ProjectsTabProps) => {
-    const { className } = props;
+    const { className, isCollapsed} = props;
 
     const userProjects = useSelector(getProjectUserProjects)
 
@@ -87,7 +88,10 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
     return (
         <Popover
             className={classNames(cls.ProjectsTab, {}, [className])}
-            trigger={<ProjectsTabButton selectedProject={selectedProject && selectedProject.title}/>}
+            trigger={<ProjectsTabButton
+                isCollapsed={isCollapsed}
+                selectedProject={selectedProject && (isCollapsed ? selectedProject.projectKey : selectedProject.title)}
+            />}
             direction={'right start'}
         >
             {({open, close}) => (
@@ -101,7 +105,8 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
                                 <div
                                     onClick={async () => (await onSelectNewProject({
                                         id: project.id,
-                                        title: project.title
+                                        title: project.title,
+                                        projectKey: project.shortName
                                     }, close))()}
                                     key={project.id}
                                     className={classNames(cls.ProjectItem, {[cls.ProjectActive]: selectedProject && selectedProject.title === project.title}, [])}>

@@ -1,0 +1,1 @@
+export {BoardsPageAsync as BoardsPage} from './ui/BoardsPage/BoardsPage.async.tsx'

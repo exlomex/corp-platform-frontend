@@ -5,42 +5,38 @@ import {MainLayout} from "@/shared/layouts/MainLayout";
 import {ComboBox} from "@/shared/ui/ComboBox";
 import {Select} from "@/shared/ui/Select";
 import {useSelector} from "react-redux";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {useNavigate} from "react-router";
+import {getRouteBoards, getRouteProjects} from "@/shared/const/router.ts";
 
 interface TasksPageProps {
     className?: string;
 }
 
+
 const Content = () => {
-    const [selectValue, setSelectValue] = useState<ComboBoxOption>(null)
 
-    return <div className={cls.Test}>
-
-        <ComboBox
-            options={[
-                { label: 'React', value: 'react' },
-                { label: 'Vue', value: 'vue' },
-                { label: 'Angular', value: 'angular' },
-            ]}
-            onSelectAction={(item) => alert(`Сразу действие: ${item.label}`)}
-        />
-
-        <Select
-            colorType={'PURPLE'}
-            widthType={'FIT_CONTENT'}
-            onSelectFunc={setSelectValue}
-            value={selectValue}
-            options={[
-            { label: 'React', value: 'react' },
-            { label: 'Vue', value: 'vue' },
-            { label: 'Angular', value: 'angular' },
-        ]}/>
-    </div>
+    return <></>
 }
 
 export function TasksPage(props: TasksPageProps) {
     const { className } = props;
+
+    const selectedProject = useSelector(getProjectSelectedProject)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (selectedProject === undefined) return
+
+        if (selectedProject?.id) {
+            navigate(getRouteBoards(String(selectedProject?.id)))
+        } else {
+            navigate(getRouteProjects())
+        }
+    }, [navigate, selectedProject]);
+
     return (
         <div className={classNames(cls.TasksPage, {}, [className])}>
             <MainLayout

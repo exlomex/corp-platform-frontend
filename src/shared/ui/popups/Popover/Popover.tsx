@@ -11,10 +11,11 @@ interface PopoverProps {
     trigger: ReactElement<{isOpen: boolean}>;
     theme?: Theme;
     children: (args: { open: boolean; close: () => void }) => ReactElement;
+    popoverPanelClassName?: string
 }
 
 export const Popover = (props: PopoverProps) => {
-    const { className, trigger, direction = 'right', theme, children } = props;
+    const { className, trigger, direction = 'right', theme, children, popoverPanelClassName} = props;
     return (
         <HPopover
             className={classNames(cls.Popover, {}, [className, theme])}
@@ -27,7 +28,7 @@ export const Popover = (props: PopoverProps) => {
                         </PopoverButton>
 
                         <PopoverPanel
-                            className={cls.PopoverContent}
+                            className={classNames(cls.PopoverContent, {}, [popoverPanelClassName])}
                             anchor={direction as AnchorProps}
                             transition
                             modal={false}

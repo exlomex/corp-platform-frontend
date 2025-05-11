@@ -1,4 +1,4 @@
-import { classNames } from '@/shared/lib/classNames';
+import {classNames} from '@/shared/lib/classNames';
 import cls from '../styles/Popups.module.scss';
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
 import React, {memo, MouseEvent, ReactElement, ReactNode, useRef} from "react";

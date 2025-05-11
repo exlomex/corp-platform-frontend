@@ -8,7 +8,7 @@ import {Theme} from "@/shared/types/theme.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {DeleteUserProjectById} from "@/entities/Project/model/services/deleteUserProjectById.ts";
 import {useSelector} from "react-redux";
-import {getProjectIsDeleteProjectFetching} from "@/entities/Project";
+import {getProjectIsDeleteProjectFetching, ProjectActions} from "@/entities/Project";
 
 interface ProjectsAdditionalButtonProps {
     className?: string;
@@ -22,7 +22,8 @@ export const ProjectsAdditionalButton = (props: ProjectsAdditionalButtonProps) =
 
     const isDeleteFetching = useSelector(getProjectIsDeleteProjectFetching)
     const onDeleteProjectHandler = async () => {
-        dispatch(DeleteUserProjectById({id: id}))
+        await dispatch(DeleteUserProjectById({id: id})).unwrap()
+        await dispatch(ProjectActions.initProjects())
     }
 
     const AdditionalButtonItems: DropdownItem[] = [

@@ -18,6 +18,7 @@ import {CreateColumnNewTask} from "@/features/CreateNewTask";
 import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 import {ColumnWrapper} from "@/entities/Column/ui/ColumnWrapper/ColumnWrapper.tsx";
 import {CreateNewColumn} from "@/features/CreateNewColumn";
+import {LOCAL_STORAGE_COLLAPSED_KEY} from "@/shared/const/localstorage.ts";
 
 interface AgileBoardProps {
     className?: string;
@@ -113,6 +114,8 @@ export const AgileBoard = (props: AgileBoardProps) => {
     const selectedProject = useSelector(getProjectSelectedProject)
     const boardId = +params.board || 0
 
+    const isCollapsed = localStorage.getItem(LOCAL_STORAGE_COLLAPSED_KEY)
+
     return (
         <DndContext
             sensors={sensors}
@@ -134,7 +137,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
             }}
             onDragEnd={onDragEndHandle}
         >
-            <div className={classNames(cls.AgileBoard, {}, [className])}>
+            <div className={classNames(cls.AgileBoard, {[cls.isCollapsed]: isCollapsed}, [className])}>
                 <div className={cls.AgileBoardWrapper}>
                     {boardStatuses && (
                         <SortableContext

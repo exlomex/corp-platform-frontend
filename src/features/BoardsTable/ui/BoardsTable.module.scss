@@ -1,0 +1,19 @@
+.BoardsTable {
+
+}
+
+.TopLine {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.TableHeading {
+}
+
+.Link {
+    font: var(--font-paragraph-14-Regular);
+    text-decoration: underline;
+    color: var(--purple-color-active);
+}

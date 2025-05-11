@@ -12,6 +12,11 @@
     padding: 7px 9px;
     gap: 0 10px;
     align-items: center;
+
+    &.Collapsed {
+        justify-content: center;
+        padding: 7px 7px;
+    }
 }
 
 .ProfileTabAvatar {
@@ -29,5 +34,10 @@
 }
 
 .ProfileTabTest {
+    overflow: hidden;
     color: var(--text-color-inverted);
+
+    &.Collapsed {
+        font: var(--font-paragraph-14-Regular);
+    }
 }

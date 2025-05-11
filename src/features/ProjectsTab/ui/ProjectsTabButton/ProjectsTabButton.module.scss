@@ -16,11 +16,17 @@
     &:hover {
         background-color: var(--project-tab-bg-color-hover-active);
     }
+
+    &.IsCollapsed {
+        justify-content: center;
+    }
 }
 
 .ProjectText {
-
+    overflow: hidden;
+    text-wrap: none;
 }
+
 
 .IconWrapper {
     height: 16px;

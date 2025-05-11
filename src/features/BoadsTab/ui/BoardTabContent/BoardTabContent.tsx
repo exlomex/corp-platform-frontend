@@ -14,15 +14,17 @@ import {useCallback, useEffect} from "react";
 import {getIsUserBoardsFetching, getIsUserBoardsFirstLoading, getUserBoardsBySelectedProject} from "@/entities/Board";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
-import {getRouteProjectBoard} from "@/shared/const/router.ts";
+import {getRouteBoards, getRouteProjectBoard} from "@/shared/const/router.ts";
 import {newBoardSliceActions} from "@/features/CreateNewBoard";
 
 interface BoardTabContentProps {
     className?: string;
+    isCollapsed: boolean
+    isMobile?: boolean
 }
 
 export const BoardTabContent = (props: BoardTabContentProps) => {
-    const { className } = props;
+    const { className, isCollapsed, isMobile = false } = props;
 
     // const selectedBoard = useSelector()
 
@@ -58,13 +60,15 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
     }, [params.board]);
 
     if (!selectedProject) {
-        return <BoardTabButton active={false}/>
+        return <BoardTabButton isCollapsed={isCollapsed} active={false}/>
     }
 
     return (
         <Popover
+            direction={isMobile ? 'bottom' : 'right'}
             className={classNames(cls.BoardTabContent, {}, [className])}
-            trigger={<BoardTabButton/>}
+            trigger={<BoardTabButton isCollapsed={isCollapsed}/>}
+            popoverPanelClassName={classNames('', {[cls.isMobile]: isMobile}, [])}
         >
             {({open, close}) => (
                 <div
@@ -72,7 +76,7 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
                 >
                     <div className={cls.BoardTabTopLine}>
                         <p className={cls.BoardHeader}>Доски в {selectedProject && selectedProject.title}</p>
-                        <Link className={cls.AllBoardsLink} to={'/not'}>Все доски</Link>
+                        <Link className={cls.AllBoardsLink} to={getRouteBoards(`${selectedProject.id}`)}>Все доски</Link>
                     </div>
 
                     <div className={cls.BoardsList}>

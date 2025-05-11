@@ -7,7 +7,8 @@ export enum AppRoutes {
     NOT_FOUND = '*',
     PROJECTS = 'projects',
     PROJECT_BOARD = 'projectBoard',
-    PASSWORD_RECOVERY = 'passwordRecovery'
+    PASSWORD_RECOVERY = 'passwordRecovery',
+    BOARDS = 'boards'
 }
 
 export const getRouteMain = () => '/';
@@ -20,3 +21,5 @@ export const getRouteProjects = () => '/projects'
 export const getRouteProjectBoard = (project: string, board: string) => `/projects/${project}/boards/${board}`;
 
 export const getRoutePasswordRecovery = () => '/recovery'
+
+export const getRouteBoards = (project: string) => `/boards/${project}`
