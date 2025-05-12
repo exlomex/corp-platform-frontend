@@ -43,7 +43,7 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
 
     const navigationItems: navItemType[] = [
         {
-            icon: <TaskIcon/>,
+            element: <span className={cls.Tasks}><TaskIcon/> Задачи</span>,
             content: 'Задачи'
         },
         {

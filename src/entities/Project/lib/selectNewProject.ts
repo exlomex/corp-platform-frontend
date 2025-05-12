@@ -32,6 +32,8 @@ export const selectNewProject = async (
         } catch (e) {
             throw new Error(e.message || e);
         }
+    } else {
+        navigate(getRouteBoards(String(project.id)))
     }
 
     if (close) {

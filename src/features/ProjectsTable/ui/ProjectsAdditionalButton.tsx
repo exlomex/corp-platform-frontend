@@ -32,9 +32,9 @@ export const ProjectsAdditionalButton = (props: ProjectsAdditionalButtonProps) =
             onClick: onDeleteProjectHandler,
             isLoading: isDeleteFetching
         },
-        {
-            content: 'Редактировать',
-        }
+        // {
+        //     content: 'Редактировать',
+        // }
     ]
 
     return (

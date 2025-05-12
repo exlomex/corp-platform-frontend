@@ -23,6 +23,9 @@ import BackIcon from '@/shared/assets/icons/backIcon.svg'
 import {AdditionalTaskInfo} from "../../AdditionalTaskInfo/AdditionalTaskInfo.tsx";
 import {StatusActions} from "@/entities/Status";
 import {EditableTaskPriority} from "../../EditableTaskPriority/EditableTaskPriority.tsx";
+import {DropDown, DropdownItem} from "@/shared/ui/popups/DropDown/DropDown.tsx";
+import DotsIcon from "@/shared/assets/icons/dots.svg";
+import {Theme} from "@/shared/types/theme.ts";
 
 interface TaskInfoContentProps {
     className?: string;
@@ -94,6 +97,13 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
         });
     };
 
+    const AddToTaskButtonItems: DropdownItem[] = [
+        {
+            content: 'Подзадачу',
+            onClick: () => {dispatch(TaskActions.setIsOpenSubTaskModal(true))}
+        },
+    ]
+
     return (
         <div className={classNames(cls.TaskInfoContent, {}, [className])}>
             <div className={cls.TaskInfoLeftSide}>
@@ -115,7 +125,14 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
 
                 </div>
 
-                <Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/> Добавить</Button>
+                <DropDown
+                    items={AddToTaskButtonItems}
+                    trigger={<Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/> Добавить</Button>}
+                    direction={'bottom start'}
+                    gap={6}
+                    fSize={14}
+                    theme={Theme.LIGHT_THEME}
+                />
 
                 <Typography size={'PARAGRAPH-18-REGULAR'}>Детали задачи</Typography>
 

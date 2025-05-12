@@ -51,7 +51,7 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                     ...filteredBoardTasks.current.map(task => {
                         return {
                             id: task.id,
-                            label: task.title,
+                            label: `${task.uniqueTitle} ${task.title}`,
                             value: task.uniqueTitle
                         }})]
             )
@@ -119,7 +119,7 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
     return (
         <div className={classNames(cls.EditableTaskParent, {}, [className])}>
             {!editIsActive
-                ? (<p onClick={() => setEditIsActive(true)} className={cls.ParentName}>{selectedTaskInfo?.parent?.title ? selectedTaskInfo?.parent?.title : 'Нет'}</p>)
+                ? (<p onClick={() => setEditIsActive(true)} className={cls.ParentName}>{selectedTaskInfo?.parent?.title ? `${selectedTaskInfo?.parent?.uniqueTitle}  ${selectedTaskInfo?.parent?.title}` : 'Нет'}</p>)
                 : (<>{normalizedBoardTasks &&
                     <ComboBox
                         value={selectedTask}
@@ -128,7 +128,6 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                     </ComboBox>}
                 </>)
             }
-
         </div>
     )
 };

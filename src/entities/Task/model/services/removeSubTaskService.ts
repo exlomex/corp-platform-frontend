@@ -13,7 +13,7 @@ export const RemoveSubTaskService = createAsyncThunk<
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     const headers = {
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
     };
 
     try {

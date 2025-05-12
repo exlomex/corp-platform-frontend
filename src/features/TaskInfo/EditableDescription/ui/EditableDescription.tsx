@@ -75,7 +75,7 @@ export const EditableDescription = (props: EditableDescriptionProps) => {
 
     return (
         <>
-            <Typography className={cls.Title} size={'TEXT-20-MEDIUM'}>Описание</Typography>
+            <Typography className={cls.Title} size={'PARAGRAPH-18-REGULAR'}>Описание</Typography>
 
             <div
                 className={classNames(cls.EditableDescription, {[cls.isActiveEditableArea]: isEditDescriptionActive}, [className])}

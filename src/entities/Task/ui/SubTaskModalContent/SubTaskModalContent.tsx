@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {
     getAddSubTaskError,
     getAddSubTaskSelectedTask,
-    getBoardTasks
+    getBoardTasks, getSelectedTaskInfo
 } from "../../model/selectors/getTaskValues.ts";
 import {ComboBox} from "@/shared/ui/ComboBox";
 import {useEffect, useRef, useState} from "react";
@@ -15,8 +15,9 @@ import {Button} from "@/shared/ui/Button";
 import {AddSubTaskInputData, AddSubTaskService} from "../../model/services/addSubTaskService.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
-import {useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import {getRouteProjectBoard} from "@/shared/const/router.ts";
+import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 
 interface SubTaskModalContentProps {
     className?: string;
@@ -26,14 +27,39 @@ interface SubTaskModalContentProps {
 export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
     const { className, onClose } = props;
 
+    const selectedTaskInfoIntoCard = useSelector(getSelectedTaskInfo)
+
     const selectedTaskInfo = useSelector(getAddSubTaskSelectedTask)
     const boardTasks = useSelector(getBoardTasks)
+
+    useEffect(() => {
+        console.log(selectedTaskInfoIntoCard);
+        console.log(selectedTaskInfo);
+    }, [selectedTaskInfo, selectedTaskInfoIntoCard]);
 
     const filteredBoardTasks = useRef<TaskI[]>(null)
     const [normalizedBoardTasks, setNormalizedBoardTasks] = useState<ComboBoxOption[]>(null)
 
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const searchParamsSelectedTask = queryParams.get('selectedTask')
+
+    console.log(searchParamsSelectedTask);
+
     useEffect(() => {
-        if (boardTasks.length >= 1 && selectedTaskInfo) {
+        if (selectedTaskInfoIntoCard?.id && boardTasks.length >= 1 && searchParamsSelectedTask !== null) {
+            filteredBoardTasks.current = boardTasks.filter(task => task.uniqueTitle !== selectedTaskInfoIntoCard.uniqueTitle)
+
+            setNormalizedBoardTasks(
+                [{ label: 'Не выбрано', value: '' },
+                    ...filteredBoardTasks.current.map(task => {
+                        return {
+                            id: task.id,
+                            label: task.title,
+                            value: task.uniqueTitle
+                        }})]
+            )
+        } else if (boardTasks.length >= 1 && selectedTaskInfo?.uniqueTitle) {
             filteredBoardTasks.current = boardTasks.filter(task => task.uniqueTitle !== selectedTaskInfo.uniqueTitle)
 
             setNormalizedBoardTasks(
@@ -46,7 +72,9 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
                         }})]
             )
         }
-    }, [boardTasks, selectedTaskInfo]);
+
+
+    }, [boardTasks, searchParamsSelectedTask, selectedTaskInfo, selectedTaskInfoIntoCard]);
 
     const [selectedTask, setSelectedTask] = useState<ComboBoxOption | undefined>(null)
 
@@ -56,20 +84,38 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
     const dispatch = useAppDispatch()
     const onSubmitAddSubtask = async () => {
         if (selectedTask.id) {
-            const addSubTaskBody: AddSubTaskInputData = {
-                parentTaskId: selectedTaskInfo.id,
-                subtaskId: selectedTask.id
-            }
+            let addSubTaskBody: AddSubTaskInputData
 
-            try {
-                await dispatch(AddSubTaskService(addSubTaskBody)).unwrap()
-                // await dispatch(FetchBoardTasks({boardId: +params?.board}))
-                onClose()
-            } catch (e) {
-                console.error(e?.message || e)
+            if (selectedTaskInfoIntoCard?.id && searchParamsSelectedTask !== null) {
+                addSubTaskBody = {
+                    parentTaskId: selectedTaskInfoIntoCard.id,
+                    subtaskId: selectedTask.id
+                }
+
+                try {
+                    await dispatch(AddSubTaskService(addSubTaskBody)).unwrap()
+                    await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfoIntoCard.uniqueTitle}))
+                    onClose()
+                } catch (e) {
+                    console.error(e?.message || e)
+                }
+            } else if (selectedTaskInfo?.id) {
+                addSubTaskBody = {
+                    parentTaskId: selectedTaskInfo.id,
+                    subtaskId: selectedTask.id
+                }
+
+                try {
+                    await dispatch(AddSubTaskService(addSubTaskBody)).unwrap()
+                    onClose()
+                } catch (e) {
+                    console.error(e?.message || e)
+                }
             }
         }
     }
+
+    const uniqueTitle = searchParamsSelectedTask !== null ? selectedTaskInfoIntoCard?.uniqueTitle ? selectedTaskInfoIntoCard?.uniqueTitle : selectedTaskInfoIntoCard?.uniqueTitle : selectedTaskInfo.uniqueTitle
 
     return (
         <div className={classNames(cls.SubTaskModalContent, {}, [className])}>
@@ -79,7 +125,7 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
 
             <div className={cls.UniqueTitleWrapper}>
                 <Typography size={'PARAGRAPH-14-REGULAR'} align={'LEFT'}>Уникальное название родительской задачи:</Typography>
-                <div className={cls.UniqueTitle}>{selectedTaskInfo.uniqueTitle}</div>
+                <div className={cls.UniqueTitle}>{uniqueTitle}</div>
             </div>
 
             <form>

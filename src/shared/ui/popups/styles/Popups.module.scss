@@ -21,7 +21,7 @@
         --anchor-gap: 6px;
     }
 
-    min-width: 170px;
+    min-width: 106px;
     max-width: 200px;
     height: fit-content;
 
@@ -47,8 +47,8 @@
     border-radius: 6px;
     color: var(--text-color);
     white-space: normal;
-    overflow-wrap: break-word;
-    word-break: break-word;
+    overflow-wrap: normal;
+    word-break: normal;
     max-width: 200px;
 
     &:hover {
