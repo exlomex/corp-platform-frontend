@@ -110,6 +110,15 @@
     left: 6px;
     top: 50%;
     transform: translateY(-50%);
+
+    &:has(svg) {
+        left: 8px;
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 .AvatarImage {

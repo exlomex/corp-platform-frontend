@@ -11,7 +11,7 @@ import {getNewCompanyIsFetching} from "../model/selectors/getNewCompanyValues.ts
 import {createNewCompanyService, createNewCompanyServiceInputData} from "../model/services/createNewCompanyService.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {useNavigate} from "react-router";
-import {getRouteMain} from "@/shared/const/router.ts";
+import {getRouteMain, getRouteProjects} from "@/shared/const/router.ts";
 import {UserSliceActions} from "@/entities/User";
 import {BoardActions} from "@/entities/Board";
 import {ProjectActions} from "@/entities/Project";
@@ -47,7 +47,7 @@ export const CreateNewCompanyForm = (props: CreateNewCompanyFormProps) => {
 
         try {
             await dispatch(createNewCompanyService(companyData)).unwrap()
-            navigate(getRouteMain())
+            navigate(getRouteProjects())
 
         } catch (e) {
             console.error(e)

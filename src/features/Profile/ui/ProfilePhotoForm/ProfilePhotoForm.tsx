@@ -65,7 +65,7 @@ export const ProfilePhotoForm = ({className}: ProfilePhotoFormProps) => {
                 <Button isLoading={isFetching} onClick={() => inputRef.current?.click()} buttonType={'SMART_TEXT_BTN_FILLED'}>Загрузить
                     фото</Button>
 
-                <Typography className={cls.FileHint} size={'PARAGRAPH-12-REGULAR'}>Максимальный размер файла 3.5
+                <Typography className={cls.FileHint} size={'PARAGRAPH-12-REGULAR'}>Максимальный размер файла 3
                     мб</Typography>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {ThunkConfig} from "@/app/providers/Store";
+import {Priority} from "@/features/CreateNewTask/const/priorityConsts.tsx";
 
 export interface createNewTaskServiceInputData {
     title: string,
@@ -8,6 +9,9 @@ export interface createNewTaskServiceInputData {
     boardId: number,
     statusId?: number,
     assignedTo?: number
+    priority?: keyof typeof Priority;
+    storyPoints?: number;
+    deadLine?: Date
 }
 
 export const createNewTaskService = createAsyncThunk<

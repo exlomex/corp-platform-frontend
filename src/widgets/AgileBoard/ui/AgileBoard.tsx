@@ -166,6 +166,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                                             .filter(task => task.statusId === boardStatus.id)
                                             .map(task => (
                                                 <DraggableTask
+                                                    taskPriority={task.priority}
                                                     boardId={boardId}
                                                     key={`${task.id}-${task.statusId}`}
                                                     taskTitle={task.title}

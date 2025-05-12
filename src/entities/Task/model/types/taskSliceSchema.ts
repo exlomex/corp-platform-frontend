@@ -1,3 +1,5 @@
+import {Priority} from "@/features/CreateNewTask/const/priorityConsts.tsx";
+
 interface TaskUser {
     id: number,
     firstName: string,
@@ -22,9 +24,11 @@ export interface TaskI {
     boardId: number,
     author: TaskUser,
     assignee?: TaskUser,
+    createdAt?: Date;
     updatedAt?: Date;
     subtasks: subTaskI[],
     parent?: subTaskI
+    priority?: Priority
 }
 export interface TaskSliceSchema {
     boardTasks: TaskI[]

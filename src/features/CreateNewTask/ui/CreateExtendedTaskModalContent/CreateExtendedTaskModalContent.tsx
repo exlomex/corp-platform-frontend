@@ -19,6 +19,7 @@ import {
 } from "@/features/CreateNewTask/model/services/createNewTaskService.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
+import {Priority, priorityOptions} from "@/features/CreateNewTask/const/priorityConsts.tsx";
 
 interface CreateExtendedTaskModalContentProps {
     className?: string;
@@ -88,6 +89,15 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
 
     useEffect(() => {
         if (userBoards?.length) {
+            const userSelectedBoard = userBoards.find(board => board.id === +params.board)
+            if (userSelectedBoard) {
+                setPickedBoard({
+                    label: userSelectedBoard.title,
+                    value: userSelectedBoard.title,
+                    id: userSelectedBoard.id
+                })
+            }
+
             setNormalizedBoards(
                 userBoards.map(project => {
                     return {
@@ -102,13 +112,13 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                 value: ''
             }])
         }
-    }, [userBoards, userProjects]);
+    }, [params.board, userBoards, userProjects]);
 
     useEffect(() => {
-        if (normalizedBoards) {
+        if (normalizedBoards && !pickedBoard) {
             setPickedBoard(normalizedBoards[0])
         }
-    }, [normalizedBoards]);
+    }, [normalizedBoards, pickedBoard]);
 
     useEffect(() => {
         if (pickedBoard?.value) {
@@ -138,6 +148,10 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
     const onTaskTitleBlur = () => {
         validateTitle(taskTitle);
     };
+
+    // priority
+    const [selectedPriority, setSelectedPriority] = useState<ComboBoxOption>(null)
+
 
     // description
     const [descriptionTitle, setDescriptionTitle] = useState<string>('')
@@ -190,6 +204,7 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                 boardId: +pickedBoard.id,
                 ...(descriptionTitle && { description: descriptionTitle }),
                 ...(pickedUser?.id && { assignedTo: pickedUser.id }),
+                ...(selectedPriority?.value && {priority: selectedPriority.value as keyof typeof Priority})
             }
 
             try {
@@ -229,6 +244,11 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                     <Input className={cls.FormTitle} value={taskTitle} onBlur={onTaskTitleBlur} onChange={onTaskTitleChange}
                            variant={'SMART_INPUT'}/>
                     <span className={cls.Error}>{taskTitleError}</span>
+                </div>
+
+                <div>
+                    <p>Приоритет задачи</p>
+                    <ComboBox withSvgComponent options={priorityOptions} value={selectedPriority} setStateFunc={setSelectedPriority}/>
                 </div>
 
                 <div className={cls.FormField}>

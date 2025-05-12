@@ -1,4 +1,4 @@
-import {useState, useMemo, ChangeEvent, useRef, Dispatch, SetStateAction, useEffect} from 'react';
+import {useState, useMemo, ChangeEvent, useRef, Dispatch, SetStateAction, useEffect, ReactNode} from 'react';
 import cls from './ComboBox.module.scss';
 import { classNames } from '@/shared/lib/classNames';
 import DownArrow from '@/shared/assets/icons/smallDownArrow.svg'
@@ -10,7 +10,7 @@ export interface ComboBoxOption {
     label: string;
     value: string;
     data?: {
-        [key: string]: string
+        [key: string]: string | ReactNode
     };
 }
 
@@ -26,6 +26,7 @@ interface BaseProps {
     onSelectAction?: (value: ComboBoxOption) => void;
     position?: keyof typeof positionTypes;
     withImage?: boolean
+    withSvgComponent?: boolean;
 }
 
 interface ControlledComboBoxProps extends BaseProps {
@@ -47,20 +48,28 @@ export const ComboBox = (props: ComboBoxProps) => {
         onSelectAction,
         position = 'ABSOLUTE',
         withImage = false,
-        setStateFunc
+        setStateFunc,
+        withSvgComponent = false
     } = props;
 
     const value = 'value' in props ? props.value : undefined;
 
     const [query, setQuery] = useState(value?.label || '');
     const [selectedImage, setSelectedImage] = useState<string>('')
+    const [selectedSvg, setSelectedSvg] = useState<ReactNode>(null);
     const [showOptions, setShowOptions] = useState(false);
 
     const [inputValue, setInputValue] = useState(value?.label || '');
 
     useEffect(() => {
         if (value?.data?.image) {
-            setSelectedImage(value?.data?.image)
+            setSelectedImage(value?.data?.image as string)
+        }
+    }, [value]);
+
+    useEffect(() => {
+        if (value?.data?.svg) {
+            setSelectedSvg(value?.data?.svg as ReactNode)
         }
     }, [value]);
 
@@ -86,7 +95,8 @@ export const ComboBox = (props: ComboBoxProps) => {
         setStateFunc?.(option)
 
         const image = option?.data?.image;
-        setSelectedImage(image || '');
+        setSelectedImage(image as string);
+        setSelectedSvg(option?.data?.svg);
     };
 
     const inputRef = useClickOutside<HTMLInputElement>(() => setShowOptions(false))
@@ -104,6 +114,9 @@ export const ComboBox = (props: ComboBoxProps) => {
                 const length = inputRef?.current?.value?.length;
                 inputRef?.current.setSelectionRange(0, length)
                 setShowOptions(true)
+
+                setQuery('');
+                setInputValue('');
             }
 
         }
@@ -117,6 +130,12 @@ export const ComboBox = (props: ComboBoxProps) => {
             >
                 {withImage && <div className={cls.AvatarWrapper}>{selectedImage ? <img className={cls.AvatarImage} alt={'userAvatar'} src={selectedImage}/> : <UserAvatarIcon/>}</div>}
 
+                {withSvgComponent && (
+                    <div className={cls.AvatarWrapper}>
+                        {selectedSvg || ''}
+                    </div>
+                )}
+
                 <input
                     ref={inputRef}
                     type="text"
@@ -126,7 +145,7 @@ export const ComboBox = (props: ComboBoxProps) => {
                         setSelectedImage('')
                     }}
                     placeholder={placeholder}
-                    className={classNames(cls.input, {[cls.WithImage]: withImage}, [])}
+                    className={classNames(cls.input, {[cls.WithImage]: withImage || withSvgComponent}, [])}
                 />
 
                 <span
@@ -142,18 +161,25 @@ export const ComboBox = (props: ComboBoxProps) => {
                             onMouseDown={() => handleSelect(option)}
                             className={classNames(cls.optionItem, {[cls.WithImageOptionItem]: withImage}, [])}
                         >
-                            {withImage
-                                ? <div className={cls.WithImageElement}>
-                                    <div className={cls.ElementImage}>{option?.data?.image
-                                        ? <img className={cls.AvatarImage} src={option?.data?.image} alt="Avatar"/>
-                                        : <UserAvatarIcon/>}
+                            {withSvgComponent ? (
+                                <div className={cls.WithImageElement}>
+                                    <div className={cls.ElementImage}>
+                                        {option?.data?.svg || <UserAvatarIcon />}
                                     </div>
                                     {option.label}
                                 </div>
-                                : <>
+                            ) : withImage ? (
+                                <div className={cls.WithImageElement}>
+                                    <div className={cls.ElementImage}>
+                                        {option?.data?.image
+                                            ? <img className={cls.AvatarImage} src={option?.data?.image as string} alt="Avatar" />
+                                            : <UserAvatarIcon />}
+                                    </div>
                                     {option.label}
-                                </>
-                            }
+                                </div>
+                            ) : (
+                                <>{option.label}</>
+                            )}
 
                         </li>
                     ))}

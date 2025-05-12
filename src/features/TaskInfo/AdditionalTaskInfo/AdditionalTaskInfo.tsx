@@ -12,6 +12,7 @@ import {getSelectedTaskInfo} from "@/entities/Task";
 import {
     AdditionalEditableTaskParent
 } from "../AdditionalEditableTaskParent/AdditionalEditableTaskParent.tsx";
+import {formatCustomDate} from "@/shared/lib/formatCustomDate";
 
 interface AdditionalTaskInfoProps {
     className?: string;
@@ -48,6 +49,20 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
         },
     ]
 
+    const additionalDatesOptions: {
+        label: string,
+        content: string
+    }[] = [
+        {
+            label: 'Создано',
+            content: formatCustomDate(selectedTaskInfo?.createdAt)
+        },
+        {
+            label: 'Обновлено',
+            content: formatCustomDate(selectedTaskInfo?.updatedAt)
+        },
+    ]
+
     return (
         <div className={classNames(cls.AdditionalTaskInfo, {}, [className])}>
             <EditableTaskStatus/>
@@ -61,6 +76,17 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
                             <p className={cls.additionalOptionName}>{additionalOption.label}</p>
 
                             <div className={cls.additionalOptionContent}>{additionalOption.content}</div>
+                        </div>
+                    ))}
+                </div>
+
+                <Typography size={'PARAGRAPH-16-REGULAR'} className={cls.DateHeading}>Даты</Typography>
+
+                <div className={cls.DateContainer}>
+                    {additionalDatesOptions.map((date, index) => (
+                        <div className={cls.DateWrapper} key={index}>
+                            <p className={cls.DateLabel}>{date.label}</p>
+                            <p className={cls.DateContent}>{date.content}</p>
                         </div>
                     ))}
                 </div>

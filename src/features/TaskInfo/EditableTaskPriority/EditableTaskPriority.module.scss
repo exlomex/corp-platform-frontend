@@ -1,0 +1,38 @@
+.EditableTaskPriority {
+
+}
+
+.priorityDisplay {
+    font: var(--font-paragraph-14-Regular);
+    padding: 0 7px;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    height: 35px;
+
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+
+    &::before {
+        position: absolute;
+        z-index: -5;
+        height: 105%;
+        width: 110%;
+        content: "";
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        border-radius: 6px;
+    }
+
+    &:hover::before {
+        background-color: var(--smart-outlined-bg-color-hover);
+    }
+}

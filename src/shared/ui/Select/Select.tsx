@@ -57,7 +57,7 @@ export const Select = (props: SelectProps) => {
                 {withImage && (
                     <div className={cls.AvatarWrapper}>
                         {value?.data?.image
-                            ? <img className={cls.AvatarImage} alt="avatar" src={value.data.image} />
+                            ? <img className={cls.AvatarImage} alt="avatar" src={value.data.image as string} />
                             : <UserAvatarIcon />}
                     </div>
                 )}
@@ -81,7 +81,7 @@ export const Select = (props: SelectProps) => {
                                 <div className={cls.WithImageElement}>
                                     <div className={cls.ElementImage}>
                                         {option.data?.image
-                                            ? <img className={cls.AvatarImage} src={option?.data?.image} alt="Avatar" />
+                                            ? <img className={cls.AvatarImage} src={option?.data?.image as string} alt="Avatar" />
                                             : <UserAvatarIcon />}
                                     </div>
                                     {option.label}

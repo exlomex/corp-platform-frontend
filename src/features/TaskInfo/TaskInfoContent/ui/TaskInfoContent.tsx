@@ -22,6 +22,7 @@ import {useNavigate} from "react-router";
 import BackIcon from '@/shared/assets/icons/backIcon.svg'
 import {AdditionalTaskInfo} from "../../AdditionalTaskInfo/AdditionalTaskInfo.tsx";
 import {StatusActions} from "@/entities/Status";
+import {EditableTaskPriority} from "../../EditableTaskPriority/EditableTaskPriority.tsx";
 
 interface TaskInfoContentProps {
     className?: string;
@@ -99,7 +100,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                 {taskHistory.length >= 1 && <Button buttonType={'SMART_WITH_ICON_BTN_OUTLINED'} onClick={onBackButtonClickHandler} className={cls.PrevButton}><BackIcon/> Назад</Button>}
                 <div className={cls.editableTitleWrapper}>
                     {(!selectedTaskInfo || selectedTaskInfoIsFetching)
-                        ? <Typography className={cls.FieldName} size={'TEXT-20-MEDIUM'}>Задача</Typography>
+                        ? <Typography className={cls.FieldName} size={'PARAGRAPH-18-REGULAR'}>Задача</Typography>
                         : <EditableTitle
                             uniqueTitle={selectedTaskInfo.uniqueTitle}
                             className={cls.EditableTitle}
@@ -115,6 +116,13 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                 </div>
 
                 <Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/> Добавить</Button>
+
+                <Typography size={'PARAGRAPH-18-REGULAR'}>Детали задачи</Typography>
+
+                <div className={cls.TaskDetails}>
+                    <p className={cls.TaskDetailsLabel}>Приоритет:</p>
+                    <EditableTaskPriority />
+                </div>
 
                 {(!selectedTaskInfo || selectedTaskInfoIsFetching)
                     ? <Typography className={cls.FieldName} size={'TEXT-20-MEDIUM'}>Описание</Typography>

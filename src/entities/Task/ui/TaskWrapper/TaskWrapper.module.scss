@@ -39,3 +39,17 @@
     font: var(--font-paragraph-12-Regular);
     color: var(--task-unique-title-text-color);
 }
+
+.TaskBottomLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Priority {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+}

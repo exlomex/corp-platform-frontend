@@ -39,3 +39,29 @@
 .additionalOptionContent {
     width: 200px;
 }
+
+.DateWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.DateContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.DateHeading {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.DateContent {
+    font: var(--font-paragraph-14-Regular);
+}
+
+.DateLabel {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+}

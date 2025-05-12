@@ -5,6 +5,8 @@ import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
 import {DraggableAttributes} from "@dnd-kit/core";
 import {AdditionalTaskOptions} from "../AdditionalTaskOptions/AdditionalTaskOptions.tsx";
 import {EditableTaskTitle} from "../EditableTaskTitle/EditableTaskTitle.tsx";
+import {Priority, priorityIconMap} from "@/features/CreateNewTask/const/priorityConsts.tsx";
+import {Tooltip} from "@/shared/ui/Tooltip";
 
 interface TaskWrapperProps {
     className?: string;
@@ -16,10 +18,11 @@ interface TaskWrapperProps {
     taskId: number;
     boardId: number;
     taskDescription: string | null;
+    priority?: Priority
 }
 
 export const TaskWrapper = forwardRef((props: TaskWrapperProps, ref: ForwardedRef<HTMLDivElement> ) => {
-    const { className, taskTitle, taskUniqueTitle, attributes,listeners, onClick, taskId, boardId, taskDescription} = props;
+    const { className, taskTitle, taskUniqueTitle, attributes,listeners, onClick, taskId, boardId, taskDescription, priority} = props;
 
     const [isTaskHover, setIsTaskHover] = useState<boolean>(false);
     const [isEditTitleActive, setIsEditTitleActive] = useState<boolean>(false)
@@ -40,8 +43,11 @@ export const TaskWrapper = forwardRef((props: TaskWrapperProps, ref: ForwardedRe
                 <AdditionalTaskOptions taskId={taskId} uniqueTaskTitle={taskUniqueTitle} isHover={isTaskHover}/>
             </div>
 
-            <div>
+            <div className={cls.TaskBottomLine}>
                 <span className={cls.TaskUniqueTitle}>{taskUniqueTitle}</span>
+                {priority && <Tooltip text={'Приоритет'}>
+                    <span className={cls.Priority}>{priorityIconMap[priority]}</span>
+                </Tooltip>}
             </div>
         </div>
     )
