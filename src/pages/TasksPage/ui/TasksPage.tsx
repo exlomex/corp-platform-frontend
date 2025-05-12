@@ -28,7 +28,8 @@ export function TasksPage(props: TasksPageProps) {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (selectedProject === undefined) return
+
+        if (selectedProject === undefined) navigate(getRouteProjects())
 
         if (selectedProject?.id) {
             navigate(getRouteBoards(String(selectedProject?.id)))

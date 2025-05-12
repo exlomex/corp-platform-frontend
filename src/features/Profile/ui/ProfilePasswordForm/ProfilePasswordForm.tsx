@@ -126,7 +126,7 @@ export const ProfilePasswordForm = (props: ProfilePasswordFormProps) => {
 
                 <div className={cls.ButtonWrapper}>
                     <Button regularType={'submit'} buttonType={'SMART_WITH_ICON_BTN_FILLED'}
-                            isLoading={isFetching}><CorrectIcon/>Сохранить</Button>
+                            isLoading={isFetching}>Сменить пароль</Button>
                 </div>
 
                 <Typography className={cls.Error} size={'PARAGRAPH-12-REGULAR'}>{Error}</Typography>
