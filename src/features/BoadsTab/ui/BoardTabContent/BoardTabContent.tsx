@@ -75,7 +75,7 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
                     className={classNames(cls.BoardsWrapper, {}, [theme === 'light_theme' ? 'dark_theme' : 'light_theme'])}
                 >
                     <div className={cls.BoardTabTopLine}>
-                        <p className={cls.BoardHeader}>Доски в {selectedProject && selectedProject.title}</p>
+                        <p className={cls.BoardHeader}>{selectedProject && selectedProject.title}</p>
                         <Link className={cls.AllBoardsLink} to={getRouteBoards(`${selectedProject.id}`)}>Все доски</Link>
                     </div>
 

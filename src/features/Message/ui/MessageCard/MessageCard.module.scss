@@ -1,0 +1,61 @@
+.MessageCard {
+    padding: 15px;
+    background-color: var(--messages-card-bg-color);
+
+    display: flex;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.LeftItem {
+    flex-shrink: 0;
+    height: 100%;
+}
+
+.RightItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.MessageTitleWrapper {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+.isRead {
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 10px;
+    background-color: var(--purple-color-active);
+}
+
+.MessageTitle {
+    font: var(--font-paragraph-16-Regular);
+    color: var(--text-color);
+    word-break: break-word;
+}
+
+.MessageName {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+    word-break: break-word;
+}
+
+.MessageText {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+    word-break: break-word;
+}
+
+.Avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+}
+
+
+
+

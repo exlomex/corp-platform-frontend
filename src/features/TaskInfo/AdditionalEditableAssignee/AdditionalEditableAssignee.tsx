@@ -9,6 +9,7 @@ import {getUserCompanyUsers} from "@/entities/User/model/selectors/getUserValues
 import {AdditionalTaskAuthor} from "@/features/TaskInfo/AdditionalTaskAuthor/AdditionalTaskAuthor.tsx";
 import {addTaskAssigneeInputData, AddTaskAssigneeService, getSelectedTaskInfo} from "@/entities/Task";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
+import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 
 interface AdditionalEditableAssigneeProps {
     className?: string;
@@ -79,7 +80,6 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
             }
 
             try {
-                console.log(1313);
                 if (selectedTaskInfo?.assignee?.id === options.id) {
                     setFieldIsActive(false)
                     return
@@ -87,6 +87,7 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
 
                 await dispatch(AddTaskAssigneeService(addAssigneeBody)).unwrap()
                 await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle})).unwrap()
+                await dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId}))
                 setFieldIsActive(false)
                 setPickedUser(options)
 

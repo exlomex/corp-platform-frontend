@@ -4,6 +4,7 @@ import {TaskWrapper} from "@/entities/Task/ui/TaskWrapper/TaskWrapper.tsx";
 import {useDraggable} from "@dnd-kit/core";
 import {useEffect} from "react";
 import {Priority} from "@/features/CreateNewTask/const/priorityConsts.tsx";
+import {TaskUser} from "@/entities/Task/model/types/taskSliceSchema.ts";
 
 interface DraggableTaskProps {
     className?: string;
@@ -15,10 +16,11 @@ interface DraggableTaskProps {
     boardId: number;
     taskDescription: string | null
     taskPriority?: Priority
+    assignee?: TaskUser
 }
 
 export const DraggableTask = (props: DraggableTaskProps) => {
-    const { className, taskTitle, taskUniqueTitle, taskId, statusId, onClick, boardId, taskDescription, taskPriority} = props;
+    const { className, taskTitle, taskUniqueTitle, taskId, statusId, onClick, boardId, taskDescription, taskPriority, assignee} = props;
 
     const {setNodeRef, listeners, attributes} = useDraggable({
         id: `task-${taskId}`,
@@ -30,6 +32,6 @@ export const DraggableTask = (props: DraggableTaskProps) => {
     )
 
     return (
-        <TaskWrapper priority={taskPriority} taskDescription={taskDescription} taskId={taskId} boardId={boardId} onClick={onClick} attributes={attributes} listeners={listeners} ref={setNodeRef} taskTitle={taskTitle} taskUniqueTitle={taskUniqueTitle} className={classNames('', {}, [className])}/>
+        <TaskWrapper assignee={assignee} priority={taskPriority} taskDescription={taskDescription} taskId={taskId} boardId={boardId} onClick={onClick} attributes={attributes} listeners={listeners} ref={setNodeRef} taskTitle={taskTitle} taskUniqueTitle={taskUniqueTitle} className={classNames('', {}, [className])}/>
     )
 };

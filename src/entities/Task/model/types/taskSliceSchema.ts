@@ -1,6 +1,6 @@
 import {Priority} from "@/features/CreateNewTask/const/priorityConsts.tsx";
 
-interface TaskUser {
+export interface TaskUser {
     id: number,
     firstName: string,
     lastName: string,

@@ -1,0 +1,1 @@
+export {MessagesPageAsync as MessagesPage } from '@/pages/MessagesPage/MessagesPage/MessagesPage.async.ts'

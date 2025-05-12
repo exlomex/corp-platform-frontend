@@ -36,11 +36,12 @@ interface DropDownProps {
     gap?: keyof typeof GapClasses;
     fSize?: keyof typeof FontSizeClasses;
     onOpenChange?: (open: boolean) => void
-    onClick?: (event?: React.MouseEvent<HTMLDivElement>) => void
+    onClick?: (event?: React.MouseEvent<HTMLDivElement>) => void,
+    menuItemsClassName?: string
 }
 
 export const DropDown = memo((props: DropDownProps) => {
-    const { className, trigger, direction = "right", items, theme = Theme.LIGHT_THEME, gap = 20, onOpenChange, fSize = 16, onClick} = props;
+    const { className, trigger,menuItemsClassName, direction = "right", items, theme = Theme.LIGHT_THEME, gap = 20, onOpenChange, fSize = 16, onClick} = props;
 
     const prevOpenRef = useRef<boolean | null>(null);
 
@@ -67,7 +68,7 @@ export const DropDown = memo((props: DropDownProps) => {
                                 as={'div'}
                                 anchor={direction as AnchorProps}
                                 transition
-                                className={classNames(cls.MenuItems, {}, [theme === 'light_theme' ? 'light_theme' : 'dark_theme', GapClasses[gap]])}
+                                className={classNames(cls.MenuItems, {}, [theme === 'light_theme' ? 'light_theme' : 'dark_theme', GapClasses[gap], menuItemsClassName])}
                             >
                                 {items.map((value, index) => {
                                     if (value.href) return (

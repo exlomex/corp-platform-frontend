@@ -2,7 +2,7 @@ import {
     AppRoutes, getRouteBoards,
     getRouteCompanyCreate,
     getRouteLogin,
-    getRouteMain, getRoutePasswordRecovery, getRouteProjectBoard, getRouteProjects,
+    getRouteMain, getRouteMessages, getRoutePasswordRecovery, getRouteProjectBoard, getRouteProjects,
     getRouteRegister, getRouteSettings
 } from "@/shared/const/router.ts";
 import {RouterProps} from "@/shared/types/router.ts";
@@ -16,6 +16,7 @@ import {ProjectsPage} from "@/pages/ProjectsPage";
 import {ProjectBoardPage} from "@/pages/ProjectBoardPage";
 import {PasswordRecoveryPage} from "@/pages/PasswordRecoveryPage";
 import {BoardsPage} from "@/pages/BoardsPage";
+import {MessagesPage} from "@/pages/MessagesPage";
 
 export const RouterConfig: Record<AppRoutes, RouterProps> = {
     [AppRoutes.MAIN]: {
@@ -70,6 +71,12 @@ export const RouterConfig: Record<AppRoutes, RouterProps> = {
     [AppRoutes.BOARDS]: {
         path: getRouteBoards(':project'),
         element: <BoardsPage/>,
+        authOnly: true,
+        roles: [UserRoles.USER, UserRoles.COMPANY_OWNER],
+    },
+    [AppRoutes.MESSAGES]: {
+        path: getRouteMessages(),
+        element: <MessagesPage/>,
         authOnly: true,
         roles: [UserRoles.USER, UserRoles.COMPANY_OWNER],
     }

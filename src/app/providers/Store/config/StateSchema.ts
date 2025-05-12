@@ -12,6 +12,7 @@ import {PasswordRecoverySliceSchema} from "@/features/PasswordRecovery";
 import {StatusSliceSchema} from "@/entities/Status";
 import {TaskSliceSchema} from "@/entities/Task";
 import {CommentSliceSchema} from "@/features/TaskInfo";
+import {MessageSliceSchema} from "@/features/Message/model/types/messageSliceSchema.ts";
 
 // SLICE TYPES
 export interface StateSchema {
@@ -27,6 +28,7 @@ export interface StateSchema {
     status: StatusSliceSchema;
     task: TaskSliceSchema;
     comment: CommentSliceSchema;
+    message: MessageSliceSchema
 
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
 }

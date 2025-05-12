@@ -126,6 +126,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                 </div>
 
                 <DropDown
+                    menuItemsClassName={cls.CustomDropDown}
                     items={AddToTaskButtonItems}
                     trigger={<Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/> Добавить</Button>}
                     direction={'bottom start'}
@@ -137,7 +138,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                 <Typography size={'PARAGRAPH-18-REGULAR'}>Детали задачи</Typography>
 
                 <div className={cls.TaskDetails}>
-                    <p className={cls.TaskDetailsLabel}>Приоритет:</p>
+                    <p className={cls.TaskDetailsLabel}>Приоритет: </p>
                     <EditableTaskPriority />
                 </div>
 

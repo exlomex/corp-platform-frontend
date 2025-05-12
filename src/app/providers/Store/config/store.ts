@@ -14,6 +14,7 @@ import {PasswordRecoveryReducer} from "@/features/PasswordRecovery";
 import {StatusReducer} from "@/entities/Status";
 import {TaskReducer} from "@/entities/Task";
 import {CommentReducer} from "@/features/TaskInfo";
+import {MessageReducer} from "@/features/Message/model/slice/messageSlice.ts";
 
 export function createReduxStore(
     initialState?: Partial<StateSchema>,
@@ -33,6 +34,7 @@ export function createReduxStore(
         status: StatusReducer,
         task: TaskReducer,
         comment: CommentReducer,
+        message: MessageReducer,
 
         [rtkApi.reducerPath]: rtkApi.reducer,
     };

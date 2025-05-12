@@ -10,7 +10,7 @@ import CollapseIcon from '@/shared/assets/icons/collapse.svg'
 import {LOCAL_STORAGE_COLLAPSED_KEY} from "@/shared/const/localstorage.ts";
 import {ProfileTab} from "@/features/ProfileTab";
 import {Link, useLocation} from "react-router";
-import {getRouteMain, getRouteProjects} from "@/shared/const/router.ts";
+import {getRouteMain, getRouteMessages, getRouteProjects} from "@/shared/const/router.ts";
 import {ProjectsTab} from "@/features/ProjectsTab";
 import {BoardTabContent} from "@/features/BoadsTab";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
@@ -58,6 +58,7 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
         {
             icon: <MessagesIcon/>,
             content: 'Сообщения',
+            href: getRouteMessages()
         }
     ]
 
