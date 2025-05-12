@@ -68,7 +68,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
     const onDragEndHandle = async (event: DragEndEvent) => {
         const { active, over } = event;
 
-        if (!over || String(active.data.current.statusId) === String(over.id)) return;
+        if (!over || String(active?.data?.current?.statusId) === String(over.id)) return;
 
         const activeId = String(active.id).replace(/^task-/, '').replace(/^column-/, '');
         if (String(active.id).startsWith('task-')) {
@@ -155,7 +155,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                                     boardStatus={boardStatus}
                                     createNewTask={(isHovered) => (
                                         <CreateColumnNewTask
-                                            className={classNames('', {[cls.IsActiveOffset]: boardTasks.filter(task => task.statusId === boardStatus.id).length >= 1}, [])}
+                                            className={classNames('', {[cls.IsActiveOffset]: boardTasks.filter(task => task?.statusId === boardStatus.id).length >= 1}, [])}
                                             boardId={boardId} projectId={selectedProject.id || 0}
                                             statusId={boardStatus.id}
                                             isHovered={index === 0 ? true : isHovered}
@@ -163,17 +163,17 @@ export const AgileBoard = (props: AgileBoardProps) => {
                                 )}>
                                     {boardTasks &&
                                         boardTasks
-                                            .filter(task => task.statusId === boardStatus.id)
+                                            .filter(task => task?.statusId === boardStatus.id)
                                             .map(task => (
                                                 <DraggableTask
                                                     assignee={task.assignee}
                                                     taskPriority={task.priority}
                                                     boardId={boardId}
-                                                    key={`${task.id}-${task.statusId}`}
+                                                    key={`${task.id}-${task?.statusId}`}
                                                     taskTitle={task.title}
-                                                    taskUniqueTitle={task.uniqueTitle}
+                                                    taskUniqueTitle={task?.uniqueTitle}
                                                     taskId={task.id}
-                                                    statusId={task.statusId}
+                                                    statusId={task?.statusId}
                                                     onClick={onTaskClickHandler(task.uniqueTitle)}
                                                     taskDescription={task.description ? task.description : null}
                                                 />

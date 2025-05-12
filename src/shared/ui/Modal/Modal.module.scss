@@ -22,7 +22,7 @@
     border-radius: 6px;
     transition: all .2s ease-out;
     background-color: var(--modal-content-color);
-    overflow: auto;
+    overflow: visible;
 
     &[data-closed] {
         transform: scale(0.90);
