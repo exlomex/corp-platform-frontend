@@ -10,6 +10,7 @@ import {AdditionalTaskAuthor} from "@/features/TaskInfo/AdditionalTaskAuthor/Add
 import {addTaskAssigneeInputData, AddTaskAssigneeService, getSelectedTaskInfo} from "@/entities/Task";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface AdditionalEditableAssigneeProps {
     className?: string;
@@ -21,6 +22,7 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
     const dispatch = useAppDispatch()
     const selectedCompanyId = useSelector(getUserCompanyId)
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const [normalizedUser, setNormalizedUser] = useState<ComboBoxOption[]>(null)
     const [pickedUser, setPickedUser] = useState<ComboBoxOption>(null)
@@ -76,7 +78,8 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
         if (selectedTaskInfo && selectedTaskInfo.id && selectedTaskInfo.uniqueTitle && options) {
             const addAssigneeBody: addTaskAssigneeInputData = {
                 assigneeId: options.id || undefined,
-                taskId: selectedTaskInfo.id
+                taskId: selectedTaskInfo.id,
+                projectId: selectedProject.id
             }
 
             try {
@@ -86,8 +89,8 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
                 }
 
                 await dispatch(AddTaskAssigneeService(addAssigneeBody)).unwrap()
-                await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle})).unwrap()
-                await dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId}))
+                await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle, projectId: selectedProject.id})).unwrap()
+                await dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject.id}))
                 setFieldIsActive(false)
                 setPickedUser(options)
 

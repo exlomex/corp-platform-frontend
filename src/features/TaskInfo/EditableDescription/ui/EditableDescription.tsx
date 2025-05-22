@@ -7,15 +7,15 @@ import React, {
     useState
 } from "react";
 import { Button } from "@/shared/ui/Button";
-import { useClickOutside } from "@/shared/hooks/useClickOutside";
 import { useAppDispatch } from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
-import { FetchBoardTasks } from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {
     ChangeTaskTitleService,
     ChangeTaskTitleServiceInputData
 } from "@/entities/Task";
 import {Typography} from "@/shared/ui/Typography";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface EditableDescriptionProps {
     className?: string;
@@ -52,18 +52,22 @@ export const EditableDescription = (props: EditableDescriptionProps) => {
     };
 
     const dispatch = useAppDispatch();
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const onSubmitEditHandler = async () => {
         if (newDescriptionValue.trim() !== (taskDescription || '')) {
             const editBody: ChangeTaskTitleServiceInputData = {
-                id: taskId,
-                title: taskTitle,
-                description: newDescriptionValue
+                changeData: {
+                    id: taskId,
+                    title: taskTitle,
+                    description: newDescriptionValue
+                },
+                projectId: selectedProject.id
             };
 
             try {
                 await dispatch(ChangeTaskTitleService(editBody)).unwrap();
-                await dispatch(fetchTaskInfoService({uniqueTitle: uniqueTitle})).unwrap();
+                await dispatch(fetchTaskInfoService({uniqueTitle: uniqueTitle, projectId:selectedProject.id})).unwrap();
 
                 onCloseEditableAreaHandler();
                 setDescriptionState(newDescriptionValue);

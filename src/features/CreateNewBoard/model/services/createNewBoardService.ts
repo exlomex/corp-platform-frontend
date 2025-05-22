@@ -11,11 +11,11 @@ export const createNewBoardService = createAsyncThunk<
     BoardInterface,
     createNewBoardServiceInputData,
     ThunkConfig<string>
->('board/createNewBoard', async (createData, thunkApi) => {
+>('board/createNewBoard', async (createData: createNewBoardServiceInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.post<BoardInterface>('/boards', createData);
+        const response = await extra.api.post<BoardInterface>(`/projects/${createData.projectId}/boards`, createData);
 
         if (response.status !== 200) {
             throw new Error(response.statusText);

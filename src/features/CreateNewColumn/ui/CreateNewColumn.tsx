@@ -12,6 +12,8 @@ import {
     createNewColumnServiceInputData
 } from "@/features/CreateNewColumn/model/services/createNewColumnService.ts";
 import {useClickOutside} from "@/shared/hooks/useClickOutside";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface CreateNewColumnProps {
     className?: string;
@@ -23,6 +25,8 @@ export const CreateNewColumn = (props: CreateNewColumnProps) => {
 
     const [isActive, setIsActive] = useState<boolean>(false)
     const [inputValue, setInputValue] = useState<string>('')
+
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const onInputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e?.target?.value)
@@ -44,13 +48,16 @@ export const CreateNewColumn = (props: CreateNewColumnProps) => {
     const onSubmitCreateHandler = async () => {
         if (inputValue) {
             const createBody: createNewColumnServiceInputData = {
-                boardId: boardId,
-                title: inputValue
+                createData: {
+                    boardId: boardId,
+                    title: inputValue
+                },
+                projectId: selectedProject.id
             }
 
             try {
                 await dispatch(createNewColumnService(createBody)).unwrap()
-                await dispatch(FetchBoardStatuses({boardId: boardId}))
+                await dispatch(FetchBoardStatuses({boardId: boardId, projectId: selectedProject.id}))
 
                 onCloseCreateColumnHandler()
                 setInputValue('')

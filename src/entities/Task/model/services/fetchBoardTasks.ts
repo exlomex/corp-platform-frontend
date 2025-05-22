@@ -6,6 +6,7 @@ import {ThunkConfig} from "@/app/providers/Store";
 
 export interface FetchBoardTasksInputData {
     boardId: number
+    projectId: number
 }
 export const FetchBoardTasks = createAsyncThunk<
     TaskI[],
@@ -15,7 +16,7 @@ export const FetchBoardTasks = createAsyncThunk<
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.get<TaskI[]>(`/tasks/board/${fetchData.boardId}`);
+        const response = await extra.api.get<TaskI[]>(`/projects/${fetchData.projectId}/tasks/board/${fetchData.boardId}`);
         const data: TaskI[] | undefined = response.data;
 
         if (!data) {

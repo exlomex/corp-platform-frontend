@@ -14,10 +14,9 @@ import {ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 import {Button} from "@/shared/ui/Button";
 import {AddSubTaskInputData, AddSubTaskService} from "../../model/services/addSubTaskService.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
-import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
-import {useLocation, useNavigate, useParams} from "react-router";
-import {getRouteProjectBoard} from "@/shared/const/router.ts";
+import {useLocation, useParams} from "react-router";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface SubTaskModalContentProps {
     className?: string;
@@ -82,27 +81,34 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
 
     const params = useParams()
     const dispatch = useAppDispatch()
+    const selectedProject = useSelector(getProjectSelectedProject)
     const onSubmitAddSubtask = async () => {
         if (selectedTask.id) {
             let addSubTaskBody: AddSubTaskInputData
 
             if (selectedTaskInfoIntoCard?.id && searchParamsSelectedTask !== null) {
                 addSubTaskBody = {
-                    parentTaskId: selectedTaskInfoIntoCard.id,
-                    subtaskId: selectedTask.id
+                    createData: {
+                        parentTaskId: selectedTaskInfoIntoCard.id,
+                        subtaskId: selectedTask.id
+                    },
+                    projectId: selectedProject.id
                 }
 
                 try {
                     await dispatch(AddSubTaskService(addSubTaskBody)).unwrap()
-                    await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfoIntoCard.uniqueTitle}))
+                    await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfoIntoCard.uniqueTitle,projectId: selectedProject.id}))
                     onClose()
                 } catch (e) {
                     console.error(e?.message || e)
                 }
             } else if (selectedTaskInfo?.id) {
                 addSubTaskBody = {
-                    parentTaskId: selectedTaskInfo.id,
-                    subtaskId: selectedTask.id
+                    createData: {
+                        parentTaskId: selectedTaskInfo.id,
+                        subtaskId: selectedTask.id
+                    },
+                    projectId: selectedProject.id
                 }
 
                 try {

@@ -18,11 +18,11 @@ export const createNewTaskService = createAsyncThunk<
     void,
     createNewTaskServiceInputData,
     ThunkConfig<string>
->('tasks/createNewTaskService', async (createData, thunkApi) => {
+>('tasks/createNewTaskService', async (createData: createNewTaskServiceInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.post('/tasks', createData);
+        const response = await extra.api.post(`/projects/${createData.projectId}/tasks`, createData);
 
         if (response.status !== 201) {
             throw new Error(response.statusText);

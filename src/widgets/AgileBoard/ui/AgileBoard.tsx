@@ -33,26 +33,26 @@ export const AgileBoard = (props: AgileBoardProps) => {
     const dispatch = useAppDispatch()
 
     const userBoards = useSelector(getUserBoardsBySelectedProject)
-    const selectedUserProject = useSelector(getProjectSelectedProject)
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const userBoardsFetching = useSelector(getIsUserBoardsFetching)
 
     useEffect(() => {
-        if (selectedUserProject && params.project) {
+        if (selectedProject && params.project) {
             if (userBoards.length >= 1 && params.board) {
                 const isCorrectBoardPath = userBoards.findIndex(board => board.id === +params.board);
                 if (isCorrectBoardPath !== undefined && isCorrectBoardPath !== -1) {
-                    dispatch(FetchBoardStatuses({boardId: +params.board}))
-                    dispatch(FetchBoardTasks({boardId: +params.board}))
+                    dispatch(FetchBoardStatuses({boardId: +params.board, projectId: selectedProject.id}))
+                    dispatch(FetchBoardTasks({boardId: +params.board, projectId: selectedProject.id}))
                 } else {
                     // navigate('/not')
                 }
             }
         }
-    }, [dispatch, navigate, params.board, params.project, selectedUserProject, userBoards]);
+    }, [dispatch, navigate, params.board, params.project, selectedProject, userBoards]);
 
     const boardStatuses = useSelector(getBoardStatuses);
-    const boardTasks = useSelector(getBoardTasks, shallowEqual);
+    const boardTasks = useSelector(getBoardTasks);
 
     const [activeTask, setActiveTask] = useState<Partial<TaskI>>({});
     const [activeColumn, setActiveColumn] = useState<Partial<StatusI>>({});
@@ -74,8 +74,8 @@ export const AgileBoard = (props: AgileBoardProps) => {
         if (String(active.id).startsWith('task-')) {
             try {
                 dispatch(TaskActions.changeTaskStatus({taskId: +activeId, newStatusId: +over.id}))
-                await dispatch(ChangeTaskStatusService({taskId: +activeId, statusId: +over.id})).unwrap()
-                await dispatch(FetchBoardTasks({boardId: +params.board}))
+                await dispatch(ChangeTaskStatusService({taskId: +activeId, statusId: +over.id, projectId: selectedProject.id})).unwrap()
+                await dispatch(FetchBoardTasks({boardId: +params.board, projectId: selectedProject.id}))
             } catch (e) {
                 console.error(e)
             }
@@ -91,8 +91,8 @@ export const AgileBoard = (props: AgileBoardProps) => {
                         activeStatusId: +activeId,
                     })
                 )
-                await dispatch(ChangeStatusOrderService({toOrder: +over?.data?.current?.order, statusId: +activeId})).unwrap()
-                await dispatch(FetchBoardStatuses({boardId: +params.board})).unwrap()
+                await dispatch(ChangeStatusOrderService({toOrder: +over?.data?.current?.order, statusId: +activeId, projectId:selectedProject.id})).unwrap()
+                await dispatch(FetchBoardStatuses({boardId: +params.board, projectId: selectedProject.id})).unwrap()
             } catch (e) {
                 console.error(e)
             }
@@ -112,7 +112,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
         });
     }
 
-    const selectedProject = useSelector(getProjectSelectedProject)
+
     const boardId = +params.board || 0
 
     const isCollapsed = useSelector(getUserAsideIsCollapsed)

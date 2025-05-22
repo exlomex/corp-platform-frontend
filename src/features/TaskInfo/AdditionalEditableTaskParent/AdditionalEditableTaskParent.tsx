@@ -15,11 +15,9 @@ import {
     TaskI
 } from "@/entities/Task";
 import {ComboBox, ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
-import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
-import {getCreateTaskBoardsBySelectedProject} from "@/entities/Board";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
-import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface EditableTaskParentProps {
     className?: string;
@@ -38,6 +36,7 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
     // }, [dispatch, selectedTaskInfo]);
 
     const boardTasks = useSelector(getBoardTasks)
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const filteredBoardTasks = useRef<TaskI[]>(null)
     const [normalizedBoardTasks, setNormalizedBoardTasks] = useState<ComboBoxOption[]>(null)
@@ -86,26 +85,32 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
 
             if (option?.id) {
                 const AddSubTaskBody: AddSubTaskInputData = {
-                    parentTaskId: option.id,
-                    subtaskId: selectedTaskInfo.id
+                    createData: {
+                        parentTaskId: option.id,
+                        subtaskId: selectedTaskInfo.id
+                    },
+                    projectId: selectedProject.id
                 }
 
                 try {
                     await dispatch(AddSubTaskService(AddSubTaskBody)).unwrap()
-                    await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo?.uniqueTitle})).unwrap()
+                    await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo?.uniqueTitle, projectId: selectedProject.id})).unwrap()
                     setEditIsActive(false)
                 } catch (e) {
                     console.error(e)
                 }
             } else {
                 const RemoveSubTaskBody: RemoveSubTaskInputData = {
-                    parentTaskId: selectedTaskInfo?.parent?.id,
-                    subtaskId: selectedTaskInfo.id
+                    removeData: {
+                        parentTaskId: selectedTaskInfo?.parent?.id,
+                        subtaskId: selectedTaskInfo.id
+                    },
+                    projectId: selectedProject.id
                 }
                 console.log(RemoveSubTaskBody);
                 try {
                     await dispatch(RemoveSubTaskService(RemoveSubTaskBody)).unwrap()
-                    await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo?.uniqueTitle})).unwrap()
+                    await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo?.uniqueTitle, projectId: selectedProject.id})).unwrap()
                     setEditIsActive(false)
                 } catch (e) {
                     console.error(e)

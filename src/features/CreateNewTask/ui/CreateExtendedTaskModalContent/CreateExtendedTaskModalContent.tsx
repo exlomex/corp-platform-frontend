@@ -5,7 +5,7 @@ import {ChangeEvent, useEffect, useState} from "react";
 import {ComboBox, ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 import {useSelector} from "react-redux";
 import {getProjectUserProjects} from "@/entities/Project";
-import {getCreateTaskBoardsBySelectedProject, getUserBoardsBySelectedProject} from "@/entities/Board";
+import {getCreateTaskBoardsBySelectedProject} from "@/entities/Board";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {useParams} from "react-router";
 import {Input} from "@/shared/ui/Input";
@@ -211,7 +211,7 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                 await dispatch(createNewTaskService(createBody)).unwrap()
 
                 if (selectedBoard === pickedBoard.id) {
-                    await dispatch(FetchBoardTasks({boardId: selectedBoard}))
+                    await dispatch(FetchBoardTasks({boardId: selectedBoard, projectId: selectedProject.id}))
                 }
 
                 await onCloseModalHandler()

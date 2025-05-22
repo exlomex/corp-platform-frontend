@@ -11,6 +11,8 @@ import {
     deleteColumnServiceInputData
 } from "../../model/services/deleteColumnService.ts";
 import {FetchBoardStatuses} from "@/entities/Status/model/services/fetchBoardStatuses.ts";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface AdditionalColumnOptionsProps {
     className?: string;
@@ -28,15 +30,17 @@ export const AdditionalColumnOptions = (props: AdditionalColumnOptionsProps) => 
     const { className, isHover, statusId, boardId } = props;
 
     const dispatch = useAppDispatch()
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const onDeleteColumnHandler = async () => {
         const deleteBody: deleteColumnServiceInputData = {
-            statusId: statusId
+            statusId: statusId,
+            projectId: selectedProject.id
         }
 
         try {
             await dispatch(deleteColumnService(deleteBody)).unwrap()
-            await dispatch(FetchBoardStatuses({boardId})).unwrap()
+            await dispatch(FetchBoardStatuses({boardId: boardId, projectId: selectedProject.id})).unwrap()
         } catch (e) {
             console.error(e?.message || e)
         }

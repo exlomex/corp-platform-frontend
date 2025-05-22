@@ -1,5 +1,5 @@
 import {StateSchema, ThunkExtraArg} from "./StateSchema.ts";
-import {Action, AnyAction, combineReducers, configureStore, ReducersMapObject} from "@reduxjs/toolkit";
+import {combineReducers, configureStore, ReducersMapObject} from "@reduxjs/toolkit";
 import {$api} from "@/shared/api/api.ts";
 import {rtkApi} from "@/shared/api/rtkApi.ts";
 import {UserSliceReducer} from "@/entities/User";

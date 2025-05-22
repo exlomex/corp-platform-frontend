@@ -6,6 +6,7 @@ import {ThunkConfig} from "@/app/providers/Store";
 
 export interface fetchTaskInfoServiceInputData {
     uniqueTitle: string
+    projectId: number
 }
 export const fetchTaskInfoService = createAsyncThunk<
     TaskI,
@@ -15,7 +16,7 @@ export const fetchTaskInfoService = createAsyncThunk<
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.get<TaskI>(`/tasks/title/${fetchData.uniqueTitle}`);
+        const response = await extra.api.get<TaskI>(`/projects/${fetchData.projectId}/tasks/title/${fetchData.uniqueTitle}`);
         const data: TaskI | undefined = response.data;
 
         if (!data) {

@@ -4,17 +4,18 @@ import {FetchUserProjects} from "@/entities/Project/model/services/fetchUserProj
 
 export interface deleteColumnServiceInputData {
     statusId: number;
+    projectId: number
 }
 
 export const deleteColumnService = createAsyncThunk<
     void,
     deleteColumnServiceInputData,
     ThunkConfig<string>
->('columns/delete', async (deleteData, thunkApi) => {
+>('columns/delete', async (deleteData: deleteColumnServiceInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.delete(`/columns/${deleteData.statusId}`);
+        const response = await extra.api.delete(`/projects/${deleteData.projectId}/columns/${deleteData.statusId}`);
 
         if (response.status !== 200) {
             throw new Error(response.statusText);

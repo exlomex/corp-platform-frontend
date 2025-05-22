@@ -24,8 +24,8 @@ import {AdditionalTaskInfo} from "../../AdditionalTaskInfo/AdditionalTaskInfo.ts
 import {StatusActions} from "@/entities/Status";
 import {EditableTaskPriority} from "../../EditableTaskPriority/EditableTaskPriority.tsx";
 import {DropDown, DropdownItem} from "@/shared/ui/popups/DropDown/DropDown.tsx";
-import DotsIcon from "@/shared/assets/icons/dots.svg";
 import {Theme} from "@/shared/types/theme.ts";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface TaskInfoContentProps {
     className?: string;
@@ -36,10 +36,11 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
 
     const dispatch = useAppDispatch()
     const selectedUniqueTitle = useSelector(getSelectedTaskUniqueTitle)
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     useEffect(() => {
-        if (selectedUniqueTitle) dispatch(fetchTaskInfoService({uniqueTitle: selectedUniqueTitle}))
-    }, [dispatch, selectedUniqueTitle]);
+        if (selectedUniqueTitle) dispatch(fetchTaskInfoService({uniqueTitle: selectedUniqueTitle, projectId: selectedProject.id}))
+    }, [dispatch, selectedProject, selectedUniqueTitle]);
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
     const selectedTaskInfoIsFetching = useSelector(getSelectedTaskInfoIsFetching)

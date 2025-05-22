@@ -4,6 +4,7 @@ import {ThunkConfig} from "@/app/providers/Store";
 import {StatusActions} from "../slice/statusSlice.ts";
 
 export interface FetchBoardStatusesInputData {
+    projectId: number,
     boardId: number,
     type?: 'default' | 'selectedTask'
 }
@@ -11,11 +12,11 @@ export const FetchBoardStatuses = createAsyncThunk<
     StatusI[],
     FetchBoardStatusesInputData,
     ThunkConfig<string>
->('statuses/fetch', async ({boardId, type = 'default'}: FetchBoardStatusesInputData, thunkApi) => {
+>('statuses/fetch', async ({boardId, type = 'default', projectId}: FetchBoardStatusesInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.get<StatusI[]>(`/statuses?boardId=${boardId}`);
+        const response = await extra.api.get<StatusI[]>(`/projects/${projectId}/statuses?boardId=${boardId}`);
         const data: StatusI[] | undefined = response.data;
 
         if (!data) {

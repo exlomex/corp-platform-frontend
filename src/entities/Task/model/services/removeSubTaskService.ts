@@ -2,8 +2,11 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {ThunkConfig} from "@/app/providers/Store";
 
 export interface RemoveSubTaskInputData {
-    parentTaskId: number,
-    subtaskId: number,
+    removeData: {
+        parentTaskId: number,
+        subtaskId: number,
+    },
+    projectId: number;
 }
 export const RemoveSubTaskService = createAsyncThunk<
     void,
@@ -17,8 +20,8 @@ export const RemoveSubTaskService = createAsyncThunk<
     };
 
     try {
-        const response = await extra.api.delete(`/tasks/subtasks`, {
-            data: removeSubTaskBody,
+        const response = await extra.api.delete(`/projects/${removeSubTaskBody.projectId}/tasks/subtasks`, {
+            data: removeSubTaskBody.removeData,
             headers: headers,
         });
 

@@ -32,6 +32,15 @@ export const DraggableTask = (props: DraggableTaskProps) => {
     )
 
     return (
-        <TaskWrapper assignee={assignee} priority={taskPriority} taskDescription={taskDescription} taskId={taskId} boardId={boardId} onClick={onClick} attributes={attributes} listeners={listeners} ref={setNodeRef} taskTitle={taskTitle} taskUniqueTitle={taskUniqueTitle} className={classNames('', {}, [className])}/>
+        <TaskWrapper
+            assignee={assignee}
+            priority={taskPriority}
+            taskDescription={taskDescription}
+            taskId={taskId} boardId={boardId}
+            onClick={onClick} attributes={attributes}
+            listeners={listeners} ref={setNodeRef}
+            taskTitle={taskTitle}
+            taskUniqueTitle={taskUniqueTitle}
+            className={classNames('', {}, [className])}/>
     )
 };

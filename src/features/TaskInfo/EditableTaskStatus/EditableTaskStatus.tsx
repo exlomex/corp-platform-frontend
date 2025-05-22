@@ -13,6 +13,7 @@ import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfo
 import {useLocation, useNavigate, useParams} from "react-router";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {getRouteProjectBoard} from "@/shared/const/router.ts";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface EditableTaskStatusProps {
     className?: string;
@@ -22,6 +23,7 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
     const { className } = props;
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
+    const selectedProject = useSelector(getProjectSelectedProject)
     const dispatch = useAppDispatch()
 
     const selectedTaskBoardStatuses = useSelector(getSelectedTaskBoardStatuses)
@@ -30,10 +32,10 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
     const [selectedBoardStatus, setSelectedBoardStatus] = useState<ComboBoxOption>(null)
 
     useEffect(() => {
-        if (selectedTaskBoardStatuses.length >= 1) {
+        if (selectedTaskBoardStatuses.length >= 1 && selectedTaskInfo?.id) {
             setNormalizedBoardStatuses(
                 [...selectedTaskBoardStatuses.map(boardStatus => {
-                    if (boardStatus.id === selectedTaskInfo.statusId) {
+                    if (boardStatus.id === selectedTaskInfo?.statusId) {
                         setSelectedBoardStatus({
                             value: boardStatus.title,
                             label: boardStatus.title,
@@ -53,23 +55,24 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
 
     useEffect(() => {
         if (selectedTaskInfo?.boardId) {
-            dispatch(FetchBoardStatuses({boardId: selectedTaskInfo.boardId, type: "selectedTask"}))
+            dispatch(FetchBoardStatuses({boardId: selectedTaskInfo.boardId, type: "selectedTask", projectId: selectedProject.id}))
         }
         // if (selectedTaskInfo?.boardId)
-    }, [dispatch, selectedTaskInfo]);
+    }, [dispatch, selectedProject, selectedTaskInfo]);
 
     const params = useParams()
     const onSelectOption = async (option: ComboBoxOption) => {
         if (selectedTaskInfo.id) {
             const changeBody: ChangeTaskStatusInputData = {
                 taskId: selectedTaskInfo.id,
-                statusId: option.id
+                statusId: option.id,
+                projectId: selectedProject.id
             }
 
             try {
                 await dispatch(ChangeTaskStatusService(changeBody)).unwrap()
-                await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle})).unwrap()
-                await dispatch(FetchBoardTasks({boardId: +params.board})).unwrap()
+                await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle, projectId: selectedProject.id})).unwrap()
+                await dispatch(FetchBoardTasks({boardId: +params.board, projectId: selectedProject.id})).unwrap()
             } catch (e) {
                 console.error(e)
             }

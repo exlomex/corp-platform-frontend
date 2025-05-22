@@ -11,6 +11,8 @@ import {
     ChangeTaskTitleService,
     ChangeTaskTitleServiceInputData
 } from "@/entities/Task";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface EditableTitleProps {
     className?: string;
@@ -28,6 +30,8 @@ export const EditableTaskTitle = (props: EditableTitleProps) => {
 
     const [taskTitleState, setTaskTitleState] = useState<string>(taskTitle)
     const [newTaskTitleValue, setNewTaskTitleValue] = useState<string>(taskTitle)
+
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     useEffect(() => {
         setTaskTitleState(taskTitle)
@@ -60,14 +64,17 @@ export const EditableTaskTitle = (props: EditableTitleProps) => {
     const onSubmitEditHandler = async () => {
         if (newTaskTitleValue.trim() !== taskTitle && newTaskTitleValue.trim().length >= 1) {
             const editBody: ChangeTaskTitleServiceInputData = {
-                id: taskId,
-                title: newTaskTitleValue,
-                description: taskDescription
+                changeData: {
+                    id: taskId,
+                    title: newTaskTitleValue,
+                    description: taskDescription
+                },
+                projectId: selectedProject.id
             }
 
             try {
                 await dispatch(ChangeTaskTitleService(editBody)).unwrap()
-                await dispatch(FetchBoardTasks({boardId: boardId}))
+                await dispatch(FetchBoardTasks({boardId: boardId, projectId: selectedProject.id}))
 
                 onCloseEditableAreaHandler()
                 setTaskTitleState(newTaskTitleValue)

@@ -9,6 +9,9 @@ import { useAppDispatch } from "@/shared/hooks/useAppDispatch/useAppDispatch.ts"
 import { ChangeColumnTitleService } from "../../model/services/changeColumnTitleService.ts";
 import type { ChangeColumnTitleInputData } from "../../model/services/changeColumnTitleService.ts";
 import { FetchBoardStatuses } from "@/entities/Status/model/services/fetchBoardStatuses.ts";
+import {selectNewProject} from "@/entities/Project";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface EditableColumnTitleProps {
     className?: string;
@@ -59,17 +62,19 @@ export const EditableColumnTitle = (props: EditableColumnTitleProps) => {
     }, [isEditDescriptionActive]);
 
     const dispatch = useAppDispatch();
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const onSubmitEditHandler = async () => {
         if (newColumnTitleValue.trim() !== columnTitle && newColumnTitleValue.trim().length >= 1) {
             const editBody: ChangeColumnTitleInputData = {
                 statusId: columnId,
-                title: newColumnTitleValue
+                title: newColumnTitleValue,
+                projectId: selectedProject.id
             };
 
             try {
                 await dispatch(ChangeColumnTitleService(editBody)).unwrap();
-                await dispatch(FetchBoardStatuses({ boardId }));
+                await dispatch(FetchBoardStatuses({ boardId: boardId, projectId: selectedProject.id }));
 
                 onCloseEditableAreaHandler();
                 setColumnTitleState(newColumnTitleValue);

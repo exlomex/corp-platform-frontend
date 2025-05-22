@@ -9,6 +9,7 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {ChangeTaskPriorityService} from "@/entities/Task/model/services/changeTaskPriorityService.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface EditableTaskPriorityProps {
     className?: string;
@@ -36,6 +37,7 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
     };
 
     const dispatch = useAppDispatch()
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const onSelectPriorityHandler = async (option: ComboBoxOption) => {
         if (selectedTaskInfo?.id) {
@@ -45,8 +47,12 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
             }
 
             try {
-                const response: TaskI = await dispatch(ChangeTaskPriorityService({priority: option.value as keyof typeof Priority, taskId: selectedTaskInfo.id})).unwrap()
-                await dispatch(FetchBoardTasks({boardId: selectedTaskInfo.boardId})).unwrap()
+                const response: TaskI = await dispatch(ChangeTaskPriorityService({
+                    priority: option.value as keyof typeof Priority,
+                    taskId: selectedTaskInfo.id,
+                    projectId: selectedProject.id
+                })).unwrap()
+                await dispatch(FetchBoardTasks({boardId: selectedTaskInfo.boardId, projectId: selectedProject.id})).unwrap()
                 await dispatch(TaskActions.setSelectedTaskInfo(response))
             } catch (e) {
                 console.error()

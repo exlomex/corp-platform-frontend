@@ -12,6 +12,8 @@ import {
     ChangeTaskTitleServiceInputData
 } from "@/entities/Task";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface EditableTitleProps {
     className?: string;
@@ -52,19 +54,23 @@ export const EditableTitle = (props: EditableTitleProps) => {
     }, [isEditTitleActive]);
 
     const dispatch = useAppDispatch()
+    const selectedProject = useSelector(getProjectSelectedProject)
 
     const onSubmitEditHandler = async () => {
         if (newTaskTitleValue.trim() !== taskTitle && newTaskTitleValue.trim().length >= 1) {
             const editBody: ChangeTaskTitleServiceInputData = {
-                id: taskId,
-                title: newTaskTitleValue,
-                description: taskDescription
+                changeData: {
+                    id: taskId,
+                    title: newTaskTitleValue,
+                    description: taskDescription
+                },
+                projectId: selectedProject.id
             }
 
             try {
                 await dispatch(ChangeTaskTitleService(editBody)).unwrap()
-                await dispatch(fetchTaskInfoService({uniqueTitle: uniqueTitle})).unwrap();
-                await dispatch(FetchBoardTasks({boardId: boardId})).unwrap()
+                await dispatch(fetchTaskInfoService({uniqueTitle: uniqueTitle, projectId: selectedProject.id})).unwrap();
+                await dispatch(FetchBoardTasks({boardId: boardId, projectId: selectedProject.id})).unwrap()
 
                 onCloseEditableAreaHandler()
                 setTaskTitleState(newTaskTitleValue)

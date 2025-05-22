@@ -12,6 +12,8 @@ import {
 } from "@/features/CreateNewTask/model/services/createNewTaskService.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface CreateColumnNewTaskProps {
     className?: string;
@@ -53,6 +55,7 @@ export const CreateColumnNewTask = (props: CreateColumnNewTaskProps) => {
     }, [isActive]);
 
     const dispatch = useAppDispatch()
+    const selectedProject = useSelector(getProjectSelectedProject);
     const onSubmitCreateHandler = async () => {
         if (taskValue) {
             const createBody: createNewTaskServiceInputData = {
@@ -64,7 +67,7 @@ export const CreateColumnNewTask = (props: CreateColumnNewTaskProps) => {
 
             try {
                 await dispatch(createNewTaskService(createBody)).unwrap()
-                await dispatch(FetchBoardTasks({boardId: boardId}))
+                await dispatch(FetchBoardTasks({boardId: boardId, projectId: selectedProject.id}))
 
                 setIsActive(false)
                 setTaskValue('')

@@ -3,17 +3,18 @@ import {ThunkConfig} from "@/app/providers/Store";
 
 export interface ChangeColumnTitleInputData {
     statusId: number;
-    title: string
+    title: string;
+    projectId: number;
 }
 export const ChangeColumnTitleService = createAsyncThunk<
     void,
     ChangeColumnTitleInputData,
     ThunkConfig<string>
->('column/change-title', async ({title, statusId}: ChangeColumnTitleInputData, thunkApi) => {
+>('column/change-title', async ({title, statusId, projectId}: ChangeColumnTitleInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.patch(`/statuses/${statusId}`, {title});
+        const response = await extra.api.patch(`/projects/${projectId}/statuses/${statusId}`, {title});
 
         if (response.status !== 200) {
             throw new Error(response.statusText);
