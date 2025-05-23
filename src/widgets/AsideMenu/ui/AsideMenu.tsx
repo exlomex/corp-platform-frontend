@@ -70,10 +70,10 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
 
     const location = useLocation()
 
-    const asideTabsMapper: Record<string, navTabContentValues> = {
+    const asideTabsMapper: Record<string, string> = {
         'projects': 'Проекты',
         'agileBoards': 'Agile доски',
-        'tasks': 'Задачи',
+        '': 'Задачи',
         'messages': 'Сообщения'
     }
 
