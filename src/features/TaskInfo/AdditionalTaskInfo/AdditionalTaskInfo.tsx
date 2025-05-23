@@ -55,11 +55,11 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
     }[] = [
         {
             label: 'Создано',
-            content: formatCustomDate(selectedTaskInfo?.createdAt)
+            content: selectedTaskInfo?.createdAt ? formatCustomDate(selectedTaskInfo?.createdAt) : ''
         },
         {
             label: 'Обновлено',
-            content: formatCustomDate(selectedTaskInfo?.updatedAt)
+            content: selectedTaskInfo?.updatedAt ? formatCustomDate(selectedTaskInfo?.updatedAt) : ''
         },
     ]
 

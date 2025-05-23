@@ -15,6 +15,7 @@ export interface UserI {
     companyId: number;
     imageUrl?: string
     email: string
+    allowedProjects: number[]
 }
 
 export interface UserSliceSchema {
@@ -47,6 +48,9 @@ export interface UserSliceSchema {
 
     profileEditPasswordIsFetching: boolean;
     profileEditPasswordError?: string;
+
+    // projectUsers
+    projectUsers: UserI[]
 }
 
 export interface tokenInfoTypes extends JwtPayload {

@@ -19,3 +19,4 @@ export const getEditPersonalDataError = createSelector(getUser, (state: UserSlic
 
 export const getEditPasswordIsFetching = createSelector(getUser, (state: UserSliceSchema) => state.profileEditPasswordIsFetching)
 export const getEditPasswordError = createSelector(getUser, (state: UserSliceSchema) => state.profileEditPasswordError)
+export const getProjectUsers = createSelector(getUser, (state: UserSliceSchema) => state.projectUsers)

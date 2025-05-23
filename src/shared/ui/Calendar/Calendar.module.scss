@@ -1,0 +1,103 @@
+.calendarContainer {
+    max-width: fit-content;
+    background-color: var(--bg-color);
+    border: 1px solid var(--input-border-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    padding: 12px;
+
+}
+
+.calendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+
+    span {
+        font: var(--font-paragraph-16-Medium);
+        user-select: none;
+
+    }
+}
+
+.calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px 9px;
+    user-select: none;
+
+}
+
+.calendarGridDays {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 11px;
+    user-select: none;
+
+
+    p {
+        font-weight: 300;
+        font-size: 14px;
+        text-align: center;
+        color: var(--grey)
+    }
+}
+
+.calendarDay {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color .2s ease, color .2s ease;
+
+    &:hover {
+        background-color: var(--selected-values-bg-color);
+    }
+}
+
+.calendarDay.active {
+    background-color: var(--selected-values-bg-color);
+    color: var(--selected-values-color);
+}
+
+.calendarDay.empty {
+    visibility: hidden;
+}
+
+.Arrows {
+    display: flex;
+    gap: 5px;
+
+    svg {
+        cursor: pointer;
+    }
+}
+
+.LeftIcon, .RightIcon {
+    display: flex;
+    width: 26px;
+    height: 26px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: background-color .2s ease;
+
+    svg path{
+        stroke: var(--text-color);
+    }
+
+    &:hover {
+        background-color: var(--selected-values-bg-color);
+    }
+}
+
+.LeftIcon {
+    transform: rotate(180deg);
+}

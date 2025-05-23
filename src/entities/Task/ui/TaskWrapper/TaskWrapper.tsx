@@ -5,7 +5,7 @@ import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
 import {DraggableAttributes} from "@dnd-kit/core";
 import {AdditionalTaskOptions} from "../AdditionalTaskOptions/AdditionalTaskOptions.tsx";
 import {EditableTaskTitle} from "../EditableTaskTitle/EditableTaskTitle.tsx";
-import {Priority, priorityIconMap} from "@/features/CreateNewTask/const/priorityConsts.tsx";
+import {Priority, priorityIconMap} from "../../const/priorityConsts.tsx";
 import {Tooltip} from "@/shared/ui/Tooltip";
 import {TaskUser} from "@/entities/Task/model/types/taskSliceSchema.ts";
 import AvatarIcon from '@/shared/assets/icons/userAvatarIcon.svg'

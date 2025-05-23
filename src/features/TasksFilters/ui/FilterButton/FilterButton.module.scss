@@ -1,0 +1,49 @@
+.FilterButton {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px;
+    width: fit-content;
+    border-radius: 6px;
+
+    &:hover {
+        background-color: var(--button-active-color);
+    }
+}
+
+.RightBoxWrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.IconWrapper {
+    width: 16px;
+    height: 16px;
+
+    svg {
+        transition: transform .3s ease;
+    }
+
+    svg path {
+        stroke: var(--text-color);
+    }
+}
+
+.ButtonIsActive {
+    svg {
+        transform: rotate(180deg);
+    }
+}
+
+.SelectedValuesCount {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font: var(--font-paragraph-14-Regular);
+    width: 22px;
+    height: 22px;
+    background-color: var(--selected-values-bg-color);
+    color: var(--selected-values-color);
+}

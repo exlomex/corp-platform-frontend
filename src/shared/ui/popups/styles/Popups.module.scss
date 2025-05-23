@@ -99,5 +99,15 @@
 .PopoverContent {
     font: var(--font-paragraph-16-Regular);
 
-    --anchor-gap: 20px;
+    &.gap-10 {
+        --anchor-gap: 10px;
+    }
+
+    &.gap-20 {
+        --anchor-gap: 20px;
+    }
+
+    &.gap-6 {
+        --anchor-gap: 6px;
+    }
 }

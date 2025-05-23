@@ -12,7 +12,7 @@ export enum AppRoutes {
     MESSAGES = 'messages'
 }
 
-export const getRouteMain = () => '/';
+export const getRouteMain = () => '/tasks';
 export const getRouteLogin = () => '/login';
 export const getRouteRegister = () => '/register';
 export const getRouteSettings = (tab: string) => `/settings/${tab}`;

@@ -1,0 +1,37 @@
+.ExtraFiltersButton {
+    cursor: pointer;
+    display: flex;
+    gap: 5px;
+    padding: 10px 10px;
+    align-items: center;
+    transition: color .2s ease;
+    white-space: nowrap;
+
+
+    &:hover {
+        color: var(--purple-color-active);
+
+        .IconWrapper svg path {
+            stroke: var(--purple-color-active);
+        }
+    }
+}
+
+.IconWrapper {
+    width: 16px;
+    height: 16px;
+
+    svg {
+        transition: transform .3s ease;
+    }
+
+    svg path {
+        stroke: var(--text-color);
+    }
+}
+
+.ButtonIsActive {
+    svg {
+        transform: rotate(180deg);
+    }
+}

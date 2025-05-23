@@ -1,0 +1,42 @@
+.TaskTree {
+    height: calc(100% - 120px);
+}
+
+.LinkTask {
+    color: var(--purple-color-active);
+    transition: color .2s ease;
+
+    &:hover {
+        color: var(--purple-color-light);
+    }
+}
+
+.UserWrapper {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.AvatarIcon {
+    object-fit: cover;
+    border-radius: 6px;
+    width: 20px;
+    height: 20px;
+}
+
+
+.NoDataContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.NoData {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px;
+    align-items: center;
+}

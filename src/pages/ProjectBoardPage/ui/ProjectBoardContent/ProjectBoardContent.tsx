@@ -34,32 +34,6 @@ export const ProjectBoardContent = (props: ProjectBoardContentProps) => {
         }
     }, [boards, params.board]);
 
-    const dispatch = useAppDispatch()
-
-    const TaskInfoModalIsOpen = useSelector(getTaskInfoModalIsOpen)
-
-    const location = useLocation();
-    const navigate = useNavigate()
-    const queryParams = new URLSearchParams(location.search);
-    const searchParamsSelectedTask = queryParams.get('selectedTask')
-
-    useEffect(() => {
-        if (searchParamsSelectedTask) {
-            dispatch(TaskActions.setSelectedTaskUniqueTitle(searchParamsSelectedTask))
-            dispatch(TaskActions.setTaskInfoModalIsOpen(true))
-        }
-    }, [dispatch, searchParamsSelectedTask]);
-    const onTaskInfoModalClose = () => {
-        dispatch(TaskActions.setSelectedTaskInfo(undefined))
-        dispatch(CommentActions.resetSlice())
-        dispatch(TaskActions.setTaskInfoModalIsOpen(false))
-        dispatch(TaskActions.resetNavigationHistory())
-        dispatch(StatusActions.setSelectedTaskBoardStatuses([]))
-        queryParams.delete('selectedTask')
-        dispatch(TaskActions.setSelectedTaskUniqueTitle(''))
-        navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
-    }
-
     return (
         <div className={classNames(cls.ProjectBoardContent, {}, [className])}>
             <div className={cls.BoardTitleWrapper}>
@@ -67,15 +41,6 @@ export const ProjectBoardContent = (props: ProjectBoardContentProps) => {
                 <CreateExtendedTaskButton/>
             </div>
             <AgileBoard/>
-
-            {/* AddSubTaskModal */}
-            <SubTaskModal/>
-
-            {/* AddTaskModal */}
-            <CreateExtendedTaskModal/>
-
-            {/* TaskInfoModal */}
-            {<TaskInfoModal isOpen={TaskInfoModalIsOpen} onClose={onTaskInfoModalClose}/>}
         </div>
     )
 };

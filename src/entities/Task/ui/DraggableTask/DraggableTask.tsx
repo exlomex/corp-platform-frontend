@@ -1,10 +1,8 @@
 import { classNames } from '@/shared/lib/classNames';
-import cls from './DraggableTask.module.scss';
 import {TaskWrapper} from "@/entities/Task/ui/TaskWrapper/TaskWrapper.tsx";
 import {useDraggable} from "@dnd-kit/core";
-import {useEffect} from "react";
-import {Priority} from "@/features/CreateNewTask/const/priorityConsts.tsx";
 import {TaskUser} from "@/entities/Task/model/types/taskSliceSchema.ts";
+import {Priority} from "@/entities/Task";
 
 interface DraggableTaskProps {
     className?: string;

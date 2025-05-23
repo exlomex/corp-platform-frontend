@@ -19,7 +19,8 @@ import {
 } from "@/features/CreateNewTask/model/services/createNewTaskService.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
-import {Priority, priorityOptions} from "@/features/CreateNewTask/const/priorityConsts.tsx";
+import {priorityOptions} from "@/features/CreateNewTask/const/priorityConsts.tsx";
+import {Priority} from "@/entities/Task";
 
 interface CreateExtendedTaskModalContentProps {
     className?: string;

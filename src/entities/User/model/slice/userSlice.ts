@@ -19,13 +19,17 @@ const initialState: UserSliceSchema = {
     AsideIsCollapsed: false,
     profileEditDataIsFetching: false,
     profileEditPasswordIsFetching: false,
-    profileImageIsFetching: false
+    profileImageIsFetching: false,
+    projectUsers: []
 };
 
 export const UserSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        setProjectUsers: (state: UserSliceSchema, action: PayloadAction<UserI[]>) => {
+            state.projectUsers = action.payload;
+        },
         setAsideIsCollapsed: (state: UserSliceSchema, action: PayloadAction<boolean>) => {
             state.AsideIsCollapsed = action.payload
         },

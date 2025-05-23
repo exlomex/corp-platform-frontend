@@ -1,7 +1,8 @@
-import {TaskI, TaskSliceSchema} from "../types/taskSliceSchema.ts";
+import {TaskI, TaskSliceSchema, TreeTask} from "../types/taskSliceSchema.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AddSubTaskService} from "../services/addSubTaskService.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
+import {FetchProjectTreeTasksService} from "../services/fetchProjectTreeTasksService.ts";
 
 
 const initialState: TaskSliceSchema = {
@@ -10,13 +11,22 @@ const initialState: TaskSliceSchema = {
     addTaskModalIsActive: false,
     taskInfoModalIsOpen: false,
     selectedTaskInfoIsFetching: false,
-    taskNavigationHistory: []
+    taskNavigationHistory: [],
+    projectTreeTasks: [],
+    projectsTreeTasksIsFetching: false,
+    projectsTreeTasksIsFirstLoading: true
 }
 
 export const TaskSlice = createSlice({
     name: 'task',
     initialState,
     reducers: {
+        setProjectsTreeTasksIsFirstLoading: (state: TaskSliceSchema, action: PayloadAction<boolean>) => {
+            state.projectsTreeTasksIsFirstLoading = action.payload;
+        },
+        setTreeTasks: (state: TaskSliceSchema, action: PayloadAction<TreeTask[]>) => {
+            state.projectTreeTasks = action.payload;
+        },
         setSubTaskError: (state: TaskSliceSchema, action: PayloadAction<string | undefined>) => {
             state.addSubTaskError = action.payload
         },
@@ -36,7 +46,7 @@ export const TaskSlice = createSlice({
             state.selectedTaskInfo = action.payload;
         },
         setTaskInfoModalIsOpen:  (state: TaskSliceSchema, action: PayloadAction<boolean>) => {
-          state.taskInfoModalIsOpen = action.payload;
+            state.taskInfoModalIsOpen = action.payload;
         },
         setIsOpenAddTaskModal: (state: TaskSliceSchema, action: PayloadAction<boolean>) => {
             state.addTaskModalIsActive = action.payload;
@@ -79,6 +89,16 @@ export const TaskSlice = createSlice({
             })
             .addCase(fetchTaskInfoService.rejected, (state: TaskSliceSchema, action) => {
                 state.selectedTaskInfoIsFetching = false;
+            })
+            // FetchProjectTreeTasksService
+            .addCase(FetchProjectTreeTasksService.pending, (state: TaskSliceSchema) => {
+                state.projectsTreeTasksIsFetching = true
+            })
+            .addCase(FetchProjectTreeTasksService.fulfilled, (state: TaskSliceSchema) => {
+                state.projectsTreeTasksIsFetching = false
+            })
+            .addCase(FetchProjectTreeTasksService.rejected, (state: TaskSliceSchema, action) => {
+                state.projectsTreeTasksIsFetching = false;
             })
     }
 })

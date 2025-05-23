@@ -1,6 +1,7 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './Table.module.scss';
-import {ReactElement} from "react";
+import {ReactElement, ReactNode, useState} from "react";
+import RightArrowIcon from '@/shared/assets/icons/extraSmallRightArrowIcon.svg'
 
 export type alignVariants = 'left' | 'right' | 'center'
 export interface DefaultColumn<T> {
@@ -22,10 +23,15 @@ export interface ActionColumn<T> {
 
 export type Column<T> = DefaultColumn<T> | ActionColumn<T>
 
-export interface TableProps<T> {
+export type TableRow<T> = T & {
+    id: number;
+    children?: TableRow<T>[] | ReactNode;
+};
+
+export interface TableProps<T extends object> {
     className?: string;
     columns: Column<T> [];
-    data?: T[];
+    data?: TableRow<T>[];
 }
 
 const ColumnTableDataAlignClasses: Record<alignVariants, string> = {
@@ -36,6 +42,71 @@ const ColumnTableDataAlignClasses: Record<alignVariants, string> = {
 
 export const Table = <T extends object>(props: TableProps<T>) => {
     const {columns, data } = props;
+
+    const [expandedRows, setExpandedRows] = useState<Record<number, boolean>>({});
+
+    const toggleRowExpand = (id: number) => {
+        setExpandedRows(prev => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+    };
+
+    const renderRows = (rows: TableRow<T>[], level: number = 0): ReactElement[] => {
+        return rows.flatMap((row, index) => {
+            const hasChildren = !!row.children;
+            const isExpanded = expandedRows[row.id];
+
+            const baseRow = (
+                <tr className={cls.TableRow} key={'id' in row ? String(row.id) : index}>
+                    {columns.map(column => {
+                        const content: ReactNode =
+                            'element' in column
+                                ? column.element(row)
+                                : row[column.key as keyof T] as ReactNode;
+
+                        return (<td
+                            className={classNames(cls.TableData, {}, [ColumnTableDataAlignClasses[column?.alignTableData]])}
+                            key={String(column.key)}
+                            style={{width: column.alignColumn ? '100%' : column?.width}}
+                        >
+                            {
+                                column.key === 'title'
+                                    ? (hasChildren ? (
+                                        <div className={cls.TreeTitle} style={{paddingLeft: `${level * 20}px`}}>
+                                            {column.key === 'title' && hasChildren && (
+                                                <button
+                                                    className={classNames(cls.ExpandButton, {[cls.isExpanded]: isExpanded}, [])}
+                                                    onClick={() => toggleRowExpand(row.id)}
+                                                >
+                                                    <RightArrowIcon/>
+                                                </button>
+                                            )}
+                                            {'element' in column
+                                                ? column.element(row)
+                                                : row[column.key as keyof T] as ReactNode
+                                            }
+                                        </div>
+                                    ) : (
+                                            <div style={{paddingLeft: `${level * 20}px`}}>
+                                                {content}
+                                            </div>
+                                        )
+                                    )
+                                    : (content)
+                            }
+                        </td>)
+                    })}
+                </tr>
+            );
+
+            const childrenRows = hasChildren && isExpanded && Array.isArray(row.children)
+                ? renderRows(row.children, level + 1)
+                : [];
+
+            return [baseRow, ...childrenRows];
+        });
+    };
 
     return (
         <div className={cls.TableWrapper}>
@@ -53,21 +124,7 @@ export const Table = <T extends object>(props: TableProps<T>) => {
 
                 {data && (
                     <tbody>
-                    {data.map((row, index) => (
-                        <tr className={cls.TableRow} key={'id' in row ? String(row.id) : index}>
-                            {columns.map(column => (
-                                <td
-                                    className={classNames(cls.TableData, {}, [ColumnTableDataAlignClasses[column?.alignTableData]])}
-                                    key={String(column.key)}
-                                    style={{width: column.alignColumn ? '100%' : column?.width}}
-                                >
-                                    {'element' in column
-                                        ? column.element(row)
-                                        : String(row[column.key as keyof T])}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
+                    {renderRows(data)}
                     </tbody>
                 )}
             </table>

@@ -1,10 +1,11 @@
-import {Priority} from "@/features/CreateNewTask/const/priorityConsts.tsx";
+import {Priority} from "../../const/priorityConsts.tsx";
 
 export interface TaskUser {
     id: number,
     firstName: string,
     lastName: string,
-    imageUrl?: string
+    imageUrl?: string,
+    allowedProjects: number[]
 }
 
 export interface subTaskI {
@@ -30,6 +31,27 @@ export interface TaskI {
     parent?: subTaskI
     priority?: Priority
 }
+
+export interface TreeTask {
+    id: number,
+    title: string,
+    uniqueTitle: string,
+    board: {
+        id: number,
+        title: string
+    },
+    status: {
+        id: number,
+        title: string,
+        "resolution": "ACTIVE"
+    },
+    author: TaskUser,
+    assignee: TaskUser,
+    priority: Priority,
+    parentId: number,
+    children: TreeTask[] | []
+}
+
 export interface TaskSliceSchema {
     boardTasks: TaskI[]
 
@@ -48,4 +70,8 @@ export interface TaskSliceSchema {
     selectedTaskInfoIsFetching: boolean;
 
     taskNavigationHistory: string[],
+
+    projectTreeTasks: TreeTask[],
+    projectsTreeTasksIsFetching: boolean
+    projectsTreeTasksIsFirstLoading: boolean
 }

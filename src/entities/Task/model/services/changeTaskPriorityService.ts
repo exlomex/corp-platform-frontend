@@ -1,7 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {ThunkConfig} from "@/app/providers/Store";
-import {Priority} from "@/features/CreateNewTask/const/priorityConsts.tsx";
-import {TaskI} from "@/entities/Task";
+import {Priority, TaskI} from "@/entities/Task";
 
 export interface ChangeTaskPriorityInputData {
     taskId: number

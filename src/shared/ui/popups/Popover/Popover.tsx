@@ -4,6 +4,7 @@ import {Popover as HPopover, PopoverButton, PopoverPanel} from "@headlessui/reac
 import {AnchorProps} from "@/shared/types/popups.ts";
 import {cloneElement, ReactElement} from "react";
 import {Theme} from "@/shared/types/theme.ts";
+import {GapClasses} from "@/shared/ui/popups/DropDown/DropDown.tsx";
 
 interface PopoverProps {
     className?: string;
@@ -12,13 +13,14 @@ interface PopoverProps {
     theme?: Theme;
     children: (args: { open: boolean; close: () => void }) => ReactElement;
     popoverPanelClassName?: string
+    gap?: keyof typeof GapClasses;
 }
 
 export const Popover = (props: PopoverProps) => {
-    const { className, trigger, direction = 'right', theme, children, popoverPanelClassName} = props;
+    const { className, trigger, direction = 'right', theme, children, popoverPanelClassName, gap = 20} = props;
     return (
         <HPopover
-            className={classNames(cls.Popover, {}, [className, theme])}
+            className={classNames(cls.Popover, {}, [className, theme, GapClasses[gap]])}
         >
             {({open, close}) => {
                 return (
@@ -28,7 +30,7 @@ export const Popover = (props: PopoverProps) => {
                         </PopoverButton>
 
                         <PopoverPanel
-                            className={classNames(cls.PopoverContent, {}, [popoverPanelClassName])}
+                            className={classNames(cls.PopoverContent, {}, [popoverPanelClassName, GapClasses[gap]])}
                             anchor={direction as AnchorProps}
                             transition
                             modal={false}
