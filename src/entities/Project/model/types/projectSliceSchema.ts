@@ -1,3 +1,5 @@
+import {UserI} from "@/entities/User";
+import {ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 
 export interface ProjectDataInterface {
     id: number,
@@ -20,4 +22,8 @@ export interface ProjectSliceSchema {
     fetchUserProjectIsLoading: boolean;
 
     isDeleteProjectFetching: boolean;
+
+    settingsProjectUsers: UserI[]
+    settingsSelectedProject: ComboBoxOption
+    addUserToProjectModalIsOpen: boolean
 }

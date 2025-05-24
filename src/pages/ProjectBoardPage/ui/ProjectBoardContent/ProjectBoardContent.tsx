@@ -11,6 +11,7 @@ import {CreateExtendedTaskButton, CreateExtendedTaskModal} from "@/features/Crea
 import {CommentActions, TaskInfoModal} from "@/features/TaskInfo";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {StatusActions} from "@/entities/Status";
+import {useTaskInfoModal} from "@/shared/hooks/useTaskInfoModal";
 
 interface ProjectBoardContentProps {
     className?: string;
@@ -34,6 +35,8 @@ export const ProjectBoardContent = (props: ProjectBoardContentProps) => {
         }
     }, [boards, params.board]);
 
+    const { isModalOpen, onClose } = useTaskInfoModal();
+
     return (
         <div className={classNames(cls.ProjectBoardContent, {}, [className])}>
             <div className={cls.BoardTitleWrapper}>
@@ -41,6 +44,15 @@ export const ProjectBoardContent = (props: ProjectBoardContentProps) => {
                 <CreateExtendedTaskButton/>
             </div>
             <AgileBoard/>
+
+            {/* AddSubTaskModal */}
+            <SubTaskModal/>
+
+            {/* AddTaskModal */}
+            <CreateExtendedTaskModal/>
+
+            {/* TaskInfoModal */}
+            {<TaskInfoModal isOpen={isModalOpen} onClose={onClose}/>}
         </div>
     )
 };

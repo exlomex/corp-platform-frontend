@@ -2,12 +2,17 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ProjectDataInterface, ProjectSliceSchema, SelectedProjectInterface} from "../types/projectSliceSchema.ts";
 import {DeleteUserProjectById} from "@/entities/Project/model/services/deleteUserProjectById.ts";
 import {LOCAL_STORAGE_SELECTED_PROJECT} from "@/shared/const/localstorage.ts";
+import {UserI} from "@/entities/User";
+import {ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 
 const initialState: ProjectSliceSchema = {
     fetchUserProjectIsLoading: false,
     isFirstFetchUserProject: true,
 
     isDeleteProjectFetching: false,
+    settingsProjectUsers: [],
+    addUserToProjectModalIsOpen: false,
+    settingsSelectedProject: null
 }
 
 export const ProjectSlice = createSlice({
@@ -15,6 +20,15 @@ export const ProjectSlice = createSlice({
     initialState,
     reducers: {
         resetProjects: () => initialState,
+        setSettingsSelectedProject: (state: ProjectSliceSchema, action: PayloadAction<ComboBoxOption>) => {
+            state.settingsSelectedProject = action.payload;
+        },
+        setAddUserToProjectModalIsOpen: (state: ProjectSliceSchema, action: PayloadAction<boolean>) => {
+            state.addUserToProjectModalIsOpen = action.payload;
+        },
+        setSettingProjectUsers: (state: ProjectSliceSchema, action: PayloadAction<UserI[]>) => {
+            state.settingsProjectUsers = action.payload;
+        },
         setSelectedProject: (state: ProjectSliceSchema, action: PayloadAction<SelectedProjectInterface>) => {
             state.selectedProject = action.payload;
         },

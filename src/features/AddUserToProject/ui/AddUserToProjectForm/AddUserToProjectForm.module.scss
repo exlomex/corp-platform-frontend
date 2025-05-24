@@ -1,0 +1,23 @@
+.AddUserToProjectForm {
+    width: 600px;
+}
+
+.AddUserHeading {
+    margin-bottom: 6px;
+}
+
+.AddUserSubtitle {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+
+    span {color: var(--red-color)}
+
+    margin-bottom: 15px;
+}
+
+.BottomLine {
+    margin-top: 15px;
+    display: flex;
+    justify-content: end;
+    gap: 0 10px;
+}

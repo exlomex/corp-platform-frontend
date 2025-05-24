@@ -3,11 +3,12 @@ import cls from './SettingsContent.module.scss';
 import {TabPanelsItem, TabListItem, Tabs} from "@/shared/ui/Tabs";
 import {Typography} from "@/shared/ui/Typography";
 import {useNavigate, useParams} from "react-router";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {getRouteSettings} from "@/shared/const/router.ts";
 import {InviteToCompanyForm} from "@/features/InviteToCompany";
 import {SettingsCompanyTab} from "@/pages/SettingsPage/ui/SettingsCompanyTab/SettingsCompanyTab.tsx";
 import {SettingsProfileTab} from "@/pages/SettingsPage/ui/SettingsProfileTab/SettingsProfileTab.tsx";
+import {SettingsProjectsTab} from "@/pages/SettingsPage/ui/SettingsProjectsTab/SettingsProjectsTab.tsx";
 
 interface SettingsContentProps {
     className?: string;
@@ -21,23 +22,27 @@ export const SettingsContent = (props: SettingsContentProps) => {
     const navigate = useNavigate()
     const params = useParams()
 
-    const TabListMapper: Record<string, TabItems> = {
+    const TabListMapper = useMemo<Record<string, TabItems>>(() => ({
         'company': 'Компания',
         'projects': 'Проекты',
         'boards': 'Доски',
         'theme': 'Тема',
         'userSettings': 'Настройки пользователя'
-    }
+    }), []);
 
-    const TabListItems: TabListItem[] = [
+    const TabListItems = useMemo<TabListItem[]>(() => [
         {
             content: 'Компания',
             onClick: () => navigate(getRouteSettings('company'))
         },
-        // {
-        //     content: 'Проекты',
-        //     onClick: () => navigate(getRouteSettings('projects'))
-        // },
+        {
+            content: 'Проекты',
+            onClick: () => navigate(getRouteSettings('projects'))
+        },
+        {
+            content: 'Настройки пользователя',
+            onClick: () => navigate(getRouteSettings('userSettings'))
+        },
         // {
         //     content: 'Доски',
         //     onClick: () => navigate(getRouteSettings('boards'))
@@ -46,11 +51,7 @@ export const SettingsContent = (props: SettingsContentProps) => {
         //     content: 'Тема',
         //     onClick: () => navigate(getRouteSettings('theme'))
         // },
-        {
-            content: 'Настройки пользователя',
-            onClick: () => navigate(getRouteSettings('userSettings'))
-        }
-    ]
+    ], [navigate]);
 
     const [selectedIndex, setSelectedIndex] = useState<number>(0)
 
@@ -77,6 +78,9 @@ export const SettingsContent = (props: SettingsContentProps) => {
     const TabPanelsItems: TabPanelsItem[] = [
         {
             content: (<SettingsCompanyTab/>)
+        },
+        {
+            content: (<SettingsProjectsTab/>)
         },
         {
             content: (<SettingsProfileTab/>)

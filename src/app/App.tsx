@@ -22,30 +22,6 @@ export const App = memo(() => {
         setIsInited(true)
     }, [dispatch]);
 
-    // tasks
-    const TaskInfoModalIsOpen = useSelector(getTaskInfoModalIsOpen)
-
-    const location = useLocation();
-    const navigate = useNavigate()
-    const queryParams = new URLSearchParams(location.search);
-    const searchParamsSelectedTask = queryParams.get('selectedTask')
-
-    useEffect(() => {
-        if (searchParamsSelectedTask) {
-            dispatch(TaskActions.setSelectedTaskUniqueTitle(searchParamsSelectedTask))
-            dispatch(TaskActions.setTaskInfoModalIsOpen(true))
-        }
-    }, [dispatch, searchParamsSelectedTask]);
-    const onTaskInfoModalClose = () => {
-        dispatch(TaskActions.setSelectedTaskInfo(undefined))
-        dispatch(CommentActions.resetSlice())
-        dispatch(TaskActions.setTaskInfoModalIsOpen(false))
-        dispatch(TaskActions.resetNavigationHistory())
-        dispatch(StatusActions.setSelectedTaskBoardStatuses([]))
-        queryParams.delete('selectedTask')
-        dispatch(TaskActions.setSelectedTaskUniqueTitle(''))
-        navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
-    }
 
     if (isInited) {
         return (
@@ -62,15 +38,6 @@ export const App = memo(() => {
 
                 {/* Create new board modal */}
                 <CreateNewBoardModal/>
-
-                {/* AddSubTaskModal */}
-                <SubTaskModal/>
-
-                {/* AddTaskModal */}
-                <CreateExtendedTaskModal/>
-
-                {/* TaskInfoModal */}
-                {<TaskInfoModal isOpen={TaskInfoModalIsOpen} onClose={onTaskInfoModalClose}/>}
             </div>
         )
     }

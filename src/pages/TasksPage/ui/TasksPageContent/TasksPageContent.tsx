@@ -7,6 +7,10 @@ import {useSelector} from "react-redux";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {Calendar} from "@/shared/ui/Calendar";
 import {useState} from "react";
+import {SubTaskModal} from "@/entities/Task";
+import {CreateExtendedTaskModal} from "@/features/CreateNewTask";
+import {TaskInfoModal} from "@/features/TaskInfo";
+import {useTaskInfoModal} from "@/shared/hooks/useTaskInfoModal";
 
 interface TasksPageContentProps {
     className?: string;
@@ -17,11 +21,22 @@ export const TasksPageContent = (props: TasksPageContentProps) => {
 
     const selectedProject = useSelector(getProjectSelectedProject)
 
+    const { isModalOpen, onClose } = useTaskInfoModal();
+
     return (
         <div className={classNames(cls.TasksPageContent, {}, [className])}>
             <Typography className={cls.Heading} size={'TEXT-26-MEDIUM'}>{selectedProject?.title}</Typography>
             <TasksFilters/>
             <TaskTree/>
+
+            {/* AddSubTaskModal */}
+            <SubTaskModal/>
+
+            {/* AddTaskModal */}
+            <CreateExtendedTaskModal/>
+
+            {/* TaskInfoModal */}
+            {<TaskInfoModal isOpen={isModalOpen} onClose={onClose}/>}
         </div>
     )
 };

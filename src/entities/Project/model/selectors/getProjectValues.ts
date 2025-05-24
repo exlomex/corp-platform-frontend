@@ -21,3 +21,15 @@ export const getProjectIsDeleteProjectFetching = createSelector(getProject, (sta
 export const getProjectSelectedProject = createSelector(getProject, (state: ProjectSliceSchema) => {
     return state.selectedProject
 })
+
+export const getSettingProjectUsers = createSelector(getProject, (state: ProjectSliceSchema) => {
+    return state.settingsProjectUsers
+})
+
+export const getAddUserToProjectModalIsOpen = createSelector(getProject, (state: ProjectSliceSchema) => {
+    return state.addUserToProjectModalIsOpen
+})
+
+export const getSettingsSelectedProject = createSelector(getProject, (state: ProjectSliceSchema) => {
+    return state.settingsSelectedProject
+})

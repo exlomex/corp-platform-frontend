@@ -54,13 +54,13 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
     }, [selectedTaskBoardStatuses, selectedTaskInfo]);
 
     useEffect(() => {
-        if (selectedTaskInfo?.boardId) {
+        if (selectedTaskInfo?.boardId && selectedProject?.id) {
             dispatch(FetchBoardStatuses({boardId: selectedTaskInfo.boardId, type: "selectedTask", projectId: selectedProject.id}))
         }
         // if (selectedTaskInfo?.boardId)
     }, [dispatch, selectedProject, selectedTaskInfo]);
 
-    const params = useParams()
+
     const onSelectOption = async (option: ComboBoxOption) => {
         if (selectedTaskInfo.id) {
             const changeBody: ChangeTaskStatusInputData = {
@@ -72,7 +72,7 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
             try {
                 await dispatch(ChangeTaskStatusService(changeBody)).unwrap()
                 await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle, projectId: selectedProject.id})).unwrap()
-                await dispatch(FetchBoardTasks({boardId: +params.board, projectId: selectedProject.id})).unwrap()
+                await dispatch(FetchBoardTasks({boardId: selectedTaskInfo.boardId, projectId: selectedProject.id})).unwrap()
             } catch (e) {
                 console.error(e)
             }

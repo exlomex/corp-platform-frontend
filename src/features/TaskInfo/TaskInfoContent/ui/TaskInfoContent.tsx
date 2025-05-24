@@ -39,7 +39,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
     const selectedProject = useSelector(getProjectSelectedProject)
 
     useEffect(() => {
-        if (selectedUniqueTitle) dispatch(fetchTaskInfoService({uniqueTitle: selectedUniqueTitle, projectId: selectedProject.id}))
+        if (selectedUniqueTitle) dispatch(fetchTaskInfoService({uniqueTitle: selectedUniqueTitle, projectId: selectedProject?.id}))
     }, [dispatch, selectedProject, selectedUniqueTitle]);
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
