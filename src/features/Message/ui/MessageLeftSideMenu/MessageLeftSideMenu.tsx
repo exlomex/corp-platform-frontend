@@ -73,8 +73,8 @@ export const MessageLeftSideMenu = (props: MessageLeftSideMenuProps) => {
                         <Typography size={'TEXT-26-MEDIUM'}>Сообщения</Typography>
                         {
                             messagesType.value === 'received'
-                                ? <span className={cls.CountOfMessages}>{receivedMessages.length || 0}</span>
-                                : <span className={cls.CountOfMessages}>{sentMessages.length || 0}</span>
+                                ? <span className={cls.CountOfMessages}>{receivedMessages?.length || 0}</span>
+                                : <span className={cls.CountOfMessages}>{sentMessages?.length || 0}</span>
                         }
                     </div>
 
