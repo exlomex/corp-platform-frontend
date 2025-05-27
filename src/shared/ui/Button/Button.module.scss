@@ -56,6 +56,29 @@
         }
     }
 
+    &.SmartIconBtnTransparent {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        height: 35px;
+        padding: 0 10px;
+        font: var(--font-paragraph-14-Regular);
+        color: var(--purple-color);
+        background-color: var(--button-primary-color-bg);
+        svg path{
+            transition: stroke .2s ease;
+        }
+
+        &:hover {
+            svg path {
+                stroke: var(--purple-color-active);
+            }
+
+            color: var(--purple-color-active);
+        }
+    }
+
+
     &.TextBtnTransparent {
         color: var(--purple-color);
         background-color: var(--button-primary-color-bg);

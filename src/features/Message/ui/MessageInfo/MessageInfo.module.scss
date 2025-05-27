@@ -1,0 +1,57 @@
+.MessageInfo {
+    height: 100%;
+    width: 100%;
+    padding: 40px 30px;
+}
+
+.WithoutMessage {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.ReceiverNameWrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.Avatar {
+    width: 40px;
+    height: 40px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.receiverName {
+    font: var(--font-paragraph-16-Regular);
+}
+
+.sentDate {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.MessageTitle {
+    font: var(--font-text-26-Medium);
+    color: var(--text-text);
+    margin-bottom: 20px;
+}
+
+.MessageText {
+    font: var(--font-paragraph-16-Regular);
+    color: var(--text-color-secondary);
+}
+
+.MessageFiles {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}

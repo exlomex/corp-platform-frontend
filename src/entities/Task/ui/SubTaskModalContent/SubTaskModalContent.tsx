@@ -43,8 +43,6 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
     const queryParams = new URLSearchParams(location.search);
     const searchParamsSelectedTask = queryParams.get('selectedTask')
 
-    console.log(searchParamsSelectedTask);
-
     useEffect(() => {
         if (selectedTaskInfoIntoCard?.id && boardTasks.length >= 1 && searchParamsSelectedTask !== null) {
             filteredBoardTasks.current = boardTasks.filter(task => task.uniqueTitle !== selectedTaskInfoIntoCard.uniqueTitle)

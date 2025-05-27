@@ -14,6 +14,7 @@ export const selectColorTypes = {
 export const widthTypes = {
     'FULL_WIDTH': cls['FullWidth'],
     'FIT_CONTENT': cls['FitContentWidth'],
+    'CUSTOM': cls['Custom'],
 } as const
 
 interface SelectProps {
@@ -54,16 +55,18 @@ export const Select = (props: SelectProps) => {
                 className={classNames(cls.InputWrapper, {}, [selectColorTypes[colorType]])}
                 onClick={() => setOpen(prev => !prev)}
             >
-                {withImage && (
-                    <div className={cls.AvatarWrapper}>
-                        {value?.data?.image
-                            ? <img className={cls.AvatarImage} alt="avatar" src={value.data.image as string} />
-                            : <UserAvatarIcon />}
-                    </div>
-                )}
-                <span className={cls.SelectedText}>
+                <div className={cls.selectTitleWrapper}>
+                    {withImage && (
+                        <div className={cls.AvatarWrapper}>
+                            {value?.data?.image
+                                ? <img className={cls.AvatarImage} alt="avatar" src={value.data.image as string} />
+                                : <UserAvatarIcon />}
+                        </div>
+                    )}
+                    <span className={cls.SelectedText}>
                     {value?.label || placeholder}
                 </span>
+                </div>
                 <span className={classNames(cls.IconWrapper, { [cls.ActiveInput]: open })}>
                     <DownArrow />
                 </span>

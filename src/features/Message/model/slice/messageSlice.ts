@@ -3,18 +3,24 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 const initialState: MessageSliceSchema = {
-
+    newMessageModalIsOpen: false,
 }
 
 export const MessageSlice = createSlice({
-    name: 'board',
+    name: 'message',
     initialState,
     reducers: {
+        setMessageInfo: (state, action: PayloadAction<MessageI>) => {
+            state.messageInfo = action.payload;
+        },
         setReceivedMessages: (state: MessageSliceSchema, action: PayloadAction<MessageI[]>) => {
             state.receivedMessages = action.payload;
         },
         setSentMessages: (state: MessageSliceSchema, action: PayloadAction<MessageI[]>) => {
             state.sentMessages = action.payload;
+        },
+        setNewMessageIsOpen: (state: MessageSliceSchema, action: PayloadAction<boolean>) => {
+            state.newMessageModalIsOpen = action.payload;
         }
     },
     // extraReducers: (builder) => {

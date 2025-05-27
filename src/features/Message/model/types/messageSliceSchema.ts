@@ -1,3 +1,5 @@
+import {File} from "@/features/File";
+
 export interface MessageUser {
     id: number,
     firstName: string,
@@ -13,6 +15,7 @@ export interface MessageI {
     to: MessageUser
     isRead: boolean,
     sentAt: string
+    files: File[]
 }
 
 export interface MessageSliceSchema {
@@ -20,4 +23,8 @@ export interface MessageSliceSchema {
 
     sentMessages?: MessageI[]
     receivedMessages?: MessageI[]
+
+    messageInfo?: MessageI
+
+    newMessageModalIsOpen: boolean
 }

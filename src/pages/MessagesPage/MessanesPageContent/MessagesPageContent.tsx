@@ -1,16 +1,20 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './MessagesPageContent.module.scss';
-import {MessageLeftSideMenu} from "@/features/Message/ui/MessageLeftSideMenu/MessageLeftSideMenu.tsx";
+import {MessageInfo, MessageLeftSideMenu, NewMessageModal} from "@/features/Message";
 
-interface MessangesPageContentProps {
+interface MessagesPageContentProps {
     className?: string;
 }
 
-export const MessagesPageContent = (props: MessangesPageContentProps) => {
+export const MessagesPageContent = (props: MessagesPageContentProps) => {
     const { className } = props;
     return (
         <div className={classNames(cls.MessagesPageContent, {}, [className])}>
             <MessageLeftSideMenu/>
+            <MessageInfo/>
+
+            {/* New message */}
+            <NewMessageModal/>
         </div>
     )
 };

@@ -4,8 +4,9 @@
 }
 
 .TooltipText {
+    top: 106%;
     position: absolute;
-    bottom: -26px;
+    //bottom: -26px;
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--bg-color);

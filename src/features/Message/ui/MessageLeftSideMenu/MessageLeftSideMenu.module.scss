@@ -1,4 +1,5 @@
 .MessageLeftSideMenu {
+    flex-shrink: 0;
     width: 400px;
     height: 100%;
     background-color: var(--messages-aside-menu-left-side-bg-color);
@@ -29,4 +30,31 @@
 .MessageCardsWrapper {
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    max-height: calc(100vh - 150px);
+}
+
+.MessagesNotFound {
+    width: 100%;
+    text-align: center;
+}
+
+.HeadingWrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.CountOfMessages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-width: 22px;
+    height: 22px;
+    font: var(--font-paragraph-14-Regular);
+    border-radius: 6px;
+
+    background-color: var(--file-extension-bg-color);
+    color: var(--file-extension-text-color);
 }

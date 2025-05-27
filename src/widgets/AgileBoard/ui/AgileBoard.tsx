@@ -18,7 +18,6 @@ import {CreateColumnNewTask} from "@/features/CreateNewTask";
 import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 import {ColumnWrapper} from "@/entities/Column/ui/ColumnWrapper/ColumnWrapper.tsx";
 import {CreateNewColumn} from "@/features/CreateNewColumn";
-import {LOCAL_STORAGE_COLLAPSED_KEY} from "@/shared/const/localstorage.ts";
 import {getUserAsideIsCollapsed} from "@/entities/User";
 
 interface AgileBoardProps {

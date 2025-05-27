@@ -12,6 +12,7 @@
     // input
     --input-bg-color: #ffff;
     --input-border-color: #E7E7E9;
+    --message-input-border-color: #EFEEF8;
     --input-placeholder-color: #C8C8C8;
     --input-text-color: #01020E;
 
@@ -88,7 +89,8 @@
     // messages
     --messages-aside-menu-left-side-bg-color: #F6F4F8;
     --messages-aside-menu-left-side-border: #EFEFEF;
-    --messages-card-bg-color: #ffff;
+    --messages-card-bg-color: #F9F8FF;
+    --messages-card-bg-color-hover: #ffff;
 
     // ExpandButton
     --expand-btn-bg-color: #EEEDF8;
@@ -107,4 +109,9 @@
     // filter count of selected values
     --selected-values-bg-color: #E2DFF6;
     --selected-values-color: #787486;
+
+    // files
+    --file-extension-bg-color: #E2DFF6;
+    --file-extension-text-color: #787486;
+    --file-bg-color: #F2F0F9;
 }

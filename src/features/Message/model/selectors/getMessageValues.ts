@@ -10,8 +10,14 @@ export const getReceivedMessages = createSelector(
     }
 )
 
-export const getSentMessages = createSelector(
-    getMessageValues, (state: MessageSliceSchema) => {
-        return state.sentMessages
-    }
+export const getSentMessages = createSelector(getMessageValues,
+    (state: MessageSliceSchema) => state.sentMessages
+)
+
+export const getMessageInfo = createSelector(getMessageValues,
+    (state: MessageSliceSchema) => state.messageInfo
+)
+
+export const getNewMessageIsOpen = createSelector(getMessageValues,
+    (state: MessageSliceSchema) => state.newMessageModalIsOpen
 )
