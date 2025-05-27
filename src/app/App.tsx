@@ -3,14 +3,8 @@ import {AppRouter} from "@/app/providers/Router";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {UserSliceActions} from "@/entities/User";
 import {LoadingLine} from "@/shared/ui/LoadingLine";
-import {CreateNewProjectModal, getIsCreateNewProjectModalOpen} from "@/features/CreateNewProject";
-import {useSelector} from "react-redux";
+import {CreateNewProjectModal} from "@/features/CreateNewProject";
 import {CreateNewBoardModal} from "@/features/CreateNewBoard";
-import {getTaskInfoModalIsOpen, SubTaskModal, TaskActions} from "@/entities/Task";
-import {CreateExtendedTaskModal} from "@/features/CreateNewTask";
-import {CommentActions, TaskInfoModal} from "@/features/TaskInfo";
-import {useLocation, useNavigate} from "react-router";
-import {StatusActions} from "@/entities/Status";
 
 
 export const App = memo(() => {

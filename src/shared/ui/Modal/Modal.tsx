@@ -19,10 +19,10 @@ export const Modal = (props: ModalProps) => {
             as={'div'}
             transition
             onClose={onClose}
-            className={classNames(cls.Modal, {}, [className])}
+            className={cls.Modal}
         >
             <DialogPanel
-                className={cls.ModalWrapper}
+                className={classNames(cls.ModalWrapper, {}, [className])}
                 transition
             >
                 {children}

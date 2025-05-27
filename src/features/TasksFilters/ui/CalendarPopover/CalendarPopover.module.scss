@@ -10,4 +10,10 @@
     background-color: var(--input-bg-color);
     border: 1px solid var(--input-border-color);
     padding: 0 8px;
+    font: var(--font-paragraph-14-Regular);
+
+    &.FullWidth {
+        width: 100%;
+    }
 }
+

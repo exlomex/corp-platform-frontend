@@ -40,3 +40,13 @@
     gap: 25px;
     align-items: center;
 }
+
+.Priority {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    svg {
+        flex-shrink: 0;
+    }
+}

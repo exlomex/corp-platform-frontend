@@ -129,7 +129,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                 <DropDown
                     menuItemsClassName={cls.CustomDropDown}
                     items={AddToTaskButtonItems}
-                    trigger={<Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/> Добавить</Button>}
+                    trigger={<Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/>Добавить</Button>}
                     direction={'bottom start'}
                     gap={6}
                     fSize={14}

@@ -139,7 +139,6 @@ export const NewMessageForm = (props: NewMessageFormProps) => {
             <div className={cls.FormBottomLine}>
                 <input
                     type="file"
-                    accept="image/*"
                     className={cls.HiddenInput}
                     ref={inputRef}
                     onChange={handleFileChange}

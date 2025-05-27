@@ -2,13 +2,16 @@ import { ReactElement, FC } from "react";
 import cls from "./Calendar.module.scss";
 import RightArrow from "@/shared/assets/icons/rightArrow.svg";
 import LeftIcon from "@/shared/assets/icons/rightArrow.svg";
+import {classNames} from "@/shared/lib/classNames";
 
 interface CalendarProps {
     activeDate: Date | null;
     setActiveDate: (date: Date) => void;
+    isDateResettable?: boolean;
+    disablePast?: boolean;
 }
 
-export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate }) => {
+export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate, isDateResettable, disablePast = false}) => {
     const currentDate = new Date();
     const displayDate = activeDate ?? currentDate;
 
@@ -23,6 +26,20 @@ export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate }) => {
 
     const handleDayClick = (day: number): void => {
         const newDate = new Date(displayDate.getFullYear(), displayDate.getMonth(), day);
+        newDate.setHours(0, 0, 0, 0); // Сравнение без учёта времени
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (disablePast && newDate < today) return;
+
+        if (isDateResettable) {
+            if (newDate?.getTime() === activeDate?.getTime()) {
+                setActiveDate(null);
+                return;
+            }
+        }
+
         setActiveDate(newDate);
     };
 
@@ -45,6 +62,15 @@ export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate }) => {
         }
 
         for (let day = 1; day <= totalDays; day++) {
+            const date = new Date(displayDate.getFullYear(), displayDate.getMonth(), day);
+            date.setHours(0, 0, 0, 0);
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const isPast = date < today;
+            const isDisabled = disablePast && isPast;
+
             const isActive = !!activeDate &&
                 activeDate.getDate() === day &&
                 activeDate.getMonth() === displayDate.getMonth() &&
@@ -53,13 +79,18 @@ export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate }) => {
             days.push(
                 <div
                     key={day}
-                    className={`${cls.calendarDay} ${isActive ? cls.active : ""}`}
-                    onClick={() => handleDayClick(day)}
+                    className={classNames(cls.calendarDay, {
+                        [cls.active]: isActive,
+                        [cls.disabled]: isDisabled,
+                        [cls.pastDay]: disablePast && isPast,
+                    })}
+                    onClick={() => !isDisabled && handleDayClick(day)}
                 >
                     {day}
                 </div>
             );
         }
+
 
         return days;
     };

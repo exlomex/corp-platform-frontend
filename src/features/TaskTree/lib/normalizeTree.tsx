@@ -49,7 +49,13 @@ export function NormalizeTree(items: TreeTask[]): NormalizedTreeItem[] {
                 <span>{item.assignee.firstName} {item.assignee.lastName}</span>
             </div>)
             : 'Не назначен',
-        priority: priorityIconMap[item.priority] || 'Не назначен',
+        // priority: priorityIconMap[item.priority] || 'Не назначен',
+        // priority: item.priority
+        //     ? (<span>{`${priorityIconMap[item.priority]} ${item.priority}`}</span>)
+        //         : ('Не назначен'),
+        priority: item.priority
+            ? (<span className={cls.Priority}>{priorityIconMap[item.priority]} {`${item.priority}`}</span>)
+                : ('Не назначен'),
         children: item.children && item.children.length > 0
             ? NormalizeTree(item.children)
             : undefined

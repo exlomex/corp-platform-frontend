@@ -1,8 +1,7 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './TasksFilters.module.scss';
 import {ChangeEvent, useEffect, useState} from "react";
-import {MultiSelect, Option} from "@/shared/ui/MultiSelect";
-import {FilterButton} from "@/features/TasksFilters/ui/FilterButton/FilterButton.tsx";
+import {Option} from "@/shared/ui/MultiSelect";
 import {CheckBoxFilter} from "@/features/TasksFilters/ui/CheckBoxFilter/CheckBoxFilter.tsx";
 import {useSelector} from "react-redux";
 import {getUserBoardsBySelectedProject} from "@/entities/Board";

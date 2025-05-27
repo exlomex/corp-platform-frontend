@@ -8,7 +8,7 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 import {Calendar} from "@/shared/ui/Calendar";
 import {useState} from "react";
 import {SubTaskModal} from "@/entities/Task";
-import {CreateExtendedTaskModal} from "@/features/CreateNewTask";
+import {CreateExtendedTaskButton, CreateExtendedTaskModal} from "@/features/CreateNewTask";
 import {TaskInfoModal} from "@/features/TaskInfo";
 import {useTaskInfoModal} from "@/shared/hooks/useTaskInfoModal";
 
@@ -25,7 +25,10 @@ export const TasksPageContent = (props: TasksPageContentProps) => {
 
     return (
         <div className={classNames(cls.TasksPageContent, {}, [className])}>
-            <Typography className={cls.Heading} size={'TEXT-26-MEDIUM'}>{selectedProject?.title}</Typography>
+            <div className={cls.TasksPageTopLine}>
+                <Typography className={cls.Heading} size={'TEXT-26-MEDIUM'}>{selectedProject?.title}</Typography>
+                <CreateExtendedTaskButton/>
+            </div>
             <TasksFilters/>
             <TaskTree/>
 

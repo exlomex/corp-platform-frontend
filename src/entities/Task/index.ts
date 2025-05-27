@@ -19,3 +19,5 @@ export {FetchProjectTreeTasksService} from './model/services/fetchProjectTreeTas
 export type {FetchProjectTreeTasksInputData} from './model/services/fetchProjectTreeTasksService.ts'
 export type {ResolutionKeys} from './const/Resolution.tsx'
 export type {PriorityKeys} from './const/priorityConsts.tsx'
+export {UploadTaskFileService} from './model/services/uploadTaskFileService.ts'
+export type {UploadTaskFileInputData} from './model/services/uploadTaskFileService.ts'

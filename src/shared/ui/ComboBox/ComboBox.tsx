@@ -4,6 +4,7 @@ import { classNames } from '@/shared/lib/classNames';
 import DownArrow from '@/shared/assets/icons/smallDownArrow.svg'
 import {useClickOutside} from "@/shared/hooks/useClickOutside";
 import UserAvatarIcon from '@/shared/assets/icons/userAvatarIcon.svg'
+import DefaultPriorityIcon from '@/shared/assets/icons/defaultPriorityIcon.svg'
 
 export interface ComboBoxOption {
     id?: number
@@ -128,11 +129,13 @@ export const ComboBox = (props: ComboBoxProps) => {
                 className={cls.InputWrapper}
                 onClick={onInputWrapperClick}
             >
-                {withImage && <div className={cls.AvatarWrapper}>{selectedImage ? <img className={cls.AvatarImage} alt={'userAvatar'} src={selectedImage}/> : <UserAvatarIcon/>}</div>}
+                {withImage && (
+                    (<div className={cls.AvatarWrapper}>{showOptions ? (<UserAvatarIcon/>) : (selectedImage ? <img className={cls.AvatarImage} alt={'userAvatar'} src={selectedImage}/> : <UserAvatarIcon/>)}</div>)
+                )}
 
                 {withSvgComponent && (
                     <div className={cls.AvatarWrapper}>
-                        {selectedSvg || ''}
+                        {showOptions ? (<DefaultPriorityIcon/>) : (selectedSvg || <DefaultPriorityIcon/>)}
                     </div>
                 )}
 

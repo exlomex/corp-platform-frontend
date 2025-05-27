@@ -30,9 +30,15 @@
 }
 
 .FormBottomLine {
+    margin-top: 20px;
     display: flex;
     gap: 5px;
-    justify-content: end;
+    justify-content: space-between;
+}
+
+.FormBottomLineRightButtons {
+    display: flex;
+    gap: 5px;
 }
 
 .FormTitle {
@@ -71,4 +77,48 @@
         border: 1px solid var(--purple-color-light);
         box-shadow: 0 0 0 2px var(--purple-color-hover);
     }
+}
+
+.PriorityWrapper {
+    display: flex;
+    flex-direction: column;
+    font: var(--font-paragraph-14-Regular);
+    gap: 6px;
+    margin-bottom: 15px;
+}
+
+.HiddenInput {
+    display: none;
+}
+
+.TasksFilesWrapper {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.FormComboFields {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    > div {
+        flex: 1;
+    }
+
+    margin-bottom: 15px;
+}
+
+.StoryPointInput {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    height: 30px;
+    border-radius: 6px;
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--input-border-color);
+    padding: 0 8px;
+    font: var(--font-paragraph-14-Regular);
 }

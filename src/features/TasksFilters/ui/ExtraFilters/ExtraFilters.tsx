@@ -73,9 +73,9 @@ export const ExtraFilters = (props: ExtraFiltersProps) => {
                         <span className={cls.FilterTitle}>Дедлайн</span>
                         <div className={cls.FiltersBottomLine}>
                             <span>От</span>
-                            <CalendarPopover activeDate={deadlineFrom} setActiveDate={setDeadlineFrom}/>
+                            <CalendarPopover isDateResettable activeDate={deadlineFrom} setActiveDate={setDeadlineFrom}/>
                             <span>До</span>
-                            <CalendarPopover direction={'bottom end'} activeDate={deadlineTo} setActiveDate={setDeadlineTo}/>
+                            <CalendarPopover isDateResettable direction={'bottom end'} activeDate={deadlineTo} setActiveDate={setDeadlineTo}/>
                         </div>
                     </div>
 

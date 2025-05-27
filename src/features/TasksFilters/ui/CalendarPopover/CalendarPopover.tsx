@@ -10,27 +10,30 @@ interface CalendarPopoverProps {
     direction?: AnchorProps
     activeDate: Date
     setActiveDate: (date: Date) => void
+    isDateResettable?: boolean
+    fullWidth?: boolean;
+    disablePast?: boolean
 }
 
-const CalendarInputButton = (props: {isOpen?: boolean, date: Date}) => {
-    const {isOpen, date} = props
+const CalendarInputButton = (props: {isOpen?: boolean, date: Date, fullWidth?: boolean}) => {
+    const {isOpen, date, fullWidth = false} = props
 
     return (
-        <div className={cls.CalendarInput}>{date && dateConverter(date)}</div>
+        <div className={classNames(cls.CalendarInput, {[cls.FullWidth]: fullWidth}, [])}>{date && dateConverter(date)}</div>
     )
 }
 
 export const CalendarPopover = (props: CalendarPopoverProps) => {
-    const { className, direction = 'bottom', setActiveDate,activeDate } = props;
+    const { className, disablePast,direction = 'bottom', setActiveDate,activeDate, isDateResettable, fullWidth = false } = props;
     return (
         <Popover
             gap={6}
             direction={direction as AnchorProps}
             className={classNames(cls.CalendarPopover, {}, [className])}
-            trigger={<CalendarInputButton date={activeDate}/>}
+            trigger={<CalendarInputButton date={activeDate} fullWidth={fullWidth}/>}
         >
             {() => (
-                <Calendar activeDate={activeDate} setActiveDate={setActiveDate}/>
+                <Calendar disablePast={disablePast} activeDate={activeDate} setActiveDate={setActiveDate} isDateResettable={isDateResettable}/>
             )}
 
         </Popover>

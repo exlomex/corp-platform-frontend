@@ -11,7 +11,8 @@ export interface createNewTaskServiceInputData {
     assignedTo?: number
     priority?: keyof typeof Priority;
     storyPoints?: number;
-    deadLine?: Date
+    deadLine?: string
+    files?: string[]
 }
 
 export const createNewTaskService = createAsyncThunk<

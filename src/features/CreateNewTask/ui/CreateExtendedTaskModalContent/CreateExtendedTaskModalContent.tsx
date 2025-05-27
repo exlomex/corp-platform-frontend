@@ -1,13 +1,13 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './CreateExtendedTaskModalContent.module.scss';
 import {Typography} from "@/shared/ui/Typography";
-import {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {ComboBox, ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 import {useSelector} from "react-redux";
 import {getProjectUserProjects} from "@/entities/Project";
 import {getCreateTaskBoardsBySelectedProject} from "@/entities/Board";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
-import {useParams} from "react-router";
+import {useLocation, useParams} from "react-router";
 import {Input} from "@/shared/ui/Input";
 import {getUserCompanyId, getUserCompanyUsers} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
@@ -20,7 +20,12 @@ import {
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {priorityOptions} from "@/features/CreateNewTask/const/priorityConsts.tsx";
-import {Priority} from "@/entities/Task";
+import {FetchProjectTreeTasksService, Priority, UploadTaskFileInputData, UploadTaskFileService} from "@/entities/Task";
+import PaperClipIcon from "@/shared/assets/icons/Paperclip.svg";
+import {File as FileI, TaskFileWrapper} from "@/features/File";
+import {CalendarPopover} from "@/features/TasksFilters/ui/CalendarPopover/CalendarPopover.tsx";
+import {dateConverter} from "@/features/TasksFilters/lib/DateConverter.ts";
+import {getRouteMain, getRouteProjectBoard} from "@/shared/const/router.ts";
 
 interface CreateExtendedTaskModalContentProps {
     className?: string;
@@ -60,8 +65,6 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
     }, [normalizedProjects, selectedProject]);
 
     const onSelectProjectHandler = () => {
-        console.log(131);
-        console.log(pickedBoard);
         validateBoard(pickedBoard.value)
     }
 
@@ -193,10 +196,13 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
         }
     }, [companyUsers]);
 
+    const locate = useLocation();
+
     const selectedBoard = +params.board
     const onSubmitCreateButton = async () => {
         const error = validateTitle(taskTitle)
         const localBoardError = validateBoard(pickedBoard.value)
+        const filesArray = messageFiles.map(file => file.url)
 
         if (!localBoardError && !taskTitleError && !error) {
             const createBody: createNewTaskServiceInputData = {
@@ -205,22 +211,60 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                 boardId: +pickedBoard.id,
                 ...(descriptionTitle && { description: descriptionTitle }),
                 ...(pickedUser?.id && { assignedTo: pickedUser.id }),
-                ...(selectedPriority?.value && {priority: selectedPriority.value as keyof typeof Priority})
+                ...(selectedPriority?.value && {priority: selectedPriority.value as keyof typeof Priority}),
+                ...(storyPoints && storyPoints !== '' && { storyPoints: +storyPoints }),
+                ...(deadlineTo && { deadLine: dateConverter(deadlineTo)}),
+                files: filesArray
             }
+            const currentPath = decodeURIComponent(location.pathname)
 
             try {
                 await dispatch(createNewTaskService(createBody)).unwrap()
 
-                if (selectedBoard === pickedBoard.id) {
-                    await dispatch(FetchBoardTasks({boardId: selectedBoard, projectId: selectedProject.id}))
+                if (currentPath === getRouteMain()) {
+                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject.id})).unwrap()
                 }
 
-                await onCloseModalHandler()
+                if (selectedBoard === pickedBoard.id) {
+                    await dispatch(FetchBoardTasks({boardId: selectedBoard, projectId: selectedProject.id})).unwrap()
+                }
+
+                onCloseModalHandler()
             } catch (e) {
                 console.error(e?.message || e)
             }
         }
     }
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const [messageFiles, setMessageFiles] = useState<FileI[]>([]);
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        // && file.size <= 3.5 * 1024 * 1024
+        if (file) {
+            const uploadBody: UploadTaskFileInputData = {
+                file: file,
+                projectId: selectedProject.id
+            }
+            try {
+                await dispatch(UploadTaskFileService(uploadBody)).unwrap()
+                    .then(resFile => setMessageFiles([...messageFiles, resFile]));
+            } catch (e) {
+                console.error(e)
+            }
+        } else {
+            console.log('Ошибка добавление файла');
+        }
+    };
+
+    const onDeleteFileHandler = (fileId: number) => () => {
+        setMessageFiles(messageFiles.filter((file) => fileId !== file.id));
+    }
+
+    const [deadlineTo, setDeadlineTo] = useState<Date>(null)
+    const [storyPoints, setStoryPoints] = useState<string>('')
 
     return (
         <div className={classNames(cls.CreateExtendedTaskModalContent, {}, [className])}>
@@ -247,9 +291,21 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                     <span className={cls.Error}>{taskTitleError}</span>
                 </div>
 
-                <div>
+                <div className={cls.PriorityWrapper}>
                     <p>Приоритет задачи</p>
                     <ComboBox withSvgComponent options={priorityOptions} value={selectedPriority} setStateFunc={setSelectedPriority}/>
+                </div>
+
+                <div className={cls.FormComboFields}>
+                    <div>
+                        <p className={cls.fieldLabel}>Оценка Story Points</p>
+                        <input value={storyPoints} onChange={(e: ChangeEvent<HTMLInputElement>) => setStoryPoints(e.target.value)} type="number" className={cls.StoryPointInput}/>
+                    </div>
+
+                    <div>
+                        <p className={cls.fieldLabel}>Сделать до</p>
+                        <CalendarPopover disablePast fullWidth isDateResettable activeDate={deadlineTo} setActiveDate={setDeadlineTo}/>
+                    </div>
                 </div>
 
                 <div className={cls.FormField}>
@@ -262,9 +318,25 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                     <div>{normalizedUser && <ComboBox withImage value={pickedUser} setStateFunc={setPickedUser} options={normalizedUser}/>}</div>
                 </div>
 
+                {messageFiles && <div className={cls.TasksFilesWrapper}>
+                    {messageFiles.map((file) => (
+                        <TaskFileWrapper fileVariant={'CreateTask'} key={file.id} file={file} onFileDelete={onDeleteFileHandler(file.id)}/>
+                    ))}
+                </div>}
+
                 <div className={cls.FormBottomLine}>
-                    <Button buttonType={'SMART_TEXT_BTN_TRANSPARENT'} onClick={onCloseModalHandler}>Отмена</Button>
-                    <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onSubmitCreateButton}>Создать</Button>
+                    <input
+                        type="file"
+                        className={cls.HiddenInput}
+                        ref={inputRef}
+                        onChange={handleFileChange}
+                    />
+                    <Button onClick={() => inputRef.current?.click()} buttonType={'SMART_ICON_BTN_TRANSPARENT'}><PaperClipIcon/>Прикрепить файл</Button>
+
+                    <div className={cls.FormBottomLineRightButtons}>
+                        <Button buttonType={'SMART_TEXT_BTN_TRANSPARENT'} onClick={onCloseModalHandler}>Отмена</Button>
+                        <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onSubmitCreateButton}>Создать</Button>
+                    </div>
                 </div>
             </form>
         </div>
