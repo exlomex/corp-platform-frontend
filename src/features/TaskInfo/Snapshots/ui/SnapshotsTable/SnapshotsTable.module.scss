@@ -1,0 +1,21 @@
+.LinkTask {
+    color: var(--purple-color-active);
+    transition: color .2s ease;
+
+    &:hover {
+        color: var(--purple-color-light);
+    }
+}
+
+.UserWrapper {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.AvatarIcon {
+    object-fit: cover;
+    border-radius: 6px;
+    width: 20px;
+    height: 20px;
+}

@@ -16,7 +16,6 @@ import {Button} from "@/shared/ui/Button";
 import MediumPlusIcon from "@/shared/assets/icons/mediumPlusIcon.svg"
 import {EditableDescription} from "@/features/TaskInfo/EditableDescription/ui/EditableDescription.tsx";
 import {Typography} from "@/shared/ui/Typography";
-import {CommentsContent} from "../../Comments/ui/CommentsContent/CommentsContent.tsx";
 import {FetchCommentsService} from "@/features/TaskInfo/Comments/model/services/fetchCommentsService.ts";
 import {CommentActions} from "@/features/TaskInfo";
 import {useNavigate} from "react-router";
@@ -32,6 +31,7 @@ import SubtasksIcon from '@/shared/assets/icons/subtasksIcon.svg'
 import ClipPaperIcon from '@/shared/assets/icons/mediumClipPaperIcon.svg'
 import {EditableTaskStoryPoints} from "../../EditableTaskStoryPoints/EditableTaskStoryPoints.tsx";
 import {EditableTaskDeadline} from "../../EditableTaskDeadline/EditableTaskDeadline.tsx";
+import {TaskInfoTabs} from "../../TaskInfoTabs/TaskInfoTabs.tsx";
 
 interface TaskInfoContentProps {
     className?: string;
@@ -203,7 +203,6 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
 
                 <input
                     type="file"
-                    accept="image/*"
                     className={cls.HiddenInput}
                     ref={inputRef}
                     onChange={handleFileChange}
@@ -265,7 +264,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     }
                 </div>
 
-                {selectedTaskInfo && <CommentsContent/>}
+                {selectedTaskInfo && <TaskInfoTabs/>}
             </div>
 
             <AdditionalTaskInfo/>

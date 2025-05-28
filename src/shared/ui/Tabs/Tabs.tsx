@@ -19,13 +19,14 @@ interface TabsProps {
     TabPanelsItems: TabPanelsItem[];
     selectedIndex?: number;
     setSelectedIndex: Dispatch<SetStateAction<number>>
+    tabsVariant?: 'default' | 'smart'
 }
 
 export const Tabs = (props: TabsProps) => {
-    const { className, TabListItems, TabPanelsItems, selectedIndex, setSelectedIndex } = props;
+    const { className, TabListItems, TabPanelsItems, selectedIndex, setSelectedIndex, tabsVariant = 'default' } = props;
 
     return (
-        <div className={classNames(cls.Tabs, {}, [className])}>
+        <div className={classNames(cls.Tabs, {[cls.SmartTabs]: tabsVariant === 'smart'}, [className])}>
             <TabGroup selectedIndex={selectedIndex} onChange={setSelectedIndex}>
                 <TabList className={cls.TabsListWrapper}>
                     {TabListItems.map((tab, index) => (

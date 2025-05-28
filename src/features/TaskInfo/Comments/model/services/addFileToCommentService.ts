@@ -1,20 +1,19 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {ThunkConfig} from "@/app/providers/Store";
 
-export interface addCommentInputData {
-    text: string,
-    taskId: number
-    files?: string[]
+export interface AddFileToCommentInputData {
+    url: string,
+    commentId: number
 }
-export const addCommentService = createAsyncThunk<
+export const AddFileToCommentService = createAsyncThunk<
     void,
-    addCommentInputData,
+    AddFileToCommentInputData,
     ThunkConfig<string>
->('comments/add-comment', async (addData, thunkApi) => {
+>('comments/add-file', async ({commentId, url}, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.post(`/comments`, addData);
+        const response = await extra.api.patch(`/comments/${commentId}/files`, {url: url});
 
         if (response.status !== 200) {
             throw new Error(response.statusText);

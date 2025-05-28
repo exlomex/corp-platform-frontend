@@ -3,11 +3,9 @@
     height: 100%;
 }
 
-.Heading {
-    margin-bottom: 15px;
-}
-
 .TasksPageTopLine {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 15px;
 }

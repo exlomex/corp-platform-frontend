@@ -56,6 +56,15 @@ export interface TreeTask {
     children: TreeTask[] | []
 }
 
+export interface TaskSnapshots {
+    id: number,
+    userId: TaskUser;
+    taskId: number,
+    snapshot: TaskI
+    version: number,
+    modifiedDate: string,
+}
+
 export interface TaskSliceSchema {
     boardTasks: TaskI[]
 
@@ -72,6 +81,7 @@ export interface TaskSliceSchema {
     selectedTaskInfo?: TaskI
     selectedTaskUniqueTitle?: string,
     selectedTaskInfoIsFetching: boolean;
+    selectedTaskSnapshots?: TaskSnapshots[]
 
     taskNavigationHistory: string[],
 

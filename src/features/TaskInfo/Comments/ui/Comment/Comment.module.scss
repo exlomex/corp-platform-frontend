@@ -8,6 +8,7 @@
     height: 24px;
     width: 24px;
     border-radius: 6px;
+    object-fit: cover;
 }
 
 .CommentContent {
@@ -41,15 +42,21 @@
     word-break: break-word;
 }
 
-.TextArea {
-    font: var(--font-paragraph-16-Regular);
-    resize: none;
+.EditCommentWrapper {
     width: 100%;
-    height: 90px;
+    height: fit-content;
     border-radius: 6px;
-    padding: 6px 10px;
     border: 1px solid var(--comment-text-area-border-color);
     background-color: var(--comment-text-area-bg-color);
+}
+
+.TextArea {
+    width: 100%;
+    resize: none;
+    padding: 10px 10px;
+    height: 80px;
+    font: var(--font-paragraph-16-Regular);
+    border-radius: 6px;
 
     &::placeholder {
         color: var(--comment-text-area-bg-color);
@@ -59,4 +66,38 @@
 .FormBottomLine {
     margin-top: 10px;
     display: flex;
+}
+
+.HiddenInput {
+    display: none;
+}
+
+.addFileWrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.PaperClipIcon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attachFileWrapper {
+    height: 34px;
+    align-items: center;
+    gap: 5px;
+    display: flex;
+    font: var(--font-paragraph-12-Regular);
+}
+
+.FormFiles {
+    border-radius: 6px;
+    padding: 0 10px 8px 10px;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }

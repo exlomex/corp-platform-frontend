@@ -1,4 +1,4 @@
-import {TaskI, TaskSliceSchema, TreeTask} from "../types/taskSliceSchema.ts";
+import {TaskI, TaskSliceSchema, TaskSnapshots, TreeTask} from "../types/taskSliceSchema.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AddSubTaskService} from "../services/addSubTaskService.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
@@ -21,6 +21,9 @@ export const TaskSlice = createSlice({
     name: 'task',
     initialState,
     reducers: {
+        setSelectedTaskSnapshots: (state: TaskSliceSchema, action: PayloadAction<TaskSnapshots[]>) => {
+            state.selectedTaskSnapshots = action.payload;
+        },
         setProjectsTreeTasksIsFirstLoading: (state: TaskSliceSchema, action: PayloadAction<boolean>) => {
             state.projectsTreeTasksIsFirstLoading = action.payload;
         },

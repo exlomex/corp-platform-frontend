@@ -35,3 +35,19 @@
         color: var(--purple-color-active);
     }
 }
+
+.SmartTabs {
+    .TabsListWrapper {
+        height: 36px;
+        padding: 0;
+        border-radius: 6px;
+        gap: 3px;
+        margin-bottom: 10px;
+    }
+
+    .Tab {
+        border-radius: 5px;
+        padding: 0 15px;
+        font: var(--font-paragraph-14-Regular);
+    }
+}

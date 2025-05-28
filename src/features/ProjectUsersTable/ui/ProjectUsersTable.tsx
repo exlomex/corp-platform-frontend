@@ -113,12 +113,16 @@ export const ProjectUsersTable = (props: ProjectUsersTableProps) => {
     return (
         <div className={classNames(cls.ProjectUsersTable, {}, [className])}>
             <div className={cls.ProjectPicker}>
-                <div className={cls.ProjectSelect}>
-                    <Typography size={'PARAGRAPH-16-REGULAR'} className={cls.SelectHeading}>Выберите проект</Typography>
-                    <Select options={normalizedProjectOptions} value={settingSelectedProject} onSelectFunc={onSelectNewProjectHandler}/>
-                </div>
+                <Typography size={'PARAGRAPH-18-REGULAR'}>Добавить пользователя в проект</Typography>
 
-                <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onAddButtonClick}>Добавить доступ</Button>
+                <div className={cls.ProjectPickerBottomLine}>
+                    <div className={cls.ProjectSelect}>
+                        <Typography size={'PARAGRAPH-16-REGULAR'} className={cls.SelectHeading}>Выберите проект</Typography>
+                        <Select options={normalizedProjectOptions} value={settingSelectedProject} onSelectFunc={onSelectNewProjectHandler}/>
+                    </div>
+
+                    <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onAddButtonClick}>Добавить доступ</Button>
+                </div>
             </div>
 
             <Table<UserI>

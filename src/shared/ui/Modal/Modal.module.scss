@@ -16,13 +16,13 @@
 
 .ModalWrapper {
     width: fit-content;
-    max-height: 90%;
+    max-height: 90vh;
     height: fit-content;
     padding: 30px;
     border-radius: 6px;
     transition: all .2s ease-out;
     background-color: var(--modal-content-color);
-    overflow: visible;
+    overflow: hidden;
 
     &[data-closed] {
         transform: scale(0.90);

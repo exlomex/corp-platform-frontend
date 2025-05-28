@@ -10,7 +10,7 @@
 
 .TaskInfoLeftSide {
     padding-right: 10px;
-    max-height: 95vh;
+    max-height: calc(90vh - 70px);
     min-width: 300px;
     flex-shrink: 1;
     width: 550px;
@@ -33,6 +33,7 @@
 
 .TaskChildrenWrapper {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .FieldName {

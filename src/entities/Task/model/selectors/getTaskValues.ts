@@ -55,3 +55,7 @@ export const getProjectsTreeTasksIsFetching = createSelector(getTaskValues, (sta
 export const getProjectsTreeTasksIsFirstLoading = createSelector(getTaskValues, (state: TaskSliceSchema) => {
     return state.projectsTreeTasksIsFirstLoading
 })
+
+export const getSelectedTaskSnapshots = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.selectedTaskSnapshots
+})
