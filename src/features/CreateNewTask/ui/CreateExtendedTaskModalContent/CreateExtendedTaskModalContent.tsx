@@ -196,7 +196,6 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
         }
     }, [companyUsers]);
 
-    const locate = useLocation();
 
     const selectedBoard = +params.board
     const onSubmitCreateButton = async () => {
@@ -213,7 +212,7 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                 ...(pickedUser?.id && { assignedTo: pickedUser.id }),
                 ...(selectedPriority?.value && {priority: selectedPriority.value as keyof typeof Priority}),
                 ...(storyPoints && storyPoints !== '' && { storyPoints: +storyPoints }),
-                ...(deadlineTo && { deadLine: dateConverter(deadlineTo)}),
+                ...(deadlineTo && { deadline: dateConverter(deadlineTo)}),
                 files: filesArray
             }
             const currentPath = decodeURIComponent(location.pathname)

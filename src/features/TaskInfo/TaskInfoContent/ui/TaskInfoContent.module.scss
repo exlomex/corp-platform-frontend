@@ -24,7 +24,7 @@
 }
 
 .EditableTitle {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .ExtraAddButton {
@@ -90,11 +90,24 @@
 
 .TaskDetails {
     display: flex;
-    max-width: 310px;
+    max-width: 350px;
+    width: fit-content;
     gap: 10px;
-    align-items: center;
+    flex-direction: column;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.TaskDetailOption {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+.DetailsTaskOptionsContent {
+    width: 200px;
 }
 
 .TaskDetailsLabel {
@@ -109,3 +122,36 @@
 .CustomDropDown {
     min-width: 100px;
 }
+
+.HiddenInput {
+    display: none;
+}
+
+.Item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    svg path {
+        transition: stroke .2s ease;
+    }
+
+    &.SubTaskIcon:hover {
+        svg path {
+            fill: var(--purple-color);
+        }
+    }
+
+    &.ClipPaperIcon:hover {
+        svg path {
+            stroke: var(--purple-color);
+        }
+    }
+}
+
+.TaskFiles {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+

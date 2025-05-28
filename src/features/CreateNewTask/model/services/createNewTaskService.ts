@@ -11,7 +11,7 @@ export interface createNewTaskServiceInputData {
     assignedTo?: number
     priority?: keyof typeof Priority;
     storyPoints?: number;
-    deadLine?: string
+    deadline?: string
     files?: string[]
 }
 

@@ -1,14 +1,15 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './TaskInfoContent.module.scss';
-import {useEffect, useState} from "react";
+import React, {ReactElement, ReactNode, useEffect, useRef, useState} from "react";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {useSelector} from "react-redux";
 import {
+    AddTaskFileService, AddTaskFileServiceInputData,
     getSelectedTaskInfo,
     getSelectedTaskInfoIsFetching,
-    getSelectedTaskUniqueTitle, getTaskNavigationHistory,
-    TaskActions
+    getSelectedTaskUniqueTitle, getTaskNavigationHistory, RemoveTaskFileService,
+    TaskActions, UploadTaskFileInputData, UploadTaskFileService
 } from "@/entities/Task";
 import {EditableTitle} from "@/features/TaskInfo/EditableTitle/ui/EditableTitle.tsx";
 import {Button} from "@/shared/ui/Button";
@@ -26,6 +27,11 @@ import {EditableTaskPriority} from "../../EditableTaskPriority/EditableTaskPrior
 import {DropDown, DropdownItem} from "@/shared/ui/popups/DropDown/DropDown.tsx";
 import {Theme} from "@/shared/types/theme.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {TaskFileWrapper} from "@/features/File";
+import SubtasksIcon from '@/shared/assets/icons/subtasksIcon.svg'
+import ClipPaperIcon from '@/shared/assets/icons/mediumClipPaperIcon.svg'
+import {EditableTaskStoryPoints} from "../../EditableTaskStoryPoints/EditableTaskStoryPoints.tsx";
+import {EditableTaskDeadline} from "../../EditableTaskDeadline/EditableTaskDeadline.tsx";
 
 interface TaskInfoContentProps {
     className?: string;
@@ -100,8 +106,67 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
 
     const AddToTaskButtonItems: DropdownItem[] = [
         {
-            content: 'Подзадачу',
+            content: (<span className={classNames(cls.Item, {}, [cls.SubTaskIcon])}><SubtasksIcon/> Подзадачу</span>),
             onClick: () => {dispatch(TaskActions.setIsOpenSubTaskModal(true))}
+        },
+        {
+            content: (<span className={classNames(cls.Item, {}, [cls.ClipPaperIcon])}><ClipPaperIcon/> Вложение</span>),
+            onClick: () => inputRef.current?.click()
+        },
+    ]
+
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const uploadBody: UploadTaskFileInputData = {
+                file: file,
+                projectId: selectedProject.id
+            }
+            try {
+                const uploadFile = await dispatch(UploadTaskFileService(uploadBody)).unwrap()
+                    // .then(resFile => setTaskFiles([...taskFiles, resFile]));
+                const addFileBody: AddTaskFileServiceInputData = {
+                    taskId: selectedTaskInfo.id,
+                    addData: {url: uploadFile.url},
+                    projectId: selectedProject.id
+                }
+
+                await dispatch(AddTaskFileService(addFileBody)).unwrap()
+                await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle, projectId: selectedProject.id})).unwrap()
+            } catch (e) {
+                console.error(e)
+            }
+        } else {
+            console.log('Ошибка добавление файла');
+        }
+    };
+
+    const onFileDeleteHandler = (fileId: number) => async () => {
+        try {
+             await dispatch(RemoveTaskFileService({fileId, taskId: selectedTaskInfo.id, projectId: selectedProject.id})).unwrap()
+             await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle, projectId: selectedProject.id})).unwrap()
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    const DetailsTaskOptions: {
+        label: string,
+        content: ReactNode
+    }[] = [
+        {
+            label: 'Приоритет:',
+            content: <EditableTaskPriority />
+        },
+        {
+            label: 'Оценка:',
+            content: <EditableTaskStoryPoints/>
+        },
+        {
+            label: 'Сделать до:',
+            content: <EditableTaskDeadline/>
         },
     ]
 
@@ -136,11 +201,25 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     theme={Theme.LIGHT_THEME}
                 />
 
+                <input
+                    type="file"
+                    accept="image/*"
+                    className={cls.HiddenInput}
+                    ref={inputRef}
+                    onChange={handleFileChange}
+                />
+
                 <Typography size={'PARAGRAPH-18-REGULAR'}>Детали задачи</Typography>
 
                 <div className={cls.TaskDetails}>
-                    <p className={cls.TaskDetailsLabel}>Приоритет: </p>
-                    <EditableTaskPriority />
+                    {DetailsTaskOptions.map((option, index) => (
+                        <div key={index} className={cls.TaskDetailOption}>
+                            <p className={cls.TaskDetailsLabel}>{option.label} </p>
+                            <div className={cls.DetailsTaskOptionsContent}>{option.content}</div>
+                        </div>
+                    ))
+
+                    }
                 </div>
 
                 {(!selectedTaskInfo || selectedTaskInfoIsFetching)
@@ -157,10 +236,19 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     />
                 }
 
+                { selectedTaskInfo?.files.length > 0 && <div>
+                    <Typography size={'PARAGRAPH-18-REGULAR'}>Вложения</Typography>
+
+                    <div className={cls.TaskFiles}>
+                        {selectedTaskInfo.files.map(file => <TaskFileWrapper key={file.id} file={file} onFileDelete={onFileDeleteHandler(file.id)}/>)}
+                    </div>
+                </div>
+                }
+
                 <div className={cls.TaskChildrenWrapper}>
                     {selectedTaskInfo && !selectedTaskInfoIsFetching && selectedTaskInfo?.subtasks.length >= 1 && (
                         <>
-                            <Typography size={'PARAGRAPH-14-REGULAR'}>Родитель для</Typography>
+                            <Typography size={'PARAGRAPH-14-REGULAR'}>Подзадачи</Typography>
                             <span className={cls.SubTaskLine}></span>
 
                             <div className={cls.SubTasks}>

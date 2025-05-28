@@ -6,7 +6,7 @@ import CloseIcon from "@/shared/assets/icons/extraSmallCloseIcon.svg";
 interface TaskFileWrapperProps {
     className?: string;
     file: File;
-    onFileDelete: () => void
+    onFileDelete: (fileId?: number) => void
     fileVariant?: 'CreateTask' | 'Task';
 }
 
@@ -22,7 +22,11 @@ export const TaskFileWrapper = (props: TaskFileWrapperProps) => {
             <div className={cls.FileContent}>
                 <p className={cls.FileName}>{file.name}</p>
 
-                <span onClick={onFileDelete} className={cls.DeleteIcon}>
+                <span onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onFileDelete(file.id)
+                }} className={cls.DeleteIcon}>
                     <CloseIcon/>
                 </span>
             </div>

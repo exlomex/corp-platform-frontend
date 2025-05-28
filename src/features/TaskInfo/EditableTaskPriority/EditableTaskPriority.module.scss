@@ -5,6 +5,7 @@
 .priorityDisplay {
     font: var(--font-paragraph-14-Regular);
     padding: 0 7px;
+    width: fit-content;
 
     svg {
         width: 20px;
@@ -19,20 +20,9 @@
     position: relative;
     z-index: 10;
     cursor: pointer;
+    border-radius: 6px;
 
-    &::before {
-        position: absolute;
-        z-index: -5;
-        height: 105%;
-        width: 110%;
-        content: "";
-        top: 50%;
-        left: 50%;
-        transform: translateY(-50%) translateX(-50%);
-        border-radius: 6px;
-    }
-
-    &:hover::before {
+    &:hover {
         background-color: var(--smart-outlined-bg-color-hover);
     }
 }

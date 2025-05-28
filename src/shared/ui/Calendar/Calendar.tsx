@@ -1,4 +1,4 @@
-import { ReactElement, FC } from "react";
+import {ReactElement, FC, useState, useEffect} from "react";
 import cls from "./Calendar.module.scss";
 import RightArrow from "@/shared/assets/icons/rightArrow.svg";
 import LeftIcon from "@/shared/assets/icons/rightArrow.svg";
@@ -13,7 +13,13 @@ interface CalendarProps {
 
 export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate, isDateResettable, disablePast = false}) => {
     const currentDate = new Date();
-    const displayDate = activeDate ?? currentDate;
+    const [displayDate, setDisplayDate] = useState<Date>(activeDate ?? new Date());
+
+    useEffect(() => {
+        if (activeDate) {
+            setDisplayDate(activeDate);
+        }
+    }, [activeDate]);
 
     const daysInMonth = (year: number, month: number): number =>
         new Date(year, month + 1, 0).getDate();
@@ -26,7 +32,7 @@ export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate, isDateR
 
     const handleDayClick = (day: number): void => {
         const newDate = new Date(displayDate.getFullYear(), displayDate.getMonth(), day);
-        newDate.setHours(0, 0, 0, 0); // Сравнение без учёта времени
+        newDate.setHours(0, 0, 0, 0);
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -44,13 +50,13 @@ export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate, isDateR
     };
 
     const handlePrevMonth = (): void => {
-        const newDate = new Date(displayDate.getFullYear(), displayDate.getMonth() - 1, 1);
-        setActiveDate(newDate);
+        const newDisplayDate = new Date(displayDate.getFullYear(), displayDate.getMonth() - 1, 1);
+        setDisplayDate(newDisplayDate);
     };
 
     const handleNextMonth = (): void => {
-        const newDate = new Date(displayDate.getFullYear(), displayDate.getMonth() + 1, 1);
-        setActiveDate(newDate);
+        const newDisplayDate = new Date(displayDate.getFullYear(), displayDate.getMonth() + 1, 1);
+        setDisplayDate(newDisplayDate);
     };
 
     const renderDays = (): ReactElement[] => {

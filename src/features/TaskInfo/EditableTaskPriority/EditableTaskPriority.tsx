@@ -7,7 +7,6 @@ import { priorityOptions } from '@/features/CreateNewTask/const/priorityConsts.t
 import {getSelectedTaskInfo, Priority, TaskActions, TaskI} from '@/entities/Task';
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {ChangeTaskPriorityService} from "@/entities/Task/model/services/changeTaskPriorityService.ts";
-import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
@@ -53,7 +52,7 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
                     projectId: selectedProject.id
                 })).unwrap()
                 await dispatch(FetchBoardTasks({boardId: selectedTaskInfo.boardId, projectId: selectedProject.id})).unwrap()
-                await dispatch(TaskActions.setSelectedTaskInfo(response))
+                dispatch(TaskActions.setSelectedTaskInfo(response))
             } catch (e) {
                 console.error()
             }

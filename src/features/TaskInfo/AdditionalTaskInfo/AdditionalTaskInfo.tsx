@@ -32,10 +32,6 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
             content: <AdditionalEditableAssignee/>
         },
         {
-            label: 'Родитель',
-            content: <AdditionalEditableTaskParent/>
-        },
-        {
             label: 'Автор',
             content: (
                 <>
@@ -46,6 +42,10 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
                     />}
                 </>
             )
+        },
+        {
+            label: 'Родитель',
+            content: <AdditionalEditableTaskParent/>
         },
     ]
 

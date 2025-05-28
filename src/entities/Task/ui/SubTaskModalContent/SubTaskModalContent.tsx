@@ -119,7 +119,7 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
         }
     }
 
-    const uniqueTitle = searchParamsSelectedTask !== null ? selectedTaskInfoIntoCard?.uniqueTitle ? selectedTaskInfoIntoCard?.uniqueTitle : selectedTaskInfoIntoCard?.uniqueTitle : selectedTaskInfo.uniqueTitle
+    const uniqueTitle = searchParamsSelectedTask !== null ? selectedTaskInfoIntoCard?.uniqueTitle ? selectedTaskInfoIntoCard?.uniqueTitle : selectedTaskInfoIntoCard?.uniqueTitle : selectedTaskInfo?.uniqueTitle
 
     return (
         <div className={classNames(cls.SubTaskModalContent, {}, [className])}>

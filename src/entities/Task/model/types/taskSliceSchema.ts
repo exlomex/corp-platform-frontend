@@ -1,4 +1,5 @@
 import {Priority} from "../../const/priorityConsts.tsx";
+import {File} from "@/features/File";
 
 export interface TaskUser {
     id: number,
@@ -30,6 +31,9 @@ export interface TaskI {
     subtasks: subTaskI[],
     parent?: subTaskI
     priority?: Priority
+    storyPoints?: number;
+    deadline?: string;
+    files: File[]
 }
 
 export interface TreeTask {
