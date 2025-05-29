@@ -9,9 +9,9 @@ import {getCreateTaskBoardsBySelectedProject} from "@/entities/Board";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {useLocation, useParams} from "react-router";
 import {Input} from "@/shared/ui/Input";
-import {getUserCompanyId, getUserCompanyUsers} from "@/entities/User/model/selectors/getUserValues.ts";
+import {getProjectUsers, getUserCompanyId, getUserCompanyUsers} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
-import {FetchUsersByCompanyIdService} from "@/entities/User";
+import {FetchUsersByCompanyIdService, FetchUsersByProjectIdService} from "@/entities/User";
 import {Button} from "@/shared/ui/Button";
 import {
     createNewTaskService,
@@ -64,8 +64,9 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
         }
     }, [normalizedProjects, selectedProject]);
 
-    const onSelectProjectHandler = () => {
+    const onSelectProjectHandler = async (option: ComboBoxOption) => {
         validateBoard(pickedBoard.value)
+        dispatch(FetchUsersByProjectIdService({ProjectId: option?.id}))
     }
 
     // boards
@@ -168,21 +169,19 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
     const [normalizedUser, setNormalizedUser] = useState<ComboBoxOption[]>(null)
     const [pickedUser, setPickedUser] = useState<ComboBoxOption>(null)
 
-    const selectedCompanyId = useSelector(getUserCompanyId)
-
     useEffect(() => {
-        if (selectedCompanyId) {
-            dispatch(FetchUsersByCompanyIdService({companyId: selectedCompanyId}))
+        if (selectedProject) {
+            dispatch(FetchUsersByProjectIdService({ProjectId: selectedProject?.id}))
         }
-    }, [dispatch, selectedCompanyId]);
+    }, [dispatch, selectedProject]);
 
-    const companyUsers = useSelector(getUserCompanyUsers)
+    const projectUsers = useSelector(getProjectUsers)
 
     useEffect(() => {
-        if (companyUsers?.length) {
+        if (projectUsers?.length) {
             setNormalizedUser(
                 [{ label: 'Не выбрано', value: '' },
-                    ...companyUsers.map(user => {
+                    ...projectUsers.map(user => {
                         return {
                             id: user.id,
                             label: `${user.firstName} ${user.lastName}`,
@@ -193,8 +192,12 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                         }})
                 ]
             )
+        } else {
+            setNormalizedUser(
+                [{ label: 'Не выбрано', value: '' }]
+            )
         }
-    }, [companyUsers]);
+    }, [projectUsers]);
 
 
     const selectedBoard = +params.board
@@ -303,7 +306,7 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
 
                     <div>
                         <p className={cls.fieldLabel}>Сделать до</p>
-                        <CalendarPopover disablePast fullWidth isDateResettable activeDate={deadlineTo} setActiveDate={setDeadlineTo}/>
+                        <CalendarPopover closeOnDateSelect disablePast fullWidth isDateResettable activeDate={deadlineTo} setActiveDate={setDeadlineTo}/>
                     </div>
                 </div>
 
@@ -314,7 +317,7 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
 
                 <div className={cls.FormField}>
                     <p className={cls.fieldLabel}>Исполнитель</p>
-                    <div>{normalizedUser && <ComboBox withImage value={pickedUser} setStateFunc={setPickedUser} options={normalizedUser}/>}</div>
+                    <div>{normalizedUser && <ComboBox optionsClassName={cls.ComboBoxLimit} withImage value={pickedUser} setStateFunc={setPickedUser} options={normalizedUser}/>}</div>
                 </div>
 
                 {messageFiles && <div className={cls.TasksFilesWrapper}>

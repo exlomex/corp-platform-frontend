@@ -27,12 +27,12 @@ export const SnapshotsTable = (props: SnapshotsTableProps) => {
         {
             title: 'Код',
             key: 'title',
-            width: '20%'
+            width: '15%'
         },
         {
             title: 'Изменено',
             key: 'modifiedBy',
-            width: '25%'
+            width: '35%'
         },
         {
             title: 'Дата изменения',

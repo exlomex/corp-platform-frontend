@@ -126,3 +126,8 @@
     gap: 0 12px;
     opacity: 0.5;
 }
+
+.Disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

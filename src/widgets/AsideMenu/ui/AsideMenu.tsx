@@ -15,6 +15,8 @@ import {ProjectsTab} from "@/features/ProjectsTab";
 import {BoardTabContent} from "@/features/BoadsTab";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {UserSliceActions} from "@/entities/User";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface AsideMenuProps {
     className?: string;
@@ -26,6 +28,7 @@ type defaultNavItem = {
     icon: ReactElement;
     content: navTabContentValues;
     href?: string;
+    disabled?: boolean;
 }
 
 type JSXNavElement = {
@@ -41,11 +44,14 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
     const initialCollapsedFlag: boolean = localStorage.getItem(LOCAL_STORAGE_COLLAPSED_KEY) === 'true'
     const [collapsed, setCollapsed] = useState<boolean>(initialCollapsedFlag)
 
+    const selectedProject = useSelector(getProjectSelectedProject)
+
     const navigationItems: navItemType[] = [
         {
             icon: <TaskIcon/>,
             href: getRouteMain(),
-            content: 'Задачи'
+            content: 'Задачи',
+            disabled: !selectedProject
         },
         {
             element: <BoardTabContent isCollapsed={collapsed}/>,
@@ -86,10 +92,11 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
         dispatch(UserSliceActions.setAsideIsCollapsed(collapsed))
     }, [collapsed, dispatch]);
 
+
     return (
         <div className={classNames(cls.AsideMenu, {[cls.AsideCollapsed]: collapsed}, [className])}>
             <div className={cls.AsideTopContainer}>
-                <Link className={cls.AsideLogoLink} to={getRouteMain()}>{!collapsed ? <LightLogo className={cls.AsideLogo}/> : <LightLogoCropped className={cls.AsideLogo}/>}</Link>
+                <Link className={cls.AsideLogoLink} to={selectedProject ? getRouteMain() : null}>{!collapsed ? <LightLogo className={cls.AsideLogo}/> : <LightLogoCropped className={cls.AsideLogo}/>}</Link>
 
                 <ProjectsTab isCollapsed={collapsed} className={cls.ProjectTab}/>
 
@@ -100,7 +107,7 @@ export const AsideMenu = memo((props: AsideMenuProps) => {
                                     <Link
                                         to={navigationItem.href}
                                         key={index}
-                                        className={classNames(cls.AsideItem, {[cls.ActiveTab]: index === activeIndex.current}, [])}
+                                        className={classNames(cls.AsideItem, {[cls.ActiveTab]: index === activeIndex.current, [cls.Disabled]: navigationItem.disabled}, [])}
                                     >
                                         <span className={cls.IconWrapper}>{navigationItem.icon}</span>
                                         <span className={cls.AsideContent}>{navigationItem.content}</span>

@@ -21,6 +21,7 @@ export const TaskSlice = createSlice({
     name: 'task',
     initialState,
     reducers: {
+        resetTasks: () => initialState,
         setSelectedTaskSnapshots: (state: TaskSliceSchema, action: PayloadAction<TaskSnapshots[]>) => {
             state.selectedTaskSnapshots = action.payload;
         },

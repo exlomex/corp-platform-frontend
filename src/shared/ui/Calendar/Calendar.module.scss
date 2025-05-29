@@ -103,5 +103,7 @@
 }
 
 .pastDay {
+    opacity: 0.6;
+    pointer-events: none;
     color: var(--text-color-middle-dark-purple);
 }

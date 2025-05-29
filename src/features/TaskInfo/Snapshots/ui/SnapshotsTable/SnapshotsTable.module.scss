@@ -19,3 +19,10 @@
     width: 20px;
     height: 20px;
 }
+
+.Modifier {
+    width: 80%;
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

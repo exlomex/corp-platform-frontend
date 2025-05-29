@@ -2,7 +2,7 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './NewMessageForm.module.scss';
 import {Typography} from "@/shared/ui/Typography";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
-import {ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
+import {ComboBox, ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchUsersByCompanyIdService, getUserCompanyId} from "@/entities/User";
 import {useSelector} from "react-redux";
@@ -18,6 +18,7 @@ import {LOCAL_STORAGE_USER_TOKEN} from "@/shared/const/localstorage.ts";
 import {tokenInfoTypes} from "@/entities/User/model/types/userSliceSchema.ts";
 import {FetchSentMessagesService} from "../../model/services/fetchSentMessagesService.ts";
 import {MessageActions} from "@/features/Message/model/slice/messageSlice.ts";
+import {FetchReceivedMessagesService} from "@/features/Message/model/services/fetchReceivedMessagesService.ts";
 
 interface NewMessageFormProps {
     className?: string;
@@ -52,6 +53,10 @@ export const NewMessageForm = (props: NewMessageFormProps) => {
                             }
                         }})
                 ]
+            )
+        } else {
+            setNormalizedUsers(
+                [{label: 'Не выбрано', value: ''}]
             )
         }
     }, [companyUsers]);
@@ -92,7 +97,6 @@ export const NewMessageForm = (props: NewMessageFormProps) => {
 
     const onSubmitSendMessageHandler = async () => {
         if (!pickedUser || !pickedUser.id || !topicValue || !textValue) return;
-        console.log('here');
         const tokenInfo: tokenInfoTypes = jwtDecode(localStorage.getItem(LOCAL_STORAGE_USER_TOKEN));
         const senderId = tokenInfo.id;
 
@@ -108,6 +112,7 @@ export const NewMessageForm = (props: NewMessageFormProps) => {
 
         await dispatch(SendMessageService(messageBody)).unwrap();
         await dispatch(FetchSentMessagesService()).unwrap();
+        await dispatch(FetchReceivedMessagesService()).unwrap();
         dispatch(MessageActions.setNewMessageIsOpen(false));
     }
 
@@ -117,7 +122,8 @@ export const NewMessageForm = (props: NewMessageFormProps) => {
 
             <div className={cls.ReceiverWrapper}>
                 <p className={cls.ReceiverTitle}>Кому</p>
-                <Select widthType={'CUSTOM'} className={cls.ReceiverSelect} withImage options={normalizedUsers} value={pickedUser} onSelectFunc={setPickedUser}/>
+                {/*<Select widthType={'CUSTOM'} className={cls.ReceiverSelect} withImage options={normalizedUsers} value={pickedUser} onSelectFunc={setPickedUser}/>*/}
+                {normalizedUsers && <ComboBox optionsClassName={cls.ComboBoxLimit} widthType={'CUSTOM'} onSelectAction={setPickedUser} value={pickedUser}  className={cls.ReceiverSelect} withImage options={normalizedUsers} />}
             </div>
 
             <div className={cls.TopicWrapper}>

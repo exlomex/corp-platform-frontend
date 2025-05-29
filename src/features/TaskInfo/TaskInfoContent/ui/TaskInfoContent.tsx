@@ -247,7 +247,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                 <div className={cls.TaskChildrenWrapper}>
                     {selectedTaskInfo && !selectedTaskInfoIsFetching && selectedTaskInfo?.subtasks.length >= 1 && (
                         <>
-                            <Typography size={'PARAGRAPH-14-REGULAR'}>Подзадачи</Typography>
+                            <Typography size={'PARAGRAPH-18-REGULAR'}>Подзадачи</Typography>
                             <span className={cls.SubTaskLine}></span>
 
                             <div className={cls.SubTasks}>

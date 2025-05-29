@@ -1,7 +1,14 @@
 .ComboBox {
     position: relative;
-    width: 100%;
     cursor: pointer;
+
+    &.FullWidth {
+        width: 100%;
+    }
+
+    &.FitContentWidth {
+        width: fit-content;
+    }
 }
 
 .InputWrapper {

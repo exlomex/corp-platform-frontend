@@ -118,7 +118,7 @@ export const ProjectUsersTable = (props: ProjectUsersTableProps) => {
                 <div className={cls.ProjectPickerBottomLine}>
                     <div className={cls.ProjectSelect}>
                         <Typography size={'PARAGRAPH-16-REGULAR'} className={cls.SelectHeading}>Выберите проект</Typography>
-                        <Select options={normalizedProjectOptions} value={settingSelectedProject} onSelectFunc={onSelectNewProjectHandler}/>
+                        <Select  options={normalizedProjectOptions} value={settingSelectedProject} onSelectFunc={onSelectNewProjectHandler}/>
                     </div>
 
                     <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onAddButtonClick}>Добавить доступ</Button>

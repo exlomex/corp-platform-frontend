@@ -9,10 +9,10 @@ interface CalendarProps {
     setActiveDate: (date: Date) => void;
     isDateResettable?: boolean;
     disablePast?: boolean;
+    onDayClickAction?: () => void;
 }
 
-export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate, isDateResettable, disablePast = false}) => {
-    const currentDate = new Date();
+export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate, isDateResettable, disablePast = false, onDayClickAction}) => {
     const [displayDate, setDisplayDate] = useState<Date>(activeDate ?? new Date());
 
     useEffect(() => {
@@ -46,6 +46,7 @@ export const Calendar: FC<CalendarProps> = ({ activeDate, setActiveDate, isDateR
             }
         }
 
+        onDayClickAction?.()
         setActiveDate(newDate);
     };
 

@@ -19,6 +19,7 @@ import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable"
 import {ColumnWrapper} from "@/entities/Column/ui/ColumnWrapper/ColumnWrapper.tsx";
 import {CreateNewColumn} from "@/features/CreateNewColumn";
 import {getUserAsideIsCollapsed} from "@/entities/User";
+import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 
 interface AgileBoardProps {
     className?: string;
@@ -64,8 +65,14 @@ export const AgileBoard = (props: AgileBoardProps) => {
         })
     );
 
+    const userInfo = useSelector(getUserInfo)
+
     const onDragEndHandle = async (event: DragEndEvent) => {
         const { active, over } = event;
+
+        if (!userInfo?.allowedProjects.includes(selectedProject?.id)) {
+            return
+        }
 
         if (!over || String(active?.data?.current?.statusId) === String(over.id)) return;
 

@@ -49,6 +49,10 @@ export const AddUserToProjectForm = (props: CreateNewBoardFormProps) => {
                         }})
                 ]
             )
+        } else {
+            setNormalizedUser(
+                [{label: 'Не выбрано', value: ''}]
+            )
         }
     }, [companyUsers]);
 
@@ -74,7 +78,7 @@ export const AddUserToProjectForm = (props: CreateNewBoardFormProps) => {
             <p className={cls.AddUserSubtitle}>Для добавления выберите пользователя из списка ниже.</p>
 
             <div>{normalizedUser &&
-                <ComboBox withImage value={pickedUser} setStateFunc={setPickedUser} options={normalizedUser}/>}
+                <ComboBox position={'RELATIVE'} withImage value={pickedUser} setStateFunc={setPickedUser} options={normalizedUser}/>}
             </div>
 
             <div className={cls.BottomLine}>

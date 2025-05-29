@@ -39,7 +39,7 @@ export function normalizeSnapshots(items: TaskSnapshots[]): NormalizedSnapshotTy
         ) : (
             <div className={cls.AvatarIcon}><AvatarIcon /></div>
         )}
-        <span>{modifier.firstName}</span>
+        <span className={cls.Modifier}>{modifier.firstName} {modifier.lastName}</span>
         </div>
     ),
         modifiedDate: formatCustomDate(new Date(item.modifiedDate)),

@@ -3,7 +3,12 @@ import cls from './AdditionalEditableAssignee.module.scss';
 import {useEffect, useState} from "react";
 import {ComboBox, ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 import {useSelector} from "react-redux";
-import {FetchUsersByCompanyIdService, getUserCompanyId} from "@/entities/User";
+import {
+    FetchUsersByCompanyIdService,
+    FetchUsersByProjectIdService,
+    getProjectUsers,
+    getUserCompanyId
+} from "@/entities/User";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {getUserCompanyUsers} from "@/entities/User/model/selectors/getUserValues.ts";
 import {AdditionalTaskAuthor} from "@/features/TaskInfo/AdditionalTaskAuthor/AdditionalTaskAuthor.tsx";
@@ -44,16 +49,16 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
     }, [selectedTaskInfo]);
 
     useEffect(() => {
-        if (selectedCompanyId) dispatch(FetchUsersByCompanyIdService({companyId: selectedCompanyId}));
-    }, [dispatch, selectedCompanyId]);
+        if (selectedProject) dispatch(FetchUsersByProjectIdService({ProjectId: selectedProject?.id}));
+    }, [dispatch, selectedProject]);
 
-    const companyUsers = useSelector(getUserCompanyUsers)
+    const projectUsers = useSelector(getProjectUsers)
 
     useEffect(() => {
-        if (companyUsers?.length) {
+        if (projectUsers?.length) {
             setNormalizedUser(
                 [{label: 'Не выбрано', value: ''},
-                    ...companyUsers.map(user => {
+                    ...projectUsers.map(user => {
                         return {
                             id: user.id,
                             label: `${user.firstName} ${user.lastName}`,
@@ -65,8 +70,12 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
                     })
                 ]
             )
+        } else {
+            setNormalizedUser(
+                [{label: 'Не выбрано', value: ''}]
+            )
         }
-    }, [companyUsers]);
+    }, [projectUsers]);
 
     const [fieldIsActive, setFieldIsActive] = useState<boolean>(false)
 

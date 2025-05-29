@@ -5,6 +5,7 @@ import DownArrow from '@/shared/assets/icons/smallDownArrow.svg'
 import {useClickOutside} from "@/shared/hooks/useClickOutside";
 import UserAvatarIcon from '@/shared/assets/icons/userAvatarIcon.svg'
 import DefaultPriorityIcon from '@/shared/assets/icons/defaultPriorityIcon.svg'
+import {widthTypes} from "@/shared/ui/Select/Select.tsx";
 
 export interface ComboBoxOption {
     id?: number
@@ -28,6 +29,8 @@ interface BaseProps {
     position?: keyof typeof positionTypes;
     withImage?: boolean
     withSvgComponent?: boolean;
+    optionsClassName?: string;
+    widthType?: keyof typeof widthTypes
 }
 
 interface ControlledComboBoxProps extends BaseProps {
@@ -50,7 +53,9 @@ export const ComboBox = (props: ComboBoxProps) => {
         position = 'ABSOLUTE',
         withImage = false,
         setStateFunc,
-        withSvgComponent = false
+        withSvgComponent = false,
+        optionsClassName,
+        widthType = 'FULL_WIDTH'
     } = props;
 
     const value = 'value' in props ? props.value : undefined;
@@ -80,6 +85,7 @@ export const ComboBox = (props: ComboBoxProps) => {
         }
     }, [value]);
 
+
     const filteredOptions = useMemo(() => {
         const specialOption = options.find(opt => opt.value === '');
         const otherOptions = options.filter(
@@ -89,6 +95,7 @@ export const ComboBox = (props: ComboBoxProps) => {
     }, [query, options]);
 
     const handleSelect = (option: ComboBoxOption) => {
+
         setInputValue(option.label);
         setQuery('')
         setShowOptions(false);
@@ -117,14 +124,14 @@ export const ComboBox = (props: ComboBoxProps) => {
                 setShowOptions(true)
 
                 setQuery('');
-                setInputValue('');
+                // setInputValue('');
             }
 
         }
     }
 
     return (
-        <div className={classNames(cls.ComboBox, {}, [className])}>
+        <div className={classNames(cls.ComboBox, {}, [className, widthTypes[widthType]])}>
             <div
                 className={cls.InputWrapper}
                 onClick={onInputWrapperClick}
@@ -157,7 +164,7 @@ export const ComboBox = (props: ComboBoxProps) => {
                     className={classNames(cls.IconWrapper, {[cls.ActiveInput]: showOptions}, [])}><DownArrow/></span>
             </div>
             {showOptions && filteredOptions.length > 0 && (
-                <ul className={classNames(cls.optionsList, {}, [positionTypes[position]])}>
+                <ul className={classNames(cls.optionsList, {}, [positionTypes[position], optionsClassName])}>
                     {filteredOptions.map((option) => (
                         <li
                             key={option.value}

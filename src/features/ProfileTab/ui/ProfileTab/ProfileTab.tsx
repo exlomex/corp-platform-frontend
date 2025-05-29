@@ -49,6 +49,7 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
 
     const onLogoutClick = () => {
         dispatch(UserSliceActions.logout())
+        dispatch(UserSliceActions.resetUser())
     }
 
     const profileTabItems: DropdownItem[] = [
@@ -61,8 +62,8 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
             href: getRouteSettings('company')
         },
         {
-            content: 'Настройки',
-            href: getRouteSettings('company')
+            content: 'Проекты',
+            href: getRouteSettings('projects')
         },
         {
             content: 'Выйти',

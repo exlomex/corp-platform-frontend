@@ -43,7 +43,6 @@ export const MessageLeftSideMenu = (props: MessageLeftSideMenuProps) => {
         dispatch(FetchReceivedMessagesService())
     }, [dispatch]);
     const onSelectNewMessageType = async (option: ComboBoxOption) => {
-        console.log(option);
         if (option.value === 'received') {
             await dispatch(FetchReceivedMessagesService())
         }
