@@ -34,7 +34,8 @@ export interface TaskI {
     priority?: Priority
     storyPoints?: number;
     deadline?: string;
-    files: File[]
+    files: File[];
+    archived: boolean;
 }
 
 export interface TreeTask {

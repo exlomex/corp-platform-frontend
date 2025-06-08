@@ -13,10 +13,11 @@ interface ColumnWrapperProps {
     createNewTask?: (isHovered: boolean) => ReactElement;
     statusId: number;
     boardId: number;
+    editIsPossible?: boolean;
 }
 
 export const ColumnWrapper = forwardRef((props: ColumnWrapperProps, ref: ForwardedRef<HTMLDivElement>) => {
-    const { className, columnTitle, children, isOver, createNewTask, isOverColumn, statusId, boardId } = props;
+    const { className, columnTitle, children, isOver, createNewTask, isOverColumn, statusId, boardId, editIsPossible = false} = props;
 
     const [isHovered, setIsHovered] = useState<boolean>(false)
     const [isTopLineHover, setIsTopLineHover] = useState<boolean>(false)
@@ -37,9 +38,9 @@ export const ColumnWrapper = forwardRef((props: ColumnWrapperProps, ref: Forward
                 onMouseEnter={() => setIsTopLineHover(true)}
                 onMouseLeave={() => setIsTopLineHover(false)}
             >
-                <EditableColumnTitle columnTitle={columnTitle} columnId={statusId} boardId={boardId} isEditDescriptionActive={isEditDescriptionActive} setIsEditDescriptionActive={setIsEditDescriptionActive}/>
+                <EditableColumnTitle editIsPossible={editIsPossible} columnTitle={columnTitle} columnId={statusId} boardId={boardId} isEditDescriptionActive={isEditDescriptionActive} setIsEditDescriptionActive={setIsEditDescriptionActive}/>
 
-                {!isEditDescriptionActive && <AdditionalColumnOptions boardId={boardId} isHover={isTopLineHover} statusId={statusId}/>}
+                {!isEditDescriptionActive && editIsPossible && <AdditionalColumnOptions boardId={boardId} isHover={isTopLineHover} statusId={statusId}/>}
             </div>
             <span className={classNames(cls.OverLine, {[cls.isOver]: isOver}, [])}></span>
 
@@ -47,7 +48,7 @@ export const ColumnWrapper = forwardRef((props: ColumnWrapperProps, ref: Forward
                 {children && children}
             </div>
 
-            {createNewTask && createNewTask(isHovered)}
+            {createNewTask && editIsPossible && createNewTask(isHovered)}
         </div>
     )
 });

@@ -25,6 +25,15 @@
     &:hover::before {
         background-color: var(--smart-outlined-bg-color-hover);
     }
+
+    &.EditIsNotPossible {
+        cursor: auto;
+
+        &::before {
+            background-color: transparent;
+            cursor: auto;
+        }
+    }
 }
 
 .Avatar {

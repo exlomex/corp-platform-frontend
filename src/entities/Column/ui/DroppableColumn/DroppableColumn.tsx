@@ -11,10 +11,11 @@ interface DroppableColumnProps {
     order: number;
     createNewTask: (isHovered: boolean) => ReactElement;
     boardId: number;
+    editIsPossible: boolean;
 }
 
 export const DroppableColumn = (props: DroppableColumnProps) => {
-    const { className, children, columnTitle, statusId, createNewTask, order, boardId} = props;
+    const { className, children, columnTitle, statusId, createNewTask, order, boardId, editIsPossible} = props;
 
     const {setNodeRef, isOver, active, over} = useDroppable({id: statusId, data: {order: order}})
 
@@ -32,6 +33,7 @@ export const DroppableColumn = (props: DroppableColumnProps) => {
             createNewTask={createNewTask}
             statusId={statusId}
             boardId={boardId}
+            editIsPossible={editIsPossible}
         >
             {children}
         </ColumnWrapper>

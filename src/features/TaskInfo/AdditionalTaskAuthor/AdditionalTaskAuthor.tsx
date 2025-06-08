@@ -8,13 +8,19 @@ interface AdditionalTaskAuthorProps {
     lastName: string;
     imageUrl?: string
     onClick?: () => void;
+    editIsPossible?: boolean;
 }
 
 export const AdditionalTaskAuthor = (props: AdditionalTaskAuthorProps) => {
-    const { className, lastName, firstName,imageUrl, onClick } = props;
+    const { className, lastName, firstName,imageUrl, onClick, editIsPossible = false } = props;
 
     return (
-        <div onClick={onClick} className={classNames(cls.AdditionalTaskAuthor, {[cls.Clickable]: onClick !== undefined}, [className])}>
+        <div onClick={editIsPossible ? onClick : () => {}} className={classNames(cls.AdditionalTaskAuthor,
+            {
+                [cls.Clickable]: onClick !== undefined,
+                [cls.EditIsNotPossible]: !editIsPossible
+            },
+            [className])}>
             <div>
                 {imageUrl
                     ? <img className={cls.Avatar} src={imageUrl} alt="avatar"/>

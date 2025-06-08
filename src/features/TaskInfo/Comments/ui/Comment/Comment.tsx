@@ -30,10 +30,11 @@ interface CommentProps {
     taskId: number
     commentId: number
     commentFiles: FileI[]
+    editIsPossible: boolean;
 }
 
 export const Comment = (props: CommentProps) => {
-    const { className, fullName, commentText, avatar, taskId, commentId, commentFiles: commentFileProps } = props;
+    const { className, fullName, commentText, avatar, taskId, commentId, commentFiles: commentFileProps, editIsPossible } = props;
 
     const [isHover, setIsHover] = useState<boolean>(false)
     const [isEdited, setIsEdited] = useState<boolean>(false)
@@ -128,7 +129,7 @@ export const Comment = (props: CommentProps) => {
             <div className={cls.CommentContent}>
                 <div className={cls.CommentNameWrapper}>
                     <span className={cls.CommentUserName}>{fullName}</span>
-                    {(isHover || isEdited) && userInfo?.allowedProjects.includes(selectedProject?.id) && <span onClick={() => setIsEdited(true)} className={cls.EditIcon}><EditIcon/></span>}
+                    {(isHover || isEdited) && editIsPossible && <span onClick={() => setIsEdited(true)} className={cls.EditIcon}><EditIcon/></span>}
                 </div>
 
                 {

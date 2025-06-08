@@ -15,10 +15,11 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 
 interface EditableTaskStoryPointsProps {
     className?: string;
+    editIsPossible: boolean;
 }
 
 export const EditableTaskStoryPoints = (props: EditableTaskStoryPointsProps) => {
-    const { className } = props;
+    const { className, editIsPossible} = props;
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo);
     const [fieldIsActive, setFieldIsActive] = useState(false);
@@ -31,7 +32,9 @@ export const EditableTaskStoryPoints = (props: EditableTaskStoryPointsProps) => 
     }, [selectedTaskInfo]);
 
     const onFieldClickHandler = () => {
-        setFieldIsActive(true);
+        if (editIsPossible) {
+            setFieldIsActive(true);
+        }
     };
 
     const dispatch = useAppDispatch();
@@ -58,7 +61,8 @@ export const EditableTaskStoryPoints = (props: EditableTaskStoryPointsProps) => 
     return (
         <div className={classNames(cls.EditableTaskStoryPoints, {}, [className])}>
             {!fieldIsActive ? (
-                <div onClick={onFieldClickHandler} className={cls.StoryPointsDisplay}>
+                <div onClick={onFieldClickHandler}
+                     className={classNames(cls.StoryPointsDisplay, {[cls.EditIsNotPossible]: !editIsPossible}, [])}>
                     {selectedTaskInfo?.storyPoints ? `${selectedTaskInfo?.storyPoints} Story points` : 'Не указано'}
                 </div>
             ) : (

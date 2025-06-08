@@ -8,8 +8,6 @@ import {useSelector} from "react-redux";
 import {
     ChangeTaskDeadlineInputData,
     ChangeTaskDeadlineService,
-    ChangeTaskStoryPointsInputData,
-    ChangeTaskStoryPointsService,
     getSelectedTaskInfo,
     TaskActions
 } from "@/entities/Task";
@@ -19,10 +17,11 @@ import {dateConverter} from "@/features/TasksFilters/lib/DateConverter.ts";
 
 interface EditableTaskDeadlineProps {
     className?: string;
+    editIsPossible: boolean;
 }
 
 export const EditableTaskDeadline = (props: EditableTaskDeadlineProps) => {
-    const { className } = props;
+    const { className, editIsPossible} = props;
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo);
     const [fieldIsActive, setFieldIsActive] = useState(false);
@@ -64,7 +63,7 @@ export const EditableTaskDeadline = (props: EditableTaskDeadlineProps) => {
     return (
         <div className={classNames(cls.EditableTaskDeadline, {}, [className])}>
             {!fieldIsActive ? (
-                <div onClick={onFieldClickHandler} className={cls.DeadlineDisplay}>
+                <div onClick={onFieldClickHandler} className={classNames(cls.DeadlineDisplay, {[cls.EditIsNotPossible]: !editIsPossible}, [])}>
                     {selectedTaskInfo?.deadline ? `${selectedTaskInfo?.deadline}` : 'Не указано'}
                 </div>
             ) : (

@@ -19,10 +19,11 @@ import {TaskSnapshots} from "@/entities/Task/model/types/taskSliceSchema.ts";
 
 interface AdditionalTaskInfoProps {
     className?: string;
+    editIsPossible: boolean;
 }
 
 export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
-    const { className } = props;
+    const { className, editIsPossible } = props;
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
 
@@ -49,7 +50,7 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
     }[] = [
         {
             label: 'Исполнитель',
-            content: <AdditionalEditableAssignee/>
+            content: <AdditionalEditableAssignee editIsPossible={editIsPossible}/>
         },
         {
             label: 'Автор',
@@ -65,7 +66,7 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
         },
         {
             label: 'Родитель',
-            content: <AdditionalEditableTaskParent/>
+            content: <AdditionalEditableTaskParent editIsPossible={editIsPossible}/>
         },
     ]
 
@@ -86,7 +87,7 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
     return (
         <div className={classNames(cls.AdditionalTaskInfo, {}, [className])}>
             <div className={cls.AdditionalTaskTopContainer}>
-                <EditableTaskStatus/>
+                <EditableTaskStatus editIsPossible={editIsPossible}/>
 
                 <div className={cls.AdditionalTaskInfoWrapper}>
                     <Typography className={cls.AdditionalHeading} size={'PARAGRAPH-16-REGULAR'}>Сведения</Typography>

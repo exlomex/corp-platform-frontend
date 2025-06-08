@@ -16,6 +16,7 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {getRouteBoards, getRouteProjectBoard} from "@/shared/const/router.ts";
 import {newBoardSliceActions} from "@/features/CreateNewBoard";
+import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 
 interface BoardTabContentProps {
     className?: string;
@@ -59,6 +60,9 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
         return false;
     }, [params.board]);
 
+    const userInfo = useSelector(getUserInfo);
+    const editIsPossible = userInfo?.allowedProjects.includes(selectedProject?.id)
+
     if (!selectedProject) {
         return <BoardTabButton isCollapsed={isCollapsed} active={false}/>
     }
@@ -100,9 +104,9 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
                                 найдены</Typography>
                         )}
 
-                        <Button onClick={onNewBoardClickHandler} buttonType={'CREATE_WITH_ICON_BTN_FILLED'} fullWidth><AddIcon/>
+                        {editIsPossible && <Button onClick={onNewBoardClickHandler} buttonType={'CREATE_WITH_ICON_BTN_FILLED'} fullWidth><AddIcon/>
                             Создать доску
-                        </Button>
+                        </Button>}
                     </div>
                 </div>
             )}

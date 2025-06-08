@@ -7,10 +7,11 @@ import {SnapshotsTab} from "../Snapshots/ui/SnapshotsTab/SnapshotsTab.tsx";
 
 interface TaskInfoTabsProps {
     className?: string;
+    editIsPossible: boolean;
 }
 
 export const TaskInfoTabs = (props: TaskInfoTabsProps) => {
-    const { className } = props;
+    const { className, editIsPossible } = props;
 
     const TabListItems = useMemo<TabListItem[]>(() => [
         {
@@ -23,7 +24,7 @@ export const TaskInfoTabs = (props: TaskInfoTabsProps) => {
 
     const TabPanelsItems: TabPanelsItem[] = [
         {
-            content: (<CommentsContent/>)
+            content: (<CommentsContent editIsPossible={editIsPossible}/>)
         },
         {
             content: (<SnapshotsTab/>)

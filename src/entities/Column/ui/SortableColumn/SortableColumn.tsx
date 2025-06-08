@@ -12,10 +12,11 @@ interface SortableColumnProps {
     boardStatus: StatusI
     createNewTask: (isHovered: boolean) => ReactElement;
     boardId: number
+    editIsPossible: boolean;
 }
 
 export const SortableColumn = (props: SortableColumnProps) => {
-    const { className, boardStatus, createNewTask, children, boardId } = props;
+    const { className, boardStatus, createNewTask, children, boardId, editIsPossible} = props;
 
     const {
         attributes,
@@ -36,6 +37,7 @@ export const SortableColumn = (props: SortableColumnProps) => {
                 createNewTask={createNewTask}
                 order={boardStatus.order}
                 boardId={boardId}
+                editIsPossible={editIsPossible}
             >
                 {children}
             </DroppableColumn>

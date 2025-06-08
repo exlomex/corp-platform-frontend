@@ -23,10 +23,11 @@ interface EditableTitleProps {
     taskDescription: string | null
     isEditTitleActive: boolean;
     setIsEditTitleActive: Dispatch<SetStateAction<boolean>>;
+    editIsPossible: boolean;
 }
 
 export const EditableTaskTitle = (props: EditableTitleProps) => {
-    const { className, taskTitle, isHover, taskId, boardId, taskDescription, setIsEditTitleActive, isEditTitleActive } = props;
+    const { className, taskTitle, isHover, taskId, boardId, taskDescription, setIsEditTitleActive, isEditTitleActive, editIsPossible } = props;
 
     const [taskTitleState, setTaskTitleState] = useState<string>(taskTitle)
     const [newTaskTitleValue, setNewTaskTitleValue] = useState<string>(taskTitle)
@@ -88,12 +89,19 @@ export const EditableTaskTitle = (props: EditableTitleProps) => {
     return (
         <div
             onClick={e => e.stopPropagation()}
-            className={classNames(cls.EditableTaskTitle, {[cls.isActiveEditableArea]: isEditTitleActive}, [className])}
+            className={classNames(cls.EditableTaskTitle, {
+                [cls.isActiveEditableArea]: isEditTitleActive,
+                [cls.EditIsNotPossible]: !editIsPossible
+            }, [className])}
         >
             {!isEditTitleActive
                 && <div
                     className={cls.TaskTitleWrapper}
-                    onClick={() => setIsEditTitleActive(true)}
+                    onClick={() => {
+                        if (editIsPossible) {
+                            setIsEditTitleActive(true)
+                        }
+                    }}
                 >
                     <span className={cls.TaskTitle}>{taskTitleState}</span>
                 </div>}

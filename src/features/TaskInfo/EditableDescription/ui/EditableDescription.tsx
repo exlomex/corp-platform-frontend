@@ -26,6 +26,7 @@ interface EditableDescriptionProps {
     isEditDescriptionActive: boolean;
     setIsEditDescriptionActive: Dispatch<SetStateAction<boolean>>;
     uniqueTitle: string;
+    editIsPossible: boolean;
 }
 
 export const EditableDescription = (props: EditableDescriptionProps) => {
@@ -37,7 +38,8 @@ export const EditableDescription = (props: EditableDescriptionProps) => {
         taskTitle,
         setIsEditDescriptionActive,
         isEditDescriptionActive,
-        uniqueTitle
+        uniqueTitle,
+        editIsPossible,
     } = props;
 
     const [descriptionState, setDescriptionState] = useState<string>(taskDescription || '');
@@ -82,15 +84,24 @@ export const EditableDescription = (props: EditableDescriptionProps) => {
             <Typography className={cls.Title} size={'PARAGRAPH-18-REGULAR'}>Описание</Typography>
 
             <div
-                className={classNames(cls.EditableDescription, {[cls.isActiveEditableArea]: isEditDescriptionActive}, [className])}
+                className={classNames(cls.EditableDescription,
+                    {
+                        [cls.isActiveEditableArea]: isEditDescriptionActive,
+                        [cls.EditIsNotPossible]: !editIsPossible
+                    },
+                    [className])}
             >
                 {!isEditDescriptionActive && (
                     <div
-                        className={cls.DescriptionWrapper}
-                        onClick={() => setIsEditDescriptionActive(true)}
+                        className={classNames(cls.DescriptionWrapper, {[cls.EditIsNotPossible]: !editIsPossible}, [])}
+                        onClick={() => {
+                            if (editIsPossible) {
+                                setIsEditDescriptionActive(true)
+                            }
+                        }}
                     >
                     <span className={cls.Description}>
-                        {descriptionState || 'Добавить описание'}
+                        {editIsPossible ? descriptionState || 'Добавить описание' : descriptionState || 'Нет описания'}
                     </span>
                     </div>
                 )}

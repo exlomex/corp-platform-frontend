@@ -21,6 +21,7 @@ export const FetchCommentsService = createAsyncThunk<
         }
 
         dispatch(CommentActions.setTaskComments(data))
+        dispatch(CommentActions.setTaskCommentsIsFirstLoading(false));
         return response.data;
     } catch (e) {
         return rejectWithValue(e.message || 'error');

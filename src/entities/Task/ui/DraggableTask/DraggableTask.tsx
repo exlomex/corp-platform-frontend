@@ -15,10 +15,11 @@ interface DraggableTaskProps {
     taskDescription: string | null
     taskPriority?: Priority
     assignee?: TaskUser
+    editIsPossible: boolean;
 }
 
 export const DraggableTask = (props: DraggableTaskProps) => {
-    const { className, taskTitle, taskUniqueTitle, taskId, statusId, onClick, boardId, taskDescription, taskPriority, assignee} = props;
+    const { className, taskTitle, taskUniqueTitle, taskId, statusId, onClick, boardId, taskDescription, taskPriority, assignee, editIsPossible} = props;
 
     const {setNodeRef, listeners, attributes} = useDraggable({
         id: `task-${taskId}`,
@@ -39,6 +40,7 @@ export const DraggableTask = (props: DraggableTaskProps) => {
             listeners={listeners} ref={setNodeRef}
             taskTitle={taskTitle}
             taskUniqueTitle={taskUniqueTitle}
-            className={classNames('', {}, [className])}/>
+            className={classNames('', {}, [className])}
+            editIsPossible={editIsPossible}/>
     )
 };

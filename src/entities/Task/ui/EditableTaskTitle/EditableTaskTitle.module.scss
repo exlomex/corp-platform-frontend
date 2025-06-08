@@ -24,6 +24,14 @@
     &.isActiveEditableArea::before {
         background-color: transparent;
     }
+
+    &.EditIsNotPossible {
+        cursor: auto;
+
+        &::before {
+            background-color: transparent;
+        }
+    }
 }
 
 .isActiveEditableArea {

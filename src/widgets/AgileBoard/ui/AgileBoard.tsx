@@ -37,6 +37,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
 
     const userBoardsFetching = useSelector(getIsUserBoardsFetching)
 
+
     useEffect(() => {
         if (selectedProject && params.project) {
             if (userBoards.length >= 1 && params.board) {
@@ -66,6 +67,8 @@ export const AgileBoard = (props: AgileBoardProps) => {
     );
 
     const userInfo = useSelector(getUserInfo)
+
+    const editIsPossible = userInfo?.allowedProjects.includes(selectedProject?.id)
 
     const onDragEndHandle = async (event: DragEndEvent) => {
         const { active, over } = event;
@@ -159,6 +162,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                                     key={boardStatus.id}
                                     boardId={boardId}
                                     boardStatus={boardStatus}
+                                    editIsPossible={editIsPossible}
                                     createNewTask={(isHovered) => (
                                         <CreateColumnNewTask
                                             className={classNames('', {[cls.IsActiveOffset]: boardTasks.filter(task => task?.statusId === boardStatus.id).length >= 1}, [])}
@@ -182,6 +186,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                                                     statusId={task?.statusId}
                                                     onClick={onTaskClickHandler(task.uniqueTitle)}
                                                     taskDescription={task.description ? task.description : null}
+                                                    editIsPossible={editIsPossible}
                                                 />
                                             ))
                                     }
@@ -190,7 +195,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                         </SortableContext>
                     )}
 
-                    <CreateNewColumn boardId={boardId}/>
+                    {editIsPossible && <CreateNewColumn boardId={boardId}/>}
                 </div>
             </div>
 

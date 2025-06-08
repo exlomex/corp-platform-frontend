@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './TaskInfoContent.module.scss';
-import React, {ReactNode, useEffect, useRef, useState} from "react";
+import React, {ReactNode, useEffect, useMemo, useRef, useState} from "react";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {useSelector} from "react-redux";
@@ -35,6 +35,7 @@ import {TaskInfoTabs} from "../../TaskInfoTabs/TaskInfoTabs.tsx";
 import {useTaskSearchParams} from "@/shared/hooks/useTaskSearchParams";
 import {getSelectedTaskSnapshots} from "@/entities/Task/model/selectors/getTaskValues.ts";
 import {FetchTaskSnapshots} from "@/features/TaskInfo/Snapshots/model/services/fetchTaskSnapshots.ts";
+import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 
 interface TaskInfoContentProps {
     className?: string;
@@ -51,6 +52,16 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
     const taskSnapshots = useSelector(getSelectedTaskSnapshots)
+
+    const userInfo = useSelector(getUserInfo);
+
+    const editIsPossible = useMemo(() => {
+        return (
+            userInfo?.allowedProjects.includes(selectedProject?.id) &&
+            !selectedTaskInfo?.archived &&
+            selectedTaskType !== 'snapshot'
+        );
+    }, [userInfo, selectedProject, selectedTaskInfo, selectedTaskType]);
 
     useEffect(() => {
         if (selectedProject) {
@@ -220,15 +231,15 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
     }[] = [
         {
             label: 'Приоритет:',
-            content: <EditableTaskPriority />
+            content: <EditableTaskPriority editIsPossible={editIsPossible}/>
         },
         {
             label: 'Оценка:',
-            content: <EditableTaskStoryPoints/>
+            content: <EditableTaskStoryPoints editIsPossible={editIsPossible}/>
         },
         {
             label: 'Сделать до:',
-            content: <EditableTaskDeadline/>
+            content: <EditableTaskDeadline editIsPossible={editIsPossible}/>
         },
     ]
 
@@ -241,6 +252,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     {(!selectedTaskInfo || selectedTaskInfoIsFetching)
                         ? <Typography className={cls.FieldName} size={'PARAGRAPH-18-REGULAR'}>Задача</Typography>
                         : <EditableTitle
+                            editIsPossible={editIsPossible}
                             uniqueTitle={selectedTaskInfo.uniqueTitle}
                             className={cls.EditableTitle}
                             taskTitle={selectedTaskInfo.title}
@@ -254,7 +266,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
 
                 </div>
 
-                <DropDown
+                {editIsPossible && <DropDown
                     menuItemsClassName={cls.CustomDropDown}
                     items={AddToTaskButtonItems}
                     trigger={<Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/>Добавить</Button>}
@@ -262,7 +274,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     gap={6}
                     fSize={14}
                     theme={Theme.LIGHT_THEME}
-                />
+                />}
 
                 <input
                     type="file"
@@ -295,6 +307,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                         taskDescription={selectedTaskInfo.description}
                         isEditDescriptionActive={isEditDescriptionActive}
                         setIsEditDescriptionActive={setIsEditDescriptionActive}
+                        editIsPossible={editIsPossible}
                     />
                 }
 
@@ -327,10 +340,10 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     }
                 </div>
 
-                {selectedTaskInfo && <TaskInfoTabs/>}
+                {selectedTaskInfo && <TaskInfoTabs editIsPossible={editIsPossible}/>}
             </div>
 
-            <AdditionalTaskInfo/>
+            <AdditionalTaskInfo editIsPossible={editIsPossible}/>
         </div>
     )
 };

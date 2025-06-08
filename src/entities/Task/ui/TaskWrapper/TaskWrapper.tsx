@@ -22,10 +22,13 @@ interface TaskWrapperProps {
     taskDescription: string | null;
     priority?: Priority
     assignee?: TaskUser
+    editIsPossible?: boolean;
 }
 
 export const TaskWrapper = forwardRef((props: TaskWrapperProps, ref: ForwardedRef<HTMLDivElement> ) => {
-    const { assignee, className, taskTitle, taskUniqueTitle, attributes,listeners, onClick, taskId, boardId, taskDescription, priority} = props;
+    const { assignee, className, taskTitle, taskUniqueTitle, attributes,
+        listeners, onClick, taskId, boardId, taskDescription, priority, editIsPossible = true
+    } = props;
 
     const [isTaskHover, setIsTaskHover] = useState<boolean>(false);
     const [isEditTitleActive, setIsEditTitleActive] = useState<boolean>(false)
@@ -41,9 +44,9 @@ export const TaskWrapper = forwardRef((props: TaskWrapperProps, ref: ForwardedRe
             className={classNames(cls.TaskWrapper, {[cls.taskEditActive]: isEditTitleActive}, [className])}>
 
             <div className={cls.TaskTopLine}>
-                <EditableTaskTitle isEditTitleActive={isEditTitleActive} setIsEditTitleActive={setIsEditTitleActive} taskDescription={taskDescription} taskId={taskId} boardId={boardId} isHover={isTaskHover} taskTitle={taskTitle}/>
+                <EditableTaskTitle editIsPossible={editIsPossible} isEditTitleActive={isEditTitleActive} setIsEditTitleActive={setIsEditTitleActive} taskDescription={taskDescription} taskId={taskId} boardId={boardId} isHover={isTaskHover} taskTitle={taskTitle}/>
 
-                <AdditionalTaskOptions taskId={taskId} uniqueTaskTitle={taskUniqueTitle} isHover={isTaskHover}/>
+                {editIsPossible && <AdditionalTaskOptions taskId={taskId} uniqueTaskTitle={taskUniqueTitle} isHover={isTaskHover}/>}
             </div>
 
             <div className={cls.TaskBottomLine}>

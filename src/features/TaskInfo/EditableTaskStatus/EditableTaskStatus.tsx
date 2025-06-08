@@ -17,10 +17,11 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 
 interface EditableTaskStatusProps {
     className?: string;
+    editIsPossible: boolean
 }
 
 export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
-    const { className } = props;
+    const { className, editIsPossible } = props;
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
     const selectedProject = useSelector(getProjectSelectedProject)
@@ -32,7 +33,7 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
     const [selectedBoardStatus, setSelectedBoardStatus] = useState<ComboBoxOption>(null)
 
     useEffect(() => {
-        if (selectedTaskBoardStatuses.length >= 1 && selectedTaskInfo?.id) {
+        if (selectedTaskBoardStatuses.length >= 1 && selectedTaskInfo?.id && !selectedTaskInfo?.archived) {
             setNormalizedBoardStatuses(
                 [...selectedTaskBoardStatuses.map(boardStatus => {
                     if (boardStatus.id === selectedTaskInfo?.statusId) {
@@ -77,6 +78,12 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
                 console.error(e)
             }
         }
+    }
+
+    if (selectedTaskInfo?.archived || !editIsPossible) {
+        return <div className={cls.NonActiveStatus}>
+            {selectedTaskInfo?.archived ? 'Архивирована' : selectedBoardStatus?.value || 'Статус'}
+        </div>
     }
 
     return (

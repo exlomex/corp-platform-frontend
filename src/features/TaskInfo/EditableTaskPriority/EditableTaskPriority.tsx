@@ -12,10 +12,11 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 
 interface EditableTaskPriorityProps {
     className?: string;
+    editIsPossible: boolean;
 }
 
 export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
-    const { className } = props;
+    const { className, editIsPossible} = props;
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo);
     const [fieldIsActive, setFieldIsActive] = useState(false);
@@ -32,7 +33,9 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
     }, [selectedTaskInfo]);
 
     const onFieldClickHandler = () => {
-        setFieldIsActive(true);
+        if (editIsPossible) {
+            setFieldIsActive(true);
+        }
     };
 
     const dispatch = useAppDispatch()
@@ -67,7 +70,10 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
             className={classNames(cls.EditableTaskPriority, {}, [className])}
         >
             {!fieldIsActive ? (
-                <div onClick={onFieldClickHandler} className={cls.priorityDisplay}>
+                <div onClick={onFieldClickHandler}
+                     className={classNames(cls.priorityDisplay,
+                        {[cls.EditIsNotPossible]: !editIsPossible}, [])}
+                >
                     {pickedPriority?.data?.svg}
                     <span>{pickedPriority?.label || 'Не выбрано'}</span>
                 </div>

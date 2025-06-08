@@ -19,10 +19,11 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 
 interface AdditionalEditableAssigneeProps {
     className?: string;
+    editIsPossible: boolean
 }
 
 export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProps) => {
-    const {className} = props;
+    const {className, editIsPossible} = props;
 
     const dispatch = useAppDispatch()
     const selectedCompanyId = useSelector(getUserCompanyId)
@@ -114,6 +115,7 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
             {!fieldIsActive ? (
                 selectedTaskInfo?.assignee?.id ? (
                     <AdditionalTaskAuthor
+                        editIsPossible={editIsPossible}
                         onClick={onFieldClickHandler}
                         firstName={selectedTaskInfo?.assignee?.firstName}
                         lastName={selectedTaskInfo?.assignee?.lastName}
@@ -121,6 +123,7 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
                     />
                 ) : (
                     <AdditionalTaskAuthor
+                        editIsPossible={editIsPossible}
                         firstName={'Не'}
                         lastName={'назначено'}
                         onClick={onFieldClickHandler}

@@ -25,4 +25,9 @@
     &:hover {
         background-color: var(--smart-outlined-bg-color-hover);
     }
+
+    &.EditIsNotPossible:hover {
+        background-color: transparent;
+        cursor: auto;
+    }
 }

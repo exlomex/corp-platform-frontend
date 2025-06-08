@@ -20,6 +20,7 @@ interface EditableColumnTitleProps {
     boardId: number;
     isEditDescriptionActive: boolean;
     setIsEditDescriptionActive: Dispatch<SetStateAction<boolean>>;
+    editIsPossible?: boolean;
 }
 
 export const EditableColumnTitle = (props: EditableColumnTitleProps) => {
@@ -29,7 +30,8 @@ export const EditableColumnTitle = (props: EditableColumnTitleProps) => {
         columnId,
         boardId,
         isEditDescriptionActive,
-        setIsEditDescriptionActive
+        setIsEditDescriptionActive,
+        editIsPossible = true,
     } = props;
 
     const [columnTitleState, setColumnTitleState] = useState<string>(columnTitle);
@@ -87,12 +89,19 @@ export const EditableColumnTitle = (props: EditableColumnTitleProps) => {
     return (
         <div
             onClick={e => e.stopPropagation()}
-            className={classNames(cls.EditableColumnTitle, { [cls.isActiveEditableArea]: isEditDescriptionActive }, [className])}
+            className={classNames(cls.EditableColumnTitle, {
+                [cls.isActiveEditableArea]: isEditDescriptionActive,
+                [cls.EditIsNotPossible]: !editIsPossible
+            }, [className])}
         >
             {!isEditDescriptionActive && (
                 <div
-                    className={cls.ColumnTitleWrapper}
-                    onClick={() => setIsEditDescriptionActive(true)}
+                    className={classNames(cls.ColumnTitleWrapper, {}, [])}
+                    onClick={() => {
+                        if (editIsPossible) {
+                            setIsEditDescriptionActive(true)
+                        }
+                    }}
                 >
                     <span className={cls.ColumnTitle}>{columnTitleState}</span>
                 </div>

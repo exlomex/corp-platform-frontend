@@ -21,10 +21,11 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 
 interface EditableTaskParentProps {
     className?: string;
+    editIsPossible: boolean
 }
 
 export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => {
-    const { className } = props;
+    const { className, editIsPossible } = props;
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
     const dispatch = useAppDispatch();
@@ -97,6 +98,7 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                     await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo?.uniqueTitle, projectId: selectedProject.id})).unwrap()
                     setEditIsActive(false)
                 } catch (e) {
+                    setEditIsActive(false)
                     console.error(e)
                 }
             } else {
@@ -124,7 +126,13 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
     return (
         <div className={classNames(cls.EditableTaskParent, {}, [className])}>
             {!editIsActive
-                ? (<p onClick={() => setEditIsActive(true)} className={cls.ParentName}>{selectedTaskInfo?.parent?.title ? `${selectedTaskInfo?.parent?.uniqueTitle}  ${selectedTaskInfo?.parent?.title}` : 'Нет'}</p>)
+                ? (<p onClick={() => {
+                        if (editIsPossible) {
+                            setEditIsActive(true)
+                        }}}
+                      className={classNames(cls.ParentName, {[cls.EditIsNotPossible]: !editIsPossible}, [])}>
+                        {selectedTaskInfo?.parent?.title ? `${selectedTaskInfo?.parent?.uniqueTitle}  ${selectedTaskInfo?.parent?.title}` : 'Нет'}
+                    </p>)
                 : (<>{normalizedBoardTasks &&
                     <ComboBox
                         value={selectedTask}

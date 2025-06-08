@@ -23,6 +23,10 @@
     &.isActiveEditableArea::before {
         background-color: transparent;
     }
+
+    &.EditIsNotPossible::before {
+        background-color: transparent;
+    }
 }
 
 .isActiveEditableArea {

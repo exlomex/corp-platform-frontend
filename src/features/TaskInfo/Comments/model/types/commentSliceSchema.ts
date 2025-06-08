@@ -16,4 +16,6 @@ export interface CommentI {
 
 export interface CommentSliceSchema {
     taskComments?: CommentI[]
+    taskCommentsIsFetching: boolean;
+    taskCommentsIsFirstLoading: boolean;
 }

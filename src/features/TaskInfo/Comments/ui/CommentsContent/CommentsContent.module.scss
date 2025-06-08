@@ -9,4 +9,12 @@
     display: flex;
     gap: 15px;
     margin-top: 20px;
+
+    &.EmptyCommentsContainer {
+        margin-top: 10px;
+    }
+}
+
+.EmptyComments {
+    font: var(--font-paragraph-14-Regular)
 }

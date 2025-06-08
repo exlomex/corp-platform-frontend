@@ -17,6 +17,7 @@ import {
     getUserBoardsBySelectedProject
 } from "@/entities/Board";
 import NoDataIllustration from '@/shared/assets/illustations/noDataIllustration.svg'
+import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 
 interface BoardsPageContentProps {
     className?: string;
@@ -42,13 +43,15 @@ export const BoardsPageContent = (props: BoardsPageContentProps) => {
         }
     }, [dispatch, selectedProject?.id]);
 
+    const userInfo = useSelector(getUserInfo);
+    const editIsPossible = userInfo?.allowedProjects.includes(selectedProject?.id)
 
     return (
         <div className={classNames(cls.BoardsPageContent, {}, [className])}>
             <div className={cls.TopLine}>
                 <Typography size={'PARAGRAPH-18-REGULAR'}
                             className={cls.TableHeading}>{selectedProject?.title}</Typography>
-                <Button onClick={onNewBoardClickHandler} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать доску</Button>
+                {editIsPossible && <Button onClick={onNewBoardClickHandler} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать доску</Button>}
             </div>
             {/*<MobileMenu/>*/}
 
