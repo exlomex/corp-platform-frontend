@@ -10,7 +10,7 @@
         border-radius: 4px;
         position: absolute;
         width: 103%;
-        height: 130%;
+        height: calc(100% + 5px);
         content: '';
         background-color: var(--task-edit-area-bg-color-hover);
         top: 50%;

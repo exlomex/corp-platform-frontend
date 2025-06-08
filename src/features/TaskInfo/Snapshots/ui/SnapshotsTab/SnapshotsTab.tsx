@@ -18,13 +18,16 @@ export const SnapshotsTab = (props: SnapshotsTabProps) => {
     const selectedTaskInfo = useSelector(getSelectedTaskInfo);
     const dispatch = useAppDispatch();
 
+    const selectedTaskSnapshots = useSelector(getSelectedTaskSnapshots);
+
     useEffect(() => {
-        if (selectedTaskInfo?.id) {
+        // console.log(selectedTaskInfo?.id, !selectedTaskSnapshots, selectedTaskSnapshots?.length === 0);
+
+        if (selectedTaskInfo?.id && (!selectedTaskSnapshots || selectedTaskSnapshots.length === 0)) {
+            console.log('call');
             dispatch(FetchTaskSnapshots({taskId: selectedTaskInfo.id}));
         }
-    }, [dispatch, selectedTaskInfo]);
-
-    const selectedTaskSnapshots = useSelector(getSelectedTaskSnapshots);
+    }, [dispatch, selectedTaskInfo, selectedTaskSnapshots]);
 
     if (!selectedTaskSnapshots) {
         return <></>;

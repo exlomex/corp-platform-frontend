@@ -15,11 +15,9 @@ export const TaskInfoTabs = (props: TaskInfoTabsProps) => {
     const TabListItems = useMemo<TabListItem[]>(() => [
         {
             content: 'Комментарии',
-            onClick: () => (console.log(123))
         },
         {
             content: 'История версий',
-            onClick: () => (console.log(123))
         }
     ], []);
 

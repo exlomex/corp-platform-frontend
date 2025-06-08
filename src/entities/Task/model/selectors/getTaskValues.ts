@@ -8,6 +8,10 @@ export const getBoardTasks = createSelector(getTaskValues, (state: TaskSliceSche
     return state.boardTasks
 })
 
+export const getBoardTasksIsFirstLoading = createSelector(getTaskValues, (state: TaskSliceSchema) => {
+    return state.boardTasksIsFirstLoading
+})
+
 export const getAddSubTaskModalIsOpen = createSelector(getTaskValues, (state: TaskSliceSchema) => {
     return state.addSubTaskModalIsOpen
 })

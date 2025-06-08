@@ -85,7 +85,8 @@ export const TaskTree = (props: TaskTreeProps) => {
                     ? <></>
                     : (
                         treeTasksOriginal?.length >= 1
-                            ? (normalizedTreeTasks?.length >= 1 && treeTasksOriginal.length >= 1 && <Table<NormalizedTreeItem> columns={treeColumns} data={normalizedTreeTasks}/>)
+                            ? (normalizedTreeTasks?.length >= 1 && treeTasksOriginal.length >= 1 &&
+                                <Table<NormalizedTreeItem> columns={treeColumns} data={normalizedTreeTasks} className={cls.TreeTaskTable}/>)
                             : (<div className={cls.NoDataContainer}>
                                     <div className={cls.NoData}>
                                         <NoDataIllustration/>

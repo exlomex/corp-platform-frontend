@@ -9,3 +9,23 @@
     justify-content: space-between;
     margin-bottom: 15px;
 }
+
+.HeadingWrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.CountOfTasks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-width: 24px;
+    height: 24px;
+    font: var(--font-paragraph-16-Regular);
+    border-radius: 6px;
+
+    background-color: var(--file-extension-bg-color);
+    color: var(--file-extension-text-color);
+}

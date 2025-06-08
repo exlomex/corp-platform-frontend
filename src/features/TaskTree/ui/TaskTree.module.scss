@@ -1,5 +1,5 @@
 .TaskTree {
-    height: calc(100% - 120px);
+
 }
 
 .LinkTask {
@@ -49,4 +49,8 @@
     svg {
         flex-shrink: 0;
     }
+}
+
+.TreeTaskTable {
+    max-height: calc(100vh - 230px);
 }

@@ -1,4 +1,10 @@
-import {TaskI, TaskSliceSchema, TaskSnapshots, TreeTask} from "../types/taskSliceSchema.ts";
+import {
+    TaskI,
+    TaskNavigationHistory,
+    TaskSliceSchema,
+    TaskSnapshots,
+    TreeTask
+} from "../types/taskSliceSchema.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AddSubTaskService} from "../services/addSubTaskService.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
@@ -14,7 +20,8 @@ const initialState: TaskSliceSchema = {
     taskNavigationHistory: [],
     projectTreeTasks: [],
     projectsTreeTasksIsFetching: false,
-    projectsTreeTasksIsFirstLoading: true
+    projectsTreeTasksIsFirstLoading: true,
+    boardTasksIsFirstLoading: true,
 }
 
 export const TaskSlice = createSlice({
@@ -34,7 +41,7 @@ export const TaskSlice = createSlice({
         setSubTaskError: (state: TaskSliceSchema, action: PayloadAction<string | undefined>) => {
             state.addSubTaskError = action.payload
         },
-        pushToNavigationHistory: (state: TaskSliceSchema, action: PayloadAction<string>) => {
+        pushToNavigationHistory: (state: TaskSliceSchema, action: PayloadAction<TaskNavigationHistory>) => {
             state.taskNavigationHistory.push(action.payload);
         },
         popFromNavigationHistory: (state: TaskSliceSchema) => {
@@ -57,6 +64,9 @@ export const TaskSlice = createSlice({
         },
         setBoardTasks: (state: TaskSliceSchema, action: PayloadAction<TaskI[]>) => {
             state.boardTasks = action.payload;
+        },
+        setBoardTasksIsFirstLoading: (state: TaskSliceSchema, action: PayloadAction<boolean>) => {
+            state.boardTasksIsFirstLoading = action.payload;
         },
         setIsOpenSubTaskModal: (state: TaskSliceSchema, action: PayloadAction<boolean>) => {
             state.addSubTaskModalIsOpen = action.payload;

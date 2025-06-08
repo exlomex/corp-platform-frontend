@@ -1,5 +1,10 @@
 .SubTaskModalContent {
     width: 600px;
+    height: 27vh;
+
+    .SubTaskOptions {
+        max-height: 105px;
+    }
 }
 
 .ErrorMessage {
@@ -41,4 +46,13 @@
 
 .formLabel {
     margin-bottom: 5px;
+}
+
+
+
+.SubTaskForm {
+    height: calc(27vh - 100px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './TaskInfoContent.module.scss';
-import React, {ReactElement, ReactNode, useEffect, useRef, useState} from "react";
+import React, {ReactNode, useEffect, useRef, useState} from "react";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {useSelector} from "react-redux";
@@ -32,6 +32,9 @@ import ClipPaperIcon from '@/shared/assets/icons/mediumClipPaperIcon.svg'
 import {EditableTaskStoryPoints} from "../../EditableTaskStoryPoints/EditableTaskStoryPoints.tsx";
 import {EditableTaskDeadline} from "../../EditableTaskDeadline/EditableTaskDeadline.tsx";
 import {TaskInfoTabs} from "../../TaskInfoTabs/TaskInfoTabs.tsx";
+import {useTaskSearchParams} from "@/shared/hooks/useTaskSearchParams";
+import {getSelectedTaskSnapshots} from "@/entities/Task/model/selectors/getTaskValues.ts";
+import {FetchTaskSnapshots} from "@/features/TaskInfo/Snapshots/model/services/fetchTaskSnapshots.ts";
 
 interface TaskInfoContentProps {
     className?: string;
@@ -44,11 +47,54 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
     const selectedUniqueTitle = useSelector(getSelectedTaskUniqueTitle)
     const selectedProject = useSelector(getProjectSelectedProject)
 
-    useEffect(() => {
-        if (selectedUniqueTitle) dispatch(fetchTaskInfoService({uniqueTitle: selectedUniqueTitle, projectId: selectedProject?.id}))
-    }, [dispatch, selectedProject, selectedUniqueTitle]);
+    const {selectedTaskType, selectedSnapshotVersion, selectedTask, queryParams} = useTaskSearchParams()
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
+    const taskSnapshots = useSelector(getSelectedTaskSnapshots)
+
+    useEffect(() => {
+        if (selectedProject) {
+            if (selectedTaskType === 'snapshot') {
+                const fetchData = async () => {
+                    if (!taskSnapshots) {
+                        if (!selectedTaskInfo) {
+                            const response = await dispatch(fetchTaskInfoService({
+                                uniqueTitle: selectedUniqueTitle,
+                                projectId: selectedProject?.id,
+                                dispatchData: false
+                            })).unwrap();
+                            const fetchedTaskSnapshots = await dispatch(FetchTaskSnapshots({taskId: response.id})).unwrap();
+                            const currentSnapshot = fetchedTaskSnapshots.find(snapshot => String(snapshot.version) === selectedSnapshotVersion);
+                            if (currentSnapshot) {
+                                dispatch(TaskActions.setSelectedTaskInfo(currentSnapshot.snapshot))
+                            }
+                        }
+                    } else {
+                        const currentSnapshot = taskSnapshots.find(
+                            snapshot => String(snapshot.version) === selectedSnapshotVersion
+                        );
+                        console.log(currentSnapshot, selectedTaskInfo);
+                        if (
+                            currentSnapshot
+                        ) {
+                            console.log(131312);
+                            dispatch(TaskActions.setSelectedTaskInfo(currentSnapshot.snapshot));
+                        }
+                    }
+                };
+
+                fetchData();
+            }
+
+            if (selectedTaskType === 'task') {
+                if (!selectedTaskInfo && selectedUniqueTitle) {
+                    dispatch(fetchTaskInfoService({uniqueTitle: selectedUniqueTitle, projectId: selectedProject?.id}))
+                }
+            }
+        }
+    }, [dispatch, selectedProject, selectedSnapshotVersion, selectedTaskType, selectedUniqueTitle, taskSnapshots]);
+
+
     const selectedTaskInfoIsFetching = useSelector(getSelectedTaskInfoIsFetching)
 
     const [isEditTitleActive, setIsEditTitleActive] = useState<boolean>(false)
@@ -67,8 +113,17 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
     const navigate = useNavigate()
 
     const onSubtaskClickHandler = (taskTitle: string) => () => {
-        if (selectedTaskInfo?.uniqueTitle) {
-            dispatch(TaskActions.pushToNavigationHistory(selectedTaskInfo.uniqueTitle));
+        if (selectedSnapshotVersion) {
+            dispatch(TaskActions.pushToNavigationHistory({
+                historyTaskType: "snapshot",
+                uniqueTitle: selectedTask,
+                selectedSnapshotVersion: selectedSnapshotVersion,
+            }))
+        } else if (selectedTask) {
+            dispatch(TaskActions.pushToNavigationHistory({
+                historyTaskType: "task",
+                uniqueTitle: selectedTask,
+            }))
         }
 
         dispatch(StatusActions.setSelectedTaskBoardStatuses([]))
@@ -84,24 +139,31 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
         });
     }
 
+
     const taskHistory = useSelector(getTaskNavigationHistory);
 
     const onBackButtonClickHandler = () => {
         if (taskHistory.length === 0) return;
 
-        const previousTitle = taskHistory[taskHistory.length - 1];
+        const previousHistoryItem = taskHistory[taskHistory.length - 1];
 
         dispatch(TaskActions.popFromNavigationHistory());
         dispatch(TaskActions.setSelectedTaskInfo(undefined));
         dispatch(CommentActions.resetSlice());
         dispatch(StatusActions.setSelectedTaskBoardStatuses([]))
-
         setIsEditDescriptionActive(false)
 
-        navigate({
-            pathname: location.pathname,
-            search: `?selectedTask=${previousTitle}`,
-        });
+        if (previousHistoryItem.historyTaskType === 'task') {
+            navigate({
+                pathname: location.pathname,
+                search: `?selectedTask=${previousHistoryItem.uniqueTitle}`,
+            });
+        } else {
+            navigate({
+                pathname: location.pathname,
+                search: `?selectedTask=${previousHistoryItem.uniqueTitle}&selectedSnapshotVersion=${previousHistoryItem.selectedSnapshotVersion}`,
+            });
+        }
     };
 
     const AddToTaskButtonItems: DropdownItem[] = [
@@ -174,6 +236,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
         <div className={classNames(cls.TaskInfoContent, {}, [className])}>
             <div className={cls.TaskInfoLeftSide}>
                 {taskHistory.length >= 1 && <Button buttonType={'SMART_WITH_ICON_BTN_OUTLINED'} onClick={onBackButtonClickHandler} className={cls.PrevButton}><BackIcon/> Назад</Button>}
+
                 <div className={cls.editableTitleWrapper}>
                     {(!selectedTaskInfo || selectedTaskInfoIsFetching)
                         ? <Typography className={cls.FieldName} size={'PARAGRAPH-18-REGULAR'}>Задача</Typography>

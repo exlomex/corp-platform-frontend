@@ -16,7 +16,7 @@ export const FetchUserBoardsByProjectId = createAsyncThunk<
 
     try {
         // /projects/1/boards?projectId=1
-        const response = await extra.api.get(`/projects/${projectId}/boards?projectId=${projectId}`);
+        const response = await extra.api.get<BoardInterface[]>(`/projects/${projectId}/boards?projectId=${projectId}`);
         const data: BoardInterface[] | undefined = response.data;
 
         if (!data) {

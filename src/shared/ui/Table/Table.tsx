@@ -41,7 +41,7 @@ const ColumnTableDataAlignClasses: Record<alignVariants, string> = {
 }
 
 export const Table = <T extends object>(props: TableProps<T>) => {
-    const {columns, data } = props;
+    const {columns, data, className } = props;
 
     const [expandedRows, setExpandedRows] = useState<Record<number, boolean>>({});
 
@@ -65,11 +65,12 @@ export const Table = <T extends object>(props: TableProps<T>) => {
                                 ? column.element(row)
                                 : row[column.key as keyof T] as ReactNode;
 
-                        return (<td
-                            className={classNames(cls.TableData, {}, [ColumnTableDataAlignClasses[column?.alignTableData]])}
-                            key={String(column.key)}
-                            style={{width: column.alignColumn ? '100%' : column?.width}}
-                        >
+                        return (
+                            <td
+                                className={classNames(cls.TableData, {}, [ColumnTableDataAlignClasses[column?.alignTableData]])}
+                                key={String(column.key)}
+                                style={{width: column.alignColumn ? '100%' : column?.width}}
+                            >
                             {
                                 column.key === 'title'
                                     ? (hasChildren ? (
@@ -109,7 +110,7 @@ export const Table = <T extends object>(props: TableProps<T>) => {
     };
 
     return (
-        <div className={cls.TableWrapper}>
+        <div className={classNames(cls.TableWrapper, {}, [className])}>
             <table className={classNames(cls.Table, {}, [])}>
                 <thead className={cls.TableHead}>
                 <tr>

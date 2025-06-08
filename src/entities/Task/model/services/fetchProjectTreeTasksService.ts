@@ -11,7 +11,7 @@ export interface TasksTreeFilters {
     priorities?: PriorityKeys[],
     text?: string,
     resolutions?: ResolutionKeys[]
-    deadlineStart?: string, // "2025-05-15"
+    deadlineStart?: string,
     deadlineEnd?: string
     storyPointsFrom?: number,
     storyPointsTo?: number
@@ -28,15 +28,16 @@ export const FetchProjectTreeTasksService = createAsyncThunk<
 >('treeTasks/fetch', async (fetchData: FetchProjectTreeTasksInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
     try {
-        const response = await extra.api.post<TreeTask[]>(`/projects/${fetchData.projectId}/tasks/tree`, fetchData.filters || {});
+        const response = await extra.api.post<TreeTask[]>(
+            `/projects/${fetchData.projectId}/tasks/tree`, fetchData.filters || {});
         const data: TreeTask[] | undefined = response.data;
 
         if (!data) {
             throw new Error(response.statusText);
         }
 
-        await dispatch(TaskActions.setTreeTasks(data))
-        await dispatch(TaskActions.setProjectsTreeTasksIsFirstLoading(false))
+        dispatch(TaskActions.setTreeTasks(data))
+        dispatch(TaskActions.setProjectsTreeTasksIsFirstLoading(false))
         return response.data;
     } catch (e) {
         return rejectWithValue(e.message || 'error');

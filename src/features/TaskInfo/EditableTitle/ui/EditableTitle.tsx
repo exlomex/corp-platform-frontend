@@ -45,6 +45,10 @@ export const EditableTitle = (props: EditableTitleProps) => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
     useEffect(() => {
+        setTaskTitleState(taskTitle)
+    }, [taskTitle]);
+
+    useEffect(() => {
         if (isEditTitleActive) {
             const textArea = textAreaRef?.current
             textArea?.focus()

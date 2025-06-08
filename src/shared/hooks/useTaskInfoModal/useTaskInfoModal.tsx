@@ -1,9 +1,10 @@
-import { useEffect, useCallback } from "react";
+import {useEffect, useCallback, useMemo} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TaskActions, getTaskInfoModalIsOpen } from "@/entities/Task";
 import { CommentActions } from "@/features/TaskInfo";
 import { StatusActions } from "@/entities/Status";
 import {useLocation, useNavigate} from "react-router";
+import {useTaskSearchParams} from "@/shared/hooks/useTaskSearchParams";
 
 export const useTaskInfoModal = () => {
     const dispatch = useDispatch();
@@ -12,8 +13,7 @@ export const useTaskInfoModal = () => {
 
     const isModalOpen = useSelector(getTaskInfoModalIsOpen);
 
-    const queryParams = new URLSearchParams(location.search);
-    const selectedTask = queryParams.get("selectedTask");
+    const {selectedTask, queryParams, selectedTaskType} = useTaskSearchParams()
 
     useEffect(() => {
         if (selectedTask) {
@@ -28,10 +28,14 @@ export const useTaskInfoModal = () => {
         dispatch(TaskActions.setTaskInfoModalIsOpen(false));
         dispatch(TaskActions.resetNavigationHistory());
         dispatch(StatusActions.setSelectedTaskBoardStatuses([]));
+        dispatch(TaskActions.setSelectedTaskSnapshots([]));
         queryParams.delete("selectedTask");
+        if (selectedTaskType === 'snapshot') {
+            queryParams.delete("selectedSnapshotVersion");
+        }
         dispatch(TaskActions.setSelectedTaskUniqueTitle(""));
         navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
-    }, [dispatch, navigate, location.pathname, queryParams]);
+    }, [dispatch, queryParams, selectedTaskType, navigate, location.pathname]);
 
     return {
         isModalOpen,

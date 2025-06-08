@@ -24,6 +24,7 @@ export const FetchBoardTasks = createAsyncThunk<
         }
 
         dispatch(TaskActions.setBoardTasks(data))
+        dispatch(TaskActions.setBoardTasksIsFirstLoading(false))
         return response.data;
     } catch (e) {
         return rejectWithValue(e.message || 'error');

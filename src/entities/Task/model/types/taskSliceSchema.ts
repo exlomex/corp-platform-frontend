@@ -1,5 +1,6 @@
 import {Priority} from "../../const/priorityConsts.tsx";
 import {File} from "@/features/File";
+import {Resolution} from "@/entities/Task/const/Resolution.tsx";
 
 export interface TaskUser {
     id: number,
@@ -47,7 +48,7 @@ export interface TreeTask {
     status: {
         id: number,
         title: string,
-        "resolution": "ACTIVE"
+        resolution: Resolution
     },
     author: TaskUser,
     assignee: TaskUser,
@@ -65,8 +66,24 @@ export interface TaskSnapshots {
     modifiedDate: string,
 }
 
+export type HistoryTaskTypes = 'task' | 'snapshot'
+
+type NavigationTaskType = {
+    uniqueTitle: string;
+    historyTaskType: 'task';
+}
+
+type NavigationTaskSnapshotType = {
+    uniqueTitle: string;
+    selectedSnapshotVersion: string;
+    historyTaskType: 'snapshot';
+}
+
+export type TaskNavigationHistory = NavigationTaskType | NavigationTaskSnapshotType;
+
 export interface TaskSliceSchema {
     boardTasks: TaskI[]
+    boardTasksIsFirstLoading: boolean
 
     addSubTaskModalIsOpen: boolean;
     addSubTaskSelectedTask?: {
@@ -83,9 +100,10 @@ export interface TaskSliceSchema {
     selectedTaskInfoIsFetching: boolean;
     selectedTaskSnapshots?: TaskSnapshots[]
 
-    taskNavigationHistory: string[],
+    taskNavigationHistory: TaskNavigationHistory[],
 
     projectTreeTasks: TreeTask[],
     projectsTreeTasksIsFetching: boolean
     projectsTreeTasksIsFirstLoading: boolean
 }
+

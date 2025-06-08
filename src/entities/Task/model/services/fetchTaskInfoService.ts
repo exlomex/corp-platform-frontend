@@ -7,23 +7,24 @@ import {ThunkConfig} from "@/app/providers/Store";
 export interface fetchTaskInfoServiceInputData {
     uniqueTitle: string
     projectId: number
+    dispatchData?: boolean
 }
 export const fetchTaskInfoService = createAsyncThunk<
     TaskI,
     fetchTaskInfoServiceInputData,
     ThunkConfig<string>
->('tasks/fetch', async (fetchData: fetchTaskInfoServiceInputData, thunkApi) => {
+>('tasks/fetch', async ({projectId, uniqueTitle, dispatchData = true}: fetchTaskInfoServiceInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {
-        const response = await extra.api.get<TaskI>(`/projects/${fetchData.projectId}/tasks/title/${fetchData.uniqueTitle}`);
-        const data: TaskI | undefined = response.data;
+        const response = await extra.api.get<TaskI>(`/projects/${projectId}/tasks/title/${uniqueTitle}`);
+        const data = response.data;
 
         if (!data) {
             throw new Error(response.statusText);
         }
 
-        dispatch(TaskActions.setSelectedTaskInfo(data))
+        if (dispatchData) dispatch(TaskActions.setSelectedTaskInfo(data));
         return response.data;
     } catch (e) {
         return rejectWithValue(e.message || 'error');
