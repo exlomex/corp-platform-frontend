@@ -71,30 +71,30 @@ export const ProjectUsersTable = (props: ProjectUsersTableProps) => {
     const [normalizedProjectOptions, setNormalizedProjectOptions] = useState<ComboBoxOption[]>([])
 
     useEffect(() => {
-        if (companyProjects?.length >= 1) {
-            const pickedProject = companyProjects[0]
-
+        if (companyProjects?.length >= 1 && !settingSelectedProject) {
+            const pickedProject = companyProjects[0];
             dispatch(ProjectActions.setSettingsSelectedProject({
                 id: pickedProject.id,
                 label: pickedProject.title,
                 value: String(pickedProject.id)
-            }))
-
-            setNormalizedProjectOptions(
-                companyProjects.map(project => {
-                    return {
-                        id: project.id,
-                        value: String(project.id),
-                        label: project.title
-                    }
-                })
-            )
+            }));
         }
-    }, [companyProjects, dispatch]);
+    }, [companyProjects, dispatch, settingSelectedProject]);
 
     useEffect(() => {
-        if (settingSelectedProject?.value) {
-            console.log(settingSelectedProject.value);
+        if (companyProjects?.length >= 1) {
+            setNormalizedProjectOptions(
+                companyProjects.map(project => ({
+                    id: project.id,
+                    value: String(project.id),
+                    label: project.title
+                }))
+            );
+        }
+    }, [companyProjects]);
+
+    useEffect(() => {
+        if (settingSelectedProject) {
             dispatch(FetchUsersInProject({projectId: +settingSelectedProject.value}))
         }
     }, [dispatch, settingSelectedProject]);
@@ -118,7 +118,7 @@ export const ProjectUsersTable = (props: ProjectUsersTableProps) => {
                 <div className={cls.ProjectPickerBottomLine}>
                     <div className={cls.ProjectSelect}>
                         <Typography size={'PARAGRAPH-16-REGULAR'} className={cls.SelectHeading}>Выберите проект</Typography>
-                        <Select  options={normalizedProjectOptions} value={settingSelectedProject} onSelectFunc={onSelectNewProjectHandler}/>
+                        <Select options={normalizedProjectOptions} value={settingSelectedProject} onSelectFunc={onSelectNewProjectHandler}/>
                     </div>
 
                     <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onAddButtonClick}>Добавить доступ</Button>

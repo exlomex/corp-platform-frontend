@@ -11,6 +11,7 @@ import {Button} from "@/shared/ui/Button";
 import {FetchUserProjects} from "@/entities/Project/model/services/fetchUserProjects.ts";
 import {ProjectDataInterface, selectNewProject} from "@/entities/Project";
 import {useNavigate, useParams} from "react-router";
+import {fetchUserInfo} from "@/features/ProfileTab/model/services/fetchUserInfo.ts";
 
 interface CreateNewProjectFormProps {
     className?: string;
@@ -43,7 +44,7 @@ export const CreateNewProjectForm = (props: CreateNewProjectFormProps) => {
         try {
             const response: ProjectDataInterface = await dispatch(createNewProjectService(inviteData)).unwrap()
             await dispatch(FetchUserProjects()).unwrap()
-            console.log(response);
+            await dispatch(fetchUserInfo())
             await selectNewProject(
                 {id: response.id, title: response.title, projectKey: response.shortName},
                 dispatch,

@@ -12,6 +12,7 @@ import {UserSliceActions} from "@/entities/User";
 import {useNavigate} from "react-router";
 import {getRouteCompanyCreate, getRouteSettings} from "@/shared/const/router.ts";
 import {Theme} from "@/shared/types/theme.ts";
+import {TaskActions} from "@/entities/Task";
 
 interface ProfileTabProps {
     className?: string;
@@ -50,6 +51,7 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
     const onLogoutClick = () => {
         dispatch(UserSliceActions.logout())
         dispatch(UserSliceActions.resetUser())
+        dispatch(TaskActions.resetTasks())
     }
 
     const profileTabItems: DropdownItem[] = [
