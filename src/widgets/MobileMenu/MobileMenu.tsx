@@ -95,14 +95,14 @@ export const MobileMenu = () => {
                     <LightLogo />
                 </Link>
 
-                <button
+                <div
                     className={classNames(cls.burger, { [cls.open]: isOpen })}
                     onClick={toggleMenu}
                 >
                     <span className={cls.line}></span>
                     <span className={cls.line}></span>
                     <span className={cls.line}></span>
-                </button>
+                </div>
             </div>
 
                 <div className={classNames(cls.MenuContent, {[cls.MenuIsOpen]: isOpen}, [])}>
