@@ -11,7 +11,7 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 import {useTheme} from "@/shared/hooks/useTheme";
 import {Link, useNavigate, useParams} from "react-router";
 import {useCallback, useEffect} from "react";
-import {getIsUserBoardsFetching, getIsUserBoardsFirstLoading, getUserBoardsBySelectedProject} from "@/entities/Board";
+import {getUserBoardsBySelectedProject} from "@/entities/Board";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {getRouteBoards, getRouteProjectBoard} from "@/shared/const/router.ts";
@@ -69,6 +69,7 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
 
     return (
         <Popover
+            gap={isMobile ? 6 : 20}
             direction={isMobile ? 'bottom' : 'right'}
             className={classNames(cls.BoardTabContent, {}, [className])}
             trigger={<BoardTabButton isCollapsed={isCollapsed}/>}
@@ -76,7 +77,7 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
         >
             {({open, close}) => (
                 <div
-                    className={classNames(cls.BoardsWrapper, {}, [theme === 'light_theme' ? 'dark_theme' : 'light_theme'])}
+                    className={classNames(cls.BoardsWrapper, {[cls.isMobileWrapper]: isMobile}, [theme === 'light_theme' ? 'dark_theme' : 'light_theme'])}
                 >
                     <div className={cls.BoardTabTopLine}>
                         <p className={cls.BoardHeader}>{selectedProject && selectedProject.title}</p>

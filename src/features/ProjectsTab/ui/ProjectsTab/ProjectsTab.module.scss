@@ -1,5 +1,5 @@
 .ProjectsTab {
-
+    width: 100%;
 }
 
 .ProjectsWrapper {
@@ -29,7 +29,8 @@
     align-items: center;
     cursor: pointer;
     border-radius: 6px;
-    height: 44px;
+    height: fit-content;
+    max-height: 60px;
 
     &:hover {
         background-color: var(--popup-field-hover-bg-darker);
@@ -45,6 +46,14 @@
     }
 }
 
+.ProjectItemTitle {
+    text-overflow: ellipsis;
+    max-height: 45px;
+    //display: block;
+    word-break: break-word;
+    overflow: hidden;
+}
+
 .ProjectIcon {
     height: 24px;
     width: 24px;
@@ -52,4 +61,12 @@
 
 .NotFoundedTitle {
     padding: 0 15px;
+}
+
+.ProjectsPopoverPanel {
+    width: calc(100% - 32px);
+}
+
+.MobileWrapper {
+    width: 100%;
 }

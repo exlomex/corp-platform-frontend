@@ -14,7 +14,7 @@ export const TaskInfoModal = (props: TaskInfoModalProps) => {
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} className={classNames(cls.TaskInfoModal, {}, [className])}>
-            <TaskInfoContent/>
+            <TaskInfoContent onClose={onClose} />
         </Modal>
     )
 };

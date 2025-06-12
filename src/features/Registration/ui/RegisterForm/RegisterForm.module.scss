@@ -1,5 +1,6 @@
 .RegisterForm {
     width: 600px;
+    padding: 20px;
 }
 
 .RegisterFormHeading {
@@ -18,6 +19,11 @@
     display: flex;
     margin-bottom: 13px;
     gap: 0 20px;
+    flex-wrap: wrap;
+}
+
+.RegisterTopLineField {
+    flex-grow: 1;
 }
 
 .BottomFormContent {
@@ -38,5 +44,11 @@
 
     &:hover {
         color: var(--purple-color-active);
+    }
+}
+
+@media (max-height: 700px) {
+    .RegisterForm {
+        height: 100%;
     }
 }

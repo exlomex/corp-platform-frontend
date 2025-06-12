@@ -16,11 +16,12 @@ import {TaskActions} from "@/entities/Task";
 
 interface ProfileTabProps {
     className?: string;
-    isCollapsed: boolean
+    isCollapsed?: boolean
+    isMobile?: boolean
 }
 
 export const ProfileTab = memo((props: ProfileTabProps) => {
-    const { className, isCollapsed } = props;
+    const { className, isCollapsed = false, isMobile = false} = props;
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -75,7 +76,9 @@ export const ProfileTab = memo((props: ProfileTabProps) => {
 
     return (
         <DropDown
-            direction={'right end'}
+            gap={isMobile ? 6 : 20}
+            fullWidth={isMobile ? true : null}
+            direction={isMobile ? 'bottom' : 'right end'}
             theme={Theme.DARK_THEME}
             className={classNames(cls.ProfileTab, {}, [])}
             items={profileTabItems}

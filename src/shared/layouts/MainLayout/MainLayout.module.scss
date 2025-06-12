@@ -1,16 +1,22 @@
 .MainLayout {
     height: 100%;
     display: flex;
+
+    .MainContent {
+        width: calc(100% - 210px);
+        &.isCollapsed {
+            width: calc(100% - 66px);
+        }
+    }
 }
 
 .AsideMenu {
 
 }
 
-.MainContent {
-    width: calc(100% - 210px);
-    &.isCollapsed {
-        width: calc(100% - 66px);
-    }
 
+
+.MobileLayout {
+    display: flex;
+    flex-direction: column;
 }

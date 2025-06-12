@@ -7,14 +7,24 @@ import {getUserAsideIsCollapsed} from "@/entities/User";
 
 interface MainLayoutProps {
     className?: string;
-    aside: ReactElement;
+    aside?: ReactElement;
     content: ReactElement;
+    mobileMenu?: ReactElement;
 }
 
 export const MainLayout = (props: MainLayoutProps) => {
-    const { className, content, aside } = props;
+    const { className, content, aside, mobileMenu } = props;
 
     const isCollapsed = useSelector(getUserAsideIsCollapsed)
+
+    if(mobileMenu) {
+        return (
+            <div className={classNames(cls.MobileLayout, {}, [className])}>
+                <div className={cls.MobileMenu}>{mobileMenu}</div>
+                <div className={classNames(cls.MainContent, {[cls.isCollapsed]: isCollapsed}, [])}>{content}</div>
+            </div>
+        )
+    }
 
     return (
         <div className={classNames(cls.MainLayout, {}, [className])}>

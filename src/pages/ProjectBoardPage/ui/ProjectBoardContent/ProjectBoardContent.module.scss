@@ -3,9 +3,34 @@
     height: 100%;
 }
 
+.BoardTitle {
+    overflow: hidden;
+}
+
 .BoardTitleWrapper {
     display: flex;
     justify-content: space-between;
     gap: 20px;
     margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .ProjectBoardContent {
+        padding: 20px 20px;
+    }
+
+    .BoardTitleWrapper {
+        margin-bottom: 20px;
+    }
+
+    .BoardTitle {
+        //text-overflow: ellipsis;
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .ProjectBoardContent {
+        padding: 10px 10px;
+    }
 }

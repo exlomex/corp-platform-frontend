@@ -28,11 +28,12 @@ import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchU
 
 interface ProjectsTabProps {
     className?: string;
-    isCollapsed: boolean
+    isCollapsed?: boolean
+    isMobile?: boolean
 }
 
 export const ProjectsTab = (props: ProjectsTabProps) => {
-    const { className, isCollapsed} = props;
+    const { className, isCollapsed = false, isMobile = false} = props;
 
     const userProjects = useSelector(getProjectUserProjects)
 
@@ -74,16 +75,17 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
 
     return (
         <Popover
+            popoverPanelClassName={isMobile ? cls.ProjectsPopoverPanel : ''}
             className={classNames(cls.ProjectsTab, {}, [className])}
             trigger={<ProjectsTabButton
                 isCollapsed={isCollapsed}
                 selectedProject={selectedProject && (isCollapsed ? selectedProject.projectKey : selectedProject.title)}
             />}
-            direction={'right start'}
+            direction={isMobile ? 'bottom' : 'right start'}
         >
             {({open, close}) => (
                 <div
-                    className={classNames(cls.ProjectsWrapper, {}, [theme === 'light_theme' ? 'dark_theme' : 'light_theme'])}>
+                    className={classNames(cls.ProjectsWrapper, {[cls.MobileWrapper]: isMobile}, [theme === 'light_theme' ? 'dark_theme' : 'light_theme'])}>
                     <p className={cls.ProjectsHeader}>Ваши проекты</p>
 
                     <div className={cls.ProjectsList}>
@@ -103,7 +105,7 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
                                     className={classNames(cls.ProjectItem, {[cls.ProjectActive]: selectedProject && selectedProject.title === project.title}, [])}>
                                     <span className={cls.ProjectIcon}><ProjectIcon/></span>
 
-                                    <p>{project.title}</p>
+                                    <p className={cls.ProjectItemTitle}>{project.title}</p>
                                 </div>
                             ))
                         ) : (

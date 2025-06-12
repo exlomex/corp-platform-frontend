@@ -1,7 +1,9 @@
 .TasksPage {
     height: 100%;
-}
 
-.Test {
-    padding: 30px;
+    &.IsMobile {
+        margin-top: 50px;
+        overflow: auto;
+        height: calc(100% - 65px);
+    }
 }

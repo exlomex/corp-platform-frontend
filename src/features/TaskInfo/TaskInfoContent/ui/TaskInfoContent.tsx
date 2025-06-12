@@ -36,13 +36,17 @@ import {useTaskSearchParams} from "@/shared/hooks/useTaskSearchParams";
 import {getSelectedTaskSnapshots} from "@/entities/Task/model/selectors/getTaskValues.ts";
 import {FetchTaskSnapshots} from "@/features/TaskInfo/Snapshots/model/services/fetchTaskSnapshots.ts";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
+import {EditableTaskStatus} from "@/features/TaskInfo/EditableTaskStatus/EditableTaskStatus.tsx";
+import CloseIcon from "@/shared/assets/icons/closeArrow.svg";
 
 interface TaskInfoContentProps {
     className?: string;
+    onClose?: () => void;
 }
 
 export const TaskInfoContent = (props: TaskInfoContentProps) => {
-    const { className } = props;
+    const { className, onClose } = props;
 
     const dispatch = useAppDispatch()
     const selectedUniqueTitle = useSelector(getSelectedTaskUniqueTitle)
@@ -243,6 +247,8 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
         },
     ]
 
+    const {isMobile} = useIsMobile()
+
     return (
         <div className={classNames(cls.TaskInfoContent, {}, [className])}>
             <div className={cls.TaskInfoLeftSide}>
@@ -264,17 +270,22 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                         />
                     }
 
+                    {isMobile && <Button onClick={onClose} className={cls.CloseModalIcon} buttonType={'SMART_ICON_BTN_FILLED'}><CloseIcon/></Button>}
                 </div>
 
-                {editIsPossible && <DropDown
-                    menuItemsClassName={cls.CustomDropDown}
-                    items={AddToTaskButtonItems}
-                    trigger={<Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/>Добавить</Button>}
-                    direction={'bottom start'}
-                    gap={6}
-                    fSize={14}
-                    theme={Theme.LIGHT_THEME}
-                />}
+                <div className={cls.TaskInfoTopLine}>
+                    {editIsPossible && <DropDown
+                        menuItemsClassName={cls.CustomDropDown}
+                        items={AddToTaskButtonItems}
+                        trigger={<Button className={cls.ExtraAddButton} buttonType={'SMART_WITH_ICON_BTN_OUTLINED'}><MediumPlusIcon/>Добавить</Button>}
+                        direction={'bottom start'}
+                        gap={6}
+                        fSize={14}
+                        theme={Theme.LIGHT_THEME}
+                    />}
+
+                    {isMobile && <EditableTaskStatus editIsPossible={editIsPossible}/>}
+                </div>
 
                 <input
                     type="file"
@@ -291,10 +302,10 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                             <p className={cls.TaskDetailsLabel}>{option.label} </p>
                             <div className={cls.DetailsTaskOptionsContent}>{option.content}</div>
                         </div>
-                    ))
-
-                    }
+                    ))}
                 </div>
+
+                {isMobile && <AdditionalTaskInfo editIsPossible={editIsPossible}/>}
 
                 {(!selectedTaskInfo || selectedTaskInfoIsFetching)
                     ? <Typography className={cls.FieldName} size={'TEXT-20-MEDIUM'}>Описание</Typography>
@@ -311,7 +322,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     />
                 }
 
-                { selectedTaskInfo?.files.length > 0 && <div>
+                {selectedTaskInfo?.files.length > 0 && <div>
                     <Typography size={'PARAGRAPH-18-REGULAR'}>Вложения</Typography>
 
                     <div className={cls.TaskFiles}>
@@ -343,7 +354,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                 {selectedTaskInfo && <TaskInfoTabs editIsPossible={editIsPossible}/>}
             </div>
 
-            <AdditionalTaskInfo editIsPossible={editIsPossible}/>
+            {!isMobile && <AdditionalTaskInfo onClose={onClose} editIsPossible={editIsPossible}/>}
         </div>
     )
 };

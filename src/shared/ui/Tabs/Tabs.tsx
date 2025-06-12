@@ -26,9 +26,9 @@ export const Tabs = (props: TabsProps) => {
     const { className, TabListItems, TabPanelsItems, selectedIndex, setSelectedIndex, tabsVariant = 'default' } = props;
 
     return (
-        <div className={classNames(cls.Tabs, {[cls.SmartTabs]: tabsVariant === 'smart'}, [className])}>
+        <div className={classNames(cls.Tabs, {[cls.SmartTabs]: tabsVariant === 'smart'}, [])}>
             <TabGroup selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-                <TabList className={cls.TabsListWrapper}>
+                <TabList className={classNames(cls.TabsListWrapper, {}, [className])}>
                     {TabListItems.map((tab, index) => (
                         <Tab
                             className={cls.Tab}

@@ -48,3 +48,9 @@
     font: var(--font-paragraph-12-Regular);
     font-weight: 500;
 }
+
+@media (max-width: 439px) {
+    .BoardCard {
+        width: 100%;
+    }
+}

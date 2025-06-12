@@ -5,13 +5,12 @@ import {TasksFilters} from "@/features/TasksFilters";
 import {Typography} from "@/shared/ui/Typography";
 import {useSelector} from "react-redux";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
-import {Calendar} from "@/shared/ui/Calendar";
-import {useState} from "react";
 import {getProjectTreeTasks, SubTaskModal} from "@/entities/Task";
 import {CreateExtendedTaskButton, CreateExtendedTaskModal} from "@/features/CreateNewTask";
 import {TaskInfoModal} from "@/features/TaskInfo";
 import {useTaskInfoModal} from "@/shared/hooks/useTaskInfoModal";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
 
 interface TasksPageContentProps {
     className?: string;
@@ -29,6 +28,8 @@ export const TasksPageContent = (props: TasksPageContentProps) => {
     const userInfo = useSelector(getUserInfo);
     const editIsPossible = userInfo?.allowedProjects.includes(selectedProject?.id)
 
+    const {isMobile} = useIsMobile();
+
     return (
         <div className={classNames(cls.TasksPageContent, {}, [className])}>
             <div className={cls.TasksPageTopLine}>
@@ -36,7 +37,7 @@ export const TasksPageContent = (props: TasksPageContentProps) => {
                     <Typography className={cls.Heading} size={'TEXT-26-MEDIUM'}>{selectedProject?.title}</Typography>
                     <span className={cls.CountOfTasks}>{filteredTasks?.length || 0}</span>
                 </div>
-                {editIsPossible && <CreateExtendedTaskButton/>}
+                {editIsPossible && !isMobile && <CreateExtendedTaskButton/>}
             </div>
             <TasksFilters/>
             <TaskTree/>

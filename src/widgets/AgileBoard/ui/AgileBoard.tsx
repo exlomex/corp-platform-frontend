@@ -20,6 +20,7 @@ import {ColumnWrapper} from "@/entities/Column/ui/ColumnWrapper/ColumnWrapper.ts
 import {CreateNewColumn} from "@/features/CreateNewColumn";
 import {getUserAsideIsCollapsed} from "@/entities/User";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
 
 interface AgileBoardProps {
     className?: string;
@@ -36,7 +37,6 @@ export const AgileBoard = (props: AgileBoardProps) => {
     const selectedProject = useSelector(getProjectSelectedProject)
 
     const userBoardsFetching = useSelector(getIsUserBoardsFetching)
-
 
     useEffect(() => {
         if (selectedProject && params.project) {
@@ -70,14 +70,23 @@ export const AgileBoard = (props: AgileBoardProps) => {
 
     const editIsPossible = userInfo?.allowedProjects.includes(selectedProject?.id)
 
+    const resetActiveItems = () => {
+        setActiveTask({})
+        setActiveColumn({})
+    }
+
     const onDragEndHandle = async (event: DragEndEvent) => {
         const { active, over } = event;
 
         if (!userInfo?.allowedProjects.includes(selectedProject?.id)) {
+            resetActiveItems()
             return
         }
 
-        if (!over || String(active?.data?.current?.statusId) === String(over.id)) return;
+        if (!over || String(active?.data?.current?.statusId) === String(over.id)) {
+            resetActiveItems()
+            return
+        }
 
         const activeId = String(active.id).replace(/^task-/, '').replace(/^column-/, '');
         if (String(active.id).startsWith('task-')) {
@@ -89,7 +98,10 @@ export const AgileBoard = (props: AgileBoardProps) => {
                 console.error(e)
             }
         } else if (String(active.id).startsWith('column-')) {
-            if (activeId === String(over.id)) return;
+            if (activeId === String(over.id)) {
+                resetActiveItems()
+                return
+            }
 
             try {
                 dispatch(StatusActions.changeStatusOrder(
@@ -121,10 +133,10 @@ export const AgileBoard = (props: AgileBoardProps) => {
         });
     }
 
-
     const boardId = +params.board || 0
 
     const isCollapsed = useSelector(getUserAsideIsCollapsed)
+    const {isMobile} = useIsMobile()
 
     return (
         <DndContext
@@ -147,7 +159,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
             }}
             onDragEnd={onDragEndHandle}
         >
-            <div className={classNames(cls.AgileBoard, {[cls.isCollapsed]: isCollapsed}, [className])}>
+            <div className={classNames(cls.AgileBoard, {[cls.isCollapsed]: !isMobile ? isCollapsed : null}, [className])}>
                 <div className={cls.AgileBoardWrapper}>
                     {boardStatuses && (
                         <SortableContext

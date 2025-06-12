@@ -23,7 +23,7 @@ export const NewMessageModal = (props: NewMessageModalProps) => {
 
     return (
         <Modal isOpen={modalIsOpen} onClose={onModalClose} className={classNames(cls.NewMessageModal, {}, [className])}>
-            <NewMessageForm/>
+            <NewMessageForm onClose={onModalClose} />
         </Modal>
     )
 };

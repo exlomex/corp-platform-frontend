@@ -79,7 +79,7 @@ export const CheckVerificationCodeForm = (props: CheckVerificationCodeFormProps)
                 />
 
                 <div className={cls.CheckFormBottomLine}>
-                    <Button isLoading={isFetching} regularType={'submit'} fullWidth>Продолжить</Button>
+                    <Button className={cls.SubmitButton} isLoading={isFetching} regularType={'submit'} fullWidth>Продолжить</Button>
                     <Button onClick={onPrevButtonClickHandler} buttonType={'TEXT_BTN_TRANSPARENT'}>Назад</Button>
                 </div>
             </form>

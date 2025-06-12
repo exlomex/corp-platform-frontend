@@ -54,12 +54,6 @@ export const MessageLeftSideMenu = (props: MessageLeftSideMenuProps) => {
     const receivedMessages = useSelector(getReceivedMessages)
     const sentMessages = useSelector(getSentMessages)
 
-
-    useEffect(() => {
-        console.log(receivedMessages?.length < 1, 'received', receivedMessages);
-        console.log(sentMessages?.length < 1, 'sent');
-    }, [receivedMessages, sentMessages]);
-
     const onNewMessageClickHandler = () => {
         dispatch(MessageActions.setNewMessageIsOpen(true))
     }

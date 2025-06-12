@@ -1,4 +1,5 @@
 import { classNames } from '@/shared/lib/classNames';
+import cls from './CreateNewBoardModal.module.scss'
 import {Modal} from "@/shared/ui/Modal";
 import {useSelector} from "react-redux";
 import {newBoardSliceActions} from "../../model/slice/newBoardSlice.ts";
@@ -22,7 +23,7 @@ export const CreateNewBoardModal = (props: CreateNewProjectModalProps) => {
     }
 
     return (
-        <Modal className={classNames('', {}, [className])} isOpen={isCreateNewBoardModalOpen} onClose={onCreateNewBoardModalClose}>
+        <Modal className={classNames(cls.CreateNewBoardModal, {}, [className])} isOpen={isCreateNewBoardModalOpen} onClose={onCreateNewBoardModalClose}>
             <CreateNewBoardForm onModalClose={onCreateNewBoardModalClose}/>
         </Modal>
     )

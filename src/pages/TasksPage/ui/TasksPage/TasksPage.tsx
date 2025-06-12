@@ -3,11 +3,11 @@ import cls from './TasksPage.module.scss';
 import {AsideMenu} from "@/widgets/AsideMenu";
 import {MainLayout} from "@/shared/layouts/MainLayout";
 import {useSelector} from "react-redux";
-import {useEffect} from "react";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {useNavigate} from "react-router";
-import {getRouteBoards, getRouteProjects} from "@/shared/const/router.ts";
 import {TasksPageContent} from "../TasksPageContent/TasksPageContent.tsx";
+import {MobileMenu} from "@/widgets/MobileMenu/MobileMenu.tsx";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
 
 interface TasksPageProps {
     className?: string;
@@ -16,8 +16,8 @@ interface TasksPageProps {
 export function TasksPage(props: TasksPageProps) {
     const { className } = props;
 
-    const selectedProject = useSelector(getProjectSelectedProject)
-    const navigate = useNavigate()
+    // const selectedProject = useSelector(getProjectSelectedProject)
+    // const navigate = useNavigate()
 
     // useEffect(() => {
     //
@@ -29,6 +29,19 @@ export function TasksPage(props: TasksPageProps) {
     //         navigate(getRouteProjects())
     //     }
     // }, [navigate, selectedProject]);
+
+    const {isMobile} = useIsMobile()
+
+    if (isMobile) {
+        return (
+            <div className={classNames(cls.TasksPage, {[cls.IsMobile]: isMobile}, [className])}>
+                <MainLayout
+                    mobileMenu={<MobileMenu/>}
+                    content={<TasksPageContent/>}
+                />
+            </div>
+        )
+    }
 
     return (
         <div className={classNames(cls.TasksPage, {}, [className])}>

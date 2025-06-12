@@ -41,3 +41,13 @@
 
     }
 }
+
+@media screen and (max-width: 960px) {
+    .SendMessageFileWrapper {
+        max-width: 100%;
+    }
+
+    p {
+        overflow: hidden;
+    }
+}

@@ -24,3 +24,13 @@
 .FormInput {
     width: 300px;
 }
+
+@media screen and (max-width: 768px) {
+    .CreateNewProject {
+        width: 100%;
+    }
+
+    .FormInput {
+        width: 100%;
+    }
+}

@@ -21,6 +21,7 @@
 }
 
 .fieldLabel {
+    white-space: nowrap;
     span {
         color: var(--red-color);
     }
@@ -32,8 +33,9 @@
 .FormBottomLine {
     margin-top: 20px;
     display: flex;
-    gap: 5px;
+    gap: 20px 5px;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .FormBottomLineRightButtons {
@@ -102,9 +104,11 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+    flex-wrap: wrap;
 
     > div {
         flex: 1;
+        min-width: 130px;
     }
 
     margin-bottom: 15px;
@@ -125,4 +129,25 @@
 
 .ComboBoxLimit {
     max-height: 200%;
+}
+
+@media screen and (max-width: 768px) {
+    .CreateExtendedTaskModalContent {
+        width: 100%;
+    }
+
+    .FormComboFields {
+        max-width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    .FormBottomLineRightButtons {
+        width: 100%;
+    }
+
+    .CancelButton, .SubmitButton {
+        flex-grow: 1;
+    }
 }

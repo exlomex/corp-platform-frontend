@@ -52,5 +52,41 @@
 }
 
 .TreeTaskTable {
-    max-height: calc(100vh - 230px);
+    max-height: calc(100vh - 180px);
 }
+
+@media (max-width: 1440px) {
+    .TreeTaskTable {
+        max-height: calc(100vh - 210px);
+    }
+}
+
+@media (max-width: 931px) {
+    .TreeTaskTable {
+        max-height: calc(100vh - 255px);
+    }
+}
+
+@media (max-width: 768px) {
+    .TreeTaskTable {
+        max-height: calc(100vh - 100px);
+    }
+}
+
+//@media (max-width: 538px) {
+//    .TreeTaskTable {
+//        max-height: calc(100vh - 345px);
+//    }
+//}
+//
+//@media (max-width: 452px) {
+//    .TreeTaskTable {
+//        max-height: calc(100vh - 380px);
+//    }
+//}
+//
+//@media (max-width: 327px) {
+//    .TreeTaskTable {
+//        max-height: calc(100vh - 425px);
+//    }
+//}

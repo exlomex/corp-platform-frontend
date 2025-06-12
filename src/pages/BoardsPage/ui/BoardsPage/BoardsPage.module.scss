@@ -1,3 +1,9 @@
 .BoardsPage {
     height: 100%;
+
+    &.IsMobile {
+        margin-top: 50px;
+        overflow: auto;
+        height: 90%;
+    }
 }

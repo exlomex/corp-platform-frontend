@@ -38,10 +38,11 @@ interface DropDownProps {
     onOpenChange?: (open: boolean) => void
     onClick?: (event?: React.MouseEvent<HTMLDivElement>) => void,
     menuItemsClassName?: string
+    fullWidth?: boolean
 }
 
 export const DropDown = memo((props: DropDownProps) => {
-    const { className, trigger,menuItemsClassName, direction = "right", items, theme = Theme.LIGHT_THEME, gap = 20, onOpenChange, fSize = 16, onClick} = props;
+    const { className, trigger,menuItemsClassName, direction = "right", items, theme = Theme.LIGHT_THEME, fullWidth = false, gap = 20, onOpenChange, fSize = 16, onClick} = props;
 
     const prevOpenRef = useRef<boolean | null>(null);
 
@@ -68,7 +69,7 @@ export const DropDown = memo((props: DropDownProps) => {
                                 as={'div'}
                                 anchor={direction as AnchorProps}
                                 transition
-                                className={classNames(cls.MenuItems, {}, [theme === 'light_theme' ? 'light_theme' : 'dark_theme', GapClasses[gap], menuItemsClassName])}
+                                className={classNames(cls.MenuItems, {[cls.fullWidth]: fullWidth}, [theme === 'light_theme' ? 'light_theme' : 'dark_theme', GapClasses[gap], menuItemsClassName])}
                             >
                                 {items.map((value, index) => {
                                     if (value.href) return (
@@ -77,7 +78,7 @@ export const DropDown = memo((props: DropDownProps) => {
                                             as={Link}
                                             to={value.href}
                                             onClick={(e) => e.stopPropagation()}
-                                            className={classNames(cls.MenuItem, {}, [FontSizeClasses[fSize]])}
+                                            className={classNames(cls.MenuItem, {[cls.fullWidth]: fullWidth}, [FontSizeClasses[fSize]])}
                                         >
                                             {value.content}
                                         </MenuItem>

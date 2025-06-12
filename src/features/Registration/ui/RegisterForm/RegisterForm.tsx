@@ -110,6 +110,7 @@ export const RegisterForm = (props: RegisterFormProps) => {
             <form autoComplete={'on'} onSubmit={handleSubmit(onSubmit)}>
                 <div className={cls.RegisterFieldFlex}>
                     <InputWrapper
+                        className={cls.RegisterTopLineField}
                         labelString={'Имя'}
                         required
                         labelFor={"registerFirstName"}
@@ -124,6 +125,7 @@ export const RegisterForm = (props: RegisterFormProps) => {
                     />
 
                     <InputWrapper
+                        className={cls.RegisterTopLineField}
                         labelString={'Фамилия'}
                         required
                         labelFor={"registerLastName"}

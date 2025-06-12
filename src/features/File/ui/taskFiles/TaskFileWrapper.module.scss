@@ -3,6 +3,7 @@
     justify-content: space-between;
     width: fit-content;
     background-color: var(--file-bg-color);
+    max-width: 100%;
 }
 
 .FileContent {
@@ -10,6 +11,7 @@
     display: flex;
     gap: 6px;
     align-items: center;
+    overflow: hidden;
 }
 
 .FileType {

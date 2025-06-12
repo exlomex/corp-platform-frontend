@@ -19,6 +19,7 @@
     width: 100%;
     border: 1px solid var(--smart-outlined-color-border);
     padding: 15px 20px;
+
 }
 
 .AdditionalHeading {
@@ -36,6 +37,7 @@
     justify-content: space-between;
     align-items: center;
     height: 35px;
+    gap: 10px;
 }
 
 .additionalOptionName {
@@ -77,4 +79,33 @@
     font: var(--font-paragraph-16-Regular);
     color: var(--text-color);
     margin-top: 20px;
+}
+
+.CloseModalIcon {
+    svg path {
+        stroke: var(--text-color);
+    }
+}
+
+.AdditionalTaskTopLine {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 1050px) {
+    .AdditionalTaskInfo {
+        flex-grow: 1;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .AdditionalTaskInfo {
+        width: 95%;
+        margin-bottom: 20px;
+    }
+
+    .AdditionalTaskInfoWrapper {
+        border: none;
+        padding: 0;
+    }
 }

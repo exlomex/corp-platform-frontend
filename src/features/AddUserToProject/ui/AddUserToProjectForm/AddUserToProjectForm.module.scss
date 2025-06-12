@@ -21,3 +21,9 @@
     justify-content: end;
     gap: 0 10px;
 }
+
+@media screen and (max-width: 768px) {
+    .AddUserToProjectForm {
+        width: 100%;
+    }
+}

@@ -336,8 +336,8 @@ export const CreateExtendedTaskModalContent = (props: CreateExtendedTaskModalCon
                     <Button onClick={() => inputRef.current?.click()} buttonType={'SMART_ICON_BTN_TRANSPARENT'}><PaperClipIcon/>Прикрепить файл</Button>
 
                     <div className={cls.FormBottomLineRightButtons}>
-                        <Button buttonType={'SMART_TEXT_BTN_TRANSPARENT'} onClick={onCloseModalHandler}>Отмена</Button>
-                        <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onSubmitCreateButton}>Создать</Button>
+                        <Button buttonType={'SMART_TEXT_BTN_TRANSPARENT'} className={cls.CancelButton} onClick={onCloseModalHandler}>Отмена</Button>
+                        <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onSubmitCreateButton} className={cls.SubmitButton}>Создать</Button>
                     </div>
                 </div>
             </form>

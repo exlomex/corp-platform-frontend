@@ -16,3 +16,10 @@
 .InputWrapper {
     flex-grow: 1;
 }
+
+@media (max-width: 768px) {
+    .Form {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+}

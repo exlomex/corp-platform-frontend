@@ -6,9 +6,6 @@
     --anchor-gap: 11px;
     z-index: 9999;
     width: calc(100% - 32px);
-    & > div {
-        width: 100%;
-    }
 }
 
 .BoardsWrapper {
@@ -20,6 +17,11 @@
     width: fit-content;
     min-width: 240px;
     max-width: 450px;
+
+    &.isMobileWrapper {
+        width: 100%;
+        max-width: 1000px;
+    }
 }
 
 .BoardTabTopLine {
@@ -27,6 +29,8 @@
     padding: 15px 15px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 10px;
 }
 
 .AllBoardsLink {
@@ -38,6 +42,7 @@
 .BoardHeader {
     display: inline-block;
     font: var(--font-paragraph-14-Regular);
+    max-width: 300px;
 }
 
 .BoardsList {

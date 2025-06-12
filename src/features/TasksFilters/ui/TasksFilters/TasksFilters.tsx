@@ -19,6 +19,8 @@ import {
 import {ExtraFilters} from "../ExtraFilters/ExtraFilters.tsx";
 import {Priority, PriorityKeys} from "@/entities/Task";
 import {dateConverter} from "@/features/TasksFilters/lib/DateConverter.ts";
+import {CreateExtendedTaskButton} from "@/features/CreateNewTask";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
 
 interface TasksFiltersProps {
     className?: string;
@@ -29,6 +31,8 @@ export const TasksFilters = (props: TasksFiltersProps) => {
 
     const dispatch = useAppDispatch()
     const selectedProject = useSelector(getProjectSelectedProject)
+
+    const {isMobile} = useIsMobile()
 
     // boards
     const [selectedBoardsIds, setSelectedBoarIds] = useState<(string | number)[]>([]);
@@ -238,6 +242,8 @@ export const TasksFilters = (props: TasksFiltersProps) => {
 
             <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onSearchButtonClickHandler}>Поиск</Button>
             <Button buttonType={'SMART_TEXT_BTN_TRANSPARENT'} onClick={onClearFiltersClickHandler}>Очистить</Button>
+
+            {isMobile && <CreateExtendedTaskButton/>}
         </div>
     )
 };

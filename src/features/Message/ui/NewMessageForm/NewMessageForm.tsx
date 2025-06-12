@@ -7,7 +7,6 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchUsersByCompanyIdService, getUserCompanyId} from "@/entities/User";
 import {useSelector} from "react-redux";
 import {getUserCompanyUsers} from "@/entities/User/model/selectors/getUserValues.ts";
-import {Select} from "@/shared/ui/Select";
 import {Button} from "@/shared/ui/Button";
 import PaperClipIcon from '@/shared/assets/icons/Paperclip.svg'
 import {UploadFileInputData, UploadFileService} from "@/features/Message/model/services/uploadFileService.ts";
@@ -19,13 +18,15 @@ import {tokenInfoTypes} from "@/entities/User/model/types/userSliceSchema.ts";
 import {FetchSentMessagesService} from "../../model/services/fetchSentMessagesService.ts";
 import {MessageActions} from "@/features/Message/model/slice/messageSlice.ts";
 import {FetchReceivedMessagesService} from "@/features/Message/model/services/fetchReceivedMessagesService.ts";
+import CloseIcon from '@/shared/assets/icons/closeArrow.svg'
 
 interface NewMessageFormProps {
     className?: string;
+    onClose?: () => void;
 }
 
 export const NewMessageForm = (props: NewMessageFormProps) => {
-    const { className } = props;
+    const { className, onClose} = props;
 
     const dispatch = useAppDispatch();
     const [normalizedUsers, setNormalizedUsers] = useState<ComboBoxOption[]>(null)
@@ -118,7 +119,11 @@ export const NewMessageForm = (props: NewMessageFormProps) => {
 
     return (
         <form className={classNames(cls.NewMessageForm, {}, [className])}>
-            <Typography className={cls.FormHeading} size={'TEXT-26-MEDIUM'}>Написать сообщение</Typography>
+            <div className={cls.ModalTopLine}>
+                <Typography className={cls.FormHeading} size={'TEXT-26-MEDIUM'}>Написать сообщение</Typography>
+
+                <Button onClick={onClose} className={cls.CloseModalIcon} buttonType={'SMART_ICON_BTN_FILLED'}><CloseIcon/></Button>
+            </div>
 
             <div className={cls.ReceiverWrapper}>
                 <p className={cls.ReceiverTitle}>Кому</p>

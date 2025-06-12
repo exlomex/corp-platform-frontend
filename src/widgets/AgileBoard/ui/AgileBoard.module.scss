@@ -7,8 +7,6 @@
     &.isCollapsed {
         max-width: calc(100vw - 66px - 60px);
     }
-
-
 }
 
 .AgileBoardWrapper {
@@ -27,4 +25,11 @@
 
 .IsActiveOffset {
     margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .AgileBoard {
+        height: calc(100vh - 130px);
+        max-width: calc(100% - 10px);
+    }
 }

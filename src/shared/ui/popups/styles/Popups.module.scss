@@ -2,6 +2,7 @@
 .Popover {}
 
 .MenuItems {
+    z-index: 99999;
     //transform-origin: center;
     //transition: opacity 0.2s ease-out;
 
@@ -33,6 +34,11 @@
     flex-direction: column;
     border-radius: 6px;
     //padding: 5px 5px;
+
+    &.fullWidth {
+        width: calc(100% - 32px);
+        max-width: 100%;
+    }
 }
 
 .MenuItem {
@@ -50,6 +56,11 @@
     overflow-wrap: normal;
     word-break: normal;
     max-width: 200px;
+
+    &.fullWidth {
+        width: 100%;
+        max-width: 100%;
+    }
 
     &:hover {
         color: var(--purple-color-active);
@@ -98,6 +109,7 @@
 
 .PopoverContent {
     font: var(--font-paragraph-16-Regular);
+    z-index: 9999;
 
     &.gap-10 {
         --anchor-gap: 10px;

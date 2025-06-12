@@ -22,31 +22,6 @@ interface ProjectsContentProps {
     className?: string;
 }
 
-interface projectData {
-    "id": number,
-    "shortName": string,
-    "title": string,
-    "companyId": number,
-    "ownerId": number,
-}
-
-const data: projectData[] = [
-    {
-        id: 1,
-        shortName: "WWW",
-        title: "New project",
-        companyId: 1,
-        ownerId: 1
-    },
-    {
-        id: 2,
-        shortName: "WWW",
-        title: "New project",
-        companyId: 1,
-        ownerId: 1
-    }
-]
-
 export const ProjectsContent = memo((props: ProjectsContentProps) => {
     const { className } = props;
 

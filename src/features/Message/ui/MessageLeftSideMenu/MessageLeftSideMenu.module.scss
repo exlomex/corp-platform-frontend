@@ -58,3 +58,29 @@
     background-color: var(--file-extension-bg-color);
     color: var(--file-extension-text-color);
 }
+
+@media (max-width: 1050px) {
+   .MessageLeftSideMenu {
+       width: 300px;
+   }
+}
+
+@media (max-width: 900px) {
+    .MessageLeftSideMenu {
+        width: 230px;
+    }
+}
+
+@media (max-width: 768px) {
+    .MessagesTopLine {
+        padding: 20px;
+    }
+
+    .MessageLeftSideMenu {
+        width: 100%;
+    }
+
+    .MessageCardsWrapper {
+        max-height: calc(100vh - 210px);
+    }
+}

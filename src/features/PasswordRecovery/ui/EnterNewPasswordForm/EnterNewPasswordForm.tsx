@@ -114,7 +114,7 @@ export const EnterNewPasswordForm = (props: EnterNewPasswordFormProps) => {
                 />
 
                 <div className={cls.EnterPassFromBottomLine}>
-                    <Button isLoading={isFetching} regularType={'submit'} fullWidth>Сменить пароль</Button>
+                    <Button className={cls.SubmitButton} isLoading={isFetching} regularType={'submit'} fullWidth>Сменить пароль</Button>
                     <Button onClick={onPrevButtonClickHandler} buttonType={'TEXT_BTN_TRANSPARENT'}>Назад</Button>
                 </div>
             </form>

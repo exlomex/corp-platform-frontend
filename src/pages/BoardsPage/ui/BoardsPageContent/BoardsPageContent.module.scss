@@ -8,6 +8,7 @@
     justify-content: space-between;
     margin-bottom: 15px;
     align-items: center;
+    gap: 15px;
 }
 
 .TableHeading {
@@ -33,4 +34,30 @@
     display: flex;
     align-items: stretch;
     gap: 20px;
+    flex-wrap: wrap;
+}
+
+
+@media (max-width: 768px) {
+    .BoardsPageContent {
+        padding: 20px 20px;
+    }
+
+    .TableHeading {
+        //max-width: 200px;
+        max-height: 63px;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 500px) {
+    .BoardsPageContent {
+        padding: 10px 10px;
+    }
+}
+
+@media (max-width: 439px) {
+    .BoardCards {
+        gap: 15px;
+    }
 }

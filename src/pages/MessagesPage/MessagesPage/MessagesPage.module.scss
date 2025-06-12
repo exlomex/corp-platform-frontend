@@ -1,3 +1,9 @@
 .MessangesPage {
     height: 100%;
+
+    &.IsMobile {
+        margin-top: 50px;
+        overflow: auto;
+        height: calc(100% - 50px);
+    }
 }

@@ -95,6 +95,7 @@ export const SettingsContent = (props: SettingsContentProps) => {
                 selectedIndex={selectedIndex}
                 TabListItems={TabListItems}
                 TabPanelsItems={TabPanelsItems}
+                className={cls.SettingsTabs}
             />
         </div>
     )

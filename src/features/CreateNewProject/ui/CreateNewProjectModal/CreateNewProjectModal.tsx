@@ -1,4 +1,5 @@
 import { classNames } from '@/shared/lib/classNames';
+import cls from './CreateNewProjectModal.module.scss'
 import {Modal} from "@/shared/ui/Modal";
 import {useSelector} from "react-redux";
 import {newProjectSliceActions} from "../../model/slice/newProjectSlice.ts";
@@ -22,7 +23,7 @@ export const CreateNewProjectModal = (props: CreateNewProjectModalProps) => {
     }
 
     return (
-        <Modal className={classNames('', {}, [className])} isOpen={isCreateNewProjectModalOpen} onClose={onCreateNewProjectModalClose}>
+        <Modal className={classNames(cls.CreateNewProjectModal, {}, [className])} isOpen={isCreateNewProjectModalOpen} onClose={onCreateNewProjectModalClose}>
             <CreateNewProjectForm onModalClose={onCreateNewProjectModalClose}/>
         </Modal>
     )

@@ -35,6 +35,7 @@
     height: 5px;
     border-radius: 10px;
     background-color: var(--purple-color-active);
+    flex-shrink: 0;
 }
 
 .MessageTitle {

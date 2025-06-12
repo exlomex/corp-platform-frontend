@@ -31,12 +31,11 @@ export const ProjectsTable = (props: ProjectsTableProps) => {
         {
             title: 'Имя',
             key: 'title',
-            width: '20%'
+            width: '30%'
         },
         {
             title: 'Ключ',
             key: 'shortName',
-            width: '60%'
         },
         {
             key: 'action',

@@ -21,14 +21,12 @@ export const Modal = (props: ModalProps) => {
             onClose={onClose}
             className={cls.Modal}
         >
-            <div>
                 <DialogPanel
                     className={classNames(cls.ModalWrapper, {}, [className])}
                     transition
                 >
                     {children}
                 </DialogPanel>
-            </div>
         </Dialog>
     )
 };

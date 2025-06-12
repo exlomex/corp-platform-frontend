@@ -2,7 +2,7 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './AdditionalTaskInfo.module.scss';
 import {EditableTaskStatus} from "../EditableTaskStatus/EditableTaskStatus.tsx";
 import {Typography} from "@/shared/ui/Typography";
-import {ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import {AdditionalTaskAuthor} from "../AdditionalTaskAuthor/AdditionalTaskAuthor.tsx";
 import {
     AdditionalEditableAssignee
@@ -16,14 +16,18 @@ import {formatCustomDate} from "@/shared/lib/formatCustomDate";
 import {getSelectedTaskSnapshots} from "@/entities/Task/model/selectors/getTaskValues.ts";
 import {useTaskSearchParams} from "@/shared/hooks/useTaskSearchParams";
 import {TaskSnapshots} from "@/entities/Task/model/types/taskSliceSchema.ts";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
+import {Button} from "@/shared/ui/Button";
+import CloseIcon from "@/shared/assets/icons/closeArrow.svg";
 
 interface AdditionalTaskInfoProps {
     className?: string;
     editIsPossible: boolean;
+    onClose?: () => void;
 }
 
 export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
-    const { className, editIsPossible } = props;
+    const { className, editIsPossible, onClose } = props;
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
 
@@ -84,10 +88,15 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
         },
     ]
 
+    const {isMobile} = useIsMobile()
+
     return (
         <div className={classNames(cls.AdditionalTaskInfo, {}, [className])}>
             <div className={cls.AdditionalTaskTopContainer}>
-                <EditableTaskStatus editIsPossible={editIsPossible}/>
+                {!isMobile && <div className={cls.AdditionalTaskTopLine}>
+                    <EditableTaskStatus editIsPossible={editIsPossible}/>
+                    <Button onClick={onClose} className={cls.CloseModalIcon} buttonType={'SMART_ICON_BTN_FILLED'}><CloseIcon/></Button>
+                </div>}
 
                 <div className={cls.AdditionalTaskInfoWrapper}>
                     <Typography className={cls.AdditionalHeading} size={'PARAGRAPH-16-REGULAR'}>Сведения</Typography>

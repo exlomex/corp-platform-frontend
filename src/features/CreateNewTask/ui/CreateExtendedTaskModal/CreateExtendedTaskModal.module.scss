@@ -1,3 +1,14 @@
 .Modal {
     padding: 25px 30px;
+    overflow: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .Modal {
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+
+    }
 }

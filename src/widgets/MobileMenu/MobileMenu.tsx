@@ -1,17 +1,19 @@
-import { useRef, useState } from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import cls from "./MobileMenu.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import LightLogo from '@/shared/assets/logo/light_full_logo.svg';
 import TaskIcon from '@/shared/assets/icons/tasks.svg';
 import ProjectsIcon from '@/shared/assets/icons/projects.svg';
 import MessagesIcon from '@/shared/assets/icons/messages.svg';
-import BurgerIcon from '@/shared/assets/icons/burger.svg';
-import CloseIcon from '@/shared/assets/icons/closeArrow.svg';
-import { getRouteMain, getRouteProjects } from "@/shared/const/router";
-import { Link, useLocation } from "react-router";
+import LeftArrowIcon from '@/shared/assets/icons/leftArrowIcon.svg'
+import {getRouteMain, getRouteMessages, getRouteProjects} from "@/shared/const/router";
+import {Link, useLocation, useSearchParams} from "react-router";
 import { BoardTabContent } from "@/features/BoadsTab";
 import { navTabContentValues } from "@/widgets/AsideMenu/ui/AsideMenu.tsx";
 import { ReactElement } from "react";
+import {ProjectsTab} from "@/features/ProjectsTab";
+import {ProfileTab} from "@/features/ProfileTab";
+import {Button} from "@/shared/ui/Button";
 
 type defaultNavItem = {
     icon: ReactElement;
@@ -35,6 +37,7 @@ export const MobileMenu = () => {
         {
             icon: <TaskIcon />,
             content: 'Задачи',
+            href: getRouteMain(),
         },
         {
             element: <BoardTabContent isMobile isCollapsed={false} />,
@@ -48,6 +51,7 @@ export const MobileMenu = () => {
         {
             icon: <MessagesIcon />,
             content: 'Сообщения',
+            href: getRouteMessages()
         }
     ];
 
@@ -65,24 +69,51 @@ export const MobileMenu = () => {
         navigationItems.findIndex(item => item.content === asideTabsMapper[pathname])
     );
 
+    useLayoutEffect(() => {
+        setIsOpen(false)
+    }, [location.pathname]);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const selectedMessage = searchParams.get("selectedMessage");
+    const currentLocation = location.pathname;
+
+    useEffect(() => {
+        console.log(selectedMessage, currentLocation);
+    }, [currentLocation, selectedMessage])
+
+    const onBackMessageButtonClickHandler = () => {
+        searchParams.delete("selectedMessage");
+        setSearchParams(searchParams);
+    };
+
     return (
-        <div className={cls.MobileMenuWrapper}>
+        <div className={classNames(cls.MobileMenuWrapper, {[cls.MenuIsOpen]: isOpen}, [])}>
             <div className={cls.TopBar}>
+                {selectedMessage && <Button className={cls.CloseMessageIcon} onClick={onBackMessageButtonClickHandler} buttonType={'SMALL_ICON_BTN_FILLED'}><LeftArrowIcon/></Button>}
+
                 <Link to={getRouteMain()} className={cls.Logo}>
                     <LightLogo />
                 </Link>
-                <button onClick={toggleMenu} className={cls.BurgerButton}>
-                    {isOpen ? <CloseIcon /> : <BurgerIcon />}
+
+                <button
+                    className={classNames(cls.burger, { [cls.open]: isOpen })}
+                    onClick={toggleMenu}
+                >
+                    <span className={cls.line}></span>
+                    <span className={cls.line}></span>
+                    <span className={cls.line}></span>
                 </button>
             </div>
 
-            <div className={classNames(cls.MenuContent, {[cls.MenuIsOpen]: isOpen}, [])}>
-                {navigationItems.map((item, index) => 'element' in item ? (
-                    <div
-                        key={index} className={classNames('', {[cls.ActiveTab]: index === activeIndex.current})}
-                    >
-                        {item.element}
-                    </div>
+                <div className={classNames(cls.MenuContent, {[cls.MenuIsOpen]: isOpen}, [])}>
+                    <ProjectsTab isMobile className={cls.ProjectTab}/>
+
+                    {navigationItems.map((item, index) => 'element' in item ? (
+                            <div
+                                key={index} className={classNames('', {[cls.ActiveTab]: index === activeIndex.current})}
+                            >
+                                {item.element}
+                            </div>
                         ) : (
                             <Link
                                 key={index}
@@ -96,7 +127,9 @@ export const MobileMenu = () => {
                             </Link>
                         )
                     )}
-            </div>
+
+                    <ProfileTab isMobile/>
+                </div>
         </div>
     );
 };
