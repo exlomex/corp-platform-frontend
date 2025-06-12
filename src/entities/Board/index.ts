@@ -14,3 +14,5 @@ export {
 } from '@/entities/Board/model/selectors/getBoardValues.ts'
 
 export {BoardCard} from './ui/BoardCard/BoardCard.tsx'
+export {EditBoardTitle} from './model/services/editBoardTitle.ts'
+export type {EditBoardTitleCInputData} from './model/services/editBoardTitle.ts'

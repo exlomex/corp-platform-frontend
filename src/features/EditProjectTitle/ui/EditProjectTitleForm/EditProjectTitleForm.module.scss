@@ -1,0 +1,29 @@
+.EditProjectTitleForm {
+    width: 600px;
+}
+
+.EditProjectHeading {
+    font: var(--font-paragraph-18-Regular);;
+    margin-bottom: 6px;
+}
+
+.EditProjectSubtitle {
+    font: var(--font-paragraph-14-Regular);
+    color: var(--text-color-secondary);
+    margin-bottom: 15px;
+
+    span {
+        color: var(--red-color);
+    }
+}
+
+.EditProjectTitleBottomLine {
+    display: flex;
+    gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .EditProjectTitleForm {
+        width: 100%;
+    }
+}

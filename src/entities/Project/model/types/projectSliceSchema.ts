@@ -26,4 +26,10 @@ export interface ProjectSliceSchema {
     settingsProjectUsers: UserI[]
     settingsSelectedProject: ComboBoxOption
     addUserToProjectModalIsOpen: boolean
+
+    editProjectTitleModalIsOpen: boolean
+    editProjectInitialData: {
+        projectTitle: string,
+        projectId: number,
+    }
 }

@@ -5,6 +5,7 @@ import {UserSliceActions} from "@/entities/User";
 import {LoadingLine} from "@/shared/ui/LoadingLine";
 import {CreateNewProjectModal} from "@/features/CreateNewProject";
 import {CreateNewBoardModal} from "@/features/CreateNewBoard";
+import {Helmet} from "react-helmet";
 
 
 export const App = memo(() => {

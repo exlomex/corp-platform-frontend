@@ -3,10 +3,6 @@
     height: 100%;
 }
 
-.BoardTitle {
-    overflow: hidden;
-}
-
 .BoardTitleWrapper {
     display: flex;
     justify-content: space-between;
@@ -21,11 +17,6 @@
 
     .BoardTitleWrapper {
         margin-bottom: 20px;
-    }
-
-    .BoardTitle {
-        //text-overflow: ellipsis;
-        width: 100%;
     }
 }
 

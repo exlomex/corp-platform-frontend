@@ -5,15 +5,15 @@ import {Typography} from "@/shared/ui/Typography";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router";
 import {useSelector} from "react-redux";
 import {getUserBoardsBySelectedProject} from "@/entities/Board";
-import {useEffect, useMemo, useState} from "react";
-import {getTaskInfoModalIsOpen, SubTaskModal, TaskActions} from "@/entities/Task";
+import {useEffect, useState} from "react";
+import { SubTaskModal} from "@/entities/Task";
 import {CreateExtendedTaskButton, CreateExtendedTaskModal} from "@/features/CreateNewTask";
-import {CommentActions, TaskInfoModal} from "@/features/TaskInfo";
-import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
-import {StatusActions} from "@/entities/Status";
+import {TaskInfoModal} from "@/features/TaskInfo";
 import {useTaskInfoModal} from "@/shared/hooks/useTaskInfoModal";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {EditableBoardTitle} from "@/features/EditableBoardTitle";
+import {Helmet} from "react-helmet";
 
 interface ProjectBoardContentProps {
     className?: string;
@@ -44,10 +44,24 @@ export const ProjectBoardContent = (props: ProjectBoardContentProps) => {
 
     const editIsPossible = userInfo?.allowedProjects.includes(selectedProject?.id)
 
+    const [isEditTitleActive, setIsEditTitleActive] = useState<boolean>(false)
+
+    const combinedTitle = selectedBoardTitle ? `Доска - ${selectedBoardTitle}` : 'Доска'
+
     return (
         <div className={classNames(cls.ProjectBoardContent, {}, [className])}>
+            <Helmet>
+                <title>{combinedTitle}</title>
+            </Helmet>
+
             <div className={cls.BoardTitleWrapper}>
-                <Typography className={cls.BoardTitle} size={'TEXT-26-MEDIUM'}>{selectedBoardTitle}</Typography>
+                <EditableBoardTitle
+                    boardTitle={selectedBoardTitle}
+                    boardId={+params.board}
+                    isEditTitleActive={isEditTitleActive}
+                    setIsEditTitleActive={setIsEditTitleActive}
+                    editIsPossible={editIsPossible}
+                />
                 {editIsPossible && <CreateExtendedTaskButton/>}
             </div>
             <AgileBoard/>

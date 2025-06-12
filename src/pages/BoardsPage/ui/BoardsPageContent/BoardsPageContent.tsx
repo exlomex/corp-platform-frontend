@@ -18,6 +18,7 @@ import {
 } from "@/entities/Board";
 import NoDataIllustration from '@/shared/assets/illustations/noDataIllustration.svg'
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
+import {Helmet} from "react-helmet";
 
 interface BoardsPageContentProps {
     className?: string;
@@ -48,6 +49,10 @@ export const BoardsPageContent = (props: BoardsPageContentProps) => {
 
     return (
         <div className={classNames(cls.BoardsPageContent, {}, [className])}>
+            <Helmet>
+                <title>{`Все доски`}</title>
+            </Helmet>
+
             <div className={cls.TopLine}>
                 <Typography size={'PARAGRAPH-18-REGULAR'}
                             className={cls.TableHeading}>{selectedProject?.title}</Typography>

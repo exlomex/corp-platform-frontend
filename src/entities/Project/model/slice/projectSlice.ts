@@ -12,7 +12,9 @@ const initialState: ProjectSliceSchema = {
     isDeleteProjectFetching: false,
     settingsProjectUsers: [],
     addUserToProjectModalIsOpen: false,
-    settingsSelectedProject: null
+    settingsSelectedProject: null,
+    editProjectTitleModalIsOpen: false,
+    editProjectInitialData: null
 }
 
 export const ProjectSlice = createSlice({
@@ -25,6 +27,12 @@ export const ProjectSlice = createSlice({
         },
         setAddUserToProjectModalIsOpen: (state: ProjectSliceSchema, action: PayloadAction<boolean>) => {
             state.addUserToProjectModalIsOpen = action.payload;
+        },
+        setEditProjectTitleModalIsOpen: (state: ProjectSliceSchema, action: PayloadAction<boolean>) => {
+            state.editProjectTitleModalIsOpen = action.payload;
+        },
+        setEditProjectInitialData: (state: ProjectSliceSchema, action: PayloadAction<ProjectSliceSchema['editProjectInitialData']>) => {
+            state.editProjectInitialData = action.payload;
         },
         setSettingProjectUsers: (state: ProjectSliceSchema, action: PayloadAction<UserI[]>) => {
             state.settingsProjectUsers = action.payload;

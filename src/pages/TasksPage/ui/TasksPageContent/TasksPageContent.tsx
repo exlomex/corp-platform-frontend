@@ -11,6 +11,7 @@ import {TaskInfoModal} from "@/features/TaskInfo";
 import {useTaskInfoModal} from "@/shared/hooks/useTaskInfoModal";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
+import {Helmet} from 'react-helmet'
 
 interface TasksPageContentProps {
     className?: string;
@@ -30,8 +31,14 @@ export const TasksPageContent = (props: TasksPageContentProps) => {
 
     const {isMobile} = useIsMobile();
 
+    const combinedTitle = selectedProject?.title ? `Задачи - ${selectedProject?.title}` : 'Задачи'
+
     return (
         <div className={classNames(cls.TasksPageContent, {}, [className])}>
+            <Helmet>
+                <title>{combinedTitle}</title>
+            </Helmet>
+
             <div className={cls.TasksPageTopLine}>
                 <div className={cls.HeadingWrapper}>
                     <Typography className={cls.Heading} size={'TEXT-26-MEDIUM'}>{selectedProject?.title}</Typography>

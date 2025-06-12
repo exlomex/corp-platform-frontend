@@ -30,6 +30,14 @@ export const getAddUserToProjectModalIsOpen = createSelector(getProject, (state:
     return state.addUserToProjectModalIsOpen
 })
 
+export const getEditProjectTitleModalIsOpen = createSelector(getProject, (state: ProjectSliceSchema) => {
+    return state.editProjectTitleModalIsOpen
+})
+
+export const getEditProjectInitialData = createSelector(getProject, (state: ProjectSliceSchema) => {
+    return state.editProjectInitialData
+})
+
 export const getSettingsSelectedProject = createSelector(getProject, (state: ProjectSliceSchema) => {
     return state.settingsSelectedProject
 })

@@ -4,6 +4,7 @@ import {MessageInfo, MessageLeftSideMenu, NewMessageModal} from "@/features/Mess
 import {useLocation, useSearchParams} from "react-router";
 import {useEffect, useMemo, useState} from "react";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
+import {Helmet} from "react-helmet";
 
 interface MessagesPageContentProps {
     className?: string;
@@ -22,6 +23,9 @@ export const MessagesPageContent = (props: MessagesPageContentProps) => {
     if (isMobile) {
         return (
             <div className={classNames(cls.MessagesPageContent, {}, [className])}>
+                <Helmet>
+                    <title>{`Сообщения`}</title>
+                </Helmet>
             {
                 selectedMessage ? (
                     <MessageInfo/>
@@ -38,6 +42,10 @@ export const MessagesPageContent = (props: MessagesPageContentProps) => {
 
     return (
         <div className={classNames(cls.MessagesPageContent, {}, [className])}>
+            <Helmet>
+                <title>{`Сообщения`}</title>
+            </Helmet>
+
             <MessageLeftSideMenu/>
             <MessageInfo/>
 

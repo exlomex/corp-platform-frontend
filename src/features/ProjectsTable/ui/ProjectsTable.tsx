@@ -40,7 +40,11 @@ export const ProjectsTable = (props: ProjectsTableProps) => {
         {
             key: 'action',
             title: 'Дополнительные действия',
-            element: (row) => <ProjectsAdditionalButton id={row.id}/>,
+            element: (row) => <ProjectsAdditionalButton
+                projectId={row.id}
+                projectTitle={row.title}
+                ownerId={row.ownerId}
+                id={row.id}/>,
             width: '10%',
             alignColumn: 'right',
             alignTableData: 'right'

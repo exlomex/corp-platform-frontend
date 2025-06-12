@@ -17,6 +17,8 @@ import {
 } from "@/entities/Project";
 import {BoardsTable} from "@/features/BoardsTable";
 import NoDataIllustration from '@/shared/assets/illustations/noDataIllustration.svg'
+import {EditProjectTitleModal} from "@/features/EditProjectTitle";
+import {Helmet} from "react-helmet";
 
 interface ProjectsContentProps {
     className?: string;
@@ -36,6 +38,10 @@ export const ProjectsContent = memo((props: ProjectsContentProps) => {
 
     return (
         <div className={classNames(cls.ProjectsContent, {}, [className])}>
+            <Helmet>
+                <title>{`Проекты`}</title>
+            </Helmet>
+
             <div className={cls.ProjectsTopLine}>
                 <Typography className={cls.Heading} size={'TEXT-20-MEDIUM'}>Проекты</Typography>
                 <Button onClick={onNewProjectButtonClick} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать проект</Button>
@@ -53,6 +59,9 @@ export const ProjectsContent = memo((props: ProjectsContentProps) => {
                         </div>
                 )
             }
+
+            {/*  Edit project title modal  */}
+            <EditProjectTitleModal/>
         </div>
     )
 });
