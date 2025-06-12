@@ -45,8 +45,9 @@
 }
 
 .line {
+    display: block;
     height: 2px;
-    background-color: var(--text-color-inverted);
+    background-color: var(--bg-color);
     border-radius: 2px;
     transition: all 0.3s ease;
 }
