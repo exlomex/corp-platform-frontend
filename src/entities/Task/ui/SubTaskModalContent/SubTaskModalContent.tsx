@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {
     getAddSubTaskError,
     getAddSubTaskSelectedTask,
-    getBoardTasks, getBoardTasksIsFirstLoading, getProjectTreeTasks, getSelectedTaskInfo
+    getBoardTasks, getSelectedTaskInfo
 } from "../../model/selectors/getTaskValues.ts";
 import {ComboBox} from "@/shared/ui/ComboBox";
 import {useEffect, useRef, useState} from "react";
@@ -14,7 +14,7 @@ import {ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 import {Button} from "@/shared/ui/Button";
 import {AddSubTaskInputData, AddSubTaskService} from "../../model/services/addSubTaskService.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
-import {useLocation, useParams} from "react-router";
+import {useLocation} from "react-router";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
@@ -34,8 +34,6 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
     const selectedTaskInfo = useSelector(getAddSubTaskSelectedTask)
     const boardTasks = useSelector(getBoardTasks)
 
-    const boardTasksIsFirstLoading = useSelector(getBoardTasksIsFirstLoading)
-
     const dispatch = useAppDispatch()
     const selectedProject = useSelector(getProjectSelectedProject)
 
@@ -43,7 +41,7 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
         if (selectedTaskInfoIntoCard && selectedProject) {
             dispatch(FetchBoardTasks({boardId: selectedTaskInfoIntoCard?.boardId, projectId: selectedProject?.id}))
         }
-    }, [boardTasks.length, boardTasksIsFirstLoading, dispatch, selectedProject, selectedTaskInfo, selectedTaskInfoIntoCard]);
+    }, [dispatch, selectedProject, selectedTaskInfoIntoCard]);
 
     const filteredBoardTasks = useRef<TaskI[]>(null)
     const [normalizedBoardTasks, setNormalizedBoardTasks] = useState<ComboBoxOption[]>(null)
@@ -51,11 +49,6 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const searchParamsSelectedTask = queryParams.get('selectedTask')
-
-    useEffect(() => {
-        console.log(boardTasks, 'boardTasks');
-    }, [boardTasks]);
-
 
     useEffect(() => {
         if (selectedTaskInfoIntoCard?.id && boardTasks.length >= 1 && searchParamsSelectedTask !== null) {

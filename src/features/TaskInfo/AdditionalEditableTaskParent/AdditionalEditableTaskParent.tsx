@@ -2,7 +2,6 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './AdditionalEditableTaskParent.module.scss';
 import {useSelector} from "react-redux";
 import {
-    getAddSubTaskSelectedTask,
     getBoardTasks,
     getSelectedTaskInfo
 } from "@/entities/Task/model/selectors/getTaskValues.ts";
@@ -19,6 +18,7 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {Skeleton} from "@/shared/ui/Skeleton";
+import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 
 interface EditableTaskParentProps {
     className?: string;
@@ -31,14 +31,14 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
     const dispatch = useAppDispatch();
 
-    // useEffect(() => {
-    //     if (selectedTaskInfo?.boardId) {
-    //         dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId}))
-    //     }
-    // }, [dispatch, selectedTaskInfo]);
-
-    const boardTasks = useSelector(getBoardTasks)
     const selectedProject = useSelector(getProjectSelectedProject)
+    const boardTasks = useSelector(getBoardTasks)
+
+    useEffect(() => {
+        if (selectedTaskInfo) {
+            dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject?.id}))
+        }
+    }, [dispatch, selectedProject, selectedTaskInfo]);
 
     const filteredBoardTasks = useRef<TaskI[]>(null)
     const [normalizedBoardTasks, setNormalizedBoardTasks] = useState<ComboBoxOption[]>(null)

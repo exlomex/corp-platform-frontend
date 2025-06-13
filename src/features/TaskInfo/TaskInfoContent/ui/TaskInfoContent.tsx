@@ -53,7 +53,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
     const selectedUniqueTitle = useSelector(getSelectedTaskUniqueTitle)
     const selectedProject = useSelector(getProjectSelectedProject)
 
-    const {selectedTaskType, selectedSnapshotVersion, selectedTask, queryParams} = useTaskSearchParams()
+    const {selectedTaskType, selectedSnapshotVersion, selectedTask} = useTaskSearchParams()
 
     const selectedTaskInfo = useSelector(getSelectedTaskInfo)
     const taskSnapshots = useSelector(getSelectedTaskSnapshots)
