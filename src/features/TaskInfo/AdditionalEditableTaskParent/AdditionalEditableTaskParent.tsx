@@ -129,7 +129,7 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
             {
                 !editIsActive ? (
                     selectedTaskInfo ? (
-                        <p
+                        <div
                             onClick={() => {
                                 if (editIsPossible) {
                                     setEditIsActive(true);
@@ -140,7 +140,7 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                             {selectedTaskInfo.parent?.title
                                 ? `${selectedTaskInfo.parent.uniqueTitle} ${selectedTaskInfo.parent.title}`
                                 : 'Нет'}
-                        </p>
+                        </div>
                     ) : (
                         <Skeleton height={30} width={140} border={6} />
                     )

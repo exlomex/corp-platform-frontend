@@ -119,8 +119,8 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
                     <div className={cls.DateContainer}>
                         {additionalDatesOptions.map((date, index) => (
                             <div className={cls.DateWrapper} key={index}>
-                                <p className={cls.DateLabel}>{date.label}</p>
-                                <p className={cls.DateContent}>{date.content}</p>
+                                <div className={cls.DateLabel}>{date.label}</div>
+                                <div className={cls.DateContent}>{date.content}</div>
                             </div>
                         ))}
                     </div>

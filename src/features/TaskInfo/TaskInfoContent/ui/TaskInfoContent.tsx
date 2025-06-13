@@ -89,11 +89,9 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                         const currentSnapshot = taskSnapshots.find(
                             snapshot => String(snapshot.version) === selectedSnapshotVersion
                         );
-                        console.log(currentSnapshot, selectedTaskInfo);
                         if (
                             currentSnapshot
                         ) {
-                            console.log(131312);
                             dispatch(TaskActions.setSelectedTaskInfo(currentSnapshot.snapshot));
                         }
                     }
@@ -274,7 +272,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     {isMobile && <Button onClick={onClose} className={cls.CloseModalIcon} buttonType={'SMART_ICON_BTN_FILLED'}><CloseIcon/></Button>}
                 </div>
 
-                <div className={cls.TaskInfoTopLine}>
+                {editIsPossible && <div className={cls.TaskInfoTopLine}>
                     {editIsPossible && <DropDown
                         menuItemsClassName={cls.CustomDropDown}
                         items={AddToTaskButtonItems}
@@ -286,7 +284,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     />}
 
                     {isMobile && <EditableTaskStatus editIsPossible={editIsPossible}/>}
-                </div>
+                </div>}
 
                 <input
                     type="file"

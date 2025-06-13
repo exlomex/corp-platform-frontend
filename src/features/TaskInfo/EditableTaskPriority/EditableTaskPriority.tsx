@@ -24,14 +24,21 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
     const [pickedPriority, setPickedPriority] = useState<ComboBoxOption | null>(null);
 
     useEffect(() => {
-        if (selectedTaskInfo?.priority) {
-            const current = priorityOptions.find(option => option.label === selectedTaskInfo.priority);
-            if (current) {
-                setPickedPriority(current);
+        if (selectedTaskInfo) {
+            if (selectedTaskInfo?.priority) {
+                const current = priorityOptions.find(option => option.label === selectedTaskInfo.priority);
+                if (current) {
+                    setPickedPriority(current);
+                }
+            } else {
+                setPickedPriority(null)
             }
-
         }
     }, [selectedTaskInfo]);
+
+    useEffect(() => {
+        console.log(selectedTaskInfo?.priority);
+    }, [selectedTaskInfo?.priority]);
 
     const onFieldClickHandler = () => {
         if (editIsPossible) {
@@ -58,7 +65,7 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
                 await dispatch(FetchBoardTasks({boardId: selectedTaskInfo.boardId, projectId: selectedProject.id})).unwrap()
                 dispatch(TaskActions.setSelectedTaskInfo(response))
             } catch (e) {
-                console.error()
+                console.error(e)
             }
 
             setPickedPriority(option);
