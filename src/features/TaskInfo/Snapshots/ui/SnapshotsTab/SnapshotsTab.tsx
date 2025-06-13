@@ -21,10 +21,7 @@ export const SnapshotsTab = (props: SnapshotsTabProps) => {
     const selectedTaskSnapshots = useSelector(getSelectedTaskSnapshots);
 
     useEffect(() => {
-        // console.log(selectedTaskInfo?.id, !selectedTaskSnapshots, selectedTaskSnapshots?.length === 0);
-
         if (selectedTaskInfo?.id && (!selectedTaskSnapshots || selectedTaskSnapshots.length === 0)) {
-            console.log('call');
             dispatch(FetchTaskSnapshots({taskId: selectedTaskInfo.id}));
         }
     }, [dispatch, selectedTaskInfo, selectedTaskSnapshots]);

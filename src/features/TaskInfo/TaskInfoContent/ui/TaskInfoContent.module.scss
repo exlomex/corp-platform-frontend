@@ -1,5 +1,5 @@
 .TaskInfoContent {
-    min-height: 500px;
+    min-height: 544px;
     max-height: 90vh;
     width: fit-content;
     display: flex;
@@ -42,6 +42,11 @@
 }
 
 .FieldName {
+    font: var(--font-text-20-Medium);
+    margin-bottom: 20px;
+}
+
+.DescriptionHeading {
     margin-bottom: 10px;
 }
 

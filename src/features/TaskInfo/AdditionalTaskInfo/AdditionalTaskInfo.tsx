@@ -2,7 +2,7 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './AdditionalTaskInfo.module.scss';
 import {EditableTaskStatus} from "../EditableTaskStatus/EditableTaskStatus.tsx";
 import {Typography} from "@/shared/ui/Typography";
-import React, {ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, ReactNode, useEffect, useState} from "react";
 import {AdditionalTaskAuthor} from "../AdditionalTaskAuthor/AdditionalTaskAuthor.tsx";
 import {
     AdditionalEditableAssignee
@@ -19,6 +19,7 @@ import {TaskSnapshots} from "@/entities/Task/model/types/taskSliceSchema.ts";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
 import {Button} from "@/shared/ui/Button";
 import CloseIcon from "@/shared/assets/icons/closeArrow.svg";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface AdditionalTaskInfoProps {
     className?: string;
@@ -60,11 +61,11 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
             label: 'Автор',
             content: (
                 <>
-                    {selectedTaskInfo && <AdditionalTaskAuthor
+                    {selectedTaskInfo ? <AdditionalTaskAuthor
                         firstName={selectedTaskInfo?.author?.firstName}
                         lastName={selectedTaskInfo?.author?.lastName}
                         imageUrl={selectedTaskInfo?.author?.imageUrl}
-                    />}
+                    /> : <Skeleton height={30} width={140} border={6} />}
                 </>
             )
         },
@@ -76,15 +77,17 @@ export const AdditionalTaskInfo = (props: AdditionalTaskInfoProps) => {
 
     const additionalDatesOptions: {
         label: string,
-        content: string
+        content: ReactNode
     }[] = [
         {
             label: 'Создано',
-            content: selectedTaskInfo?.createdAt ? formatCustomDate(selectedTaskInfo?.createdAt) : ''
+            content: selectedTaskInfo ? selectedTaskInfo?.createdAt ?
+                formatCustomDate(selectedTaskInfo?.createdAt) : '' : <Skeleton height={20} width={150} border={6} />
         },
         {
             label: 'Обновлено',
-            content: selectedTaskInfo?.updatedAt ? formatCustomDate(selectedTaskInfo?.updatedAt) : ''
+            content: selectedTaskInfo ? selectedTaskInfo?.updatedAt ?
+                formatCustomDate(selectedTaskInfo?.updatedAt) : '' : <Skeleton height={20} width={150} border={6} />
         },
     ]
 

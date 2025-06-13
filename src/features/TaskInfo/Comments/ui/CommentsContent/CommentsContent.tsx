@@ -32,12 +32,41 @@ export const CommentsContent = (props: CommentsContentProps) => {
 
             {editIsPossible && <CommentsForm selectedTask={selectedTask}/>}
 
-            <div className={classNames(cls.CommentContainer, {[cls.EmptyCommentsContainer]: taskComments?.length === 0}, [])}>
-                {taskComments?.length > 0 ? taskComments.map(comment => (
-                    <Comment editIsPossible={editIsPossible} commentFiles={comment.files} avatar={comment.author?.imageUrl} commentId={comment.id} taskId={selectedTask?.id} key={comment.id} fullName={`${comment.author.firstName} ${comment.author.lastName}`} commentText={comment.text}/>
-                )) : (
-                    (!taskCommentsIsFetching || !taskCommentsIsFirstLoading) &&
-                    !editIsPossible && <div className={cls.EmptyComments}>Комментарии не найдены</div>
+            <div
+                className={classNames(
+                    cls.CommentContainer,
+                    { [cls.EmptyCommentsContainer]: taskComments?.length === 0 },
+                    []
+                )}
+            >
+                {taskCommentsIsFetching ? (
+                    // <div className={cls.SkeletonWrapper}>
+                    //     <Skeleton height={30} width={30} border={6} />
+                    //
+                    //     <div className={cls.SkeletonWrapperBottomLine}>
+                    //         <Skeleton height={22} width={200} border={6} />
+                    //         <Skeleton height={22} width={30} border={6} />
+                    //     </div>
+                    // </div>
+                    <></>
+                ) : taskComments?.length > 0 ? (
+                    taskComments.map((comment) => (
+                        <Comment
+                            key={comment.id}
+                            editIsPossible={editIsPossible}
+                            commentFiles={comment.files}
+                            avatar={comment.author?.imageUrl}
+                            commentId={comment.id}
+                            taskId={selectedTask?.id}
+                            fullName={`${comment.author.firstName} ${comment.author.lastName}`}
+                            commentText={comment.text}
+                        />
+                    ))
+                ) : (
+                    !taskCommentsIsFirstLoading &&
+                    !editIsPossible && (
+                        <div className={cls.EmptyComments}>Комментарии не найдены</div>
+                    )
                 )}
             </div>
         </div>

@@ -14,6 +14,7 @@ import {
 import {CalendarPopover} from "@/features/TasksFilters/ui/CalendarPopover/CalendarPopover.tsx";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {dateConverter} from "@/features/TasksFilters/lib/DateConverter.ts";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface EditableTaskDeadlineProps {
     className?: string;
@@ -64,7 +65,11 @@ export const EditableTaskDeadline = (props: EditableTaskDeadlineProps) => {
         <div className={classNames(cls.EditableTaskDeadline, {}, [className])}>
             {!fieldIsActive ? (
                 <div onClick={onFieldClickHandler} className={classNames(cls.DeadlineDisplay, {[cls.EditIsNotPossible]: !editIsPossible}, [])}>
-                    {selectedTaskInfo?.deadline ? `${selectedTaskInfo?.deadline}` : 'Не указано'}
+                    {
+                        selectedTaskInfo
+                            ? (selectedTaskInfo.deadline != null ? selectedTaskInfo.deadline : 'Не указано')
+                            : <Skeleton height={35} width={120} border={6} />
+                    }
                 </div>
             ) : (
                 <div className={cls.DeadlineEditArea}>

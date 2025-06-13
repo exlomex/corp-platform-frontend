@@ -1,4 +1,6 @@
-.CommentsContent {}
+.CommentsContent {
+    min-height: 149px;
+}
 
 .CommentsTitle {
     margin-top: 20px;
@@ -17,4 +19,15 @@
 
 .EmptyComments {
     font: var(--font-paragraph-14-Regular)
+}
+
+.SkeletonWrapper {
+    display: flex;
+    gap: 10px;
+
+    .SkeletonWrapperBottomLine {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 }

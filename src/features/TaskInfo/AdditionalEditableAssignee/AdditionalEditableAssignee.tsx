@@ -16,6 +16,7 @@ import {addTaskAssigneeInputData, AddTaskAssigneeService, getSelectedTaskInfo} f
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface AdditionalEditableAssigneeProps {
     className?: string;
@@ -112,29 +113,41 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
 
     return (
         <div className={classNames(cls.AdditionalEditableAssignee, {}, [className])}>
-            {!fieldIsActive ? (
-                selectedTaskInfo?.assignee?.id ? (
-                    <AdditionalTaskAuthor
-                        editIsPossible={editIsPossible}
-                        onClick={onFieldClickHandler}
-                        firstName={selectedTaskInfo?.assignee?.firstName}
-                        lastName={selectedTaskInfo?.assignee?.lastName}
-                        imageUrl={selectedTaskInfo?.assignee?.imageUrl}
-                    />
+            {
+                !fieldIsActive ? (
+                    selectedTaskInfo ? (
+                        selectedTaskInfo.assignee?.id ? (
+                            <AdditionalTaskAuthor
+                                editIsPossible={editIsPossible}
+                                onClick={onFieldClickHandler}
+                                firstName={selectedTaskInfo.assignee.firstName}
+                                lastName={selectedTaskInfo.assignee.lastName}
+                                imageUrl={selectedTaskInfo.assignee.imageUrl}
+                            />
+                        ) : (
+                            <AdditionalTaskAuthor
+                                editIsPossible={editIsPossible}
+                                firstName="Не"
+                                lastName="назначено"
+                                onClick={onFieldClickHandler}
+                            />
+                        )
+                    ) : (
+                        <Skeleton height={30} width={140} border={6} />
+                    )
                 ) : (
-                    <AdditionalTaskAuthor
-                        editIsPossible={editIsPossible}
-                        firstName={'Не'}
-                        lastName={'назначено'}
-                        onClick={onFieldClickHandler}
-                    />
+                    <div>
+                        {normalizedUser && (
+                            <ComboBox
+                                onSelectAction={onSelectNewAssigneeHandler}
+                                withImage
+                                value={pickedUser}
+                                options={normalizedUser}
+                            />
+                        )}
+                    </div>
                 )
-            ) : (
-                <div>
-                    {normalizedUser
-                        && <ComboBox onSelectAction={onSelectNewAssigneeHandler} withImage value={pickedUser} options={normalizedUser}/>}
-                </div>
-            )}
+            }
         </div>
 
     )

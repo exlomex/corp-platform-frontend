@@ -12,6 +12,7 @@ import {Button} from "@/shared/ui/Button";
 import CorrectIcon from "@/shared/assets/icons/smallCorrectIcon.svg";
 import CloseIcon from "@/shared/assets/icons/smallCloseIcon.svg";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface EditableTaskStoryPointsProps {
     className?: string;
@@ -63,7 +64,15 @@ export const EditableTaskStoryPoints = (props: EditableTaskStoryPointsProps) => 
             {!fieldIsActive ? (
                 <div onClick={onFieldClickHandler}
                      className={classNames(cls.StoryPointsDisplay, {[cls.EditIsNotPossible]: !editIsPossible}, [])}>
-                    {selectedTaskInfo?.storyPoints ? `${selectedTaskInfo?.storyPoints} Story points` : 'Не указано'}
+                    {
+                        selectedTaskInfo ? (
+                            selectedTaskInfo.storyPoints != null
+                                ? `${selectedTaskInfo.storyPoints} Story points`
+                                : 'Не указано'
+                        ) : (
+                            <Skeleton height={35} width={120} border={6}/>
+                        )
+                    }
                 </div>
             ) : (
                 <div className={cls.StoryPointsEditArea}>

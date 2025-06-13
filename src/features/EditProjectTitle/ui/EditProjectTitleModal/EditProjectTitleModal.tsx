@@ -3,7 +3,7 @@ import cls from './EditProjectTitleModal.module.scss';
 import {Modal} from "@/shared/ui/Modal";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {useSelector} from "react-redux";
-import {getEditProjectInitialData, getEditProjectTitleModalIsOpen, ProjectActions} from "@/entities/Project";
+import {getEditProjectTitleModalIsOpen, ProjectActions} from "@/entities/Project";
 import {EditProjectTitleForm} from "../EditProjectTitleForm/EditProjectTitleForm.tsx";
 
 interface EditProjectTitleModalProps {
@@ -19,6 +19,7 @@ export const EditProjectTitleModal = (props: EditProjectTitleModalProps) => {
 
     const onEditProjectTitleModalClose = () => {
         dispatch(ProjectActions.setEditProjectTitleModalIsOpen(false))
+        dispatch(ProjectActions.setEditProjectInitialData(null))
     }
 
     return (

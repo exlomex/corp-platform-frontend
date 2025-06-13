@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './EditableTaskPriority.module.scss';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ComboBox, ComboBoxOption } from '@/shared/ui/ComboBox/ComboBox';
 import { useSelector } from 'react-redux';
 import { priorityOptions } from '@/features/CreateNewTask/const/priorityConsts.tsx';
@@ -9,6 +9,7 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {ChangeTaskPriorityService} from "@/entities/Task/model/services/changeTaskPriorityService.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface EditableTaskPriorityProps {
     className?: string;
@@ -74,8 +75,8 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
                      className={classNames(cls.priorityDisplay,
                         {[cls.EditIsNotPossible]: !editIsPossible}, [])}
                 >
-                    {pickedPriority?.data?.svg}
-                    <span>{pickedPriority?.label || 'Не выбрано'}</span>
+                    {selectedTaskInfo ? pickedPriority?.data?.svg : <></>}
+                    <span>{selectedTaskInfo ? pickedPriority?.label || 'Не выбрано' : <Skeleton height={35} width={120} border={6}/>}</span>
                 </div>
             ) : (
                 <ComboBox

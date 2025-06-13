@@ -1,6 +1,6 @@
 .BoardCard {
     width: 200px;
-    max-height: 118px;
+    max-height: 130px;
     background-color: var(--task-bg-color-hover);
     padding: 10px 15px;
     border-radius: 6px;
@@ -19,6 +19,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: normal;
+    max-height: 62px;
 }
 
 .BottomLine {
@@ -30,6 +31,13 @@
             background-color: var(--task-bg-color);
         }
     }
+}
+
+.TopLine {
+    display: flex;
+    justify-content: space-between;
+    gap: 0 5px;
+    align-content: center;
 }
 
 .InterToBoard {
@@ -47,6 +55,24 @@
     color: var(--text-color-secondary);
     font: var(--font-paragraph-12-Regular);
     font-weight: 500;
+}
+
+.DeleteButton {
+    width: 20px;
+    height: 20px;
+    background-color: var(--task-edit-area-bg-color);
+
+    &:hover {
+        background-color: var(--task-edit-area-bg-color-hover);
+
+        svg path {
+            stroke: var(--purple-color-active)
+        }
+    }
+
+    svg path {
+        stroke: var(--text-color-secondary);;
+    }
 }
 
 @media (max-width: 439px) {

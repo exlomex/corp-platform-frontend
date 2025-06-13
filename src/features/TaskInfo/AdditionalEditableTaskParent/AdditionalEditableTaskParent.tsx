@@ -18,6 +18,7 @@ import {ComboBox, ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface EditableTaskParentProps {
     className?: string;
@@ -125,22 +126,37 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
 
     return (
         <div className={classNames(cls.EditableTaskParent, {}, [className])}>
-            {!editIsActive
-                ? (<p onClick={() => {
-                        if (editIsPossible) {
-                            setEditIsActive(true)
-                        }}}
-                      className={classNames(cls.ParentName, {[cls.EditIsNotPossible]: !editIsPossible}, [])}>
-                        {selectedTaskInfo?.parent?.title ? `${selectedTaskInfo?.parent?.uniqueTitle}  ${selectedTaskInfo?.parent?.title}` : 'Нет'}
-                    </p>)
-                : (<>{normalizedBoardTasks &&
-                    <ComboBox
-                        value={selectedTask}
-                        options={normalizedBoardTasks}
-                        onSelectAction={onSelectNewParentHandler}>
-                    </ComboBox>}
-                </>)
+            {
+                !editIsActive ? (
+                    selectedTaskInfo ? (
+                        <p
+                            onClick={() => {
+                                if (editIsPossible) {
+                                    setEditIsActive(true);
+                                }
+                            }}
+                            className={classNames(cls.ParentName, { [cls.EditIsNotPossible]: !editIsPossible }, [])}
+                        >
+                            {selectedTaskInfo.parent?.title
+                                ? `${selectedTaskInfo.parent.uniqueTitle} ${selectedTaskInfo.parent.title}`
+                                : 'Нет'}
+                        </p>
+                    ) : (
+                        <Skeleton height={30} width={140} border={6} />
+                    )
+                ) : (
+                    <>
+                        {normalizedBoardTasks && (
+                            <ComboBox
+                                value={selectedTask}
+                                options={normalizedBoardTasks}
+                                onSelectAction={onSelectNewParentHandler}
+                            />
+                        )}
+                    </>
+                )
             }
+
         </div>
     )
 };

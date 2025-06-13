@@ -20,7 +20,8 @@ export const AdditionalTaskAuthor = (props: AdditionalTaskAuthorProps) => {
                 [cls.Clickable]: onClick !== undefined,
                 [cls.EditIsNotPossible]: !editIsPossible
             },
-            [className])}>
+            [className])}
+        >
             <div>
                 {imageUrl
                     ? <img className={cls.Avatar} src={imageUrl} alt="avatar"/>

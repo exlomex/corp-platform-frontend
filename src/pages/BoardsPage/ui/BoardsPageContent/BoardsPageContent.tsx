@@ -66,7 +66,7 @@ export const BoardsPageContent = (props: BoardsPageContentProps) => {
                         ? (
                             <div className={cls.BoardCards}>
                                 {userBoards.map(board => (
-                                    <BoardCard key={board.id} projectId={selectedProject.id} boardTitle={board.title} boardId={board.id}/>
+                                    <BoardCard editIsPossible={editIsPossible} key={board.id} projectId={selectedProject.id} boardTitle={board.title} boardId={board.id}/>
                                 ))}
                             </div>
                         )

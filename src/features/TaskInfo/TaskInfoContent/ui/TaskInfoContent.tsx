@@ -39,6 +39,7 @@ import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
 import {EditableTaskStatus} from "@/features/TaskInfo/EditableTaskStatus/EditableTaskStatus.tsx";
 import CloseIcon from "@/shared/assets/icons/closeArrow.svg";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface TaskInfoContentProps {
     className?: string;
@@ -235,15 +236,15 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
     }[] = [
         {
             label: 'Приоритет:',
-            content: <EditableTaskPriority editIsPossible={editIsPossible}/>
+            content: <EditableTaskPriority editIsPossible={selectedTaskInfo ? editIsPossible : false}/>
         },
         {
             label: 'Оценка:',
-            content: <EditableTaskStoryPoints editIsPossible={editIsPossible}/>
+            content: <EditableTaskStoryPoints editIsPossible={selectedTaskInfo ? editIsPossible : false}/>
         },
         {
             label: 'Сделать до:',
-            content: <EditableTaskDeadline editIsPossible={editIsPossible}/>
+            content: <EditableTaskDeadline editIsPossible={selectedTaskInfo ? editIsPossible : false}/>
         },
     ]
 
@@ -256,7 +257,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
 
                 <div className={cls.editableTitleWrapper}>
                     {(!selectedTaskInfo || selectedTaskInfoIsFetching)
-                        ? <Typography className={cls.FieldName} size={'PARAGRAPH-18-REGULAR'}>Задача</Typography>
+                        ? <Skeleton height={28} width={200} border={6} marginBottom={20}/>
                         : <EditableTitle
                             editIsPossible={editIsPossible}
                             uniqueTitle={selectedTaskInfo.uniqueTitle}
@@ -308,7 +309,10 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                 {isMobile && <AdditionalTaskInfo editIsPossible={editIsPossible}/>}
 
                 {(!selectedTaskInfo || selectedTaskInfoIsFetching)
-                    ? <Typography className={cls.FieldName} size={'TEXT-20-MEDIUM'}>Описание</Typography>
+                    ? <div>
+                        <Typography className={cls.DescriptionHeading} size={'PARAGRAPH-18-REGULAR'}>Описание</Typography>
+                        <Skeleton height={25} width={120} border={6} />
+                    </div>
                     : <EditableDescription
                         className={cls.EditableTitle}
                         taskTitle={selectedTaskInfo.title}
@@ -351,7 +355,7 @@ export const TaskInfoContent = (props: TaskInfoContentProps) => {
                     }
                 </div>
 
-                {selectedTaskInfo && <TaskInfoTabs editIsPossible={editIsPossible}/>}
+                {<TaskInfoTabs editIsPossible={editIsPossible}/>}
             </div>
 
             {!isMobile && <AdditionalTaskInfo onClose={onClose} editIsPossible={editIsPossible}/>}

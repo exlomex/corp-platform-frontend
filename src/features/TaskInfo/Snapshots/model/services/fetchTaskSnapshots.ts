@@ -17,7 +17,8 @@ export const FetchTaskSnapshots = createAsyncThunk<
 
     try {
         const response = await extra.api.get<TaskSnapshots[]>(`/tasks/snapshots/${fetchData.taskId}`);
-        const data: TaskSnapshots[] | [] = response.data;
+        const data: TaskSnapshots[] = response.data;
+        data.sort((a, b) => b.version - a.version);
 
         if (!data) {
             throw new Error(response.statusText);
