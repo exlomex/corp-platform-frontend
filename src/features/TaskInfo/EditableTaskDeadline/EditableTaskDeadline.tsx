@@ -88,7 +88,7 @@ export const EditableTaskDeadline = (props: EditableTaskDeadlineProps) => {
                             buttonType={'SMALL_ICON_BTN_FILLED'}
                             onClick={() => {
                                 setFieldIsActive(false)
-                                setDeadlineTo(new Date(selectedTaskInfo?.deadline));
+                                setDeadlineTo(selectedTaskInfo.deadline != null ? new Date(selectedTaskInfo.deadline) : null);
                             }}
                             className={cls.CloseButton}
                         >
