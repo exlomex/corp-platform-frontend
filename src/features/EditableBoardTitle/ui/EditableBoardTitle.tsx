@@ -16,6 +16,7 @@ import { useAppDispatch } from '@/shared/hooks/useAppDispatch/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { getProjectSelectedProject } from '@/entities/Project/model/selectors/getProjectValues';
 import {EditBoardTitle} from "@/entities/Board";
+import {getUserInfo, getUserRole} from "@/entities/User/model/selectors/getUserValues.ts";
 
 interface EditableBoardTitleProps {
     className?: string;
@@ -23,7 +24,6 @@ interface EditableBoardTitleProps {
     boardId: number;
     isEditTitleActive: boolean;
     setIsEditTitleActive: Dispatch<SetStateAction<boolean>>;
-    editIsPossible?: boolean;
 }
 
 export const EditableBoardTitle = (props: EditableBoardTitleProps) => {
@@ -33,7 +33,6 @@ export const EditableBoardTitle = (props: EditableBoardTitleProps) => {
         boardId,
         isEditTitleActive,
         setIsEditTitleActive,
-        editIsPossible = true,
     } = props;
 
     const [boardTitleState, setBoardTitleState] = useState<string>(boardTitle);
@@ -67,6 +66,8 @@ export const EditableBoardTitle = (props: EditableBoardTitleProps) => {
 
     const dispatch = useAppDispatch();
     const selectedProject = useSelector(getProjectSelectedProject);
+    const userInfo = useSelector(getUserInfo)
+    const userRole = useSelector(getUserRole)
 
     const onSubmitEditHandler = async () => {
         if (
@@ -89,6 +90,8 @@ export const EditableBoardTitle = (props: EditableBoardTitleProps) => {
             }
         }
     };
+
+    const editIsPossible = userRole === 'COMPANY_OWNER' || userInfo?.id === selectedProject?.ownerId
 
     return (
         <div

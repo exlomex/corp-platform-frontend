@@ -9,17 +9,19 @@ import {Button} from "@/shared/ui/Button";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {DeleteBoardService} from "@/entities/Board";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
+import {useSelector} from "react-redux";
+import {getUserInfo, getUserRole} from "@/entities/User/model/selectors/getUserValues.ts";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface BoardCardProps {
     className?: string;
     boardTitle: string
     boardId: number
     projectId: number
-    editIsPossible: boolean
 }
 
 export const BoardCard = (props: BoardCardProps) => {
-    const { className, boardTitle, boardId, projectId, editIsPossible = true} = props;
+    const { className, boardTitle, boardId, projectId} = props;
 
     const [isHover, setIsHover] = useState(false)
     const dispatch = useAppDispatch();
@@ -35,6 +37,10 @@ export const BoardCard = (props: BoardCardProps) => {
         }
     }
 
+    const userInfo = useSelector(getUserInfo)
+    const userRole = useSelector(getUserRole)
+    const selectedProject = useSelector(getProjectSelectedProject);
+
     return (
         <Link
             to={getRouteProjectBoard(String(projectId), String(boardId))}
@@ -44,7 +50,7 @@ export const BoardCard = (props: BoardCardProps) => {
         >
             <div className={cls.TopLine}>
                 <p className={cls.BoardTitle}>{boardTitle}</p>
-                {isHover && editIsPossible && (<Button
+                {isHover && (userRole === 'COMPANY_OWNER' || userInfo?.id === selectedProject?.ownerId) && (<Button
                     className={cls.DeleteButton}
                     onClick={onDeleteButtonClickHandler}
                     buttonType={'EXTRA_SMALL_ICON_BTN_FILLED'}

@@ -94,7 +94,7 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
                                 <div
                                     onClick={async () => {
                                         await selectNewProject(
-                                            {id: project.id, title: project.title, projectKey: project.shortName},
+                                            {id: project.id, title: project.title, projectKey: project.shortName, ownerId: project.ownerId},
                                             dispatch,
                                             navigate,
                                             params,

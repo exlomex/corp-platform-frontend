@@ -46,7 +46,7 @@ export const CreateNewProjectForm = (props: CreateNewProjectFormProps) => {
             await dispatch(FetchUserProjects()).unwrap()
             await dispatch(fetchUserInfo())
             await selectNewProject(
-                {id: response.id, title: response.title, projectKey: response.shortName},
+                {id: response.id, title: response.title, projectKey: response.shortName, ownerId: response.ownerId},
                 dispatch,
                 navigate,
                 params,

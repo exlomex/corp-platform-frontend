@@ -53,7 +53,8 @@ export const ProjectSlice = createSlice({
             const getFirstProject = (): SelectedProjectInterface => ({
                 title: state.userProjects[0].title,
                 id: state.userProjects[0].id,
-                projectKey: state.userProjects[0].shortName
+                projectKey: state.userProjects[0].shortName,
+                ownerId: state.userProjects[0].ownerId,
             });
 
             const stored = localStorage.getItem(LOCAL_STORAGE_SELECTED_PROJECT);

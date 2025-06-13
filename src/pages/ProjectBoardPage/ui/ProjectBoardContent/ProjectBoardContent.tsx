@@ -1,8 +1,7 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './ProjectBoardContent.module.scss';
 import {AgileBoard} from "@/widgets/AgileBoard";
-import {Typography} from "@/shared/ui/Typography";
-import {useLocation, useNavigate, useParams, useSearchParams} from "react-router";
+import {useParams} from "react-router";
 import {useSelector} from "react-redux";
 import {getUserBoardsBySelectedProject} from "@/entities/Board";
 import {useEffect, useState} from "react";
@@ -60,7 +59,6 @@ export const ProjectBoardContent = (props: ProjectBoardContentProps) => {
                     boardId={+params.board}
                     isEditTitleActive={isEditTitleActive}
                     setIsEditTitleActive={setIsEditTitleActive}
-                    editIsPossible={editIsPossible}
                 />
                 {editIsPossible && <CreateExtendedTaskButton/>}
             </div>

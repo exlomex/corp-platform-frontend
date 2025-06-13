@@ -9,7 +9,6 @@ import { useAppDispatch } from "@/shared/hooks/useAppDispatch/useAppDispatch.ts"
 import { ChangeColumnTitleService } from "../../model/services/changeColumnTitleService.ts";
 import type { ChangeColumnTitleInputData } from "../../model/services/changeColumnTitleService.ts";
 import { FetchBoardStatuses } from "@/entities/Status/model/services/fetchBoardStatuses.ts";
-import {selectNewProject} from "@/entities/Project";
 import {useSelector} from "react-redux";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
