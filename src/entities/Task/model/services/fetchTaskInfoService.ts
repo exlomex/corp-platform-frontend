@@ -13,7 +13,7 @@ export const fetchTaskInfoService = createAsyncThunk<
     TaskI,
     fetchTaskInfoServiceInputData,
     ThunkConfig<string>
->('tasks/fetch', async ({projectId, uniqueTitle, dispatchData = true}: fetchTaskInfoServiceInputData, thunkApi) => {
+>('tasks/fetchTaskInfo', async ({projectId, uniqueTitle, dispatchData = true}: fetchTaskInfoServiceInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {

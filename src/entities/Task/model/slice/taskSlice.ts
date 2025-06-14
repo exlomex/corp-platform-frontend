@@ -9,6 +9,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AddSubTaskService} from "../services/addSubTaskService.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {FetchProjectTreeTasksService} from "../services/fetchProjectTreeTasksService.ts";
+import {FetchBoardTasks} from "../services/fetchBoardTasks.ts";
 
 
 const initialState: TaskSliceSchema = {
@@ -22,6 +23,7 @@ const initialState: TaskSliceSchema = {
     projectsTreeTasksIsFetching: false,
     projectsTreeTasksIsFirstLoading: true,
     boardTasksIsFirstLoading: true,
+    boardTasksIsFetching: false,
 }
 
 export const TaskSlice = createSlice({
@@ -88,6 +90,17 @@ export const TaskSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // FetchBoardTasks
+            .addCase(FetchBoardTasks.pending, (state: TaskSliceSchema) => {
+                state.boardTasksIsFetching = true;
+            })
+            .addCase(FetchBoardTasks.fulfilled, (state: TaskSliceSchema) => {
+                state.boardTasksIsFetching = false;
+            })
+            .addCase(FetchBoardTasks.rejected, (state: TaskSliceSchema) => {
+                state.boardTasksIsFetching = false;
+            })
+            // AddSubTaskService
             .addCase(AddSubTaskService.pending, (state: TaskSliceSchema) => {
                 state.addSubTaskError = undefined
             })

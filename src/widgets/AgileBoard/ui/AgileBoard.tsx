@@ -9,7 +9,14 @@ import {FetchBoardStatuses} from "@/entities/Status/model/services/fetchBoardSta
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {ChangeStatusOrderService, getBoardStatuses, StatusActions, StatusI} from "@/entities/Status";
 import {SortableColumn} from "@/entities/Column";
-import {ChangeTaskStatusService, DraggableTask, TaskActions, TaskI} from "@/entities/Task";
+import {
+    ChangeTaskStatusService,
+    DraggableTask,
+    getBoardTasksIsFetching,
+    getBoardTasksIsFirstLoading,
+    TaskActions,
+    TaskI
+} from "@/entities/Task";
 import {DndContext, DragEndEvent, DragOverlay, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {getBoardTasks} from "@/entities/Task/model/selectors/getTaskValues.ts";
@@ -40,7 +47,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
 
     useEffect(() => {
         if (selectedProject && params.project) {
-            if (userBoards.length >= 1 && params.board) {
+            if (userBoards.length >= 1 && !userBoardsFetching && params.board) {
                 const isCorrectBoardPath = userBoards.findIndex(board => board.id === +params.board);
                 if (isCorrectBoardPath !== undefined && isCorrectBoardPath !== -1) {
                     dispatch(FetchBoardStatuses({boardId: +params.board, projectId: selectedProject.id}))
@@ -50,10 +57,12 @@ export const AgileBoard = (props: AgileBoardProps) => {
                 }
             }
         }
-    }, [dispatch, navigate, params.board, params.project, selectedProject, userBoards]);
+    }, [dispatch, navigate, params, userBoards, userBoardsFetching]);
 
     const boardStatuses = useSelector(getBoardStatuses);
     const boardTasks = useSelector(getBoardTasks);
+    const boardTasksIsFetching = useSelector(getBoardTasksIsFetching)
+    const boardTasksIsFirstLoading = useSelector(getBoardTasksIsFirstLoading)
 
     const [activeTask, setActiveTask] = useState<Partial<TaskI>>({});
     const [activeColumn, setActiveColumn] = useState<Partial<StatusI>>({});
@@ -98,6 +107,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                 console.error(e)
             }
         } else if (String(active.id).startsWith('column-')) {
+            console.log(active, over);
             if (activeId === String(over.id)) {
                 resetActiveItems()
                 return
@@ -112,7 +122,6 @@ export const AgileBoard = (props: AgileBoardProps) => {
                         activeStatusId: +activeId,
                     })
                 )
-                // console.log(+over?.data?.current?.order);
                 await dispatch(ChangeStatusOrderService({toOrder: +over?.data?.current?.order, statusId: +activeId, projectId:selectedProject.id})).unwrap()
                 await dispatch(FetchBoardStatuses({boardId: +params.board, projectId: selectedProject.id})).unwrap()
             } catch (e) {
@@ -138,6 +147,10 @@ export const AgileBoard = (props: AgileBoardProps) => {
 
     const isCollapsed = useSelector(getUserAsideIsCollapsed)
     const {isMobile} = useIsMobile()
+
+    if (boardTasksIsFirstLoading) {
+        return <></>
+    }
 
     return (
         <DndContext

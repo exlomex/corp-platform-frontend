@@ -11,12 +11,13 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 import {useTheme} from "@/shared/hooks/useTheme";
 import {Link, useNavigate, useParams} from "react-router";
 import {useCallback, useEffect, useRef} from "react";
-import {getIsUserBoardsFirstLoading, getUserBoardsBySelectedProject} from "@/entities/Board";
+import {getIsUserBoardsFetching, getIsUserBoardsFirstLoading, getUserBoardsBySelectedProject} from "@/entities/Board";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {getRouteBoards, getRouteProjectBoard} from "@/shared/const/router.ts";
 import {newBoardSliceActions} from "@/features/CreateNewBoard";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
+import {TaskActions} from "@/entities/Task";
 
 interface BoardTabContentProps {
     className?: string;
@@ -40,17 +41,21 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
     const selectedProject = useSelector(getProjectSelectedProject)
 
     const isUserBoardFirstLoading = useSelector(getIsUserBoardsFirstLoading)
+    const isUserBoardFetching = useSelector(getIsUserBoardsFetching)
+    const userBoards = useSelector(getUserBoardsBySelectedProject)
 
     // Первоисточник;
+
     useEffect(() => {
-        if (selectedProject?.id && isUserBoardFirstLoading) {
+        if (selectedProject?.id && isUserBoardFirstLoading && !isUserBoardFetching) {
+            if (userBoards && userBoards[0]?.projectId === selectedProject?.id) return;
+            console.log('call FetchUserBoardsByProjectId');
             dispatch(FetchUserBoardsByProjectId({projectId: selectedProject.id}))
         }
-    }, [dispatch, isUserBoardFirstLoading, selectedProject]);
-
-    const userBoards = useSelector(getUserBoardsBySelectedProject)
+    }, [dispatch, isUserBoardFetching, isUserBoardFirstLoading, selectedProject, userBoards]);
     const navigate = useNavigate()
     const onBoardItemClickHandler = (id: number, close: () => void) => () => {
+        dispatch(TaskActions.setBoardTasksIsFirstLoading(true))
         navigate(getRouteProjectBoard(selectedProject.title, String(id)))
         close()
     }

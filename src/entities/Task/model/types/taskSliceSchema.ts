@@ -85,6 +85,7 @@ export type TaskNavigationHistory = NavigationTaskType | NavigationTaskSnapshotT
 export interface TaskSliceSchema {
     boardTasks: TaskI[]
     boardTasksIsFirstLoading: boolean
+    boardTasksIsFetching: boolean
 
     addSubTaskModalIsOpen: boolean;
     addSubTaskSelectedTask?: {

@@ -5,7 +5,7 @@ export {ChangeTaskStatusService} from './model/services/changeTaskStatusService.
 export {SubTaskModal} from './ui/SubTaskModal/SubTaskModal.tsx'
 export {getAddTaskModalIsOpen, getTaskInfoModalIsOpen, getSelectedTaskInfo,
     getSelectedTaskUniqueTitle, getSelectedTaskInfoIsFetching,
-    getTaskNavigationHistory, getProjectTreeTasks, getProjectsTreeTasksIsFetching, getBoardTasksIsFirstLoading, getProjectsTreeTasksIsFirstLoading} from './model/selectors/getTaskValues.ts'
+    getTaskNavigationHistory, getProjectTreeTasks, getProjectsTreeTasksIsFetching,getBoardTasksIsFetching, getBoardTasksIsFirstLoading, getProjectsTreeTasksIsFirstLoading} from './model/selectors/getTaskValues.ts'
 export {ChangeTaskTitleService} from './model/services/changeTaskTitleService.ts'
 export type {ChangeTaskTitleServiceInputData} from './model/services/changeTaskTitleService.ts'
 export type {addTaskAssigneeInputData} from './model/services/addTaskAssigneeService.ts'
