@@ -36,10 +36,6 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
         }
     }, [selectedTaskInfo]);
 
-    useEffect(() => {
-        console.log(selectedTaskInfo?.priority);
-    }, [selectedTaskInfo?.priority]);
-
     const onFieldClickHandler = () => {
         if (editIsPossible) {
             setFieldIsActive(true);

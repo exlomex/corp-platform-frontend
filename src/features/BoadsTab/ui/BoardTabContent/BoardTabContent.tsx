@@ -10,8 +10,8 @@ import {useSelector} from "react-redux";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {useTheme} from "@/shared/hooks/useTheme";
 import {Link, useNavigate, useParams} from "react-router";
-import {useCallback, useEffect} from "react";
-import {getUserBoardsBySelectedProject} from "@/entities/Board";
+import {useCallback, useEffect, useRef} from "react";
+import {getIsUserBoardsFirstLoading, getUserBoardsBySelectedProject} from "@/entities/Board";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {getRouteBoards, getRouteProjectBoard} from "@/shared/const/router.ts";
@@ -39,11 +39,14 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
 
     const selectedProject = useSelector(getProjectSelectedProject)
 
+    const isUserBoardFirstLoading = useSelector(getIsUserBoardsFirstLoading)
+
+    // Первоисточник;
     useEffect(() => {
-        if (selectedProject) {
+        if (selectedProject?.id && isUserBoardFirstLoading) {
             dispatch(FetchUserBoardsByProjectId({projectId: selectedProject.id}))
         }
-    }, [dispatch, selectedProject]);
+    }, [dispatch, isUserBoardFirstLoading, selectedProject]);
 
     const userBoards = useSelector(getUserBoardsBySelectedProject)
     const navigate = useNavigate()

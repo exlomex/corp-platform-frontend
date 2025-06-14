@@ -112,6 +112,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                         activeStatusId: +activeId,
                     })
                 )
+                // console.log(+over?.data?.current?.order);
                 await dispatch(ChangeStatusOrderService({toOrder: +over?.data?.current?.order, statusId: +activeId, projectId:selectedProject.id})).unwrap()
                 await dispatch(FetchBoardStatuses({boardId: +params.board, projectId: selectedProject.id})).unwrap()
             } catch (e) {

@@ -38,11 +38,12 @@ export const BoardsPageContent = (props: BoardsPageContentProps) => {
     const userBoardIsFirstTimeFetching = useSelector(getIsUserBoardsFirstLoading)
     const userBoards = useSelector(getUserBoardsBySelectedProject);
 
-    useEffect(() => {
-        if (selectedProject?.id) {
-            dispatch(FetchUserBoardsByProjectId({ projectId: selectedProject.id }));
-        }
-    }, [dispatch, selectedProject?.id]);
+    // useEffect(() => {
+    //     if (selectedProject?.id) {
+    //         console.log('call FetchUserBoardsByProjectId');
+    //         dispatch(FetchUserBoardsByProjectId({ projectId: selectedProject.id }));
+    //     }
+    // }, [dispatch, selectedProject?.id]);
 
     const userInfo = useSelector(getUserInfo);
     const editIsPossible = userInfo?.allowedProjects.includes(selectedProject?.id)

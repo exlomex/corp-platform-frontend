@@ -5,6 +5,7 @@ import {ProjectActions} from "@/entities/Project";
 import {LOCAL_STORAGE_SELECTED_PROJECT} from "@/shared/const/localstorage.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {getRouteBoards, getRouteProjectBoard} from "@/shared/const/router.ts";
+import {BoardActions} from "@/entities/Board";
 
 interface Params {
     project?: string;
@@ -20,7 +21,7 @@ export const selectNewProject = async (
 ) => {
     dispatch(ProjectActions.setSelectedProject(project));
     localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT, JSON.stringify(project));
-
+    dispatch(BoardActions.setIsUserBoardsFirstLoading(true))
     if (params.project !== project.title && params.board) {
         try {
             const response = await dispatch(FetchUserBoardsByProjectId({ projectId: project.id })).unwrap();
@@ -40,3 +41,5 @@ export const selectNewProject = async (
         close();
     }
 };
+
+// dispatch(BoardActions.setIsUserBoardsFirstLoading(false))
