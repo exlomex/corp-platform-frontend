@@ -14,10 +14,11 @@ interface ColumnWrapperProps {
     statusId: number;
     boardId: number;
     editIsPossible?: boolean;
+    deleteIsPossible?: boolean;
 }
 
 export const ColumnWrapper = forwardRef((props: ColumnWrapperProps, ref: ForwardedRef<HTMLDivElement>) => {
-    const { className, columnTitle, children, isOver, createNewTask, isOverColumn, statusId, boardId, editIsPossible = false} = props;
+    const { className, columnTitle, children, isOver, createNewTask, isOverColumn, statusId, boardId, editIsPossible = false, deleteIsPossible = false} = props;
 
     const [isHovered, setIsHovered] = useState<boolean>(false)
     const [isTopLineHover, setIsTopLineHover] = useState<boolean>(false)
@@ -40,7 +41,7 @@ export const ColumnWrapper = forwardRef((props: ColumnWrapperProps, ref: Forward
             >
                 <EditableColumnTitle editIsPossible={editIsPossible} columnTitle={columnTitle} columnId={statusId} boardId={boardId} isEditDescriptionActive={isEditDescriptionActive} setIsEditDescriptionActive={setIsEditDescriptionActive}/>
 
-                {!isEditDescriptionActive && editIsPossible && <AdditionalColumnOptions boardId={boardId} isHover={isTopLineHover} statusId={statusId}/>}
+                {!isEditDescriptionActive && deleteIsPossible && <AdditionalColumnOptions boardId={boardId} isHover={isTopLineHover} statusId={statusId}/>}
             </div>
             <span className={classNames(cls.OverLine, {[cls.isOver]: isOver}, [])}></span>
 

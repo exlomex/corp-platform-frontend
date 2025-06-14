@@ -27,6 +27,11 @@
     margin-top: 10px;
 }
 
+.AgileSkeletonColumns {
+    display: flex;
+    gap: 15px;
+}
+
 @media (max-width: 768px) {
     .AgileBoard {
         height: calc(100vh - 130px);

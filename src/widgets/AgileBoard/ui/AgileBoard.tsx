@@ -28,6 +28,7 @@ import {CreateNewColumn} from "@/features/CreateNewColumn";
 import {getUserAsideIsCollapsed} from "@/entities/User";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface AgileBoardProps {
     className?: string;
@@ -149,7 +150,12 @@ export const AgileBoard = (props: AgileBoardProps) => {
     const {isMobile} = useIsMobile()
 
     if (boardTasksIsFirstLoading) {
-        return <></>
+        return (
+            <div className={cls.AgileSkeletonColumns}>
+                <Skeleton height={100} width={300} border={6}/>
+                <Skeleton height={100} width={300} border={6}/>
+                <Skeleton height={100} width={300} border={6}/>
+            </div>)
     }
 
     return (
@@ -189,6 +195,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                                     boardId={boardId}
                                     boardStatus={boardStatus}
                                     editIsPossible={editIsPossible}
+                                    deleteIsPossible={boardStatuses?.length > 3 || false}
                                     createNewTask={(isHovered) => (
                                         <CreateColumnNewTask
                                             className={classNames('', {[cls.IsActiveOffset]: boardTasks.filter(task => task?.statusId === boardStatus.id).length >= 1}, [])}

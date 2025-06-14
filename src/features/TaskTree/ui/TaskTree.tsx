@@ -14,6 +14,7 @@ import {NormalizedTreeItem, NormalizeTree} from "@/features/TaskTree/lib/normali
 import {Column, Table} from "@/shared/ui/Table/Table.tsx";
 import NoDataIllustration from "@/shared/assets/illustations/noDataIllustration.svg";
 import {Typography} from "@/shared/ui/Typography";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface TaskTreeProps {
     className?: string;
@@ -74,15 +75,27 @@ export const TaskTree = (props: TaskTreeProps) => {
         },
     ]
 
+    const SkeletonTree: NormalizedTreeItem[] = [
+        {
+            id: 1,
+            title: <Skeleton height={25} width={100} border={6} />,
+            uniqueTitle: <Skeleton height={25} width={60} border={6} />,
+            boardTitle: <Skeleton height={25} width={80} border={4} />,
+            statusResolution: <Skeleton height={25} width={80} border={4} />,
+            authorFullName: <Skeleton height={25} width={100} border={4} />,
+            assigneeFullName: <Skeleton height={25} width={100} border={4} />,
+            priority: <Skeleton height={25} width={60} border={4} />,
+        }
+    ];
+
     const tasksIsFetching = useSelector(getProjectsTreeTasksIsFetching)
     const tasksIsFirstLoading = useSelector(getProjectsTreeTasksIsFirstLoading)
 
     return (
         <div className={classNames(cls.TaskTree, {}, [className])}>
-
             {
                 tasksIsFetching || tasksIsFirstLoading
-                    ? <></>
+                    ? <Table<NormalizedTreeItem> columns={treeColumns} data={SkeletonTree} className={cls.TreeTaskTable}/>
                     : (
                         treeTasksOriginal?.length >= 1
                             ? (normalizedTreeTasks?.length >= 1 && treeTasksOriginal.length >= 1 &&

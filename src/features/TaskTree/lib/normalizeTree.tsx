@@ -11,9 +11,9 @@ export type NormalizedTreeItem = {
     id: number;
     title: ReactNode;
     uniqueTitle: ReactNode;
-    boardTitle: string;
-    statusResolution: string;
-    authorFullName: string;
+    boardTitle: string | ReactNode;
+    statusResolution: string | ReactNode;
+    authorFullName: string | ReactNode;
     assigneeFullName?: ReactNode;
     priority?: ReactNode;
     children?: NormalizedTreeItem[];
