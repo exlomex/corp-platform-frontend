@@ -59,6 +59,17 @@
     color: var(--file-extension-text-color);
 }
 
+.MessageCardSkeletonWrapper {
+    padding: 15px;
+    display: flex;
+    gap: 15px;
+    background-color: var(--messages-card-bg-color)
+}
+
+.MessageCardSkeletonBottomLine {
+    width: 100%;
+}
+
 @media (max-width: 1050px) {
    .MessageLeftSideMenu {
        width: 300px;
@@ -69,6 +80,10 @@
     .MessageLeftSideMenu {
         width: 230px;
     }
+
+    //.MessageCardSkeletonBottomLine {
+    //    width: 100px;
+    //}
 }
 
 @media (max-width: 768px) {

@@ -11,9 +11,14 @@ import {FetchReceivedMessagesService} from "@/features/Message/model/services/fe
 import {FetchSentMessagesService} from "@/features/Message/model/services/fetchSentMessagesService.ts";
 import {MessageCard} from "@/features/Message/ui/MessageCard/MessageCard.tsx";
 import {useSelector} from "react-redux";
-import {getReceivedMessages, getSentMessages} from "@/features/Message/model/selectors/getMessageValues.ts";
+import {
+    getMessageIsFetching,
+    getReceivedMessages,
+    getSentMessages
+} from "@/features/Message/model/selectors/getMessageValues.ts";
 import {MessageActions} from "../../model/slice/messageSlice.ts";
 import {Tooltip} from "@/shared/ui/Tooltip";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 
 interface MessageLeftSideMenuProps {
@@ -58,6 +63,8 @@ export const MessageLeftSideMenu = (props: MessageLeftSideMenuProps) => {
         dispatch(MessageActions.setNewMessageIsOpen(true))
     }
 
+    const MessagesIsFetching = useSelector(getMessageIsFetching)
+
     return (
         <div className={classNames(cls.MessageLeftSideMenu, {}, [className])}>
             <div className={cls.MessagesTopLine}>
@@ -90,7 +97,17 @@ export const MessageLeftSideMenu = (props: MessageLeftSideMenuProps) => {
 
 
             <div className={cls.MessageCardsWrapper}>
-                {messagesType.value === 'received'
+                {MessagesIsFetching
+                    ? <div className={cls.MessageCardSkeletonWrapper}>
+                        <Skeleton height={40} width={40} border={30}/>
+
+                        <div className={cls.MessageCardSkeletonBottomLine}>
+                            <Skeleton height={20} width={100} border={6} marginBottom={10} flexShrink/>
+                            <Skeleton height={20} width={'100%'} border={6} marginBottom={10} flexShrink/>
+                            <Skeleton height={20} width={'70%'} border={6} flexShrink/>
+                        </div>
+                    </div>
+                    : messagesType.value === 'received'
                     ? (
                         receivedMessages?.length ?
                             (receivedMessages ?? []).map(receivedMessage => (

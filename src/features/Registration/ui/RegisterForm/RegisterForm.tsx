@@ -92,10 +92,25 @@ export const RegisterForm = (props: RegisterFormProps) => {
     const registerFormPasswordReg = register<'password'>("password",
         { required: {value: true, message: 'Заполните обязательное поле'}, ...passwordValidation, onBlur: () => trigger('password')})
 
-    const registerFormFirstNameReg = register<'registerFirstName'>("registerFirstName",
-        { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerFirstName')})
-    const registerFormLastNameReg = register<'registerLastName'>("registerLastName",
-        { required: {value: true, message: 'Заполните обязательное поле'}, onBlur: () => trigger('registerLastName')})
+    const namePattern = /^[А-Яа-яЁёA-Za-z\s\-']+$/;
+
+    const registerFormFirstNameReg = register<'registerFirstName'>("registerFirstName", {
+        required: { value: true, message: 'Заполните обязательное поле' },
+        pattern: {
+            value: namePattern,
+            message: 'Некорректный формат',
+        },
+        onBlur: () => trigger('registerFirstName'),
+    });
+
+    const registerFormLastNameReg = register<'registerLastName'>("registerLastName", {
+        required: { value: true, message: 'Заполните обязательное поле' },
+        pattern: {
+            value: namePattern,
+            message: 'Некорректный формат',
+        },
+        onBlur: () => trigger('registerLastName'),
+    });
 
     const registerFormInvitationCodeReg = register<'registerInvitationCode'>("registerInvitationCode",
         {onBlur: () => trigger('registerInvitationCode')})

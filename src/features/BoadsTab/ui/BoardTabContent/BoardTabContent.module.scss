@@ -72,6 +72,11 @@
             stroke: var(--purple-color-active);
         }
     }
+
+    &.NonSelectable:hover {
+        cursor: auto;
+        background-color: transparent;
+    }
 }
 
 .BoardIcon {

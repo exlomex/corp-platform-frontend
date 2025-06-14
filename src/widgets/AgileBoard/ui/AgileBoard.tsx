@@ -195,7 +195,7 @@ export const AgileBoard = (props: AgileBoardProps) => {
                                     boardId={boardId}
                                     boardStatus={boardStatus}
                                     editIsPossible={editIsPossible}
-                                    deleteIsPossible={boardStatuses?.length > 3 || false}
+                                    deleteIsPossible={(boardStatuses?.length > 3 && editIsPossible) || false}
                                     createNewTask={(isHovered) => (
                                         <CreateColumnNewTask
                                             className={classNames('', {[cls.IsActiveOffset]: boardTasks.filter(task => task?.statusId === boardStatus.id).length >= 1}, [])}

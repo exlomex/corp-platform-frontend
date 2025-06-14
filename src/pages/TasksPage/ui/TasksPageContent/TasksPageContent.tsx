@@ -12,6 +12,7 @@ import {useTaskInfoModal} from "@/shared/hooks/useTaskInfoModal";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
 import {Helmet} from 'react-helmet'
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface TasksPageContentProps {
     className?: string;
@@ -41,7 +42,7 @@ export const TasksPageContent = (props: TasksPageContentProps) => {
 
             <div className={cls.TasksPageTopLine}>
                 <div className={cls.HeadingWrapper}>
-                    <Typography className={cls.Heading} size={'TEXT-26-MEDIUM'}>{selectedProject?.title}</Typography>
+                    {selectedProject?.title ? (<Typography className={cls.Heading} size={'TEXT-26-MEDIUM'}>{selectedProject?.title}</Typography>) : <Skeleton border={6} height={36} width={140}/>}
                     <span className={cls.CountOfTasks}>{filteredTasks?.length || 0}</span>
                 </div>
                 {editIsPossible && !isMobile && <CreateExtendedTaskButton/>}

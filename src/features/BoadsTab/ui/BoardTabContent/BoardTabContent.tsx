@@ -18,6 +18,7 @@ import {getRouteBoards, getRouteProjectBoard} from "@/shared/const/router.ts";
 import {newBoardSliceActions} from "@/features/CreateNewBoard";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {TaskActions} from "@/entities/Task";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface BoardTabContentProps {
     className?: string;
@@ -49,7 +50,6 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
     useEffect(() => {
         if (selectedProject?.id && isUserBoardFirstLoading && !isUserBoardFetching) {
             if (userBoards && userBoards[0]?.projectId === selectedProject?.id) return;
-            console.log('call FetchUserBoardsByProjectId');
             dispatch(FetchUserBoardsByProjectId({projectId: selectedProject.id}))
         }
     }, [dispatch, isUserBoardFetching, isUserBoardFirstLoading, selectedProject, userBoards]);
@@ -93,25 +93,31 @@ export const BoardTabContent = (props: BoardTabContentProps) => {
                     </div>
 
                     <div className={cls.BoardsList}>
-                        {userBoards && userBoards.length ? (
-                            userBoards.map((board, index) => (
-                                <div
-                                    onClick={onBoardItemClickHandler(board.id, close)}
-                                    key={board.id}
-                                    className={classNames(
-                                        cls.BoardItem,
-                                        {[cls.ActiveBoard]: onActiveBoardTabCheck(board.id)},
-                                        [])}
-                                >
-                                    <span className={cls.BoardIcon}><BoardIcon/></span>
+                        {isUserBoardFetching || isUserBoardFirstLoading
+                            ? <div className={classNames(cls.BoardItem, {}, [cls.NonSelectable])}>
+                                <Skeleton width={25} height={25} border={6}/>
+                                <Skeleton width={'calc(100% - 25px - 15px)'} height={25} border={6}/>
+                            </div>
+                            : userBoards && userBoards.length ? (
+                                userBoards.map((board, index) => (
+                                    <div
+                                        onClick={onBoardItemClickHandler(board.id, close)}
+                                        key={board.id}
+                                        className={classNames(
+                                            cls.BoardItem,
+                                            {[cls.ActiveBoard]: onActiveBoardTabCheck(board.id)},
+                                            [])}
+                                    >
+                                        <span className={cls.BoardIcon}><BoardIcon/></span>
 
-                                    <p>{board.title}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <Typography size={'PARAGRAPH-14-REGULAR'} className={cls.NotFoundedTitle}>Доски не
-                                найдены</Typography>
-                        )}
+                                        <p>{board.title}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <Typography size={'PARAGRAPH-14-REGULAR'} className={cls.NotFoundedTitle}>Доски не
+                                    найдены</Typography>
+                            )
+                        }
 
                         {editIsPossible && <Button onClick={onNewBoardClickHandler} buttonType={'CREATE_WITH_ICON_BTN_FILLED'} fullWidth><AddIcon/>
                             Создать доску

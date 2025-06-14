@@ -34,6 +34,14 @@
     background-size: cover;
 }
 
+.CollapsedMenuAvatar {
+    object-fit: cover;
+    height: 28px;
+    width: 28px;
+    border-radius: 20px;
+    background-size: cover;
+}
+
 .ProfileTabTest {
     overflow: hidden;
     color: var(--text-color-inverted);

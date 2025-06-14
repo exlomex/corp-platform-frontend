@@ -9,17 +9,19 @@ interface SkeletonProps {
     border?: string | number;
     marginBottom?: string | number;
     marginTop?: string | number;
+    flexShrink?: boolean;
 }
 
 export const Skeleton = memo((props: SkeletonProps) => {
-    const { className, height = 20, width, border, marginBottom, marginTop } = props;
+    const { className, height = 20, width, border, marginBottom, marginTop, flexShrink = false } = props;
 
     const styles: CSSProperties = {
         width,
         height,
         borderRadius: border,
         marginBottom,
-        marginTop
+        marginTop,
+        flexShrink: flexShrink ? 1 : 0
     };
 
     return (

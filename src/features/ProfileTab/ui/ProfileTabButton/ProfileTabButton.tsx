@@ -13,6 +13,14 @@ interface ProfileTabButtonProps {
 export const ProfileTabButton = memo((props: ProfileTabButtonProps) => {
     const { className, userFirstName, avatar, isCollapsed } = props;
 
+    if (isCollapsed && avatar) {
+        return (
+            <button className={classNames(cls.ProfileTabButton, {[cls.Collapsed]: isCollapsed}, [className])}>
+                <img src={avatar} className={cls.CollapsedMenuAvatar} alt="avatar"/>
+            </button>
+        )
+    }
+
     return (
         <button className={classNames(cls.ProfileTabButton, {[cls.Collapsed]: isCollapsed}, [className])}>
             {!isCollapsed && (avatar ? <img src={avatar} className={cls.Avatar} alt="avatar"/> : <span className={cls.ProfileTabAvatar}></span>)}

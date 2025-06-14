@@ -15,7 +15,7 @@ export interface DefaultColumn<T> {
 export interface ActionColumn<T> {
     key: 'action';
     title: string;
-    element: (row: T) => ReactElement;
+    element?: (row: T) => ReactElement;
     width?: string;
     alignColumn?: alignVariants;
     alignTableData?: alignVariants

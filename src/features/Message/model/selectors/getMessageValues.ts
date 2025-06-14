@@ -21,3 +21,11 @@ export const getMessageInfo = createSelector(getMessageValues,
 export const getNewMessageIsOpen = createSelector(getMessageValues,
     (state: MessageSliceSchema) => state.newMessageModalIsOpen
 )
+
+export const getMessageInfoIsFetching = createSelector(getMessageValues,
+    (state: MessageSliceSchema) => state.messageInfoIsFetching
+)
+
+export const getMessageIsFetching = createSelector(getMessageValues,
+    (state: MessageSliceSchema) => state.messagesIsFetching
+)

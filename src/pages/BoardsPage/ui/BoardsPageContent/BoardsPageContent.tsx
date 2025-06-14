@@ -19,6 +19,7 @@ import {
 import NoDataIllustration from '@/shared/assets/illustations/noDataIllustration.svg'
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {Helmet} from "react-helmet";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface BoardsPageContentProps {
     className?: string;
@@ -55,14 +56,24 @@ export const BoardsPageContent = (props: BoardsPageContentProps) => {
             </Helmet>
 
             <div className={cls.TopLine}>
-                <Typography size={'PARAGRAPH-18-REGULAR'}
-                            className={cls.TableHeading}>{selectedProject?.title}</Typography>
+                {selectedProject?.title
+                    ? <Typography
+                        size={'PARAGRAPH-18-REGULAR'}
+                                  className={cls.TableHeading}>
+                        {selectedProject?.title}
+                    </Typography>
+                    : <Skeleton height={22} width={100} border={6} />
+                }
                 {editIsPossible && <Button onClick={onNewBoardClickHandler} buttonType={'SMART_TEXT_BTN_FILLED'}>Создать доску</Button>}
             </div>
             {/*<MobileMenu/>*/}
 
             {userBoardIsFirstTimeFetching || userBoardsFetching
-                ? <></>
+                ?  <div className={cls.BoardCards}>
+                    <Skeleton width={200} height={80} border={6}/>
+                    <Skeleton width={200} height={80} border={6}/>
+                    <Skeleton width={200} height={80} border={6}/>
+                </div>
                 : (userBoards.length
                         ? (
                             <div className={cls.BoardCards}>

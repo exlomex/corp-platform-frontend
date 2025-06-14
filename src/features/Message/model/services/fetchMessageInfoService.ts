@@ -11,7 +11,7 @@ export const FetchMessageInfoService = createAsyncThunk<
     MessageI,
     FetchMessageInfoInputData,
     ThunkConfig<string>
->('messages/fetchReceived', async (FetchMessageInfoInputData, thunkApi) => {
+>('messages/fetchMessageInfo', async (FetchMessageInfoInputData, thunkApi) => {
     const { extra, dispatch, rejectWithValue } = thunkApi;
 
     try {

@@ -5,10 +5,11 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchMessageInfoService} from "@/features/Message/model/services/fetchMessageInfoService.ts";
 import {useLocation} from "react-router";
 import {useSelector} from "react-redux";
-import {getMessageInfo} from "../../model/selectors/getMessageValues.ts";
+import {getMessageInfo, getMessageInfoIsFetching} from "../../model/selectors/getMessageValues.ts";
 import AvatarIcon from '@/shared/assets/icons/mediumAvatarIcon.svg'
 import {dateConverter} from "@/features/TasksFilters/lib/DateConverter.ts";
 import {MessageFileWrapper} from "@/features/File";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface MessageInfoProps {
     className?: string;
@@ -31,8 +32,9 @@ export const MessageInfo = (props: MessageInfoProps) => {
     }, [dispatch, searchParamsSelectedMessageId]);
 
     const messageInfo = useSelector(getMessageInfo);
+    const messageInfoIsFetching = useSelector(getMessageInfoIsFetching);
 
-    if (!searchParamsSelectedMessageId || !messageInfo) {
+    if (!searchParamsSelectedMessageId) {
         return (
             <div className={classNames(cls.MessageInfo, {}, [className])}>
                 <div className={cls.WithoutMessage}>
@@ -40,6 +42,17 @@ export const MessageInfo = (props: MessageInfoProps) => {
                 </div>
             </div>
         );
+    }
+
+    if (!messageInfo || messageInfoIsFetching) {
+        return (<div className={classNames(cls.MessageInfo, {}, [className])}>
+            <Skeleton height={40} width={140} marginBottom={20} border={6}/>
+            <Skeleton height={36} width={'55%'} marginBottom={20} border={6}/>
+
+            <Skeleton height={20} width={'90%'} marginBottom={10} border={6}/>
+            <Skeleton height={20} width={'70%'} marginBottom={10} border={6}/>
+            <Skeleton height={20} width={'60%'} marginBottom={10} border={6}/>
+        </div>)
     }
 
     return (

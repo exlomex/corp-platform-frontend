@@ -45,7 +45,7 @@ export const ProfilePasswordForm = (props: ProfilePasswordFormProps) => {
     const passwordReg = register<'password'>("password", {
         ...passwordValidation,
         required: { value: true, message: 'Заполните обязательное поле' },
-        onBlur: () => trigger(['password', 'submitPassword']),
+        onBlur: () => trigger(['password']),
     });
 
     const watchedFields = watch();

@@ -4,6 +4,7 @@ import {DeleteUserProjectById} from "@/entities/Project/model/services/deleteUse
 import {LOCAL_STORAGE_SELECTED_PROJECT} from "@/shared/const/localstorage.ts";
 import {UserI} from "@/entities/User";
 import {ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
+import {FetchUserProjects} from "../services/fetchUserProjects.ts";
 
 const initialState: ProjectSliceSchema = {
     fetchUserProjectIsLoading: false,
@@ -91,6 +92,17 @@ export const ProjectSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // FetchUserProjects
+            .addCase(FetchUserProjects.pending, (state: ProjectSliceSchema) => {
+                state.fetchUserProjectIsLoading = true;
+            })
+            .addCase(FetchUserProjects.rejected, (state: ProjectSliceSchema) => {
+                state.fetchUserProjectIsLoading = false;
+            })
+            .addCase(FetchUserProjects.fulfilled, (state: ProjectSliceSchema) => {
+                state.fetchUserProjectIsLoading = false;
+            })
+            // DeleteUserProjectById
             .addCase(DeleteUserProjectById.pending, (state: ProjectSliceSchema) => {
                 state.isDeleteProjectFetching = true;
             })

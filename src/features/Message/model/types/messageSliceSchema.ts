@@ -23,8 +23,10 @@ export interface MessageSliceSchema {
 
     sentMessages?: MessageI[]
     receivedMessages?: MessageI[]
+    messagesIsFetching: boolean
 
     messageInfo?: MessageI
+    messageInfoIsFetching: boolean
 
     newMessageModalIsOpen: boolean
 }

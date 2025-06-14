@@ -25,6 +25,7 @@ import {useLocation, useNavigate, useParams} from "react-router";
 import {getIsUserBoardsFetching, getUserBoardsBySelectedProject} from "@/entities/Board";
 import {getRouteProjectBoard} from "@/shared/const/router.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface ProjectsTabProps {
     className?: string;
@@ -89,28 +90,34 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
                     <p className={cls.ProjectsHeader}>Ваши проекты</p>
 
                     <div className={cls.ProjectsList}>
-                        {userProjects && userProjects.length ? (
-                            userProjects.map(project => (
-                                <div
-                                    onClick={async () => {
-                                        await selectNewProject(
-                                            {id: project.id, title: project.title, projectKey: project.shortName, ownerId: project.ownerId},
-                                            dispatch,
-                                            navigate,
-                                            params,
-                                            close
-                                        );
-                                    }}
-                                    key={project.id}
-                                    className={classNames(cls.ProjectItem, {[cls.ProjectActive]: selectedProject && selectedProject.title === project.title}, [])}>
-                                    <span className={cls.ProjectIcon}><ProjectIcon/></span>
+                        {isFetchingUserProjects
+                            ? <div
+                                className={classNames(cls.ProjectItem, {}, [cls.NonSelectable])}
+                            >
+                                <Skeleton width={25} height={25} border={6}/>
+                                <Skeleton width={'calc(100% - 25px - 15px)'} height={25} border={6}/>
+                            </div>
+                            : userProjects && userProjects.length
+                                ? (
+                                    userProjects.map(project => (
+                                        <div
+                                            onClick={async () => {
+                                                await selectNewProject(
+                                                    {id: project.id, title: project.title, projectKey: project.shortName, ownerId: project.ownerId},
+                                                    dispatch,
+                                                    navigate,
+                                                    params,
+                                                    close
+                                                );
+                                            }}
+                                            key={project.id}
+                                            className={classNames(cls.ProjectItem, {[cls.ProjectActive]: selectedProject && selectedProject.title === project.title}, [])}>
+                                            <span className={cls.ProjectIcon}><ProjectIcon/></span>
 
-                                    <p className={cls.ProjectItemTitle}>{project.title}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <Typography size={'PARAGRAPH-14-REGULAR'} className={cls.NotFoundedTitle}>Проекты не найдены</Typography>
-                        )}
+                                            <p className={cls.ProjectItemTitle}>{project.title}</p>
+                                        </div>
+                                    ))
+                                ) : (<Typography size={'PARAGRAPH-14-REGULAR'} className={cls.NotFoundedTitle}>Проекты не найдены</Typography>)}
 
                         <Button onClick={onNewProjectButtonClick} buttonType={'CREATE_WITH_ICON_BTN_FILLED'}><AddIcon/>Создать
                             проект</Button>

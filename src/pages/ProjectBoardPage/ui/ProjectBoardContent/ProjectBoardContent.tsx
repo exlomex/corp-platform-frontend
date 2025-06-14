@@ -13,6 +13,7 @@ import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {EditableBoardTitle} from "@/features/EditableBoardTitle";
 import {Helmet} from "react-helmet";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface ProjectBoardContentProps {
     className?: string;
@@ -54,12 +55,13 @@ export const ProjectBoardContent = (props: ProjectBoardContentProps) => {
             </Helmet>
 
             <div className={cls.BoardTitleWrapper}>
-                <EditableBoardTitle
+                {selectedBoardTitle ? <EditableBoardTitle
                     boardTitle={selectedBoardTitle}
                     boardId={+params.board}
                     isEditTitleActive={isEditTitleActive}
                     setIsEditTitleActive={setIsEditTitleActive}
-                />
+                /> : <Skeleton border={6} height={40} width={140}/>}
+
                 {editIsPossible && <CreateExtendedTaskButton/>}
             </div>
             <AgileBoard/>

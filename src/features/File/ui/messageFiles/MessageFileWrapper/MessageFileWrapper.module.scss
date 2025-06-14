@@ -7,6 +7,7 @@
     gap: 12px;
     align-content: center;
     border-radius: 6px;
+    max-width: 100%;
 
     &:hover {
         background-color: var(--file-bg-color);
@@ -24,9 +25,11 @@
     border-radius: 6px;
     color: var(--file-extension-text-color);
     font: var(--font-paragraph-12-Regular);
+    flex-shrink: 0;
 }
 
 .FileName {
     font: var(--font-paragraph-16-Regular);
     align-content: center;
+    text-overflow: ellipsis;
 }

@@ -48,7 +48,7 @@ export const ProjectsContent = memo((props: ProjectsContentProps) => {
             </div>
 
             {projectsIsFirstLoading || projectsIsLoading
-                ? <></>
+                ? <ProjectsTable noData/>
                 : (userProjects.length
                         ? <ProjectsTable/>
                         : <div className={cls.NoDataContainer}>

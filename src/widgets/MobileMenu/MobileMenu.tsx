@@ -75,11 +75,6 @@ export const MobileMenu = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const selectedMessage = searchParams.get("selectedMessage");
-    const currentLocation = location.pathname;
-
-    useEffect(() => {
-        console.log(selectedMessage, currentLocation);
-    }, [currentLocation, selectedMessage])
 
     const onBackMessageButtonClickHandler = () => {
         searchParams.delete("selectedMessage");
