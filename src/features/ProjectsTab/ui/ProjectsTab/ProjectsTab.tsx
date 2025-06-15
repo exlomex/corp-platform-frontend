@@ -23,7 +23,7 @@ import {LOCAL_STORAGE_SELECTED_PROJECT} from "@/shared/const/localstorage.ts";
 import {Typography} from "@/shared/ui/Typography";
 import {useLocation, useNavigate, useParams} from "react-router";
 import {getIsUserBoardsFetching, getUserBoardsBySelectedProject} from "@/entities/Board";
-import {getRouteProjectBoard} from "@/shared/const/router.ts";
+import {getRouteProjectBoard, getRouteProjects} from "@/shared/const/router.ts";
 import {FetchUserBoardsByProjectId} from "@/entities/Board/model/services/fetchUserBoardsByProjectId.ts";
 import {Skeleton} from "@/shared/ui/Skeleton";
 
@@ -42,11 +42,20 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
     const isFirstCallFetchUserProjects = useSelector(getIsFirstFetchUserProject)
     const isFetchingUserProjects = useSelector(getProjectFetchUserProjectIsLoading)
 
+    const params = useParams() as Params
+    const navigate = useNavigate()
+
     useEffect(() => {
         if (!userProjects && isFirstCallFetchUserProjects) {
             dispatch(FetchUserProjects())
         }
     }, [dispatch, isFirstCallFetchUserProjects, userProjects]);
+
+    useEffect(() => {
+        if (userProjects !== undefined && userProjects.length === 0) {
+            navigate(getRouteProjects())
+        }
+    }, [navigate, userProjects]);
 
     // useEffect(() => {
     //     if (userProjects && userProjects.length) dispatch(ProjectActions.initProjects())
@@ -71,8 +80,6 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
         board?: string;
     }
 
-    const params = useParams() as Params
-    const navigate = useNavigate()
 
     return (
         <Popover
