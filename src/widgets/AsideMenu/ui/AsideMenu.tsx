@@ -37,7 +37,7 @@ type JSXNavElement = {
     content: navTabContentValues;
 }
 
-type navItemType = defaultNavItem | JSXNavElement
+export type navItemType = defaultNavItem | JSXNavElement
 export const AsideMenu = memo((props: AsideMenuProps) => {
     const { className } = props;
 

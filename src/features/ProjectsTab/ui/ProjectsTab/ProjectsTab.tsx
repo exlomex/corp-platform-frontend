@@ -51,11 +51,6 @@ export const ProjectsTab = (props: ProjectsTabProps) => {
         }
     }, [dispatch, isFirstCallFetchUserProjects, userProjects]);
 
-    useEffect(() => {
-        if (userProjects !== undefined && userProjects.length === 0) {
-            navigate(getRouteProjects())
-        }
-    }, [navigate, userProjects]);
 
     // useEffect(() => {
     //     if (userProjects && userProjects.length) dispatch(ProjectActions.initProjects())

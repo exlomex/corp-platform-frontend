@@ -4,7 +4,10 @@ import {TaskTree} from "@/features/TaskTree";
 import {TasksFilters} from "@/features/TasksFilters";
 import {Typography} from "@/shared/ui/Typography";
 import {useSelector} from "react-redux";
-import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {
+    getProjectSelectedProject,
+    getProjectUserProjects
+} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {getProjectTreeTasks, SubTaskModal} from "@/entities/Task";
 import {CreateExtendedTaskButton, CreateExtendedTaskModal} from "@/features/CreateNewTask";
 import {TaskInfoModal} from "@/features/TaskInfo";
@@ -13,6 +16,9 @@ import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
 import {Helmet} from 'react-helmet'
 import {Skeleton} from "@/shared/ui/Skeleton";
+import {useEffect} from "react";
+import {getRouteProjects} from "@/shared/const/router.ts";
+import {useNavigate} from "react-router";
 
 interface TasksPageContentProps {
     className?: string;
@@ -33,6 +39,15 @@ export const TasksPageContent = (props: TasksPageContentProps) => {
     const {isMobile} = useIsMobile();
 
     const combinedTitle = selectedProject?.title ? `Задачи - ${selectedProject?.title}` : 'Задачи'
+
+    const userProjects = useSelector(getProjectUserProjects)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (userProjects !== undefined && userProjects.length === 0) {
+            navigate(getRouteProjects())
+        }
+    }, [navigate, userProjects]);
 
     return (
         <div className={classNames(cls.TasksPageContent, {}, [className])}>

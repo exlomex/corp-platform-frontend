@@ -9,35 +9,27 @@ import LeftArrowIcon from '@/shared/assets/icons/leftArrowIcon.svg'
 import {getRouteMain, getRouteMessages, getRouteProjects} from "@/shared/const/router";
 import {Link, useLocation, useSearchParams} from "react-router";
 import { BoardTabContent } from "@/features/BoadsTab";
-import { navTabContentValues } from "@/widgets/AsideMenu/ui/AsideMenu.tsx";
-import { ReactElement } from "react";
+import {navItemType, navTabContentValues} from "@/widgets/AsideMenu/ui/AsideMenu.tsx";
 import {ProjectsTab} from "@/features/ProjectsTab";
 import {ProfileTab} from "@/features/ProfileTab";
 import {Button} from "@/shared/ui/Button";
+import {useSelector} from "react-redux";
+import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
-type defaultNavItem = {
-    icon: ReactElement;
-    content: navTabContentValues;
-    href?: string;
-}
-
-type JSXNavElement = {
-    element: ReactElement;
-    content: navTabContentValues;
-}
-
-type navItemType = defaultNavItem | JSXNavElement;
 
 export const MobileMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => setIsOpen(prev => !prev);
 
+    const selectedProject = useSelector(getProjectSelectedProject)
+
     const navigationItems: navItemType[] = [
         {
             icon: <TaskIcon />,
             content: 'Задачи',
             href: getRouteMain(),
+            disabled: !selectedProject
         },
         {
             element: <BoardTabContent isMobile isCollapsed={false} />,
@@ -86,7 +78,7 @@ export const MobileMenu = () => {
             <div className={cls.TopBar}>
                 {selectedMessage && <Button className={cls.CloseMessageIcon} onClick={onBackMessageButtonClickHandler} buttonType={'SMALL_ICON_BTN_FILLED'}><LeftArrowIcon/></Button>}
 
-                <Link to={getRouteMain()} className={cls.Logo}>
+                <Link to={selectedProject ? getRouteMain() : null} className={cls.Logo}>
                     <LightLogo />
                 </Link>
 
@@ -114,7 +106,8 @@ export const MobileMenu = () => {
                                 key={index}
                                 to={item.href || '#'}
                                 className={classNames(cls.MenuItem, {
-                                    [cls.ActiveTab]: index === activeIndex.current
+                                    [cls.ActiveTab]: index === activeIndex.current,
+                                    [cls.Disabled]: item.disabled
                                 })}
                             >
                                 <span className={cls.IconWrapper}>{item.icon}</span>

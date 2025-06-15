@@ -130,6 +130,12 @@
     }
 }
 
+
+.Disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 @media (max-width: 768px) {
     .TopBar {
         padding: 10px 20px;
