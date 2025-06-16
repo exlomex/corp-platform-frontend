@@ -34,7 +34,7 @@
 
 @media (max-width: 768px) {
     .AgileBoard {
-        height: calc(100vh - 130px);
+        height: calc(100dvh - 130px);
         max-width: calc(100% - 10px);
     }
 }

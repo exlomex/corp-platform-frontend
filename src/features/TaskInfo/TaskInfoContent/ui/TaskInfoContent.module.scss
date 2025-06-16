@@ -1,6 +1,6 @@
 .TaskInfoContent {
     min-height: 544px;
-    max-height: 90vh;
+    max-height: 90dvh;
     width: fit-content;
     display: flex;
     align-items: start;
@@ -10,7 +10,7 @@
 
 .TaskInfoLeftSide {
     padding-right: 10px;
-    max-height: calc(90vh - 70px);
+    max-height: calc(90dvh - 70px);
     min-width: 300px;
     flex-shrink: 1;
     width: 550px;
@@ -179,7 +179,7 @@
     }
 
     .TaskInfoLeftSide {
-        max-height: calc(100vh - 70px);
+        max-height: calc(100dvh - 70px);
         max-width: 450px;
     }
 }
