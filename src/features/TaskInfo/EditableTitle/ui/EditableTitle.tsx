@@ -9,11 +9,13 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {
     ChangeTaskTitleService,
-    ChangeTaskTitleServiceInputData
+    ChangeTaskTitleServiceInputData, FetchProjectTreeTasksService
 } from "@/entities/Task";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {useSelector} from "react-redux";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {useLocation} from "react-router";
+import {getRouteMain} from "@/shared/const/router.ts";
 
 interface EditableTitleProps {
     className?: string;
@@ -60,6 +62,7 @@ export const EditableTitle = (props: EditableTitleProps) => {
 
     const dispatch = useAppDispatch()
     const selectedProject = useSelector(getProjectSelectedProject)
+    const location = useLocation()
 
     const onSubmitEditHandler = async () => {
         if (newTaskTitleValue.trim() !== taskTitle && newTaskTitleValue.trim().length >= 1) {
@@ -74,10 +77,16 @@ export const EditableTitle = (props: EditableTitleProps) => {
 
             try {
                 await dispatch(ChangeTaskTitleService(editBody)).unwrap()
-                await dispatch(fetchTaskInfoService({uniqueTitle: uniqueTitle, projectId: selectedProject.id})).unwrap();
-                await dispatch(FetchBoardTasks({boardId: boardId, projectId: selectedProject.id})).unwrap()
-
                 onCloseEditableAreaHandler()
+                await dispatch(fetchTaskInfoService({uniqueTitle: uniqueTitle, projectId: selectedProject.id})).unwrap();
+
+                if (location.pathname === getRouteMain()) {
+                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id}))
+                } else {
+                    await dispatch(FetchBoardTasks({boardId: boardId, projectId: selectedProject.id})).unwrap()
+                }
+
+
                 setTaskTitleState(newTaskTitleValue)
             } catch (e) {
                 console.error(e?.message || e)

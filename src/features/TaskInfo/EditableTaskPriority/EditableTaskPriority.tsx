@@ -4,12 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { ComboBox, ComboBoxOption } from '@/shared/ui/ComboBox/ComboBox';
 import { useSelector } from 'react-redux';
 import { priorityOptions } from '@/features/CreateNewTask/const/priorityConsts.tsx';
-import {getSelectedTaskInfo, Priority, TaskActions, TaskI} from '@/entities/Task';
+import {FetchProjectTreeTasksService, getSelectedTaskInfo, Priority, TaskActions, TaskI} from '@/entities/Task';
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {ChangeTaskPriorityService} from "@/entities/Task/model/services/changeTaskPriorityService.ts";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {Skeleton} from "@/shared/ui/Skeleton";
+import {getRouteMain} from "@/shared/const/router.ts";
+import {useLocation} from "react-router";
 
 interface EditableTaskPriorityProps {
     className?: string;
@@ -44,6 +46,7 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
 
     const dispatch = useAppDispatch()
     const selectedProject = useSelector(getProjectSelectedProject)
+    const location = useLocation()
 
     const onSelectPriorityHandler = async (option: ComboBoxOption) => {
         if (selectedTaskInfo?.id) {
@@ -58,7 +61,13 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
                     taskId: selectedTaskInfo.id,
                     projectId: selectedProject.id
                 })).unwrap()
-                await dispatch(FetchBoardTasks({boardId: selectedTaskInfo.boardId, projectId: selectedProject.id})).unwrap()
+
+                if (location.pathname === getRouteMain()) {
+                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id}))
+                } else {
+                    await dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject.id})).unwrap()
+                }
+
                 dispatch(TaskActions.setSelectedTaskInfo(response))
             } catch (e) {
                 console.error(e)

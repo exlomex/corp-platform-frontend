@@ -1,7 +1,7 @@
 import { classNames } from '@/shared/lib/classNames';
 import cls from './EditableTaskStatus.module.scss';
 import {useSelector} from "react-redux";
-import {ChangeTaskStatusService, getSelectedTaskInfo} from "@/entities/Task";
+import {ChangeTaskStatusService, FetchProjectTreeTasksService, getSelectedTaskInfo} from "@/entities/Task";
 import {useEffect, useState} from "react";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {FetchBoardStatuses} from "@/entities/Status/model/services/fetchBoardStatuses.ts";
@@ -12,7 +12,7 @@ import {ChangeTaskStatusInputData} from "@/entities/Task/model/services/changeTa
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {useLocation, useNavigate, useParams} from "react-router";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
-import {getRouteProjectBoard} from "@/shared/const/router.ts";
+import {getRouteMain, getRouteProjectBoard} from "@/shared/const/router.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 
 interface EditableTaskStatusProps {
@@ -31,6 +31,8 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
 
     const [normalizedBoardStatuses, setNormalizedBoardStatuses] = useState<ComboBoxOption[]>([])
     const [selectedBoardStatus, setSelectedBoardStatus] = useState<ComboBoxOption>(null)
+
+    const location = useLocation()
 
     useEffect(() => {
         if (selectedTaskBoardStatuses.length >= 1 && selectedTaskInfo?.id && !selectedTaskInfo?.archived) {
@@ -61,7 +63,6 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
         // if (selectedTaskInfo?.boardId)
     }, [dispatch, selectedProject, selectedTaskInfo]);
 
-
     const onSelectOption = async (option: ComboBoxOption) => {
         if (selectedTaskInfo.id) {
             const changeBody: ChangeTaskStatusInputData = {
@@ -73,7 +74,11 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
             try {
                 await dispatch(ChangeTaskStatusService(changeBody)).unwrap()
                 await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle, projectId: selectedProject.id})).unwrap()
-                await dispatch(FetchBoardTasks({boardId: selectedTaskInfo.boardId, projectId: selectedProject.id})).unwrap()
+                if (location.pathname === getRouteMain()) {
+                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id}))
+                } else {
+                    await dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject.id})).unwrap()
+                }
             } catch (e) {
                 console.error(e)
             }
