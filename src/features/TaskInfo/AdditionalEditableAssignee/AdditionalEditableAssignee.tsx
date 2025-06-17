@@ -24,6 +24,8 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 import {Skeleton} from "@/shared/ui/Skeleton";
 import {getRouteMain} from "@/shared/const/router.ts";
 import {useLocation} from "react-router";
+import {prepareFiltersFromState} from "@/features/TasksFilters";
+import {getTaskFiltersState} from "@/features/TasksFilters/model/selectors/getTaskFilters.ts";
 
 interface AdditionalEditableAssigneeProps {
     className?: string;
@@ -94,6 +96,8 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
 
     const location = useLocation()
 
+    const filtersState = useSelector(getTaskFiltersState);
+
     const onSelectNewAssigneeHandler = async (options: ComboBoxOption) => {
         if (selectedTaskInfo && selectedTaskInfo.id && selectedTaskInfo.uniqueTitle && options) {
             const addAssigneeBody: addTaskAssigneeInputData = {
@@ -101,6 +105,10 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
                 taskId: selectedTaskInfo.id,
                 projectId: selectedProject.id
             }
+
+            const filters = prepareFiltersFromState({
+                ...filtersState,
+            });
 
             try {
                 if (selectedTaskInfo?.assignee?.id === options.id) {
@@ -112,7 +120,7 @@ export const AdditionalEditableAssignee = (props: AdditionalEditableAssigneeProp
                 await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle, projectId: selectedProject.id})).unwrap()
 
                 if (location.pathname === getRouteMain()) {
-                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id}))
+                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id,filters:filters}))
                 } else {
                     await dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject.id})).unwrap()
                 }

@@ -12,6 +12,8 @@ import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getP
 import {Skeleton} from "@/shared/ui/Skeleton";
 import {getRouteMain} from "@/shared/const/router.ts";
 import {useLocation} from "react-router";
+import {getTaskFiltersState} from "@/features/TasksFilters/model/selectors/getTaskFilters.ts";
+import {prepareFiltersFromState} from "@/features/TasksFilters";
 
 interface EditableTaskPriorityProps {
     className?: string;
@@ -48,12 +50,18 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
     const selectedProject = useSelector(getProjectSelectedProject)
     const location = useLocation()
 
+    const filtersState = useSelector(getTaskFiltersState);
+
     const onSelectPriorityHandler = async (option: ComboBoxOption) => {
         if (selectedTaskInfo?.id) {
             if (option.value === pickedPriority?.value) {
                 setFieldIsActive(false);
                 return;
             }
+
+            const filters = prepareFiltersFromState({
+                ...filtersState,
+            });
 
             try {
                 const response: TaskI = await dispatch(ChangeTaskPriorityService({
@@ -63,7 +71,7 @@ export const EditableTaskPriority = (props: EditableTaskPriorityProps) => {
                 })).unwrap()
 
                 if (location.pathname === getRouteMain()) {
-                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id}))
+                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id, filters: filters}))
                 } else {
                     await dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject.id})).unwrap()
                 }

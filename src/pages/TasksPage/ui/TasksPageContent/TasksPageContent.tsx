@@ -19,6 +19,7 @@ import {Skeleton} from "@/shared/ui/Skeleton";
 import {useEffect} from "react";
 import {getRouteProjects} from "@/shared/const/router.ts";
 import {useNavigate} from "react-router";
+import {calculateTasksCount} from "@/pages/TasksPage/lib/calculateTasksCount.ts";
 
 interface TasksPageContentProps {
     className?: string;
@@ -58,7 +59,7 @@ export const TasksPageContent = (props: TasksPageContentProps) => {
             <div className={cls.TasksPageTopLine}>
                 <div className={cls.HeadingWrapper}>
                     {selectedProject?.title ? (<Typography className={cls.Heading} size={'TEXT-26-MEDIUM'}>{selectedProject?.title}</Typography>) : <Skeleton border={6} height={36} width={140}/>}
-                    <span className={cls.CountOfTasks}>{filteredTasks?.length || 0}</span>
+                    <span className={cls.CountOfTasks}>{filteredTasks?.length ? calculateTasksCount(filteredTasks) : 0}</span>
                 </div>
                 {editIsPossible && !isMobile && <CreateExtendedTaskButton/>}
             </div>

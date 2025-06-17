@@ -14,6 +14,8 @@ import {useLocation, useNavigate, useParams} from "react-router";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
 import {getRouteMain, getRouteProjectBoard} from "@/shared/const/router.ts";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
+import {prepareFiltersFromState} from "@/features/TasksFilters";
+import {getTaskFiltersState} from "@/features/TasksFilters/model/selectors/getTaskFilters.ts";
 
 interface EditableTaskStatusProps {
     className?: string;
@@ -63,6 +65,8 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
         // if (selectedTaskInfo?.boardId)
     }, [dispatch, selectedProject, selectedTaskInfo]);
 
+    const filtersState = useSelector(getTaskFiltersState);
+
     const onSelectOption = async (option: ComboBoxOption) => {
         if (selectedTaskInfo.id) {
             const changeBody: ChangeTaskStatusInputData = {
@@ -71,11 +75,16 @@ export const EditableTaskStatus = (props: EditableTaskStatusProps) => {
                 projectId: selectedProject.id
             }
 
+            const filters = prepareFiltersFromState({
+                ...filtersState,
+            });
+
+
             try {
                 await dispatch(ChangeTaskStatusService(changeBody)).unwrap()
                 await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo.uniqueTitle, projectId: selectedProject.id})).unwrap()
                 if (location.pathname === getRouteMain()) {
-                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id}))
+                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id, filters: filters}))
                 } else {
                     await dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject.id})).unwrap()
                 }

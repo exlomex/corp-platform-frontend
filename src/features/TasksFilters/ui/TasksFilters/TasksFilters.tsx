@@ -14,13 +14,26 @@ import {Button} from "@/shared/ui/Button";
 import AvatarIcon from "@/shared/assets/icons/userAvatarIcon.svg";
 import {
     FetchProjectTreeTasksService,
-    TasksTreeFilters
 } from "@/entities/Task/model/services/fetchProjectTreeTasksService.ts";
 import {ExtraFilters} from "../ExtraFilters/ExtraFilters.tsx";
 import {Priority, PriorityKeys} from "@/entities/Task";
-import {dateConverter} from "@/features/TasksFilters/lib/DateConverter.ts";
 import {CreateExtendedTaskButton} from "@/features/CreateNewTask";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
+import {
+    getDeadlineFrom,
+    getDeadlineTo,
+    getSearchQuery,
+    getSelectedAuthorIds,
+    getSelectedPriority,
+    getSelectedResolution,
+    getStoryPointsFrom,
+    getStoryPointsTo,
+    getSelectedAssigneeIds,
+    getTaskFiltersState,
+    getSelectedBoardIds
+} from "../../model/selectors/getTaskFilters.ts";
+import {prepareFiltersFromState} from "../../lib/PrepareFiltersBody.ts";
+import {taskFiltersActions} from "../../model/slice/taskFiltersSlice.ts";
 
 interface TasksFiltersProps {
     className?: string;
@@ -34,8 +47,20 @@ export const TasksFilters = (props: TasksFiltersProps) => {
 
     const {isMobile} = useIsMobile()
 
+    // Global Task Filters
+    const selectedResolution = useSelector(getSelectedResolution);
+    const selectedAuthorIds = useSelector(getSelectedAuthorIds);
+    const selectedAssigneeIds = useSelector(getSelectedAssigneeIds);
+    const searchQuery = useSelector(getSearchQuery);
+    const selectedPriority = useSelector(getSelectedPriority);
+    const deadlineFrom = useSelector(getDeadlineFrom);
+    const deadlineTo = useSelector(getDeadlineTo);
+    const storyPointsFrom = useSelector(getStoryPointsFrom);
+    const storyPointsTo = useSelector(getStoryPointsTo);
+    const selectedBoardsIds = useSelector(getSelectedBoardIds)
+
     // boards
-    const [selectedBoardsIds, setSelectedBoarIds] = useState<(string | number)[]>([]);
+    // const [selectedBoardsIds, setSelectedBoarIds] = useState<(string | number)[]>([]);
     const projectBoard = useSelector(getUserBoardsBySelectedProject)
     const [boardOptions, setBoardOptions] = useState<Option[]>([])
 
@@ -70,10 +95,10 @@ export const TasksFilters = (props: TasksFiltersProps) => {
         }
     ]
 
-    const [selectedResolution, setSelectedResolution] = useState<(string | number)[]>([])
+    // const [selectedResolution, setSelectedResolution] = useState<(string | number)[]>([])
 
     // author
-    const [selectedAuthorIds, setSelectedAuthorIds] = useState<(string | number)[]>([]);
+    // const [selectedAuthorIds, setSelectedAuthorIds] = useState<(string | number)[]>([]);
     const [authorOptions, setAuthorOptions] = useState<Option[]>([])
 
     // Assignee
@@ -83,7 +108,7 @@ export const TasksFilters = (props: TasksFiltersProps) => {
         }
     }, [dispatch, selectedProject]);
 
-    const [selectedAssigneeIds, setSelectedAssigneeIds] = useState<(string | number)[]>([]);
+    // const [selectedAssigneeIds, setSelectedAssigneeIds] = useState<(string | number)[]>([]);
     const projectUsers = useSelector(getProjectUsers)
     const [assigneeOptions, setAssigneeOptions] = useState<Option[]>([])
 
@@ -117,7 +142,7 @@ export const TasksFilters = (props: TasksFiltersProps) => {
     }, [projectUsers]);
 
     // search
-    const [searchQuery, setSearchQuery] = useState<string>('')
+    // const [searchQuery, setSearchQuery] = useState<string>('')
 
     // priority
     const normalizedPriorityOptions: Option<PriorityKeys>[] = [
@@ -139,42 +164,25 @@ export const TasksFilters = (props: TasksFiltersProps) => {
         }
     ]
 
-    const [selectedPriority, setSelectedPriority] = useState<(string | number)[]>([])
+    // const [selectedPriority, setSelectedPriority] = useState<(string | number)[]>([])
 
-    const [deadlineFrom, setDeadlineFrom] = useState<Date>(null)
-    const [deadlineTo, setDeadlineTo] = useState<Date>(null)
+    // const [deadlineFrom, setDeadlineFrom] = useState<Date>(null)
+    // const [deadlineTo, setDeadlineTo] = useState<Date>(null)
 
     // storyPoints
-    const [storyPointsFrom, setStoryPointsFrom] = useState<string>('')
-    const [storyPointsTo, setStoryPointsTo] = useState<string>('')
+    // const [storyPointsFrom, setStoryPointsFrom] = useState<string>('')
+    // const [storyPointsTo, setStoryPointsTo] = useState<string>('')
+
+    const filtersState = useSelector(getTaskFiltersState);
 
     // finally
     const onSearchButtonClickHandler = async () => {
-        const preparedBody: TasksTreeFilters = {
-            boardIds: selectedBoardsIds,
-            authorIds: selectedAuthorIds,
-            assigneeIds: selectedAssigneeIds,
-            priorities: selectedPriority as PriorityKeys[],
-            text: searchQuery,
-            resolutions: selectedResolution as ResolutionKeys[],
-            deadlineStart: deadlineFrom ? dateConverter(deadlineFrom) : null,
-            deadlineEnd: deadlineTo ? dateConverter(deadlineTo) : null,
-            storyPointsFrom: storyPointsFrom ? +storyPointsFrom : null,
-            storyPointsTo: storyPointsTo ? +storyPointsTo : null
-        }
+        const preparedBody = prepareFiltersFromState(filtersState)
         await dispatch(FetchProjectTreeTasksService({projectId: selectedProject.id, filters: preparedBody}))
     }
     const onClearFiltersClickHandler = () => {
-        setSearchQuery('')
-        setSelectedAssigneeIds([])
-        setSelectedResolution([])
-        setSelectedBoarIds([])
-        setDeadlineFrom(null)
-        setDeadlineTo(null)
-        setSelectedPriority([])
-        setSelectedAuthorIds([])
-        setStoryPointsFrom('')
-        setStoryPointsTo('')
+
+        dispatch(taskFiltersActions.resetAllFilters())
 
         dispatch(FetchProjectTreeTasksService({projectId: selectedProject.id}))
     }
@@ -183,21 +191,21 @@ export const TasksFilters = (props: TasksFiltersProps) => {
         <div className={classNames(cls.TasksFilters, {}, [className])}>
             <CheckBoxFilter
                 options={boardOptions}
-                setSelectedValues={setSelectedBoarIds}
+                setSelectedValues={(v) => dispatch(taskFiltersActions.setSelectedBoardsIds(v))}
                 selectedValues={selectedBoardsIds}
                 placeholder={'Доска'}
             />
 
             <CheckBoxFilter
                 options={normalizedResolutionsOptions}
-                setSelectedValues={setSelectedResolution}
+                setSelectedValues={(v) => dispatch(taskFiltersActions.setSelectedResolution(v))}
                 selectedValues={selectedResolution}
                 placeholder={'Резолюция'}
             />
 
             <CheckBoxFilter
                 options={assigneeOptions}
-                setSelectedValues={setSelectedAssigneeIds}
+                setSelectedValues={(v) => dispatch(taskFiltersActions.setSelectedAssigneeIds(v))}
                 selectedValues={selectedAssigneeIds}
                 placeholder={'Исполнитель'}
             />
@@ -209,7 +217,7 @@ export const TasksFilters = (props: TasksFiltersProps) => {
                     type="text"
                     placeholder="Содержит текст"
                     value={searchQuery}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                    onChange={(e) => dispatch(taskFiltersActions.setSearchQuery(e.target.value))}
                     className={cls.SearchInput}
                 />
             </div>
@@ -218,26 +226,26 @@ export const TasksFilters = (props: TasksFiltersProps) => {
                 // author
                 authorOptions={authorOptions}
                 authorSelectedValues={selectedAuthorIds}
-                authorSetSelectedValues={setSelectedAuthorIds}
+                authorSetSelectedValues={(v) => dispatch(taskFiltersActions.setSelectedAuthorIds(v))}
 
                 // priority
                 priorityOptions={normalizedPriorityOptions}
                 prioritySelectedValues={selectedPriority}
-                prioritySetSelectedValues={setSelectedPriority}
+                prioritySetSelectedValues={(v) => dispatch(taskFiltersActions.setSelectedPriority(v))}
 
                 // deadline
                 deadlineFrom={deadlineFrom}
-                setDeadlineFrom={setDeadlineFrom}
+                setDeadlineFrom={(v) => dispatch(taskFiltersActions.setDeadlineFrom(v))}
 
                 deadlineTo={deadlineTo}
-                setDeadlineTo={setDeadlineTo}
+                setDeadlineTo={(v) => dispatch(taskFiltersActions.setDeadlineTo(v))}
 
                 // storyPoints
                 storyPointsFrom={storyPointsFrom}
-                setStoryPointsFrom={setStoryPointsFrom}
+                setStoryPointsFrom={(v) => dispatch(taskFiltersActions.setStoryPointsFrom(v))}
 
                 storyPointsTo={storyPointsTo}
-                setStoryPointsTo={setStoryPointsTo}
+                setStoryPointsTo={(v) => dispatch(taskFiltersActions.setStoryPointsTo(v))}
             />
 
             <Button buttonType={'SMART_TEXT_BTN_FILLED'} onClick={onSearchButtonClickHandler}>Поиск</Button>

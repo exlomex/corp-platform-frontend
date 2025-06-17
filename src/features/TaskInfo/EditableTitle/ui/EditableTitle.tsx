@@ -16,6 +16,8 @@ import {useSelector} from "react-redux";
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {useLocation} from "react-router";
 import {getRouteMain} from "@/shared/const/router.ts";
+import {prepareFiltersFromState} from "@/features/TasksFilters";
+import {getTaskFiltersState} from "@/features/TasksFilters/model/selectors/getTaskFilters.ts";
 
 interface EditableTitleProps {
     className?: string;
@@ -64,6 +66,8 @@ export const EditableTitle = (props: EditableTitleProps) => {
     const selectedProject = useSelector(getProjectSelectedProject)
     const location = useLocation()
 
+    const filtersState = useSelector(getTaskFiltersState);
+
     const onSubmitEditHandler = async () => {
         if (newTaskTitleValue.trim() !== taskTitle && newTaskTitleValue.trim().length >= 1) {
             const editBody: ChangeTaskTitleServiceInputData = {
@@ -75,13 +79,17 @@ export const EditableTitle = (props: EditableTitleProps) => {
                 projectId: selectedProject.id
             }
 
+            const filters = prepareFiltersFromState({
+                ...filtersState,
+            });
+
             try {
                 await dispatch(ChangeTaskTitleService(editBody)).unwrap()
                 onCloseEditableAreaHandler()
                 await dispatch(fetchTaskInfoService({uniqueTitle: uniqueTitle, projectId: selectedProject.id})).unwrap();
 
                 if (location.pathname === getRouteMain()) {
-                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id}))
+                    await dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id, filters: filters}))
                 } else {
                     await dispatch(FetchBoardTasks({boardId: boardId, projectId: selectedProject.id})).unwrap()
                 }
