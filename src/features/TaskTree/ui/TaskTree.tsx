@@ -15,6 +15,7 @@ import {Column, Table} from "@/shared/ui/Table/Table.tsx";
 import NoDataIllustration from "@/shared/assets/illustations/noDataIllustration.svg";
 import {Typography} from "@/shared/ui/Typography";
 import {Skeleton} from "@/shared/ui/Skeleton";
+import {taskFiltersActions} from "@/features/TasksFilters";
 
 interface TaskTreeProps {
     className?: string;
@@ -28,6 +29,7 @@ export const TaskTree = (props: TaskTreeProps) => {
 
     useEffect(() => {
         if (selectedProject?.id) {
+            dispatch(taskFiltersActions.resetAllFilters())
             dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id }))
         }
     }, [dispatch, selectedProject?.id]);

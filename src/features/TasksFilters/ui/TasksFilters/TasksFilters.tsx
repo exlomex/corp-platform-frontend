@@ -187,6 +187,7 @@ export const TasksFilters = (props: TasksFiltersProps) => {
         dispatch(FetchProjectTreeTasksService({projectId: selectedProject.id}))
     }
 
+
     return (
         <div className={classNames(cls.TasksFilters, {}, [className])}>
             <CheckBoxFilter
