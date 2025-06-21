@@ -2,14 +2,14 @@ import { classNames } from '@/shared/lib/classNames';
 import cls from './RegisterForm.module.scss';
 import {InvitationField} from "../InvitationField/InvitationField.tsx";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
 import {Input} from "@/shared/ui/Input";
 import {InputWrapper} from "@/shared/ui/InputWrapper";
 import {Button} from "@/shared/ui/Button";
 import {Typography} from "@/shared/ui/Typography";
 import {useSelector} from "react-redux";
 import {
-    getRegisterInvitationCodeIsActivate,
+    getRegisterInvitationCodeIsActivate, getRegisterServiceError,
     getRegisterServiceIsFetching
 } from "@/features/Registration/model/selectors/getRegisterValues.ts";
 import {registerByEmailInputData} from "@/features/Registration/model/types/registerByEmailTypes.ts";
@@ -19,6 +19,10 @@ import {RegisterByEmail} from "../../model/services/registerByEmail.ts";
 import {RegisterByInvitationKey} from "../../model/services/registerByInvitationKey.ts";
 import {Link} from "react-router";
 import {getRouteLogin, getRouteRegister} from "@/shared/const/router.ts";
+import {UserSliceActions} from "@/entities/User";
+import {BoardActions} from "@/entities/Board";
+import {ProjectActions} from "@/entities/Project";
+import {RegistrationSlice, RegistrationSliceActions} from "@/features/Registration/model/slice/registrationSlice.ts";
 
 interface RegisterFormProps {
     className?: string;
@@ -117,10 +121,21 @@ export const RegisterForm = (props: RegisterFormProps) => {
 
     const formValues = getValues()
 
+    const RegisterServiceError = useSelector(getRegisterServiceError)
+
+    useEffect(() => {
+        dispatch(RegistrationSliceActions.resetRegistrationSlice())
+    }, [dispatch]);
+
     return (
         <div className={classNames(cls.RegisterForm, {}, [className])}>
-            <Typography size={"HEADING-H4"} align={'CENTER'} className={cls.RegisterFormHeading}>Регистрация в
-                TeamSpace</Typography>
+            <div className={cls.RegisterFormHeading}>
+                <Typography size={"HEADING-H4"} align={'CENTER'} className={cls.HeadingTitle}>Регистрация в
+                    TeamSpace</Typography>
+                {RegisterServiceError && (<Typography className={cls.HeadingError} align={"CENTER"} size={"PARAGRAPH-16-REGULAR"}>
+                    {RegisterServiceError.includes('User') ? 'Пользователь с таким email уже существует.' : RegisterServiceError}
+                </Typography>)}
+            </div>
 
             <form autoComplete={'on'} onSubmit={handleSubmit(onSubmit)}>
                 <div className={cls.RegisterFieldFlex}>

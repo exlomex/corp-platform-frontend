@@ -19,3 +19,7 @@ export const getRegisterInvitationCodeIsActivate = createSelector(getRegisterSli
 export const getRegisterServiceIsFetching = createSelector(getRegisterSlice, (state: RegistrationSliceSchema) => {
     return state.RegisterServiceIsFetching
 })
+
+export const getRegisterServiceError = createSelector(getRegisterSlice, (state: RegistrationSliceSchema) => {
+    return state.RegisterServiceError
+})

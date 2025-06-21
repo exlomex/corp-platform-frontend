@@ -4,18 +4,22 @@ import {useEffect, useMemo, useState} from "react";
 import {Column, Table} from "@/shared/ui/Table/Table.tsx";
 import {NormalizedSnapshotType, normalizeSnapshots} from "@/features/TaskInfo/Snapshots/lib/normalizeSnapshots.tsx";
 import {useSelector} from "react-redux";
-import {getSelectedTaskSnapshots} from "@/entities/Task/model/selectors/getTaskValues.ts";
+import {
+    getSelectedTaskSnapshots,
+} from "@/entities/Task/model/selectors/getTaskValues.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
-import {useTaskSearchParams} from "@/shared/hooks/useTaskSearchParams";
 import {TaskActions} from "@/entities/Task";
-import {useLocation, useSearchParams} from "react-router";
+import { useSearchParams} from "react-router";
+import {Skeleton} from "@/shared/ui/Skeleton";
 
 interface SnapshotsTableProps {
     className?: string;
+    noData?: boolean;
+    isFetching: boolean;
 }
 
 export const SnapshotsTable = (props: SnapshotsTableProps) => {
-    const { className } = props;
+    const { className, noData, isFetching } = props;
 
     const [normalizedSnapshots, setNormalizedSnapshots] = useState<NormalizedSnapshotType[]>(null)
 
@@ -51,7 +55,6 @@ export const SnapshotsTable = (props: SnapshotsTableProps) => {
         }
     }, [selectedTaskSnapshots, searchParams, dispatch]);
 
-
     const SnapshotsColumns: Column<NormalizedSnapshotType>[] = [
         {
             title: 'Код',
@@ -75,6 +78,27 @@ export const SnapshotsTable = (props: SnapshotsTableProps) => {
             alignColumn: 'center',
         },
     ]
+
+    const snapshotSkeletons: NormalizedSnapshotType[] = [
+        {
+            id: 1,
+            title: <Skeleton height={25} width={100} border={6} />,
+            modifiedBy: <Skeleton height={25} width={140} border={6} />,
+            modifiedDate: <Skeleton height={25} width={90} border={6} />,
+            version: <Skeleton height={25} width={40} border={6} />,
+        },
+        {
+            id: 2,
+            title: <Skeleton height={25} width={100} border={6} />,
+            modifiedBy: <Skeleton height={25} width={140} border={6} />,
+            modifiedDate: <Skeleton height={25} width={90} border={6} />,
+            version: <Skeleton height={25} width={40} border={6} />,
+        },
+    ];
+
+    if (noData || isFetching) return (
+        <Table<NormalizedSnapshotType> columns={SnapshotsColumns} data={snapshotSkeletons} className={classNames(cls.SnapshotsTable, {}, [className])}/>
+    )
 
     return (
         <Table<NormalizedSnapshotType> columns={SnapshotsColumns} data={normalizedSnapshots} className={classNames(cls.SnapshotsTable, {}, [className])}/>

@@ -4,7 +4,16 @@
 }
 
 .RegisterFormHeading {
-    margin-bottom: 80px;
+    margin-bottom: 50px;
+}
+
+.HeadingTitle {
+    margin-bottom: 10px;
+}
+
+.HeadingError {
+    color: var(--red-color);
+    margin-bottom: 50px;
 }
 
 .RegisterField {
@@ -48,6 +57,12 @@
 }
 
 @media (max-height: 700px) {
+    .RegisterForm {
+        height: 100%;
+    }
+}
+
+@media (max-width: 600px) {
     .RegisterForm {
         height: 100%;
     }

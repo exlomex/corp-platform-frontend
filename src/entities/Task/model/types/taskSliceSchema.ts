@@ -101,6 +101,7 @@ export interface TaskSliceSchema {
     selectedTaskUniqueTitle?: string,
     selectedTaskInfoIsFetching: boolean;
     selectedTaskSnapshots?: TaskSnapshots[]
+    selectedTaskSnapshotsIsFetching: boolean
 
     taskNavigationHistory: TaskNavigationHistory[],
 

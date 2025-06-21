@@ -14,6 +14,7 @@ export const RegistrationSlice = createSlice({
     name: 'registration',
     initialState,
     reducers: {
+        resetRegistrationSlice: () => initialState,
         setInvitationCodeIsActivate: (state: RegistrationSliceSchema, action: PayloadAction<boolean>) => {
             state.InvitationCodeIsActivate = action.payload
         }
@@ -34,12 +35,14 @@ export const RegistrationSlice = createSlice({
             // register by email
             .addCase(RegisterByEmail.pending, (state: RegistrationSliceSchema) => {
                 state.RegisterServiceIsFetching = true;
+                state.RegisterServiceError = undefined;
             })
             .addCase(RegisterByEmail.fulfilled, (state: RegistrationSliceSchema) => {
                 state.RegisterServiceIsFetching = false;
             })
             .addCase(RegisterByEmail.rejected, (state: RegistrationSliceSchema, action) => {
                 state.RegisterServiceIsFetching = false;
+                state.RegisterServiceError = action.payload;
             })
             // register by code
             .addCase(RegisterByInvitationKey.pending, (state: RegistrationSliceSchema) => {

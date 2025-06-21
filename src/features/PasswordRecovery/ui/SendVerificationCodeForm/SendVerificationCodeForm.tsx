@@ -66,7 +66,7 @@ export const SendVerificationCodeForm = (props: SendVerificationCodeFormProps) =
                     }
                 />
 
-                <Button isLoading={isFetching} regularType={'submit'} className={cls.SendCodeButton} fullWidth>Отправить код приглашения</Button>
+                <Button isLoading={isFetching} regularType={'submit'} className={cls.SendCodeButton} fullWidth>Отправить код восстановления</Button>
             </form>
         </div>
     );

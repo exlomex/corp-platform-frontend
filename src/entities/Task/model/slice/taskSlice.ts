@@ -10,6 +10,7 @@ import {AddSubTaskService} from "../services/addSubTaskService.ts";
 import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfoService.ts";
 import {FetchProjectTreeTasksService} from "../services/fetchProjectTreeTasksService.ts";
 import {FetchBoardTasks} from "../services/fetchBoardTasks.ts";
+import {FetchTaskSnapshots} from "../services/fetchTaskSnapshots.ts";
 
 
 const initialState: TaskSliceSchema = {
@@ -24,6 +25,7 @@ const initialState: TaskSliceSchema = {
     projectsTreeTasksIsFirstLoading: true,
     boardTasksIsFirstLoading: true,
     boardTasksIsFetching: false,
+    selectedTaskSnapshotsIsFetching: false,
 }
 
 export const TaskSlice = createSlice({
@@ -126,6 +128,16 @@ export const TaskSlice = createSlice({
             })
             .addCase(FetchProjectTreeTasksService.rejected, (state: TaskSliceSchema, action) => {
                 state.projectsTreeTasksIsFetching = false;
+            })
+            // FetchTaskSnapshots
+            .addCase(FetchTaskSnapshots.pending, (state: TaskSliceSchema) => {
+                state.selectedTaskSnapshotsIsFetching = true
+            })
+            .addCase(FetchTaskSnapshots.fulfilled, (state: TaskSliceSchema) => {
+                state.selectedTaskSnapshotsIsFetching = false
+            })
+            .addCase(FetchTaskSnapshots.rejected, (state: TaskSliceSchema, action) => {
+                state.selectedTaskSnapshotsIsFetching = false;
             })
     }
 })

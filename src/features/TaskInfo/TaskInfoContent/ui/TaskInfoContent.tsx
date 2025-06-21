@@ -34,7 +34,7 @@ import {EditableTaskDeadline} from "../../EditableTaskDeadline/EditableTaskDeadl
 import {TaskInfoTabs} from "../../TaskInfoTabs/TaskInfoTabs.tsx";
 import {useTaskSearchParams} from "@/shared/hooks/useTaskSearchParams";
 import {getSelectedTaskSnapshots} from "@/entities/Task/model/selectors/getTaskValues.ts";
-import {FetchTaskSnapshots} from "@/features/TaskInfo/Snapshots/model/services/fetchTaskSnapshots.ts";
+import {FetchTaskSnapshots} from "@/entities/Task/model/services/fetchTaskSnapshots.ts";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 import {useIsMobile} from "@/shared/hooks/useIsMobile";
 import {EditableTaskStatus} from "@/features/TaskInfo/EditableTaskStatus/EditableTaskStatus.tsx";

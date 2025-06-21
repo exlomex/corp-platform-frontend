@@ -9,7 +9,7 @@ export type NormalizedSnapshotType = {
     id: number;
     title: ReactNode;
     modifiedBy: ReactNode;
-    modifiedDate: string;
+    modifiedDate: string | ReactNode;
     version: ReactNode;
 };
 

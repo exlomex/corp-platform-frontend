@@ -23,7 +23,6 @@ export const RegisterByInvitationKey = createAsyncThunk<
         dispatch(UserSliceActions.setAuth(response.data));
         return response.data;
     } catch (e) {
-        console.log(e);
-        return rejectWithValue('error');
+        return rejectWithValue(e.response?.data || e.message || 'Unknown error');
     }
 });
