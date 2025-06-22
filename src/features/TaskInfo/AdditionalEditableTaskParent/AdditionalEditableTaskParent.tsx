@@ -8,7 +8,7 @@ import {
 import {useEffect, useRef, useState} from "react";
 import {
     AddSubTaskInputData,
-    AddSubTaskService,
+    AddSubTaskService, FetchProjectTreeTasksService,
     RemoveSubTaskInputData,
     RemoveSubTaskService,
     TaskI
@@ -19,6 +19,9 @@ import {fetchTaskInfoService} from "@/entities/Task/model/services/fetchTaskInfo
 import {getProjectSelectedProject} from "@/entities/Project/model/selectors/getProjectValues.ts";
 import {Skeleton} from "@/shared/ui/Skeleton";
 import {FetchBoardTasks} from "@/entities/Task/model/services/fetchBoardTasks.ts";
+import {prepareFiltersFromState} from "@/features/TasksFilters";
+import {getRouteMain} from "@/shared/const/router.ts";
+import {getTaskFiltersState} from "@/features/TasksFilters/model/selectors/getTaskFilters.ts";
 
 interface EditableTaskParentProps {
     className?: string;
@@ -34,11 +37,21 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
     const selectedProject = useSelector(getProjectSelectedProject)
     const boardTasks = useSelector(getBoardTasks)
 
+    const filtersState = useSelector(getTaskFiltersState);
+
     useEffect(() => {
         if (selectedTaskInfo) {
+            const filters = prepareFiltersFromState({
+                ...filtersState,
+            });
+
+            if (location.pathname === getRouteMain()) {
+                dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id, filters: filters}))
+            }
+
             dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject?.id}))
         }
-    }, [dispatch, selectedProject, selectedTaskInfo]);
+    }, [dispatch, filtersState, selectedProject, selectedTaskInfo]);
 
     const filteredBoardTasks = useRef<TaskI[]>(null)
     const [normalizedBoardTasks, setNormalizedBoardTasks] = useState<ComboBoxOption[]>(null)
@@ -70,6 +83,8 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                 label: parent.title,
                 value: parent.uniqueTitle
             })
+        } else {
+            setSelectedTask(null)
         }
     }, [selectedTaskInfo]);
 
@@ -124,6 +139,10 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
 
     const [editIsActive, setEditIsActive] = useState<boolean>(false)
 
+    useEffect(() => {
+        console.log(selectedTask);
+    }, [selectedTask]);
+
     return (
         <div className={classNames(cls.EditableTaskParent, {}, [className])}>
             {
@@ -135,11 +154,12 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                                     setEditIsActive(true);
                                 }
                             }}
-                            className={classNames(cls.ParentName, { [cls.EditIsNotPossible]: !editIsPossible }, [])}
+                            className={classNames(cls.ParentNameWrapper, { [cls.EditIsNotPossible]: !editIsPossible }, [])}
                         >
-                            {selectedTaskInfo.parent?.title
+                            <div className={cls.ParentNameBg}></div>
+                            <div className={cls.ParentName}>{selectedTaskInfo.parent?.title
                                 ? `${selectedTaskInfo.parent.uniqueTitle} ${selectedTaskInfo.parent.title}`
-                                : 'Нет'}
+                                : 'Нет'}</div>
                         </div>
                     ) : (
                         <Skeleton height={30} width={140} border={6} />

@@ -5,6 +5,10 @@
     .SubTaskOptions {
         max-height: 105px;
     }
+
+    &.SubTaskModalContentWithError {
+        height: 295px;
+    }
 }
 
 .ErrorMessage {

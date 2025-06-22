@@ -9,7 +9,7 @@ import {
 } from "../../model/selectors/getTaskValues.ts";
 import {ComboBox} from "@/shared/ui/ComboBox";
 import {useEffect, useRef, useState} from "react";
-import {FetchProjectTreeTasksService, TaskI} from "@/entities/Task";
+import {FetchProjectTreeTasksService, TaskActions, TaskI} from "@/entities/Task";
 import {ComboBoxOption} from "@/shared/ui/ComboBox/ComboBox.tsx";
 import {Button} from "@/shared/ui/Button";
 import {AddSubTaskInputData, AddSubTaskService} from "../../model/services/addSubTaskService.ts";
@@ -36,6 +36,10 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
 
     const dispatch = useAppDispatch()
     const selectedProject = useSelector(getProjectSelectedProject)
+
+    useEffect(() => {
+        dispatch(TaskActions.setSubTaskError(undefined))
+    }, [dispatch]);
 
     useEffect(() => {
         if (selectedTaskInfoIntoCard && selectedProject) {
@@ -135,7 +139,7 @@ export const SubTaskModalContent = (props: SubTaskModalContentProps) => {
     const uniqueTitle = searchParamsSelectedTask !== null ? selectedTaskInfoIntoCard?.uniqueTitle ? selectedTaskInfoIntoCard?.uniqueTitle : selectedTaskInfoIntoCard?.uniqueTitle : selectedTaskInfo?.uniqueTitle
 
     return (
-        <div className={classNames(cls.SubTaskModalContent, {}, [className])}>
+        <div className={classNames(cls.SubTaskModalContent, {[cls.SubTaskModalContentWithError]: error}, [className])}>
             {error && <div className={cls.ErrorMessage}>{error}</div>}
             <Typography size={'PARAGRAPH-18-REGULAR'} className={cls.Heading} align={'LEFT'}>Добавление дочерней задачи</Typography>
             <Typography size={'PARAGRAPH-14-REGULAR'} className={cls.SubTitle} align={'LEFT'}>Для добавления необходимо выбрать задачу в поле ниже.</Typography>

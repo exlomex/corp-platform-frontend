@@ -1,7 +1,7 @@
 .EditableTaskParent {
 }
 
-.ParentName {
+.ParentNameWrapper {
     z-index: 50;
     position: relative;
     font: var(--font-paragraph-14-Regular);
@@ -9,19 +9,19 @@
     padding: 0 4px;
     color: var(--text-color);
 
-    &::before {
-        position: absolute;
-        z-index: -5;
-        height: 150%;
-        width: 103%;
-        content: '';
-        top: 50%;
-        left: 50%;
-        transform: translateY(-50%) translateX(-50%);
-        border-radius: 6px;
-    }
+    //&::before {
+    //    position: absolute;
+    //    z-index: -5;
+    //    height: calc(100% + 5px);
+    //    width: 103%;
+    //    content: '';
+    //    top: 50%;
+    //    left: 50%;
+    //    transform: translateY(-50%) translateX(-50%);
+    //    border-radius: 6px;
+    //}
 
-    &:hover::before {
+    &:hover .ParentNameBg {
         background-color: var(--smart-outlined-bg-color-hover);
     }
 
@@ -32,5 +32,24 @@
             background-color: transparent;
             cursor: auto;
         }
+    }
+
+    .ParentNameBg {
+        position: absolute;
+        z-index: -1;
+        height: calc(100% + 7px);
+        width: 103%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 6px;
+        transition: background-color 0.2s;
+    }
+
+    .ParentName {
+        font: var(--font-paragraph-14-Regular);
+        color: var(--text-color);
+        max-height: 45px;
+        overflow: hidden;
     }
 }
