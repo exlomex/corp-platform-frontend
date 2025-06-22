@@ -41,14 +41,6 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
 
     useEffect(() => {
         if (selectedTaskInfo) {
-            const filters = prepareFiltersFromState({
-                ...filtersState,
-            });
-
-            if (location.pathname === getRouteMain()) {
-                dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id, filters: filters}))
-            }
-
             dispatch(FetchBoardTasks({boardId: selectedTaskInfo?.boardId, projectId: selectedProject?.id}))
         }
     }, [dispatch, filtersState, selectedProject, selectedTaskInfo]);
@@ -100,6 +92,10 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                 return
             }
 
+            const filters = prepareFiltersFromState({
+                ...filtersState,
+            });
+
             if (option?.id) {
                 const AddSubTaskBody: AddSubTaskInputData = {
                     createData: {
@@ -113,6 +109,10 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                     await dispatch(AddSubTaskService(AddSubTaskBody)).unwrap()
                     await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo?.uniqueTitle, projectId: selectedProject.id})).unwrap()
                     setEditIsActive(false)
+
+                    if (location.pathname === getRouteMain()) {
+                        dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id, filters: filters}))
+                    }
                 } catch (e) {
                     setEditIsActive(false)
                     console.error(e)
@@ -125,10 +125,14 @@ export const AdditionalEditableTaskParent = (props: EditableTaskParentProps) => 
                     },
                     projectId: selectedProject.id
                 }
-                console.log(RemoveSubTaskBody);
+
                 try {
                     await dispatch(RemoveSubTaskService(RemoveSubTaskBody)).unwrap()
                     await dispatch(fetchTaskInfoService({uniqueTitle: selectedTaskInfo?.uniqueTitle, projectId: selectedProject.id})).unwrap()
+
+                    if (location.pathname === getRouteMain()) {
+                        dispatch(FetchProjectTreeTasksService({projectId: selectedProject?.id, filters: filters}))
+                    }
                     setEditIsActive(false)
                 } catch (e) {
                     console.error(e)
