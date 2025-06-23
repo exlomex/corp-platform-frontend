@@ -3,7 +3,7 @@ import cls from './EditableDescription.module.scss';
 import React, {
     ChangeEvent,
     Dispatch,
-    SetStateAction,
+    SetStateAction, useEffect,
     useState
 } from "react";
 import { Button } from "@/shared/ui/Button";
@@ -44,6 +44,10 @@ export const EditableDescription = (props: EditableDescriptionProps) => {
 
     const [descriptionState, setDescriptionState] = useState<string>(taskDescription || '');
     const [newDescriptionValue, setNewDescriptionValue] = useState<string>(taskDescription || '');
+
+    useEffect(() => {
+        setDescriptionState(taskDescription);
+    }, [taskDescription]);
 
     const onCloseEditableAreaHandler = () => {
         setIsEditDescriptionActive(false);

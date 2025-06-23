@@ -13,7 +13,7 @@ export type NormalizedSnapshotType = {
     version: ReactNode;
 };
 
-export function normalizeSnapshots(items: TaskSnapshots[], onSnapshotClickHandler: () => void): NormalizedSnapshotType[] {
+export function normalizeSnapshots(items: TaskSnapshots[], onSnapshotClickHandler: (version: number) => () => void): NormalizedSnapshotType[] {
     const searchParams = new URLSearchParams(location.search);
 
     return items.map((item) => {
@@ -26,7 +26,7 @@ export function normalizeSnapshots(items: TaskSnapshots[], onSnapshotClickHandle
             id: item.id,
             title: (
                 <Link
-                    onClick={onSnapshotClickHandler}
+                    onClick={onSnapshotClickHandler(item.version)}
                     className={cls.LinkTask}
                     to={{
                         pathname: location.pathname,

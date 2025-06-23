@@ -33,9 +33,13 @@ export const SnapshotsTable = (props: SnapshotsTableProps) => {
 
     useEffect(() => {
         if (selectedTaskSnapshots?.length >= 1) {
-            const handler = () => {
+            const handler = (version: number) => () => {
                 const selectedSnapshotVersion = searchParams.get('selectedSnapshotVersion');
                 const selectedTask = searchParams.get('selectedTask');
+
+                if (version === +selectedSnapshotVersion)  {
+                    return
+                }
 
                 if (selectedSnapshotVersion) {
                     dispatch(TaskActions.pushToNavigationHistory({
