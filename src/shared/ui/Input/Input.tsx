@@ -34,7 +34,7 @@ export const Input = <T, >(props: InputProps<T>) => {
         type = 'TYPE_TEXT',
         error,
         register,
-        maxLength = 30,
+        maxLength = 60,
         id,
         placeholder,
         autoComplete = 'on',
