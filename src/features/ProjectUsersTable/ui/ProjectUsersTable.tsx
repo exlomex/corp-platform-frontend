@@ -19,6 +19,7 @@ import {Button} from "@/shared/ui/Button";
 import {LOCAL_STORAGE_USER_TOKEN} from "@/shared/const/localstorage.ts";
 import {jwtDecode} from "jwt-decode";
 import {tokenInfoTypes} from "@/entities/User/model/types/userSliceSchema.ts";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
 
 interface ProjectUsersTableProps {
     className?: string;
@@ -110,6 +111,8 @@ export const ProjectUsersTable = (props: ProjectUsersTableProps) => {
         dispatch(ProjectActions.setAddUserToProjectModalIsOpen(true))
     }
 
+    const {isMobile} = useIsMobile()
+
     return (
         <div className={classNames(cls.ProjectUsersTable, {}, [className])}>
             <div className={cls.ProjectPicker}>
@@ -128,6 +131,7 @@ export const ProjectUsersTable = (props: ProjectUsersTableProps) => {
             <Table<UserI>
                 columns={tableColumns}
                 data={settingProjectUsers}
+                className={classNames('', {[cls.DesktopProjectsTable]: !isMobile}, [])}
             />
         </div>
     )

@@ -9,7 +9,7 @@ import {useAppDispatch} from "@/shared/hooks/useAppDispatch/useAppDispatch.ts";
 import {DeleteUserProjectById} from "@/entities/Project/model/services/deleteUserProjectById.ts";
 import {useSelector} from "react-redux";
 import {getProjectIsDeleteProjectFetching} from "@/entities/Project";
-import {DeleteUserService} from "@/entities/User";
+import {DeleteUserService, FetchUsersByCompanyIdService, getUserCompanyId} from "@/entities/User";
 import {getUserInfo} from "@/entities/User/model/selectors/getUserValues.ts";
 
 interface UsersAdditionalButtonProps {
@@ -22,8 +22,11 @@ export const UsersAdditionalButton = (props: UsersAdditionalButtonProps) => {
 
     const dispatch = useAppDispatch()
 
+    const companyId = useSelector(getUserCompanyId)
+
     const onDeleteUserHandler = async () => {
         await dispatch(DeleteUserService({userId: id})).unwrap()
+        await dispatch(FetchUsersByCompanyIdService({companyId: companyId}))
     }
 
     const userInfo = useSelector(getUserInfo)

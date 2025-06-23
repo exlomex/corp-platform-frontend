@@ -11,6 +11,7 @@ import {Column} from "@/shared/ui/Table/Table.tsx";
 import {ProjectDataInterface} from "@/entities/Project";
 import {ProjectsAdditionalButton} from "@/features/ProjectsTable/ui/ProjectsAdditionalButton.tsx";
 import {UsersAdditionalButton} from "@/features/UsersTable/ui/UsersAdditionalButton.tsx";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
 
 interface UsersTableProps {
     className?: string;
@@ -31,11 +32,6 @@ export const UsersTable = (props: UsersTableProps) => {
 
     const tableColumns: Column<UserI>[] = [
         {
-            title: 'id',
-            key: 'id',
-            width: '6%'
-        },
-        {
             title: 'Имя',
             key: 'firstName',
             width: '20%',
@@ -46,9 +42,9 @@ export const UsersTable = (props: UsersTableProps) => {
             width: '20%',
         },
         {
-            title: 'ID компании',
-            key: 'companyId',
-            width: '20%',
+            title: 'Email',
+            key: 'email',
+            width: '40%',
         },
         {
             key: 'action',
@@ -60,12 +56,13 @@ export const UsersTable = (props: UsersTableProps) => {
         },
     ];
 
+    const {isMobile} = useIsMobile()
 
     return (
         <div className={classNames(cls.UsersTable, {}, [className])}>
             <Typography size={'PARAGRAPH-16-REGULAR'} className={cls.TableHeading}>Все пользователи компании</Typography>
 
-            <Table<UserI> columns={tableColumns} data={companyUsers}></Table>
+            <Table<UserI> columns={tableColumns} data={companyUsers} className={classNames('', {[cls.DesktopProjectsTable]: !isMobile}, [])}></Table>
         </div>
     )
 };

@@ -9,6 +9,7 @@ import {getIsFirstFetchUserProject} from "@/entities/Project/model/selectors/get
 import {Column, Table} from "@/shared/ui/Table/Table.tsx";
 import {ProjectsAdditionalButton} from "./ProjectsAdditionalButton.tsx";
 import {Skeleton} from "@/shared/ui/Skeleton";
+import {useIsMobile} from "@/shared/hooks/useIsMobile";
 
 interface ProjectsTableProps {
     className?: string;
@@ -88,6 +89,8 @@ export const ProjectsTable = (props: ProjectsTableProps) => {
         }
     ]
 
+    const {isMobile} = useIsMobile()
+
     return (
         <div className={classNames(cls.ProjectsTable, {}, [className])}>
             {noData
@@ -95,6 +98,7 @@ export const ProjectsTable = (props: ProjectsTableProps) => {
                 columns={tableColumnsSkeleton}
                 data={ProjectSkeleton}/>)
                 : <Table<ProjectDataInterface>
+                    className={classNames('', {[cls.DesktopProjectsTable]: !isMobile}, [])}
                 columns={tableColumns}
                 data={userProjects}
             />}
