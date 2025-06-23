@@ -65,7 +65,7 @@
     border: 1px solid var(--input-border-color);
     font: var(--font-paragraph-12-Regular);
     transition: border .3s ease, box-shadow  .3s ease;
-    resize: none;
+    resize: vertical;
 
     &::placeholder {
         color: var(--input-placeholder-color);
