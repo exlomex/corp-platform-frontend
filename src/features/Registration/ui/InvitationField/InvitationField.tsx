@@ -58,10 +58,6 @@ export const InvitationField = <T,>(props: InvitationFieldProps<T>) => {
 
     const inputRef = useRef(null)
 
-    useEffect(() => {
-        console.log(inputRef.current);
-    }, []);
-
     const onInvitationCheckButtonClickHandler = async () => {
         if (error) setError('');
 

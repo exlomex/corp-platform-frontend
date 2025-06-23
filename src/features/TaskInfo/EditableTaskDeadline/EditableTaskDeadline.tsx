@@ -48,8 +48,6 @@ export const EditableTaskDeadline = (props: EditableTaskDeadlineProps) => {
                 projectId: selectedTaskInfo.projectId,
             }
 
-            console.log(updateBody);
-
             try {
                 const updateTaskInfo = await dispatch(ChangeTaskDeadlineService(updateBody)).unwrap()
                 dispatch(TaskActions.setSelectedTaskInfo(updateTaskInfo))

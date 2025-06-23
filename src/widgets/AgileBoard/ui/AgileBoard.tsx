@@ -108,7 +108,6 @@ export const AgileBoard = (props: AgileBoardProps) => {
                 console.error(e)
             }
         } else if (String(active.id).startsWith('column-')) {
-            console.log(active, over);
             if (activeId === String(over.id)) {
                 resetActiveItems()
                 return

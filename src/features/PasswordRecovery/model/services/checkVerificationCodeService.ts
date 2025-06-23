@@ -31,7 +31,6 @@ export const checkVerificationCodeService = createAsyncThunk<
         const response = await extra.api.post('/auth/validate-verification-code', sendData);
 
         if (response.status !== 200) {
-            console.log(response);
             throw new Error('Ошибка отправки кода');
         }
 

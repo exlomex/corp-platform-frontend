@@ -34,7 +34,6 @@ export const SnapshotsTab = (props: SnapshotsTabProps) => {
 
         if (!selectedSnapshotVersion && !snapshotsIsFetching) {
             if (selectedTaskInfo?.id) {
-                console.log('fetch call');
                 dispatch(FetchTaskSnapshots({taskId: selectedTaskInfo.id}));
             }
         } else {

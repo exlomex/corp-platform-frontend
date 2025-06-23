@@ -60,7 +60,6 @@ export const AddUserToProjectForm = (props: CreateNewBoardFormProps) => {
 
     const onAddUserButtonClickHandler = async () => {
         if (pickedUser.value === '') {onModalClose()}
-        console.log(settingSelectedProject);
         if (settingSelectedProject.id) {
             try {
                 await dispatch(AddUserInProject({projectId: settingSelectedProject.id, userId: pickedUser.id})).unwrap()
